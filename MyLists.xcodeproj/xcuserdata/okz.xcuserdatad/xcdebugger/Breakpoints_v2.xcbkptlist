@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "23798153-B41E-49E4-AB8C-A53FC849BD18"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            uuid = "CF30E24A-56B6-468E-9110-CAC50C6E2109"
+            shouldBeEnabled = "Yes"
+            nameForDebugger = "CGPostError"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "CG_NUMERICS_SHOW_BACKTRACE"
+            moduleName = "">
+            <Locations>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            uuid = "4DD8464B-97D0-4764-B0DA-7B838819A6CC"
+            shouldBeEnabled = "Yes"
+            nameForDebugger = "CG_NUMERICS_SHOW_BACKTRACE"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "CG_NUMERICS_SHOW_BACKTRACE"
+            moduleName = "">
+            <Locations>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

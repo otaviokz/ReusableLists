@@ -30,21 +30,27 @@ struct AddOrEditListView: View {
         Form {
             Section {
                 TextField("Name", text: $listName)
+                    .font(.title3)
+                    .focused($focusState, equals: .name)
                     .onSubmit {
                         focusState = .details
                     }
-                    .font(.title3)
-                    .focused($focusState, equals: .name)
+                
                 TextField("Details", text: $listDetails, axis: .vertical)
                     .lineLimit(1...5)
                     .font(.body.weight(.light))
                     .focused($focusState, equals: .details)
+                    .onSubmit {
+                        if canSave {
+                            saveList()
+                        }
+                    }
             }
         }
         .navigationTitle("Edit List")
         .toolbar {
             Button("Save", action: saveList)
-                .disabled(listName.trimmingSpaces.isEmpty || listUnchanged || !isUniqueName)
+                .disabled(!canSave)
         }
         .onAppear {
             listName = list.name
@@ -53,23 +59,31 @@ struct AddOrEditListView: View {
         }
     }
     
-    private var listUnchanged: Bool {
+    
+}
+
+private extension AddOrEditListView {
+    var listUnchanged: Bool {
         listName.trimmingSpaces == list.name &&
         listDetails.trimmingSpaces == list.details
     }
     
-    private var isUniqueName: Bool {
+    var isUniqueName: Bool {
         let equalNameLists = lists.filter {
             $0.name.trimmingSpacesLowercasedEquals(listName)
         }
         return equalNameLists.isEmpty || equalNameLists == [list]
     }
     
-    private func saveList() {
+    func saveList() {
         list.name = listName.trimmingSpaces
         list.details = listDetails.trimmingSpaces
         modelContext.insert(list)
         presentationMode.wrappedValue.dismiss()
+    }
+    
+    var canSave: Bool {
+        !listName.trimmingSpaces.isEmpty && !listUnchanged && isUniqueName
     }
 }
 

@@ -8,26 +8,18 @@
 import SwiftUI
 import SwiftData
 
-struct ListsView: View {
+struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var lists: [ToDoList]
-    @State private var sortOrder: SortDescriptor<ToDoList> = SortDescriptor(\ToDoList.name)
-    var numberFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }
-    init() {
-        _lists = Query(
-            filter: #Predicate { !$0.name.isEmpty },
-            sort: [.init(\ToDoList.name)]
-        )
-    }
-    
+    @Query(
+        sort: [
+            SortDescriptor(\ToDoList.name),
+            SortDescriptor(\ToDoList.creationDate, order: .reverse)
+        ]) private var lists: [ToDoList]
+        
     var body: some View {
         List {            
             ForEach(lists) { list in
-                NavigationLink(destination: ItemsView(list)) {
+                NavigationLink(destination: ListItemsView(list)) {
                     ToDoListRowView(list: list)
                 }
             }
@@ -42,12 +34,12 @@ struct ListsView: View {
             
         }
         .navigationTitle("Lists")
-        .onShake {
-            modelContext.undoManager?.undo()
-        }
     }
-    
-    private func deleteLists(_ indexSet: IndexSet) {
+}
+
+// MARK: - Private Methods
+private extension ToDoListsView {
+    func deleteLists(_ indexSet: IndexSet) {
         for index in indexSet {
             let list = lists[index]
             modelContext.delete(list)
@@ -57,6 +49,6 @@ struct ListsView: View {
 
 #Preview {
     NavigationStack {    
-        ListsView()
+        ToDoListsView()
     }
 }

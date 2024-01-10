@@ -12,7 +12,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            ListsView()
+            ToDoListsView()
                 .onAppear {
                     if modelContext.undoManager == nil {
                         modelContext.undoManager = UndoManager()

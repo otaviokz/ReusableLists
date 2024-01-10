@@ -19,7 +19,9 @@ struct ItemRowView: View {
                 .foregroundColor(item.priority.color)
             Image(systemName: item.done ? "checkmark.square" : "square")
                 .onTapGesture {
-                    item.done.toggle()
+                    withAnimation {
+                        item.done.toggle()
+                    }
                 }
         }
     }
@@ -31,5 +33,4 @@ struct ItemRowView: View {
         ItemRowView(item: ListItem(name: "Another item"))
         ItemRowView(item: ListItem(name: "Yet another item"))
     }
-    
 }

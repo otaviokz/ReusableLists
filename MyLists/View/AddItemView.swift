@@ -59,8 +59,6 @@ struct AddItemView: View {
                         itemDone.toggle()
                     }
             }
-            
-            
         }
         .toolbar {
             Button("Save") {
@@ -70,10 +68,17 @@ struct AddItemView: View {
                 list.items.append(item)
                 presentationMode.wrappedValue.dismiss()
             }
+            .disabled(isSaveButtonDisabled)
         }
         .onAppear {
             focusState = .name
         }
+    }
+}
+
+private extension AddItemView {
+    var isSaveButtonDisabled: Bool {
+        list.items.first { $0.name.trimmingSpacesLowercasedEquals(itemName) } != nil || itemName.trimmingSpaces.isEmpty
     }
 }
 

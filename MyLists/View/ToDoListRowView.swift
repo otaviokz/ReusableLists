@@ -49,12 +49,6 @@ struct ToDoListRowView: View {
     }
 }
 
-private extension ToDoList {
-    var completion: Double {
-        min(1, Double(items.filter { $0.done }.count) / Double(items.count))
-    }
-}
-
 #Preview {
     ToDoListRowView(list: ToDoList(name: "List Row Preview"))
 }

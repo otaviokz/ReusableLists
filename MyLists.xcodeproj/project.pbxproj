@@ -18,13 +18,12 @@
 		2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5162B42B002003CB25F /* MyListsUITestsLaunchTests.swift */; };
 		2BE3B5262B42B033003CB25F /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList.swift */; };
 		2BE3B5282B42B097003CB25F /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ListItem.swift */; };
-		2BE3B52A2B42B19A003CB25F /* ListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5292B42B19A003CB25F /* ListsView.swift */; };
+		2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */; };
 		2BE3B52C2B42B578003CB25F /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52B2B42B578003CB25F /* Priority.swift */; };
-		2BE3B52E2B42B79C003CB25F /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52D2B42B79C003CB25F /* ItemsView.swift */; };
+		2BE3B52E2B42B79C003CB25F /* ListItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52D2B42B79C003CB25F /* ListItemsView.swift */; };
 		2BE3B5302B42BD8C003CB25F /* AddOrEditListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52F2B42BD8C003CB25F /* AddOrEditListView.swift */; };
 		2BE3B5362B42D7CF003CB25F /* String+Trimming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */; };
 		2BE3B5382B42ECDC003CB25F /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5372B42ECDC003CB25F /* AddItemView.swift */; };
-		2BE3B53A2B44C4E3003CB25F /* UndoManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5392B44C4E3003CB25F /* UndoManagement.swift */; };
 		2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,13 +59,12 @@
 		2BE3B5162B42B002003CB25F /* MyListsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2BE3B5252B42B033003CB25F /* ToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
 		2BE3B5272B42B097003CB25F /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
-		2BE3B5292B42B19A003CB25F /* ListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsView.swift; sourceTree = "<group>"; };
+		2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListsView.swift; sourceTree = "<group>"; };
 		2BE3B52B2B42B578003CB25F /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
-		2BE3B52D2B42B79C003CB25F /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
+		2BE3B52D2B42B79C003CB25F /* ListItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemsView.swift; sourceTree = "<group>"; };
 		2BE3B52F2B42BD8C003CB25F /* AddOrEditListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditListView.swift; sourceTree = "<group>"; };
 		2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Trimming.swift"; sourceTree = "<group>"; };
 		2BE3B5372B42ECDC003CB25F /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
-		2BE3B5392B44C4E3003CB25F /* UndoManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoManagement.swift; sourceTree = "<group>"; };
 		2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,8 +157,8 @@
 				2BE3B5372B42ECDC003CB25F /* AddItemView.swift */,
 				2BE3B52F2B42BD8C003CB25F /* AddOrEditListView.swift */,
 				2BE3B4FB2B42B001003CB25F /* ContentView.swift */,
-				2BE3B52D2B42B79C003CB25F /* ItemsView.swift */,
-				2BE3B5292B42B19A003CB25F /* ListsView.swift */,
+				2BE3B52D2B42B79C003CB25F /* ListItemsView.swift */,
+				2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */,
 				2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */,
 				2B6801172B4DF38A00380429 /* ListItemRowView.swift */,
 				2B6801642B4E209B00380429 /* ItemRowView.swift */,
@@ -182,7 +180,6 @@
 			isa = PBXGroup;
 			children = (
 				2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */,
-				2BE3B5392B44C4E3003CB25F /* UndoManagement.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -319,11 +316,10 @@
 			files = (
 				2B6801652B4E209B00380429 /* ItemRowView.swift in Sources */,
 				2BE3B5282B42B097003CB25F /* ListItem.swift in Sources */,
-				2BE3B52A2B42B19A003CB25F /* ListsView.swift in Sources */,
-				2BE3B53A2B44C4E3003CB25F /* UndoManagement.swift in Sources */,
+				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
 				2BE3B5302B42BD8C003CB25F /* AddOrEditListView.swift in Sources */,
 				2BE3B5362B42D7CF003CB25F /* String+Trimming.swift in Sources */,
-				2BE3B52E2B42B79C003CB25F /* ItemsView.swift in Sources */,
+				2BE3B52E2B42B79C003CB25F /* ListItemsView.swift in Sources */,
 				2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */,
 				2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */,
 				2BE3B5382B42ECDC003CB25F /* AddItemView.swift in Sources */,

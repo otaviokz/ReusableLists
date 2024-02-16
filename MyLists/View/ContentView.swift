@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
-    
+
     var body: some View {
-        NavigationStack {
+        NavigationView {
             ToDoListsView()
                 .onAppear {
                     if modelContext.undoManager == nil {

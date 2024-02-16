@@ -28,7 +28,7 @@ struct ListItemsView: View {
             
             Section("Items") {
                 ForEach(list.items.sorted(type: sortType)) { item in
-                    ItemRowView(item: item)
+                    ListItemRowView(item: item)
                 }
                 .onDelete { indexSet in
                     if let index = indexSet.first {

@@ -14,6 +14,6 @@ struct MyListsApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: ToDoList.self, isUndoEnabled: true)
+        .modelContainer(for: [ToDoList.self, Blueprint.self, ToDoItem.self, BlueprintItem.self], isUndoEnabled: true)
     }
 }

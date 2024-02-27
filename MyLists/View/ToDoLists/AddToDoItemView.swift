@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddItemView: View {
+struct AddToDoItemView: View {
     enum Field: Hashable {
         case name
     }
@@ -15,15 +15,13 @@ struct AddItemView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
     var list: ToDoList
-    var item: ListItem
     @State var itemName: String = ""
     @State var itemPriority: Priority = .low
     @State var itemDone: Bool = false
     @FocusState private var focusState: Field?
     
-    init(_ list: ToDoList, item: ListItem) {
+    init(_ list: ToDoList) {
         self.list = list
-        self.item = item
     }
     
     var body: some View {
@@ -55,21 +53,20 @@ struct AddItemView: View {
                 Text("Done")
                 Spacer()
                 Image(systemName: itemDone ? "checkmark.square" : "square")
+                    .resizable()
+                    .frame(width: 20, height: 20)
                     .onTapGesture {
                         itemDone.toggle()
                     }
             }
-            
-            
         }
         .toolbar {
             Button("Save") {
-                item.name = itemName
-                item.priority = itemPriority
-                item.done = itemDone
+                let item = ToDoItem(name: itemName.trimmingSpaces, priority: itemPriority, done: itemDone)
                 list.items.append(item)
                 presentationMode.wrappedValue.dismiss()
             }
+            .disabled(isSaveButtonDisabled)
         }
         .onAppear {
             focusState = .name
@@ -77,10 +74,16 @@ struct AddItemView: View {
     }
 }
 
+private extension AddToDoItemView {
+    var isSaveButtonDisabled: Bool {
+        list.items.first { $0.name.trimmingSpacesLowercasedEquals(itemName) } != nil || itemName.trimmingSpaces.isEmpty
+    }
+}
+
 #Preview {
     let list = ToDoList(name: "Groceries list")
     
     return NavigationStack {
-        AddItemView(list, item: ListItem(name: "Bananas"))
+        AddToDoItemView(list)
     }
 }

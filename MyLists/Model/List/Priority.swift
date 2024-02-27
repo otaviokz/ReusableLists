@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-enum Priority: Int, Codable {
+enum Priority: Int {
     case low = 0
     case medium = 1
     case high = 2
@@ -27,5 +27,22 @@ enum Priority: Int, Codable {
             case .medium: return .yellow
             case .high: return .red
         }
+    }
+    
+    var coloredCircle: some View {
+        switch self {
+            case .low: 
+                return Self.dot.foregroundColor(Self.low.color)
+            case .medium:
+                return Self.dot.foregroundColor(Self.medium.color)
+            case .high:
+                return Self.dot.foregroundColor(Self.high.color)
+        }
+    }
+}
+
+private extension Priority {
+    static var dot: Image {
+        Image(systemName: "circle.fill")
     }
 }

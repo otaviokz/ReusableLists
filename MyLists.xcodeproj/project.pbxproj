@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B6801182B4DF38A00380429 /* ListItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801172B4DF38A00380429 /* ListItemRowView.swift */; };
-		2B6801652B4E209B00380429 /* ItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ItemRowView.swift */; };
+		2B6801652B4E209B00380429 /* ToDoItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ToDoItemRowView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
 		2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FB2B42B001003CB25F /* ContentView.swift */; };
 		2BE3B4FE2B42B002003CB25F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FD2B42B002003CB25F /* Assets.xcassets */; };
@@ -17,15 +16,25 @@
 		2BE3B5152B42B002003CB25F /* MyListsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5142B42B002003CB25F /* MyListsUITests.swift */; };
 		2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5162B42B002003CB25F /* MyListsUITestsLaunchTests.swift */; };
 		2BE3B5262B42B033003CB25F /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList.swift */; };
-		2BE3B5282B42B097003CB25F /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ListItem.swift */; };
-		2BE3B52A2B42B19A003CB25F /* ListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5292B42B19A003CB25F /* ListsView.swift */; };
+		2BE3B5282B42B097003CB25F /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem.swift */; };
+		2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */; };
 		2BE3B52C2B42B578003CB25F /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52B2B42B578003CB25F /* Priority.swift */; };
-		2BE3B52E2B42B79C003CB25F /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52D2B42B79C003CB25F /* ItemsView.swift */; };
-		2BE3B5302B42BD8C003CB25F /* AddOrEditListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52F2B42BD8C003CB25F /* AddOrEditListView.swift */; };
-		2BE3B5362B42D7CF003CB25F /* String+Trimming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */; };
-		2BE3B5382B42ECDC003CB25F /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5372B42ECDC003CB25F /* AddItemView.swift */; };
-		2BE3B53A2B44C4E3003CB25F /* UndoManagement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5392B44C4E3003CB25F /* UndoManagement.swift */; };
+		2BE3B52E2B42B79C003CB25F /* ToDoItemsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52D2B42B79C003CB25F /* ToDoItemsListView.swift */; };
+		2BE3B5302B42BD8C003CB25F /* NewToDoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52F2B42BD8C003CB25F /* NewToDoListView.swift */; };
+		2BE3B5362B42D7CF003CB25F /* String+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+Util.swift */; };
+		2BE3B5382B42ECDC003CB25F /* AddToDoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5372B42ECDC003CB25F /* AddToDoItemView.swift */; };
 		2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */; };
+		2BEC685F2B8D5BF400BA2DC0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2BEC685E2B8D5BF400BA2DC0 /* Localizable.xcstrings */; };
+		2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */; };
+		2BEC68652B8D75E600BA2DC0 /* Blueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */; };
+		2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */; };
+		2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */; };
+		2BEC686B2B8D89B700BA2DC0 /* BlueprintsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC686A2B8D89B700BA2DC0 /* BlueprintsListView.swift */; };
+		2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsListView.swift */; };
+		2BEC68722B8D900700BA2DC0 /* NewBlueprintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68712B8D900700BA2DC0 /* NewBlueprintView.swift */; };
+		2BEC68762B8DA07200BA2DC0 /* AddBluePrintItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68752B8DA07200BA2DC0 /* AddBluePrintItemView.swift */; };
+		2BEC687B2B8DD4BD00BA2DC0 /* DataConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC687A2B8DD4BD00BA2DC0 /* DataConnector.swift */; };
+		2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC687C2B8DD77300BA2DC0 /* ListError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,8 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2B6801172B4DF38A00380429 /* ListItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemRowView.swift; sourceTree = "<group>"; };
-		2B6801642B4E209B00380429 /* ItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRowView.swift; sourceTree = "<group>"; };
+		2B6801642B4E209B00380429 /* ToDoItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemRowView.swift; sourceTree = "<group>"; };
 		2BE3B4F62B42B001003CB25F /* MyLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE3B4F92B42B001003CB25F /* MyListsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsApp.swift; sourceTree = "<group>"; };
 		2BE3B4FB2B42B001003CB25F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,15 +67,25 @@
 		2BE3B5142B42B002003CB25F /* MyListsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsUITests.swift; sourceTree = "<group>"; };
 		2BE3B5162B42B002003CB25F /* MyListsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		2BE3B5252B42B033003CB25F /* ToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
-		2BE3B5272B42B097003CB25F /* ListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
-		2BE3B5292B42B19A003CB25F /* ListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsView.swift; sourceTree = "<group>"; };
+		2BE3B5272B42B097003CB25F /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
+		2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListsView.swift; sourceTree = "<group>"; };
 		2BE3B52B2B42B578003CB25F /* Priority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
-		2BE3B52D2B42B79C003CB25F /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
-		2BE3B52F2B42BD8C003CB25F /* AddOrEditListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditListView.swift; sourceTree = "<group>"; };
-		2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Trimming.swift"; sourceTree = "<group>"; };
-		2BE3B5372B42ECDC003CB25F /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
-		2BE3B5392B44C4E3003CB25F /* UndoManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UndoManagement.swift; sourceTree = "<group>"; };
+		2BE3B52D2B42B79C003CB25F /* ToDoItemsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemsListView.swift; sourceTree = "<group>"; };
+		2BE3B52F2B42BD8C003CB25F /* NewToDoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewToDoListView.swift; sourceTree = "<group>"; };
+		2BE3B5352B42D7CF003CB25F /* String+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Util.swift"; sourceTree = "<group>"; };
+		2BE3B5372B42ECDC003CB25F /* AddToDoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToDoItemView.swift; sourceTree = "<group>"; };
 		2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListRowView.swift; sourceTree = "<group>"; };
+		2BEC685E2B8D5BF400BA2DC0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItem.swift; sourceTree = "<group>"; };
+		2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blueprint.swift; sourceTree = "<group>"; };
+		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
+		2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemRowView.swift; sourceTree = "<group>"; };
+		2BEC686A2B8D89B700BA2DC0 /* BlueprintsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintsListView.swift; sourceTree = "<group>"; };
+		2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemsListView.swift; sourceTree = "<group>"; };
+		2BEC68712B8D900700BA2DC0 /* NewBlueprintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBlueprintView.swift; sourceTree = "<group>"; };
+		2BEC68752B8DA07200BA2DC0 /* AddBluePrintItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBluePrintItemView.swift; sourceTree = "<group>"; };
+		2BEC687A2B8DD4BD00BA2DC0 /* DataConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConnector.swift; sourceTree = "<group>"; };
+		2BEC687C2B8DD77300BA2DC0 /* ListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +136,9 @@
 		2BE3B4F82B42B001003CB25F /* MyLists */ = {
 			isa = PBXGroup;
 			children = (
+				2BE3B4FB2B42B001003CB25F /* ContentView.swift */,
+				2BEC68792B8DD48500BA2DC0 /* SwiftData */,
+				2BEC685D2B8D5BDB00BA2DC0 /* Localization */,
 				2BE3B5342B42D7C0003CB25F /* Extensions */,
 				2BE3B5242B42B022003CB25F /* Model */,
 				2BE3B5232B42B014003CB25F /* View */,
@@ -156,14 +177,8 @@
 		2BE3B5232B42B014003CB25F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2BE3B5372B42ECDC003CB25F /* AddItemView.swift */,
-				2BE3B52F2B42BD8C003CB25F /* AddOrEditListView.swift */,
-				2BE3B4FB2B42B001003CB25F /* ContentView.swift */,
-				2BE3B52D2B42B79C003CB25F /* ItemsView.swift */,
-				2BE3B5292B42B19A003CB25F /* ListsView.swift */,
-				2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */,
-				2B6801172B4DF38A00380429 /* ListItemRowView.swift */,
-				2B6801642B4E209B00380429 /* ItemRowView.swift */,
+				2BEC686C2B8D8B4500BA2DC0 /* ToDoLists */,
+				2BEC686D2B8D8B5A00BA2DC0 /* Blueprints */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -171,9 +186,9 @@
 		2BE3B5242B42B022003CB25F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2BE3B5272B42B097003CB25F /* ListItem.swift */,
-				2BE3B52B2B42B578003CB25F /* Priority.swift */,
-				2BE3B5252B42B033003CB25F /* ToDoList.swift */,
+				2BEC68742B8D964C00BA2DC0 /* Blueprint */,
+				2BEC68732B8D962300BA2DC0 /* List */,
+				2BEC687C2B8DD77300BA2DC0 /* ListError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -181,10 +196,70 @@
 		2BE3B5342B42D7C0003CB25F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */,
-				2BE3B5392B44C4E3003CB25F /* UndoManagement.swift */,
+				2BE3B5352B42D7CF003CB25F /* String+Util.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2BEC685D2B8D5BDB00BA2DC0 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				2BEC685E2B8D5BF400BA2DC0 /* Localizable.xcstrings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		2BEC686C2B8D8B4500BA2DC0 /* ToDoLists */ = {
+			isa = PBXGroup;
+			children = (
+				2BE3B5372B42ECDC003CB25F /* AddToDoItemView.swift */,
+				2B6801642B4E209B00380429 /* ToDoItemRowView.swift */,
+				2BE3B52D2B42B79C003CB25F /* ToDoItemsListView.swift */,
+				2BE3B52F2B42BD8C003CB25F /* NewToDoListView.swift */,
+				2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */,
+				2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */,
+			);
+			path = ToDoLists;
+			sourceTree = "<group>";
+		};
+		2BEC686D2B8D8B5A00BA2DC0 /* Blueprints */ = {
+			isa = PBXGroup;
+			children = (
+				2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */,
+				2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsListView.swift */,
+				2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */,
+				2BEC686A2B8D89B700BA2DC0 /* BlueprintsListView.swift */,
+				2BEC68712B8D900700BA2DC0 /* NewBlueprintView.swift */,
+				2BEC68752B8DA07200BA2DC0 /* AddBluePrintItemView.swift */,
+			);
+			path = Blueprints;
+			sourceTree = "<group>";
+		};
+		2BEC68732B8D962300BA2DC0 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				2BE3B5272B42B097003CB25F /* ToDoItem.swift */,
+				2BE3B52B2B42B578003CB25F /* Priority.swift */,
+				2BE3B5252B42B033003CB25F /* ToDoList.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		2BEC68742B8D964C00BA2DC0 /* Blueprint */ = {
+			isa = PBXGroup;
+			children = (
+				2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */,
+				2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */,
+			);
+			path = Blueprint;
+			sourceTree = "<group>";
+		};
+		2BEC68792B8DD48500BA2DC0 /* SwiftData */ = {
+			isa = PBXGroup;
+			children = (
+				2BEC687A2B8DD4BD00BA2DC0 /* DataConnector.swift */,
+			);
+			path = SwiftData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,6 +348,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = 2BE3B4ED2B42B001003CB25F;
 			productRefGroup = 2BE3B4F72B42B001003CB25F /* Products */;
@@ -293,6 +369,7 @@
 			files = (
 				2BE3B5012B42B002003CB25F /* Preview Assets.xcassets in Resources */,
 				2BE3B4FE2B42B002003CB25F /* Assets.xcassets in Resources */,
+				2BEC685F2B8D5BF400BA2DC0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,17 +394,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B6801652B4E209B00380429 /* ItemRowView.swift in Sources */,
-				2BE3B5282B42B097003CB25F /* ListItem.swift in Sources */,
-				2BE3B52A2B42B19A003CB25F /* ListsView.swift in Sources */,
-				2BE3B53A2B44C4E3003CB25F /* UndoManagement.swift in Sources */,
-				2BE3B5302B42BD8C003CB25F /* AddOrEditListView.swift in Sources */,
-				2BE3B5362B42D7CF003CB25F /* String+Trimming.swift in Sources */,
-				2BE3B52E2B42B79C003CB25F /* ItemsView.swift in Sources */,
+				2B6801652B4E209B00380429 /* ToDoItemRowView.swift in Sources */,
+				2BE3B5282B42B097003CB25F /* ToDoItem.swift in Sources */,
+				2BEC68652B8D75E600BA2DC0 /* Blueprint.swift in Sources */,
+				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
+				2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */,
+				2BEC686B2B8D89B700BA2DC0 /* BlueprintsListView.swift in Sources */,
+				2BEC68762B8DA07200BA2DC0 /* AddBluePrintItemView.swift in Sources */,
+				2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */,
+				2BE3B5302B42BD8C003CB25F /* NewToDoListView.swift in Sources */,
+				2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsListView.swift in Sources */,
+				2BE3B5362B42D7CF003CB25F /* String+Util.swift in Sources */,
+				2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */,
+				2BE3B52E2B42B79C003CB25F /* ToDoItemsListView.swift in Sources */,
 				2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */,
+				2BEC687B2B8DD4BD00BA2DC0 /* DataConnector.swift in Sources */,
 				2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */,
-				2BE3B5382B42ECDC003CB25F /* AddItemView.swift in Sources */,
-				2B6801182B4DF38A00380429 /* ListItemRowView.swift in Sources */,
+				2BE3B5382B42ECDC003CB25F /* AddToDoItemView.swift in Sources */,
+				2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */,
+				2BEC68722B8D900700BA2DC0 /* NewBlueprintView.swift in Sources */,
 				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
 				2BE3B5262B42B033003CB25F /* ToDoList.swift in Sources */,
 				2BE3B52C2B42B578003CB25F /* Priority.swift in Sources */,

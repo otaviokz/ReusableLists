@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ToDoListRowView: View {
+    
     var list: ToDoList
-    var numberFormatter: NumberFormatter {
+    static var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 0
         return formatter
@@ -31,7 +32,7 @@ struct ToDoListRowView: View {
             if !list.items.isEmpty {
                 Gauge(value: list.completion, in: 0...1) {
                     if list.completion < 1 {
-                        Text("\(numberFormatter.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
+                        Text("\(Self.numberFormatter.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
                             .font(.body)
                     } else {
                         Image(systemName: "checkmark")
@@ -46,12 +47,6 @@ struct ToDoListRowView: View {
                 .tint(.cyan)
             }
         }
-    }
-}
-
-private extension ToDoList {
-    var completion: Double {
-        min(1, Double(items.filter { $0.done }.count) / Double(items.count))
     }
 }
 

@@ -24,6 +24,7 @@
 		2BE3B5362B42D7CF003CB25F /* String+Trimming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */; };
 		2BE3B5382B42ECDC003CB25F /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5372B42ECDC003CB25F /* AddItemView.swift */; };
 		2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */; };
+		2BEC685F2B8D5BF400BA2DC0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2BEC685E2B8D5BF400BA2DC0 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Trimming.swift"; sourceTree = "<group>"; };
 		2BE3B5372B42ECDC003CB25F /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
 		2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListRowView.swift; sourceTree = "<group>"; };
+		2BEC685E2B8D5BF400BA2DC0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +116,7 @@
 		2BE3B4F82B42B001003CB25F /* MyLists */ = {
 			isa = PBXGroup;
 			children = (
+				2BEC685D2B8D5BDB00BA2DC0 /* Localization */,
 				2BE3B5342B42D7C0003CB25F /* Extensions */,
 				2BE3B5242B42B022003CB25F /* Model */,
 				2BE3B5232B42B014003CB25F /* View */,
@@ -179,6 +182,14 @@
 				2BE3B5352B42D7CF003CB25F /* String+Trimming.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2BEC685D2B8D5BDB00BA2DC0 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				2BEC685E2B8D5BF400BA2DC0 /* Localizable.xcstrings */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,6 +278,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = 2BE3B4ED2B42B001003CB25F;
 			productRefGroup = 2BE3B4F72B42B001003CB25F /* Products */;
@@ -287,6 +299,7 @@
 			files = (
 				2BE3B5012B42B002003CB25F /* Preview Assets.xcassets in Resources */,
 				2BE3B4FE2B42B002003CB25F /* Assets.xcassets in Resources */,
+				2BEC685F2B8D5BF400BA2DC0 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

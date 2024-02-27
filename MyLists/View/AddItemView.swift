@@ -55,6 +55,8 @@ struct AddItemView: View {
                 Text("Done")
                 Spacer()
                 Image(systemName: itemDone ? "checkmark.square" : "square")
+                    .resizable()
+                    .frame(width: 20, height: 20)
                     .onTapGesture {
                         itemDone.toggle()
                     }
@@ -86,6 +88,6 @@ private extension AddItemView {
     let list = ToDoList(name: "Groceries list")
     
     return NavigationStack {
-        AddItemView(list, item: ListItem(name: "Bananas"))
+        AddItemView(list, item: ListItem(name: "Bananas", list: list))
     }
 }

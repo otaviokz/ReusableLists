@@ -44,12 +44,13 @@ struct ListItemsView: View {
         .navigationTitle(list.name)
         .toolbar {
             HStack(spacing: 0) {
-                Button("Sort", systemImage: "arrow.up.arrow.down") {
-                    showSortSheet.toggle()
+                if list.items.count > 1 {
+                    Button("Sort", systemImage: "arrow.up.arrow.down") {
+                        showSortSheet.toggle()
+                    }
                 }
-                
                 NavigationLink(destination: {
-                    AddItemView(list, item: ListItem())
+                    AddItemView(list, item: ListItem(name: "", list: list))
                 }, label: {
                     Image(systemName: "plus")
                 })
@@ -59,14 +60,39 @@ struct ListItemsView: View {
             VStack {
                 List {
                     Section("Sort by:") {
-                        Text("Done last")
-                            .onTapGesture { setSortTo(.doneLast) }
+                        HStack {
+                            Text("Priority")
+                            Spacer()
+                            Priority.high.coloredCircle
+                            Priority.medium.coloredCircle
+                            Priority.low.coloredCircle
+                        }
+                        .onTapGesture { setSortTo(.priority) }
                         
-                        Text("Done first")
-                            .onTapGesture { setSortTo(.doneFirst) }
+                        HStack {
+                            Text("Done first")
+                            Spacer()
+                            Image(systemName: "checkmark.square")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                        }
+                        .onTapGesture { setSortTo(.doneFirst) }
                         
-                        Text("Priority")
-                            .onTapGesture { setSortTo(.priority) }
+                        HStack {
+                            Text("Todo first")
+                            Spacer()
+                            Image(systemName: "square")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                        }
+                        .onTapGesture { setSortTo(.doneLast) }
+                        
+                        HStack{
+                            Text("Alphabetic")
+                            Spacer()
+                            Text("A-Z")
+                        }
+                        .onTapGesture { setSortTo(.alphabetic) }
                     }
                     .font(.headline)
                 }
@@ -88,7 +114,7 @@ private extension ListItemsView {
 
 #Preview {
     let list = ToDoList(name: "Sample List")
-    list.items = [ListItem(name: "Item1", done: true), ListItem(name: "Item2")]
+    list.items = [ListItem(name: "Item1", done: true, list: list), ListItem(name: "Item2", list: list)]
     return NavigationStack {
         ListItemsView(list)
     }

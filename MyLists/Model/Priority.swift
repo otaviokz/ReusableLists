@@ -28,4 +28,19 @@ enum Priority: Int, Codable {
             case .high: return .red
         }
     }
+    
+    private var dot: Image {
+        Image(systemName: "circle.fill")
+    }
+    
+    var coloredCircle: some View {
+        switch self {
+            case .low: 
+                dot.foregroundColor(Self.low.color)
+            case .medium:
+                dot.foregroundColor(Self.medium.color)
+            case .high:
+                dot.foregroundColor(Self.high.color)
+        }
+    }
 }

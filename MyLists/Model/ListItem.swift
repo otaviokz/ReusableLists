@@ -13,6 +13,7 @@ class ListItem: ObservableObject {
     var name: String
     private var priorityInt: Int
     var done: Bool
+    @Relationship var list: ToDoList
     
     var priority: Priority {
         set {
@@ -23,10 +24,11 @@ class ListItem: ObservableObject {
         }
     }
     
-    init(name: String = "", priority: Priority = .low, done: Bool = false) {
+    init(name: String = "", priority: Priority = .low, done: Bool = false, list: ToDoList) {
         self.name = name
         self.priorityInt = priority.rawValue
         self.done = done
+        self.list = list
     }
 }
 
@@ -34,6 +36,7 @@ enum SortType {
     case doneFirst
     case doneLast
     case priority
+    case alphabetic
 }
 
 extension Array where Element == ListItem {
@@ -42,13 +45,14 @@ extension Array where Element == ListItem {
             case .doneFirst: return sortedByDoneFirst
             case .doneLast: return sortedByDoneLast
             case .priority: return sortedByPriority
+            case .alphabetic: return sortedByName
         }
     }
     
     var sortedByDoneFirst: Self {
         sorted {
             if $0.done != $1.done {
-                return $0.done.intValue > $1.done.intValue
+                return $0.done.sortValue > $1.done.sortValue
             } else if $0.priority.rawValue != $1.priority.rawValue {
                 return $0.priority.rawValue > $1.priority.rawValue
             } else {
@@ -60,7 +64,7 @@ extension Array where Element == ListItem {
     var sortedByDoneLast: Self {
         sorted {
             if $0.done != $1.done {
-                return $0.done.intValue < $1.done.intValue
+                return $0.done.sortValue < $1.done.sortValue
             } else if $0.priority.rawValue != $1.priority.rawValue {
                 return $0.priority.rawValue > $1.priority.rawValue
             } else {
@@ -78,10 +82,16 @@ extension Array where Element == ListItem {
             }
         }
     }
+    
+    var sortedByName: Self {
+        sorted {
+            $0.name < $1.name
+        }
+    }
 }
 
 private extension Bool {
-    var intValue: Int {
+    var sortValue: Int {
         self ? 1 : 0
     }
 }

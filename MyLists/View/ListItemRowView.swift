@@ -12,25 +12,27 @@ struct ListItemRowView: View {
     
     var body: some View {
         HStack {
-            Text(item.name)
-                .font(.title3)
-            Spacer()
-            Image(systemName: "circle.fill")
-                .foregroundColor(item.priority.color)
             Image(systemName: item.done ? "checkmark.square" : "square")
+                .resizable()
+                .frame(width: 20, height: 20)
                 .onTapGesture {
                     withAnimation {
                         item.done.toggle()
                     }
                 }
+            Text(item.name)
+                .font(.title3)
+            Spacer()
+            item.priority.coloredCircle
         }
     }
 }
 
 #Preview {
     VStack {
-        ListItemRowView(item: ListItem(name: "Some item"))
-        ListItemRowView(item: ListItem(name: "Another item"))
-        ListItemRowView(item: ListItem(name: "Yet another item"))
+        let list = ToDoList(name: "Preview List", details: "")
+        ListItemRowView(item: ListItem(name: "Some item", list: list))
+        ListItemRowView(item: ListItem(name: "Another item", list: list))
+        ListItemRowView(item: ListItem(name: "Yet another item", list: list))
     }
 }

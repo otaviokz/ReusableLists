@@ -14,9 +14,6 @@ class ToDoList: ObservableObject {
     var details: String
     let creationDate: Date
     @Relationship(deleteRule: .cascade) var items: [ListItem] = []
-    var sortedItems: [ListItem] {
-        items.sortedByDoneFirst
-    }
     
     init(name: String = "", details: String = "") {
         self.name = name

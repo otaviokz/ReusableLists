@@ -1,12 +1,36 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "'%@' copied to Pasteboard" : {
+
+    },
+    "%@ copied to Pasteboard" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ copiado para Pasteboard"
+          }
+        }
+      }
+    },
     "%@%%" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@%%"
+          }
+        }
+      }
+    },
+    "✎  %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "✎  %@"
           }
         }
       }
@@ -21,6 +45,16 @@
         }
       }
     },
+    "Add blueprint" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar modelo"
+          }
+        }
+      }
+    },
     "Add list" : {
       "localizations" : {
         "pt-BR" : {
@@ -31,12 +65,52 @@
         }
       }
     },
+    "Add to ToDoLists" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar as Listas"
+          }
+        }
+      }
+    },
     "Alphabetic" : {
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Alfabética"
+          }
+        }
+      }
+    },
+    "Blueprints" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelos"
+          }
+        }
+      }
+    },
+    "Create Blueprint" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar Modelo"
+          }
+        }
+      }
+    },
+    "Create List" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Criar Lista"
           }
         }
       }
@@ -67,16 +141,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Completos primeiro"
-          }
-        }
-      }
-    },
-    "Edit List" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editar lista"
           }
         }
       }
@@ -141,6 +205,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
           }
         }
       }

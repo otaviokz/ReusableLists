@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct ListItemsView: View {
+struct ToDoItemsListView: View {
     @Environment(\.modelContext) var modelContext
     @State var list: ToDoList
     @State var showSortSheet: Bool = false
@@ -28,7 +28,7 @@ struct ListItemsView: View {
             
             Section("Items") {
                 ForEach(list.items.sorted(type: sortType)) { item in
-                    ListItemRowView(item: item)
+                    ToDoItemRowView(item: item)
                 }
                 .onDelete { indexSet in
                     if let index = indexSet.first {
@@ -50,7 +50,7 @@ struct ListItemsView: View {
                     }
                 }
                 NavigationLink(destination: {
-                    AddItemView(list, item: ListItem(name: "", list: list))
+                    AddToDoItemView(list)
                 }, label: {
                     Image(systemName: "plus")
                 })
@@ -105,7 +105,7 @@ struct ListItemsView: View {
 }
 
 // MARK: - Private Methods
-private extension ListItemsView {
+private extension ToDoItemsListView {
     func setSortTo(_ type: SortType) {
         sortType = type
         showSortSheet = false
@@ -114,8 +114,8 @@ private extension ListItemsView {
 
 #Preview {
     let list = ToDoList(name: "Sample List")
-    list.items = [ListItem(name: "Item1", done: true, list: list), ListItem(name: "Item2", list: list)]
+    list.items = [ToDoItem(name: "Item1", done: true), ToDoItem(name: "Item2")]
     return NavigationStack {
-        ListItemsView(list)
+        ToDoItemsListView(list)
     }
 }

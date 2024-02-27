@@ -9,26 +9,19 @@ import Foundation
 import SwiftData
 
 @Model
-class ListItem: ObservableObject {
+class ToDoItem: ObservableObject {
     var name: String
-    private var priorityInt: Int
     var done: Bool
-    @Relationship var list: ToDoList
-    
     var priority: Priority {
-        set {
-            priorityInt = newValue.rawValue
-        }
-        get {
-            Priority(rawValue: priorityInt)
-        }
+        set { priorityInt = newValue.rawValue }
+        get { Priority(rawValue: priorityInt) }
     }
+    private var priorityInt: Int
     
-    init(name: String = "", priority: Priority = .low, done: Bool = false, list: ToDoList) {
+    init(name: String = "", priority: Priority = .low, done: Bool = false) {
         self.name = name
         self.priorityInt = priority.rawValue
         self.done = done
-        self.list = list
     }
 }
 
@@ -39,7 +32,7 @@ enum SortType {
     case alphabetic
 }
 
-extension Array where Element == ListItem {
+extension Array where Element == ToDoItem {
     func sorted(type: SortType) -> Self {
         switch type {
             case .doneFirst: return sortedByDoneFirst

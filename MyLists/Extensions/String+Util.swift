@@ -9,7 +9,7 @@ import Foundation
 
 extension String {
     var trimmingSpaces: String {
-        trimmingCharacters(in: .whitespaces)
+        trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     func trimmingSpacesLowercasedEquals(_ rhs: String) -> Bool {

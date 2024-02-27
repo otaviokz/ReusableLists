@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct ListItemRowView: View {
-    let item: ListItem
+struct ToDoItemRowView: View {
+    let item: ToDoItem
+    @State private var showAlert = false
     
     var body: some View {
         HStack {
@@ -25,14 +26,20 @@ struct ListItemRowView: View {
             Spacer()
             item.priority.coloredCircle
         }
+        .onLongPressGesture {
+            UIPasteboard.general.string = item.name
+            showAlert = true
+        }
+        .alert("'\(item.name)' copied to Pasteboard", isPresented: $showAlert) {
+            Button("OK", role: .cancel) { showAlert = false }
+        }
     }
 }
 
 #Preview {
     VStack {
-        let list = ToDoList(name: "Preview List", details: "")
-        ListItemRowView(item: ListItem(name: "Some item", list: list))
-        ListItemRowView(item: ListItem(name: "Another item", list: list))
-        ListItemRowView(item: ListItem(name: "Yet another item", list: list))
+        ToDoItemRowView(item: ToDoItem(name: "Some item"))
+        ToDoItemRowView(item: ToDoItem(name: "Another item"))
+        ToDoItemRowView(item: ToDoItem(name: "Yet another item"))
     }
 }

@@ -1,5 +1,5 @@
 //
-//  List.swift
+//  ToDoList.swift
 //  MyLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
@@ -13,7 +13,7 @@ class ToDoList: ObservableObject {
     var name: String
     var details: String
     let creationDate: Date
-    @Relationship(deleteRule: .cascade) var items: [ListItem] = []
+    @Relationship(deleteRule: .cascade) var items: [ToDoItem] = []
     
     init(name: String = "", details: String = "") {
         self.name = name

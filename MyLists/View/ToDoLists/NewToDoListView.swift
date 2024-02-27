@@ -8,35 +8,29 @@
 import SwiftUI
 import SwiftData
 
-struct AddOrEditListView: View {
-    enum Field: Hashable {
-        case name
-        case details
-    }
-    
+struct NewToDoListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
+    
     @Query private var lists: [ToDoList]
-    var list: ToDoList
-    @State var listName: String = ""
-    @State var listDetails: String = ""
+    var list: ToDoList?
+    @State var name: String = ""
+    @State var details: String = ""
     @FocusState private var focusState: Field?
     
-    init(_ list: ToDoList) {
-        self.list = list
-    }
+    init() {}
     
     var body: some View {
         Form {
             Section {
-                TextField("Name", text: $listName)
+                TextField("Name", text: $name)
                     .font(.title3)
                     .focused($focusState, equals: .name)
                     .onSubmit {
                         focusState = .details
                     }
                 
-                TextField("Details", text: $listDetails, axis: .vertical)
+                TextField("Details", text: $details, axis: .vertical)
                     .lineLimit(1...5)
                     .font(.body.weight(.light))
                     .focused($focusState, equals: .details)
@@ -47,48 +41,40 @@ struct AddOrEditListView: View {
                     }
             }
         }
-        .navigationTitle("Edit List")
+        .navigationTitle("Create List")
         .toolbar {
             Button("Save", action: saveList)
                 .disabled(!canSave)
         }
-        .onAppear {
-            listName = list.name
-            listDetails = list.details
-            focusState = .name
-        }
     }
-    
-    
 }
 
-private extension AddOrEditListView {
-    var listUnchanged: Bool {
-        listName.trimmingSpaces == list.name &&
-        listDetails.trimmingSpaces == list.details
+private extension NewToDoListView {
+    enum Field: Hashable {
+        case name
+        case details
     }
     
     var isUniqueName: Bool {
         let equalNameLists = lists.filter {
-            $0.name.trimmingSpacesLowercasedEquals(listName)
+            $0.name.trimmingSpacesLowercasedEquals(name)
         }
         return equalNameLists.isEmpty || equalNameLists == [list]
     }
     
     func saveList() {
-        list.name = listName.trimmingSpaces
-        list.details = listDetails.trimmingSpaces
+        let list = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
         modelContext.insert(list)
         presentationMode.wrappedValue.dismiss()
     }
     
     var canSave: Bool {
-        !listName.trimmingSpaces.isEmpty && !listUnchanged && isUniqueName
+        !name.trimmingSpaces.isEmpty && isUniqueName
     }
 }
 
 #Preview {
     NavigationStack {
-        AddOrEditListView(ToDoList(name: "Sample List"))
+        NewToDoListView()
     }
 }

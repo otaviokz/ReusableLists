@@ -45,6 +45,9 @@
         }
       }
     },
+    "About" : {
+
+    },
     "Add blueprint" : {
       "localizations" : {
         "pt-BR" : {
@@ -156,6 +159,9 @@
         }
       }
     },
+    "How to use!" : {
+
+    },
     "Items" : {
       "localizations" : {
         "pt-BR" : {
@@ -230,6 +236,9 @@
         }
       }
     },
+    "Privacy Policy" : {
+
+    },
     "Save" : {
       "localizations" : {
         "pt-BR" : {
@@ -239,6 +248,9 @@
           }
         }
       }
+    },
+    "Show Onbording" : {
+
     },
     "Sort" : {
       "localizations" : {
@@ -269,6 +281,9 @@
           }
         }
       }
+    },
+    "Version" : {
+
     }
   },
   "version" : "1.0"

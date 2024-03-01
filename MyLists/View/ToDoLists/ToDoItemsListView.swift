@@ -49,56 +49,15 @@ struct ToDoItemsListView: View {
                         showSortSheet.toggle()
                     }
                 }
-                NavigationLink(destination: {
+                NavigationLink() {
                     AddToDoItemView(list)
-                }, label: {
+                } label: {
                     Image(systemName: "plus")
-                })
+                }
             }
         }
         .sheet(isPresented: $showSortSheet) {
-            VStack {
-                List {
-                    Section("Sort by:") {
-                        HStack {
-                            Text("Priority")
-                            Spacer()
-                            Priority.high.coloredCircle
-                            Priority.medium.coloredCircle
-                            Priority.low.coloredCircle
-                        }
-                        .onTapGesture { setSortTo(.priority) }
-                        
-                        HStack {
-                            Text("Done first")
-                            Spacer()
-                            Image(systemName: "checkmark.square")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                        }
-                        .onTapGesture { setSortTo(.doneFirst) }
-                        
-                        HStack {
-                            Text("Todo first")
-                            Spacer()
-                            Image(systemName: "square")
-                                .resizable()
-                                .frame(width: 20, height: 20)
-                        }
-                        .onTapGesture { setSortTo(.doneLast) }
-                        
-                        HStack{
-                            Text("Alphabetic")
-                            Spacer()
-                            Text("A-Z")
-                        }
-                        .onTapGesture { setSortTo(.alphabetic) }
-                    }
-                    .font(.headline)
-                }
-            }
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.automatic)
+            sortSheet
         }
         
     }
@@ -106,6 +65,51 @@ struct ToDoItemsListView: View {
 
 // MARK: - Private Methods
 private extension ToDoItemsListView {
+    var sortSheet: some View {
+        VStack {
+            List {
+                Section("Sort by:") {
+                    HStack {
+                        Text("Priority")
+                        Spacer()
+                        Priority.high.coloredCircle
+                        Priority.medium.coloredCircle
+                        Priority.low.coloredCircle
+                    }
+                    .onTapGesture { setSortTo(.priority) }
+                    
+                    HStack {
+                        Text("Done first")
+                        Spacer()
+                        Image(systemName: "checkmark.square")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
+                    .onTapGesture { setSortTo(.doneFirst) }
+                    
+                    HStack {
+                        Text("Todo first")
+                        Spacer()
+                        Image(systemName: "square")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                    }
+                    .onTapGesture { setSortTo(.doneLast) }
+                    
+                    HStack{
+                        Text("Alphabetic")
+                        Spacer()
+                        Text("A-Z")
+                    }
+                    .onTapGesture { setSortTo(.alphabetic) }
+                }
+                .font(.headline)
+            }
+        }
+        .presentationDetents([.medium])
+        .presentationDragIndicator(.automatic)
+    }
+    
     func setSortTo(_ type: SortType) {
         sortType = type
         showSortSheet = false

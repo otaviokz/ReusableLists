@@ -14,6 +14,7 @@ struct ToDoListsView: View {
         SortDescriptor(\ToDoList.name),
         SortDescriptor(\ToDoList.creationDate, order: .reverse)
     ]) private var lists: [ToDoList]
+    
     static var numberFormatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 0
@@ -24,7 +25,6 @@ struct ToDoListsView: View {
         List {
             ForEach(lists) { list in
                 NavigationLink(destination: ToDoItemsListView(list)) {
-//                    ToDoListRowView(list: list)
                     HStack {
                         VStack(alignment: .leading) {
                             Text(list.name)

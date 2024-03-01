@@ -9,6 +9,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>Reusable Lists Clip.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>2BE3B4F52B42B001003CB25F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2BE3B5052B42B002003CB25F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2BE3B50F2B42B002003CB25F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

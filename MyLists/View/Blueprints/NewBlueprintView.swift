@@ -42,6 +42,9 @@ struct NewBlueprintView: View {
             Button("Save", action: saveBlueprint)
                 .disabled(!canSave)
         }
+        .onAppear {
+            focusState = .name
+        }
     }
 }
 

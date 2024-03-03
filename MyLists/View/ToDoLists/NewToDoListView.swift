@@ -46,6 +46,9 @@ struct NewToDoListView: View {
             Button("Save", action: saveList)
                 .disabled(!canSave)
         }
+        .onAppear {
+            focusState = .name
+        }
     }
 }
 

@@ -18,10 +18,19 @@ struct HTMLView: UIViewRepresentable {
     }
     
     func updateUIView(_ webView: WKWebView, context: Context) {
-        guard let url = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "html") else { return }
-        guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
+        let language = Locale.current.language.languageCode
+        if language == "pt" {
+            guard let url = Bundle.main.url(forResource: "PoliticaDePrivacidade", withExtension: "html") else { return }
+            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
+            
+            webView.loadHTMLString(htmlString, baseURL: url)
+        } else {
+            guard let url = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "html") else { return }
+            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
+            
+            webView.loadHTMLString(htmlString, baseURL: url)
+        }
         
-        webView.loadHTMLString(htmlString, baseURL: url)
     }
 }
 

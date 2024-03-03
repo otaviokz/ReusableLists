@@ -111,8 +111,11 @@ private extension ToDoItemsListView {
     }
     
     func setSortTo(_ type: SortType) {
-        sortType = type
-        showSortSheet = false
+        withAnimation {
+            sortType = type
+            showSortSheet = false
+        }
+        
     }
 }
 

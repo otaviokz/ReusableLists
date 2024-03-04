@@ -24,6 +24,7 @@ class ToDoList: ObservableObject {
 
 extension ToDoList {
     var completion: Double {
-        min(1, Double(items.filter { $0.done }.count) / Double(items.count))
+        guard items.count > 0 else { return 0 }
+        return min(1, Double(items.filter { $0.done }.count) / Double(items.count))
     }
 }

@@ -10,24 +10,15 @@ import SwiftUI
 import AVKit
 
 struct OnboardingView: View {
-    enum Field: Hashable {
-        case avPlayer
-    }
-    
-    @FocusState var focusState: Field?
-    @State var videoPlayer = VideoPlayer(
-        player: AVPlayer(url:  Bundle.main.url(forResource: "onboarding", withExtension: "mov")!)
-    )
+    @State var videoPlayer = AVPlayer(url: Bundle.main.url(forResource: "howto", withExtension: "mov")!)
     
     var body: some View {
         VStack {
-            VideoPlayer(player: AVPlayer(url:  Bundle.main.url(forResource: "onboarding", withExtension: "mov")!))
-                .focused($focusState, equals: .avPlayer)
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            VideoPlayer(player: videoPlayer)
         }
         .frame(width: 296, height: 640)
         .onAppear {
-            focusState = .avPlayer
+            videoPlayer.play()
         }
     }
 }

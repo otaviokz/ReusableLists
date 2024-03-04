@@ -12,6 +12,15 @@
 		2B4917F42B91EAB6002439F3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F32B91EAB6002439F3 /* OnboardingView.swift */; };
 		2B4917F72B91EB12002439F3 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */; };
 		2B6801652B4E209B00380429 /* ToDoItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ToDoItemRowView.swift */; };
+		2BA513D02B95A62600B8F583 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA513CF2B95A62600B8F583 /* WidgetKit.framework */; };
+		2BA513D22B95A62600B8F583 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA513D12B95A62600B8F583 /* SwiftUI.framework */; };
+		2BA513D52B95A62600B8F583 /* ReusableListsWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA513D42B95A62600B8F583 /* ReusableListsWidgetBundle.swift */; };
+		2BA513D72B95A62600B8F583 /* ReusableListsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA513D62B95A62600B8F583 /* ReusableListsWidget.swift */; };
+		2BA513D92B95A62700B8F583 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BA513D82B95A62700B8F583 /* Assets.xcassets */; };
+		2BA513DD2B95A62700B8F583 /* ReusableListsWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2BA513CD2B95A62600B8F583 /* ReusableListsWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2BA513E32B95A6AB00B8F583 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList.swift */; };
+		2BA513E42B95AA4500B8F583 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem.swift */; };
+		2BA513E52B95AA4B00B8F583 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52B2B42B578003CB25F /* Priority.swift */; };
 		2BE026C62B95333D004EC312 /* PoliticaDePrivacidade.html in Resources */ = {isa = PBXBuildFile; fileRef = 2BE026C52B95333D004EC312 /* PoliticaDePrivacidade.html */; };
 		2BE026C92B95462E004EC312 /* howto.mov in Resources */ = {isa = PBXBuildFile; fileRef = 2BE026C82B95462E004EC312 /* howto.mov */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
@@ -44,6 +53,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2BA513DB2B95A62700B8F583 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2BE3B4EE2B42B001003CB25F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2BA513CC2B95A62600B8F583;
+			remoteInfo = ReusableListsWidgetExtension;
+		};
 		2BE3B5072B42B002003CB25F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2BE3B4EE2B42B001003CB25F /* Project object */;
@@ -61,6 +77,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		2BA513DF2B95A62700B8F583 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2BA513DD2B95A62700B8F583 /* ReusableListsWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BEC68952B8E922F00BA2DC0 /* Embed App Clips */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,6 +106,14 @@
 		2B4917F32B91EAB6002439F3 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
 		2B6801642B4E209B00380429 /* ToDoItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItemRowView.swift; sourceTree = "<group>"; };
+		2BA513CD2B95A62600B8F583 /* ReusableListsWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ReusableListsWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BA513CF2B95A62600B8F583 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		2BA513D12B95A62600B8F583 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		2BA513D42B95A62600B8F583 /* ReusableListsWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableListsWidgetBundle.swift; sourceTree = "<group>"; };
+		2BA513D62B95A62600B8F583 /* ReusableListsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableListsWidget.swift; sourceTree = "<group>"; };
+		2BA513D82B95A62700B8F583 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2BA513DA2B95A62700B8F583 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2BA513DE2B95A62700B8F583 /* ReusableListsWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ReusableListsWidgetExtension.entitlements; sourceTree = "<group>"; };
 		2BE026C52B95333D004EC312 /* PoliticaDePrivacidade.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PoliticaDePrivacidade.html; sourceTree = "<group>"; };
 		2BE026C72B953694004EC312 /* MyLists.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MyLists.entitlements; sourceTree = "<group>"; };
 		2BE026C82B95462E004EC312 /* howto.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = howto.mov; sourceTree = "<group>"; };
@@ -115,6 +150,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2BA513CA2B95A62600B8F583 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BA513D22B95A62600B8F583 /* SwiftUI.framework in Frameworks */,
+				2BA513D02B95A62600B8F583 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BE3B4F32B42B001003CB25F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -149,12 +193,35 @@
 			path = Document;
 			sourceTree = "<group>";
 		};
+		2BA513CE2B95A62600B8F583 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2BA513CF2B95A62600B8F583 /* WidgetKit.framework */,
+				2BA513D12B95A62600B8F583 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2BA513D32B95A62600B8F583 /* ReusableListsWidget */ = {
+			isa = PBXGroup;
+			children = (
+				2BA513D42B95A62600B8F583 /* ReusableListsWidgetBundle.swift */,
+				2BA513D62B95A62600B8F583 /* ReusableListsWidget.swift */,
+				2BA513D82B95A62700B8F583 /* Assets.xcassets */,
+				2BA513DA2B95A62700B8F583 /* Info.plist */,
+			);
+			path = ReusableListsWidget;
+			sourceTree = "<group>";
+		};
 		2BE3B4ED2B42B001003CB25F = {
 			isa = PBXGroup;
 			children = (
+				2BA513DE2B95A62700B8F583 /* ReusableListsWidgetExtension.entitlements */,
 				2BE3B4F82B42B001003CB25F /* MyLists */,
 				2BE3B5092B42B002003CB25F /* MyListsTests */,
 				2BE3B5132B42B002003CB25F /* MyListsUITests */,
+				2BA513D32B95A62600B8F583 /* ReusableListsWidget */,
+				2BA513CE2B95A62600B8F583 /* Frameworks */,
 				2BE3B4F72B42B001003CB25F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -165,6 +232,7 @@
 				2BE3B4F62B42B001003CB25F /* MyLists.app */,
 				2BE3B5062B42B002003CB25F /* MyListsTests.xctest */,
 				2BE3B5102B42B002003CB25F /* MyListsUITests.xctest */,
+				2BA513CD2B95A62600B8F583 /* ReusableListsWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -306,6 +374,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2BA513CC2B95A62600B8F583 /* ReusableListsWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2BA513E22B95A62700B8F583 /* Build configuration list for PBXNativeTarget "ReusableListsWidgetExtension" */;
+			buildPhases = (
+				2BA513C92B95A62600B8F583 /* Sources */,
+				2BA513CA2B95A62600B8F583 /* Frameworks */,
+				2BA513CB2B95A62600B8F583 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReusableListsWidgetExtension;
+			productName = ReusableListsWidgetExtension;
+			productReference = 2BA513CD2B95A62600B8F583 /* ReusableListsWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		2BE3B4F52B42B001003CB25F /* MyLists */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2BE3B51A2B42B002003CB25F /* Build configuration list for PBXNativeTarget "MyLists" */;
@@ -314,10 +399,12 @@
 				2BE3B4F32B42B001003CB25F /* Frameworks */,
 				2BE3B4F42B42B001003CB25F /* Resources */,
 				2BEC68952B8E922F00BA2DC0 /* Embed App Clips */,
+				2BA513DF2B95A62700B8F583 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2BA513DC2B95A62700B8F583 /* PBXTargetDependency */,
 			);
 			name = MyLists;
 			productName = MyLists;
@@ -370,6 +457,9 @@
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					2BA513CC2B95A62600B8F583 = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
 					2BE3B4F52B42B001003CB25F = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -400,11 +490,20 @@
 				2BE3B4F52B42B001003CB25F /* MyLists */,
 				2BE3B5052B42B002003CB25F /* MyListsTests */,
 				2BE3B50F2B42B002003CB25F /* MyListsUITests */,
+				2BA513CC2B95A62600B8F583 /* ReusableListsWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2BA513CB2B95A62600B8F583 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BA513D92B95A62700B8F583 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BE3B4F42B42B001003CB25F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -435,6 +534,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2BA513C92B95A62600B8F583 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2BA513D72B95A62600B8F583 /* ReusableListsWidget.swift in Sources */,
+				2BA513E32B95A6AB00B8F583 /* ToDoList.swift in Sources */,
+				2BA513E42B95AA4500B8F583 /* ToDoItem.swift in Sources */,
+				2BA513E52B95AA4B00B8F583 /* Priority.swift in Sources */,
+				2BA513D52B95A62600B8F583 /* ReusableListsWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2BE3B4F22B42B001003CB25F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -487,6 +598,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2BA513DC2B95A62700B8F583 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2BA513CC2B95A62600B8F583 /* ReusableListsWidgetExtension */;
+			targetProxy = 2BA513DB2B95A62700B8F583 /* PBXContainerItemProxy */;
+		};
 		2BE3B5082B42B002003CB25F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2BE3B4F52B42B001003CB25F /* MyLists */;
@@ -500,6 +616,66 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		2BA513E02B95A62700B8F583 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ReusableListsWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H7MUL7BCTG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ReusableListsWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ReusableListsWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists.ReusableListsWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2BA513E12B95A62700B8F583 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = ReusableListsWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H7MUL7BCTG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ReusableListsWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ReusableListsWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists.ReusableListsWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		2BE3B5182B42B002003CB25F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -786,6 +962,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2BA513E22B95A62700B8F583 /* Build configuration list for PBXNativeTarget "ReusableListsWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BA513E02B95A62700B8F583 /* Debug */,
+				2BA513E12B95A62700B8F583 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2BE3B4F12B42B001003CB25F /* Build configuration list for PBXProject "MyLists" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

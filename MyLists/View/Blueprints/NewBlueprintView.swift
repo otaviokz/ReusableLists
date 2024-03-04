@@ -65,6 +65,7 @@ private extension NewBlueprintView {
     func saveBlueprint() {
         let blueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
         modelContext.insert(blueprint)
+        try? modelContext.save()
         presentationMode.wrappedValue.dismiss()
     }
     

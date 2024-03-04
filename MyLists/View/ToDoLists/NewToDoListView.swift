@@ -68,6 +68,7 @@ private extension NewToDoListView {
     func saveList() {
         let list = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
         modelContext.insert(list)
+        try? modelContext.save()
         presentationMode.wrappedValue.dismiss()
     }
     

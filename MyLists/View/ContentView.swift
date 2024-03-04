@@ -10,17 +10,17 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
-//    @State private var tabSelection = 1
+    @State private var tabSelection = 1
     
     var body: some View {
-        TabView/*(selection: $tabSelection)*/ {
+        TabView(selection: $tabSelection) {
             NavigationView {
                 ToDoListsView()
             }
             .tabItem {
                 Label("Lists", systemImage: "list.bullet.clipboard")
             }
-//            .tag(1)
+            .tag(1)
             
             NavigationView {
                 BlueprintsListView()
@@ -28,7 +28,7 @@ struct ContentView: View {
             .tabItem {
                 Label("Blueprints", systemImage: "archivebox")
             }
-//            .tag(2)
+            .tag(2)
             
             NavigationView {
                 AboutView()
@@ -36,7 +36,7 @@ struct ContentView: View {
             .tabItem {
                 Label("About", systemImage: "info.circle")
             }
-//            .tag(3)
+            .tag(3)
         }
     }
 }

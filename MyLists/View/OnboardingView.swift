@@ -23,6 +23,7 @@ struct OnboardingView: View {
         VStack {
             VideoPlayer(player: AVPlayer(url:  Bundle.main.url(forResource: "onboarding", withExtension: "mov")!))
                 .focused($focusState, equals: .avPlayer)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
         .frame(width: 296, height: 640)
         .onAppear {

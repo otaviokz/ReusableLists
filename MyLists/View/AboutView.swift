@@ -20,6 +20,10 @@ struct AboutView: View {
                     Text("Show Onbording")
                 })
                 
+                ShareLink(item: URL(string: "https://apps.apple.com/us/app/reusable-lists/id6478542301")!) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+                
                 VStack(alignment: .leading) {
                     Text("Privacy Policy")
                         .padding(.top, 8)
@@ -42,7 +46,7 @@ struct AboutView: View {
 
 struct HowToUseView: View, Hashable {
     var body: some View {
-        Text("How to use!")
+        Text("How to use")
     }
 }
 

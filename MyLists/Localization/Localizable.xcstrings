@@ -2,15 +2,11 @@
   "sourceLanguage" : "en",
   "strings" : {
     "'%@' copied to Pasteboard" : {
-
-    },
-    "%@ copied to Pasteboard" : {
-      "extractionState" : "stale",
       "localizations" : {
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ copiado para Pasteboard"
+            "value" : "'%@' copiado para o Pasteboard"
           }
         }
       }
@@ -46,7 +42,14 @@
       }
     },
     "About" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobre"
+          }
+        }
+      }
     },
     "Add blueprint" : {
       "localizations" : {
@@ -159,8 +162,25 @@
         }
       }
     },
-    "How to use!" : {
+    "How to use" : {
 
+    },
+    "How to use!" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to use"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como usar"
+          }
+        }
+      }
     },
     "Items" : {
       "localizations" : {
@@ -237,7 +257,14 @@
       }
     },
     "Privacy Policy" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Política de Privacidade"
+          }
+        }
+      }
     },
     "Save" : {
       "localizations" : {
@@ -249,8 +276,25 @@
         }
       }
     },
+    "Share" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprtilhar"
+          }
+        }
+      }
+    },
     "Show Onbording" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Como usar"
+          }
+        }
+      }
     },
     "Sort" : {
       "localizations" : {
@@ -283,7 +327,14 @@
       }
     },
     "Version" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versão"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

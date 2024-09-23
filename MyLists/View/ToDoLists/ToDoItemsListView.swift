@@ -7,22 +7,26 @@
 
 import SwiftUI
 import SwiftData
+import Combine
 
 struct ToDoItemsListView: View {
     @Environment(\.modelContext) var modelContext
-    @State var list: ToDoList
+//    @EnvironmentObject var tabSelection: TabSelection
+    @Environment(\.dismiss) var dismiss
+    @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
     @State var showSortSheet: Bool = false
     @State var sortType: SortType = .doneLast
+    @State var showAddNewItem = false
+    @State var showAlert = false
+    let list: ToDoList
     
-    init(_ list: ToDoList) {
-        self.list = list
-    }
     
     var body: some View {
         List {
             if !list.details.isEmpty {
                 Section("Details") {
                     Text(list.details)
+                        .font(.title3)
                 }
             }
             
@@ -39,75 +43,95 @@ struct ToDoItemsListView: View {
                         list.items.remove(at: translatedIndex)
                     }
                 }
+                
             }
         }
-        .navigationTitle(list.name)
         .toolbar {
-            HStack(spacing: 0) {
-                if list.items.count > 1 {
-                    Button("Sort", systemImage: "arrow.up.arrow.down") {
-                        showSortSheet.toggle()
-                    }
-                }
-                NavigationLink() {
-                    AddToDoItemView(list)
-                } label: {
-                    Image(systemName: "plus")
-                }
-            }
+            toolBarView
         }
         .sheet(isPresented: $showSortSheet) {
-            sortSheet
+            sortSheetView
         }
-        
+        .sheet(isPresented: $showAddNewItem) {
+            AddToDoItemView(list, isSheetPresented: $showAddNewItem)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
+        .navigationTitle("\u{2611}  \(list.name)")
+//        .onReceive(Just(tabSelection)) { newValue in
+//            if tabSelection.selectedTab == 1 && tabSelection.lastSelectedTab == 2 {
+//                dismiss()
+//            }
+//        }
     }
 }
 
 // MARK: - Private Methods
 private extension ToDoItemsListView {
-    var sortSheet: some View {
-        VStack {
-            List {
-                Section("Sort by:") {
-                    HStack {
-                        Text("Priority")
-                        Spacer()
-                        Priority.high.coloredCircle
-                        Priority.medium.coloredCircle
-                        Priority.low.coloredCircle
-                    }
-                    .onTapGesture { setSortTo(.priority) }
-                    
-                    HStack {
-                        Text("Done first")
-                        Spacer()
-                        Image(systemName: "checkmark.square")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                    }
-                    .onTapGesture { setSortTo(.doneFirst) }
-                    
-                    HStack {
-                        Text("Todo first")
-                        Spacer()
-                        Image(systemName: "square")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                    }
-                    .onTapGesture { setSortTo(.doneLast) }
-                    
-                    HStack{
-                        Text("Alphabetic")
-                        Spacer()
-                        Text("A-Z")
-                    }
-                    .onTapGesture { setSortTo(.alphabetic) }
-                }
-                .font(.headline)
+    var toolBarView: some View {
+        HStack(spacing: 12) {
+            NavigationLink {
+                UpdateToDoListView(list)
+            } label: {
+                Images.gear.sizedToFit()
             }
+            
+            if list.items.count > 1 {
+                Images.sort
+                    .sizedToFit()
+                    .onTapGesture {
+                        showSortSheet = true
+                    }
+            }
+            
+            if !blueprintExistsFor(list) {
+                Images.docOnDoc
+                    .sizedToFit(width: 21.5, height: 21.5)
+                    .onTapGesture {
+                        do {
+                            try createBlueprint(from: list)
+                        } catch {
+                            showAlert = true
+                        }
+                    }
+            }
+            
+            Images.plus
+                .onTapGesture {
+                    showAddNewItem = true
+                }
+        }
+        .foregroundStyle(Color.cyan)
+        .padding(.trailing, 4)
+    }
+    
+    var sortSheetView: some View {
+        List {
+            Section("Sort by:") {
+                hstackFor(label: "Done first", value: AnyView(Images.checkBoxTicked.sizedToFit()))
+                    .onTapGesture { setSortTo(.doneFirst) }
+                
+                hstackFor(label: "Todo first", value: AnyView(Images.checkBox.sizedToFit()))
+                    .onTapGesture { setSortTo(.doneLast) }
+                
+                hstackFor(label: "Alphabetic", value: AnyView(Text("A-Z")))
+                    .onTapGesture { setSortTo(.alphabetic) }
+            }
+            .font(.headline)
         }
         .presentationDetents([.medium])
-        .presentationDragIndicator(.automatic)
+        .presentationDragIndicator(.visible)
+    }
+    
+    func hstackFor(label: String, value: AnyView) -> some View {
+        HStack {
+            Text(label)
+            Spacer()
+            value
+        }
     }
     
     func setSortTo(_ type: SortType) {
@@ -119,10 +143,28 @@ private extension ToDoItemsListView {
     }
 }
 
+private extension ToDoItemsListView {
+    func blueprintExistsFor(_ list: ToDoList) -> Bool {
+        blueprints.first { $0.name == list.name} != nil
+    }
+    
+    func createBlueprint(from list: ToDoList) throws {
+        if blueprintExistsFor(list) {
+            throw ListError.blueprintNameUnavailable(list.name)
+        }
+        
+        let blueprint = Blueprint(name: list.name, details: list.details)
+        blueprint.items = list.items.asBlueprintItems()
+        modelContext.insert(blueprint)
+        
+        try modelContext.save()
+    }
+}
+
 #Preview {
     let list = ToDoList(name: "Sample List")
     list.items = [ToDoItem(name: "Item1", done: true), ToDoItem(name: "Item2")]
     return NavigationStack {
-        ToDoItemsListView(list)
+        ToDoItemsListView(list: list)
     }
 }

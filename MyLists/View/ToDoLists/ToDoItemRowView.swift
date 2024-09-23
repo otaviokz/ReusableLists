@@ -1,5 +1,5 @@
 //
-//  ItemRowView.swift
+//  ToDoItemRowView.swift
 //  MyLists
 //
 //  Created by Otávio Zabaleta on 09/01/2024.
@@ -8,30 +8,31 @@
 import SwiftUI
 
 struct ToDoItemRowView: View {
-    let item: ToDoItem
     @State private var showAlert = false
+    let item: ToDoItem
     
     var body: some View {
-        HStack {
-            Image(systemName: item.done ? "checkmark.square" : "square")
-                .resizable()
-                .frame(width: 20, height: 20)
-                .onTapGesture {
-                    withAnimation {
-                        item.done.toggle()
+        ZStack {
+            HStack {
+                Text(item.name)
+                    .font(.headline.weight(.medium))
+                Spacer()
+                (item.done ? Images.checkBoxTicked : Images.checkBox)
+                    .sizedToFit()
+                    .foregroundStyle(Color.cyan)
+                    .onTapGesture {
+                        withAnimation {
+                            item.done.toggle()
+                        }
                     }
-                }
-            Text(item.name)
-                .font(.title3)
-            Spacer()
-            item.priority.coloredCircle
-        }
-        .onLongPressGesture {
-            UIPasteboard.general.string = item.name
-            showAlert = true
-        }
-        .alert("'\(item.name)' copied to Pasteboard", isPresented: $showAlert) {
-            Button("OK", role: .cancel) { showAlert = false }
+            }
+            .onLongPressGesture {
+                UIPasteboard.general.string = item.name
+                showAlert = true
+            }
+            .alert("'\(item.name)' copied to Pasteboard", isPresented: $showAlert) {
+                Button("OK", role: .cancel) { showAlert = false }
+            }
         }
     }
 }

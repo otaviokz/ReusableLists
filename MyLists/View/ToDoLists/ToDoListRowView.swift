@@ -7,14 +7,9 @@
 
 import SwiftUI
 
-struct ToDoListRowView: View {
+struct ToDoListRowView: View, NoDecimalsNumberFormattable {
     
     var list: ToDoList
-    static var numberFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }
     
     var body: some View {
         HStack {
@@ -32,13 +27,10 @@ struct ToDoListRowView: View {
             if !list.items.isEmpty {
                 Gauge(value: list.completion, in: 0...1) {
                     if list.completion < 1 {
-                        Text("\(Self.numberFormatter.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
-                            .font(.body)
+                        Text("\(Self.noDecimalsFormatter.string(for: list.completion * 100) ?? "0")")
                     } else {
-                        Image(systemName: "checkmark")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
+                        Images.checkMark
+                            .sizedToFit(width: 16, height: 16)
                             .foregroundColor(.cyan)
                     }
                 }

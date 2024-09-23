@@ -9,10 +9,12 @@ import Foundation
 import SwiftData
 
 @Model
-class ToDoList: ObservableObject {
+class ToDoList: ObservableObject, NameAndDetailsType {
+    typealias Nameable = ToDoList
+    
     var name: String
     var details: String
-    let creationDate: Date
+    var creationDate: Date
     @Relationship(deleteRule: .cascade) var items: [ToDoItem] = []
     
     init(name: String = "", details: String = "") {

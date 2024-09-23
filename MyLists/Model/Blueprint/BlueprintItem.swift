@@ -5,36 +5,36 @@
 //  Created by Otávio Zabaleta on 26/02/2024.
 //
 
-import Foundation
+import SwiftUI
 import SwiftData
 
 @Model
-class BlueprintItem {
+class BlueprintItem: Nameable {
+    typealias Nameable = BlueprintItem
+    
     var name: String
-    private var priorityInt: Int
+    private var priorityInt: Int = 0//
     var priority: Priority {
         set { priorityInt = newValue.rawValue }
         get { Priority(rawValue: priorityInt) }
     }
     
-    init(name: String, priority: Priority = .low) {
+    init(name: String) {
         self.name = name
-        self.priorityInt = priority.rawValue
+        self.priority = .low
     }
     
     func asToDoItem() -> ToDoItem {
-        ToDoItem(name: name, priority: priority, done: false)
+        ToDoItem(name: name, done: false)
     }
 }
 
-
-
 extension Array where Element == BlueprintItem {
-    func azSorted() -> Self {
+    var sortedByName: [BlueprintItem] {
         sorted { $0.name < $1.name }
     }
     
-    func asToDoItemArray() -> [ToDoItem] {
+    func asToDoItemList() -> [ToDoItem] {
         map { $0.asToDoItem() }
     }
 }

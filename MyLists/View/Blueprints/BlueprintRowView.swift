@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BlueprintRowView: View {
-    var blueprint: Blueprint
+    let blueprint: Blueprint
     
     var body: some View {
         HStack {
@@ -17,6 +17,7 @@ struct BlueprintRowView: View {
                     .font(.title3)
                     .fontWeight(.medium)
             }
+            
             Spacer()
         }
     }

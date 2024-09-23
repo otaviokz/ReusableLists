@@ -10,12 +10,12 @@ import SwiftUI
 import SwiftData
 
 class DataConnector {
-    private var modelContext: ModelContext
+    @Environment(\.modelContext) private var modelContext: ModelContext
+    
     let lists: [ToDoList]
     
-    init(lists: [ToDoList], modelContext: ModelContext) {
+    init(lists: [ToDoList]) {
         self.lists = lists
-        self.modelContext = modelContext
     }
     
     func createInstance(of blueprint: Blueprint) throws {
@@ -24,8 +24,13 @@ class DataConnector {
         }
         
         let list = ToDoList(name: blueprint.name, details: blueprint.details)
-        list.items = blueprint.items.asToDoItemArray()
+        for item in blueprint.items.asToDoItemList() {
+            modelContext.insert(item)
+        }
+        list.items = blueprint.items.asToDoItemList()
         modelContext.insert(list)
+        
+        try modelContext.save()
     }
     
     func instanceExistsFor(_ blueprint: Blueprint) -> Bool {

@@ -9,27 +9,35 @@ import Foundation
 import SwiftData
 
 @Model
-class ToDoItem: ObservableObject {
+class ToDoItem: ObservableObject, Nameable {
+    typealias Nameable = ToDoItem
+    
     var name: String
     var done: Bool
+    private var priorityInt: Int = 0
     var priority: Priority {
         set { priorityInt = newValue.rawValue }
         get { Priority(rawValue: priorityInt) }
     }
-    private var priorityInt: Int
+
     
-    init(name: String = "", priority: Priority = .low, done: Bool = false) {
+    init(name: String = "", done: Bool = false) {
         self.name = name
-        self.priorityInt = priority.rawValue
         self.done = done
+        self.priority = .low
     }
 }
 
 enum SortType {
     case doneFirst
     case doneLast
-    case priority
     case alphabetic
+}
+
+fileprivate extension ToDoItem {
+    var asBlueprintItem: BlueprintItem {
+        BlueprintItem(name: name)
+    }
 }
 
 extension Array where Element == ToDoItem {
@@ -37,19 +45,16 @@ extension Array where Element == ToDoItem {
         switch type {
             case .doneFirst: return sortedByDoneFirst
             case .doneLast: return sortedByDoneLast
-            case .priority: return sortedByPriority
             case .alphabetic: return sortedByName
         }
     }
     
-    var sortedByDoneFirst: Self {
+    var sortedByDoneFirst: [ToDoItem] {
         sorted {
             if $0.done != $1.done {
-                return $0.done.sortValue > $1.done.sortValue
-            } else if $0.priority.rawValue != $1.priority.rawValue {
-                return $0.priority.rawValue > $1.priority.rawValue
+                $0.done.sortValue > $1.done.sortValue
             } else {
-                return $0.name < $1.name
+                $0.name < $1.name
             }
         }
     }
@@ -57,21 +62,9 @@ extension Array where Element == ToDoItem {
     var sortedByDoneLast: Self {
         sorted {
             if $0.done != $1.done {
-                return $0.done.sortValue < $1.done.sortValue
-            } else if $0.priority.rawValue != $1.priority.rawValue {
-                return $0.priority.rawValue > $1.priority.rawValue
+                $0.done.sortValue < $1.done.sortValue
             } else {
-                return $0.name < $1.name
-            }
-        }
-    }
-    
-    var sortedByPriority: Self {
-        sorted {
-            if $0.priority.rawValue != $1.priority.rawValue {
-                return $0.priority.rawValue > $1.priority.rawValue
-            } else {
-                return $0.name < $1.name
+                $0.name < $1.name
             }
         }
     }
@@ -81,9 +74,13 @@ extension Array where Element == ToDoItem {
             $0.name < $1.name
         }
     }
+    
+    func asBlueprintItems() -> [BlueprintItem] {
+        map { $0.asBlueprintItem }
+    }
 }
 
-private extension Bool {
+fileprivate extension Bool {
     var sortValue: Int {
         self ? 1 : 0
     }

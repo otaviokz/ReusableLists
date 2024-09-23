@@ -7,66 +7,65 @@
 
 import SwiftUI
 
-struct AddToDoItemView: View {
-    enum Field: Hashable {
-        case name
-    }
-    
+struct AddToDoItemView: SheetWrappedViewable {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.presentationMode) var presentationMode
-    var list: ToDoList
-    @State var itemName: String = ""
-    @State var itemPriority: Priority = .low
-    @State var itemDone: Bool = false
-    @FocusState private var focusState: Field?
     
-    init(_ list: ToDoList) {
+    @FocusState private var focusState: Field?
+    @State private var name: String = ""
+    @State private var itemPriority: Priority = .low
+    @State private var itemDone: Bool = false
+    @State private var showAlert = false
+    @State var isSheetPresented: Binding<Bool>
+    let list: ToDoList
+    
+    init(_ list: ToDoList, isSheetPresented: Binding<Bool>) {
         self.list = list
+        self.isSheetPresented = isSheetPresented
     }
     
     var body: some View {
-        Form {
-            TextField("Name", text: $itemName)
-                .font(.title3)
-                .focused($focusState, equals: .name)
-                .onSubmit {
-                    focusState = nil
-                }
-            
-            Section {
-                Picker("Priority", selection: $itemPriority) {
-                    Text("Low")
-                        .foregroundColor(Priority.low.color)
-                        .tag(Priority.low)
-                    Text("Medium")
-                        .foregroundColor(Priority.medium.color)
-                        .tag(Priority.medium)
-                    Text("High")
-                        .foregroundColor(Priority.high.color)
-                        .tag(Priority.high)
-                }
-                .fontWeight(.bold)
-                .pickerStyle(.inline)
-            }
-            
-            HStack {
-                Text("Done")
-                Spacer()
-                Image(systemName: itemDone ? "checkmark.square" : "square")
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .onTapGesture {
-                        itemDone.toggle()
+        VStack {
+            VStack(spacing: 32) {
+                Form {
+                    HStack {
+                        TextField("Name", text: $name.max(ToDoItem.nameSizeLimit))
+                            .font(.title3)
+                            .focused($focusState, equals: .name)
+                            .onSubmit {
+                                focusState = nil
+                            }
+                            
+                        Spacer()
+                        (itemDone ? Images.checkBoxTicked : Images.checkBox)
+                            .sizedToFit()
+                            .foregroundStyle(Color.cyan)
+                            .onTapGesture { itemDone.toggle() }
                     }
+
+                }
+                .frame(height: 112)
+                .roundClipped()
+                    
+                Button {
+                    do {
+                        try saveItem()
+                        dismissSheet()
+                    } catch {
+                        showAlert = true
+                    }
+                } label: {
+                    Text("Save")
+                        .font(.title2)
+                }
+                .disabled(isSaveButtonDisabled)
+                .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
+                .padding(.top, 12)
+                .alert(isPresented: $showAlert) {
+                    Alert.genericErrorAlert
+                }
             }
-        }
-        .toolbar {
-            Button("Save") {
-                let item = ToDoItem(name: itemName.trimmingSpaces, priority: itemPriority, done: itemDone)
-                list.items.append(item)
-                presentationMode.wrappedValue.dismiss()
-            }
-            .disabled(isSaveButtonDisabled)
+            
+            Spacer()
         }
         .onAppear {
             focusState = .name
@@ -74,16 +73,32 @@ struct AddToDoItemView: View {
     }
 }
 
-private extension AddToDoItemView {
+fileprivate extension AddToDoItemView {
+    enum Field: Hashable {
+        case name
+    }
+    
+    var isUniqueName: Bool {
+        list.items.first { $0.name.trimmingSpacesLowercasedEquals(name)
+        } == nil
+    }
+    
     var isSaveButtonDisabled: Bool {
-        list.items.first { $0.name.trimmingSpacesLowercasedEquals(itemName) } != nil || itemName.trimmingSpaces.isEmpty
+        name.trimmingSpaces.isEmpty || !isUniqueName
+    }
+    
+    func saveItem() throws {
+        let item = ToDoItem(name: name.trimmingSpaces, done: itemDone)
+        modelContext.insert(item)
+        list.items.append(item)
+        try modelContext.save()
     }
 }
 
 #Preview {
+    @Previewable @State var isSheetPresented = true
     let list = ToDoList(name: "Groceries list")
-    
-    return NavigationStack {
-        AddToDoItemView(list)
+    NavigationStack {
+        AddToDoItemView(list, isSheetPresented: $isSheetPresented)
     }
 }

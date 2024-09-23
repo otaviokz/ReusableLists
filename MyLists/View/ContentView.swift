@@ -8,17 +8,31 @@
 import SwiftUI
 import SwiftData
 
+class TabSelection: ObservableObject {
+    @Published var selectedTab: Int {
+        willSet {
+            lastSelectedTab = selectedTab
+        }
+    }
+    @Published private(set)var lastSelectedTab: Int
+    
+    init(selectedTab: Int) {
+        self.selectedTab = selectedTab
+        self.lastSelectedTab = selectedTab
+    }
+}
+
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
-    @State private var tabSelection = 1
-    
+    @StateObject var tabSelection = TabSelection(selectedTab: 1)
+
     var body: some View {
-        TabView(selection: $tabSelection) {
+        TabView(selection: $tabSelection.selectedTab) {
             NavigationView {
                 ToDoListsView()
             }
             .tabItem {
-                Label("Lists", systemImage: "list.bullet.clipboard")
+                Label("Check lists", systemImage: "list.bullet.clipboard")
             }
             .tag(1)
             
@@ -26,7 +40,7 @@ struct ContentView: View {
                 BlueprintsListView()
             }
             .tabItem {
-                Label("Blueprints", systemImage: "archivebox")
+                Label("Blueprints", systemImage: "pencil.and.list.clipboard")
             }
             .tag(2)
             
@@ -38,9 +52,22 @@ struct ContentView: View {
             }
             .tag(3)
         }
+        .modelContainer(for: [ToDoList.self, Blueprint.self, ToDoItem.self, BlueprintItem.self], isUndoEnabled: true)
+        .onAppear {
+            tabSelection.selectedTab = 1
+        }
+        .environmentObject(tabSelection)
+        
+
     }
 }
 
 #Preview {
     ContentView()
+}
+
+extension Binding<Int>: @retroactive Equatable {
+    public static func == (lhs: Binding<Value>, rhs: Binding<Value>) -> Bool {
+        lhs.wrappedValue == rhs.wrappedValue
+    }
 }

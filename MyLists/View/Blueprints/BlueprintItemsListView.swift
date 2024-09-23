@@ -7,18 +7,19 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct BlueprintItemsListView: View {
-    @Environment(\.modelContext) var modelContext
-    @Environment(\.presentationMode) var presentationMode
-    var blueprint: Blueprint
-    let toDoLists: [ToDoList]
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
+    @Environment(\.dismiss) var dismiss
     @State var showAlert = false
-    @State var alertMessage = ""
+    @State var showInstanceAlert = false
+    @State var showAddItemSheet = false
+    let blueprint: Blueprint
     
-    init(_ bluePrint: Blueprint, todoLists: [ToDoList]) {
+    init(_ bluePrint: Blueprint) {
         self.blueprint = bluePrint
-        self.toDoLists = todoLists
     }
     
     var body: some View {
@@ -26,54 +27,106 @@ struct BlueprintItemsListView: View {
             if !blueprint.details.isEmpty {
                 Section("Details") {
                     Text(blueprint.details)
+                        .font(.title3)
                 }
             }
             
             Section("Blueprints") {
-                ForEach(blueprint.items.azSorted()) { item in
+                ForEach(blueprint.items.sortedByName) { item in
                     BlueprintItemRowView(item: item)
                 }
                 .onDelete(perform: { indexSet in
-                    delete(indexSet)
+                    do {
+                       try delete(indexSet)
+                    } catch {
+                        showAlert = true
+                    }
                 })
             }
         }
-        .alert(alertMessage, isPresented: $showAlert) {
-            Button("OK", role: .cancel) { showAlert = false }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
+        .alert(isPresented: $showInstanceAlert) {
+            Alert(Alert.defaultErrorTitle, message: "A ToDoList called \(blueprint.name) already exists.")
+        }
+        .sheet(isPresented: $showAddItemSheet) {
+            AddBluePrintItemView(blueprint, isSheetPresented: $showAddItemSheet)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
         .navigationTitle("\u{270E}  \(blueprint.name)")
         .toolbar {
-            HStack {
-                Button("Add to ToDoLists", systemImage: "doc.on.doc") {
-                    do {
-                        try DataConnector(lists: toDoLists, modelContext: modelContext)
-                            .createInstance(of: blueprint)
-                        presentationMode.wrappedValue.dismiss()
-                        
-                    } catch {
-                        alertMessage = ListError.listNameUnavailable(blueprint.name).message
-                        showAlert = true
+            ToolbarItem(placement: .topBarTrailing) {
+                HStack(spacing: 12) {
+                    NavigationLink {
+                        UpdateBlueprintView(blueprint)
+                    } label: {
+                        Images.gear.sizedToFit()
                     }
+                    
+                    if !listExistsFor(blueprint) {
+                        Images.docOnDoc
+                            .sizedToFit(width: 21.5, height: 21.5)
+                            .onTapGesture {
+                                addInstance()
+                            }
+                    }
+                    
+                    Images.plus
+                        .onTapGesture {
+                            showAddItemSheet = true
+                        }
                 }
-                
-                NavigationLink(destination: {
-                    AddBluePrintItemView(blueprint)
-                }, label: {
-                    Image(systemName: "plus")
-                })
+                .foregroundStyle(Color.cyan)
+                .padding(.trailing, 4)
             }
-        }
-    }
-    
-    func delete(_ indexSet: IndexSet) {
-        if let first = indexSet.first {
-            let item = blueprint.items.azSorted()[first]
-            guard let translatedIndex = blueprint.items.firstIndex(of: item) else {
-                fatalError("Item not found in Blueprint (\(blueprint.name))")
-            }
-            blueprint.items.remove(at: translatedIndex)
+            
         }
     }
 }
 
-
+private extension BlueprintItemsListView {
+    func listExistsFor(_ blueprint: Blueprint) -> Bool {
+        lists.first { $0.name == blueprint.name} != nil
+    }
+    
+    func instanceExistsFor(_ blueprint: Blueprint) -> Bool {
+        !blueprint.items.filter { $0.name.trimmingSpacesLowercasedEquals(blueprint.name) }.isEmpty
+    }
+    
+    func createInstance(of blueprint: Blueprint) throws {
+        if instanceExistsFor(blueprint) {
+            throw ListError.listNameUnavailable(blueprint.name)
+        }
+        
+        let list = ToDoList(name: blueprint.name, details: blueprint.details)
+        list.items = blueprint.items.asToDoItemList()
+        modelContext.insert(list)
+        
+        try modelContext.save()
+    }
+        
+    func delete(_ indexSet: IndexSet) throws  {
+        if let first = indexSet.first {
+            let item = blueprint.items.sortedByName[first]
+            guard let translatedIndex = blueprint.items.firstIndex(of: item) else {
+                throw ListError.bluePrintItemNotFound
+            }
+            
+            blueprint.items.remove(at: translatedIndex)
+            try modelContext.save()
+        }
+    }
+    
+    func addInstance() {        
+        let list = ToDoList(name: blueprint.name, details: blueprint.details)
+        list.items = blueprint.items.asToDoItemList()
+        modelContext.insert(list)
+        do {
+            try modelContext.save()
+        } catch {
+            showAlert = true
+        }
+    }
+}

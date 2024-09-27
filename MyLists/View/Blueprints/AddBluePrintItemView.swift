@@ -1,5 +1,5 @@
 //
-//  AddBluePrintItemView.swift
+//  AddBlueprintItemView.swift
 //  MyLists
 //
 //  Created by Otávio Zabaleta on 27/02/2024.
@@ -9,62 +9,57 @@ import SwiftUI
 
 
 
-struct AddBluePrintItemView: SheetWrappedViewable {
+struct AddBlueprintItemView: SheetWrappedViewable {
     @Environment(\.modelContext) private var modelContext
+   
     @State private var name: String = ""
-    @State private var itemPriority: Priority = .low
     @State private var showAlert = false
     @State var isSheetPresented: Binding<Bool>
     @FocusState private var focusState: Field?
-    let blueprint: Blueprint
+    let Blueprint: Blueprint
     
-    init(_ blueprint: Blueprint, isSheetPresented: Binding<Bool>) {
-        self.blueprint = blueprint
+    init(_ Blueprint: Blueprint, isSheetPresented: Binding<Bool>) {
+        self.Blueprint = Blueprint
         self.isSheetPresented = isSheetPresented
     }
     
     var body: some View {
-        VStack {
-            VStack(spacing: 32) {
-                Form {
-                    Section("New Item") {
-                        TextField("Name", text: $name.max(BlueprintItem.nameSizeLimit))
-                            .font(.title3)
-                            .focused($focusState, equals: .name)
-                            .onSubmit {
-                                focusState = nil
-                            }
-                    }
-                    .onAppear {
-                        focusState = .name
-                    }
+        VStack(spacing: 12) {
+            Text("New item for \(Blueprint.name)")
+                .font(.title2)
+                .foregroundStyle(Color.cyan)
+                .padding(.top, 24)
+            
+            Form {
+                Section("New Item") {
+                    TextField("Name", text: $name.max(SizeConstraints.name))
+                        .font(.title3)
+                        .focused($focusState, equals: .name)
+                        .onSubmit {
+                            focusState = nil
+                        }
                 }
-                .frame(height: 112)
-                .roundClipped()
-                
-                HStack {
-                    Spacer()
-                    exitButton
-                    Spacer()
-                    if !isSaveButtonDisabled {
-                        saveButton
-                        Spacer()
-                    }
-                }
-                
-                Spacer()
             }
+            .frame(height: 112)
+            .roundClipped()
+            
+            buttonsStack
+            
+            Spacer()
+        }
+        .onAppear {
+            focusState = .name
         }
     }
 }
 
-fileprivate extension AddBluePrintItemView {
+fileprivate extension AddBlueprintItemView {
     enum Field: Hashable {
         case name
     }
     
     var isUniqueName: Bool {
-        blueprint.items.first { $0.name == name } == nil
+        Blueprint.items.first { $0.name == name } == nil
     }
     
     var isSaveButtonDisabled: Bool {
@@ -74,8 +69,23 @@ fileprivate extension AddBluePrintItemView {
     func saveBlueprintItem() throws {
         let item = BlueprintItem(name: name.trimmingSpaces)
         modelContext.insert(item)
-        blueprint.items.append(item)
+        Blueprint.items.append(item)
         try modelContext.save()
+    }
+    
+    var buttonsStack: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            if !isSaveButtonDisabled {
+                saveButton
+                Spacer()
+            }
+        }
+        .autocorrectionDisabled()
+        .font(.title2)
+        
     }
     
     var saveButton: some View {
@@ -88,25 +98,18 @@ fileprivate extension AddBluePrintItemView {
             }
         } label: {
             Text("Save")
-                .font(.title2)
         }
         .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
         .disabled(isSaveButtonDisabled)
-        .padding(.top, 12)
         .alert(isPresented: $showAlert) {
             Alert.genericErrorAlert
         }
     }
     
     var exitButton: some View {
-        Button {
-            dismissSheet()
-        } label: {
-            Text("Exit").font(.title2)
-        }
-        .foregroundStyle(Color.cyan)
-//        .disabled(isSaveButtonDisabled)
-        .padding(.top, 12)
+        Button { dismissSheet() } label: { Text("Exit") }
+            .foregroundStyle(Color.cyan)
+        
     }
 }
 
@@ -119,7 +122,7 @@ fileprivate extension AddBluePrintItemView {
         .navigationTitle("Add ")
     }
     .sheet(isPresented: $isSheetPresented) {
-        AddBluePrintItemView(Blueprint(name: "Groceries"), isSheetPresented: $isSheetPresented)
+        AddBlueprintItemView(Blueprint(name: "Groceries"), isSheetPresented: $isSheetPresented)
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
     }

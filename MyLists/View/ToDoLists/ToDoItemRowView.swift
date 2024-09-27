@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ToDoItemRowView: View {
+    @Environment(\.modelContext) private var modelContext
+    
     @State private var showAlert = false
     let item: ToDoItem
     
@@ -17,12 +19,13 @@ struct ToDoItemRowView: View {
                 Text(item.name)
                     .font(.headline.weight(.medium))
                 Spacer()
-                (item.done ? Images.checkBoxTicked : Images.checkBox)
+                (item.done ? Image.checkBoxTicked : Image.checkBox)
                     .sizedToFit()
                     .foregroundStyle(Color.cyan)
                     .onTapGesture {
                         withAnimation {
                             item.done.toggle()
+                            try? modelContext.save()
                         }
                     }
             }

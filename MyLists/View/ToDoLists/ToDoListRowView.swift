@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct ToDoListRowView: View, NoDecimalsNumberFormattable {
+//  Not in use as it doen't update the number of items done and the gauge view
+
+
+/*struct ToDoListRowView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: [SortDescriptor(\ToDoItem.name, order: .forward)]) private var items: [ToDoItem]
     
-    var list: ToDoList
+    let list: ToDoList
     
     var body: some View {
         HStack {
@@ -18,8 +24,11 @@ struct ToDoListRowView: View, NoDecimalsNumberFormattable {
                     .font(.title3)
                     .fontWeight(.medium)
                 
-                Text(list.creationDate.formatted(date: .abbreviated, time: .omitted))
-                    .font(.footnote)
+                if !list.items.isEmpty {
+                    Text("Done: \(list.items.doneItems.count) out of \(list.items.count)").font(.footnote)
+                } else {
+                    Text("Empty").font(.footnote)
+                }
             }
             
             Spacer()
@@ -27,9 +36,9 @@ struct ToDoListRowView: View, NoDecimalsNumberFormattable {
             if !list.items.isEmpty {
                 Gauge(value: list.completion, in: 0...1) {
                     if list.completion < 1 {
-                        Text("\(Self.noDecimalsFormatter.string(for: list.completion * 100) ?? "0")")
+                        Text("\(NumberFormatter.noDecimals.string(for: list.completion * 100) ?? "0")")
                     } else {
-                        Images.checkMark
+                        Image.checkMark
                             .sizedToFit(width: 16, height: 16)
                             .foregroundColor(.cyan)
                     }
@@ -42,6 +51,10 @@ struct ToDoListRowView: View, NoDecimalsNumberFormattable {
     }
 }
 
+
+
 #Preview {
     ToDoListRowView(list: ToDoList(name: "List Row Preview"))
 }
+
+*/

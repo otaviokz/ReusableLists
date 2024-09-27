@@ -10,7 +10,6 @@ import SwiftData
 
 struct AddBlueprintView: SheetWrappedViewable {
     @Environment(\.modelContext) private var modelContext
-//    @EnvironmentObject var tabSelection: TabSelection
     
     @Query private var blueprints: [Blueprint]
     @FocusState private var focusState: Field?
@@ -18,17 +17,21 @@ struct AddBlueprintView: SheetWrappedViewable {
     @State private var details: String = ""
     @State private var showAlert = false
     @State var isSheetPresented: Binding<Bool>
-    private var blueprint: Blueprint?
     
     init(isSheetPresented: Binding<Bool>) {
         self.isSheetPresented = isSheetPresented
     }
     
     var body: some View {
-        VStack {
-            Form(){
+        VStack(spacing: 11) {
+            Text("New Blueprint")
+                .font(.title2)
+                .foregroundStyle(Color.cyan)
+                .padding(.top, 24)
+            
+            Form {
                 Section("Name") {
-                    TextField("New name", text: $name.max(Blueprint.nameSizeLimit))
+                    TextField("New name", text: $name.max(SizeConstraints.name))
                         .font(.title3.weight(.medium))
                         .focused($focusState, equals: .name)
                         .onSubmit {
@@ -36,10 +39,10 @@ struct AddBlueprintView: SheetWrappedViewable {
                         }
                 }
                 Section("Details") {
-                    TextField("New details", text: $details.max(Blueprint.detailsSizeLimit), axis: .vertical)
+                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
-                        .lineLimit(2, reservesSpace: true)
+                        .lineLimit(3, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
                                 details = String(details.dropLast()).trimmingSpaces
@@ -48,30 +51,15 @@ struct AddBlueprintView: SheetWrappedViewable {
                         }
                 }
             }
+            .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 260)
+            .frame(height: 250)
             .onAppear {
                 focusState = .name
             }
             .roundClipped()
             
-            Button {
-                do {
-                    try saveBlueprint()
-                    dismissSheet()
-                } catch {
-                    showAlert = true
-                }
-            } label: {
-                Text("Save")
-                    .font(.title2)
-            }
-            .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-            .disabled(isSaveButtonDisabled)
-            .padding(.top, 12)
-            .alert(isPresented: $showAlert) {
-                Alert.genericErrorAlert
-            }
+            buttonsStack
             
             Spacer()
         }
@@ -79,14 +67,51 @@ struct AddBlueprintView: SheetWrappedViewable {
 }
 
 fileprivate extension AddBlueprintView {
+    var buttonsStack: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            if !isSaveButtonDisabled {
+                saveButton
+                Spacer()
+            }
+        }
+        .font(.title2)
+    }
+    
+    var saveButton: some View {
+        Button {
+            do {
+                try saveBlueprint()
+                dismissSheet()
+            } catch {
+                showAlert = true
+            }
+        } label: {
+            Text("Save")
+        }
+        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
+        .disabled(isSaveButtonDisabled)
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
+    }
+    
+    var exitButton: some View {
+        Button { dismissSheet() } label: { Text("Exit") }
+            .foregroundStyle(Color.cyan)
+    }
+}
+
+fileprivate extension AddBlueprintView {
     enum Field: Hashable {
         case name
         case details
-        case none
     }
     
     var isUniqueName: Bool {
-        blueprints.first { $0.name.trimmingSpacesLowercasedEquals(name) } == nil
+        blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
     }
     
     var isSaveButtonDisabled: Bool {
@@ -94,13 +119,15 @@ fileprivate extension AddBlueprintView {
     }
     
     func saveBlueprint() throws {
-        let blueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
-        modelContext.insert(blueprint)
+        let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
+        modelContext.insert(newBlueprint)
         try modelContext.save()
     }
 }
 
 #Preview {
     @Previewable @State var isSheetPresented = true
-    AddBlueprintView(isSheetPresented: $isSheetPresented)
+    NavigationStack {
+        AddBlueprintView(isSheetPresented: $isSheetPresented)
+    }
 }

@@ -18,24 +18,26 @@ struct HTMLView: UIViewRepresentable {
     }
     
     func updateUIView(_ webView: WKWebView, context: Context) {
-        let language = Locale.current.language.languageCode
-        if language == "pt" {
-            guard let url = Bundle.main.url(forResource: "PrivacyPolicy_pt", withExtension: "html") else { return }
-            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
-            
-            webView.loadHTMLString(htmlString, baseURL: url)
-        } else if language == "es" {
-            guard let url = Bundle.main.url(forResource: "PrivacyPolicy_en", withExtension: "html") else { return }
-            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
-            
-            webView.loadHTMLString(htmlString, baseURL: url)
-        } else {
-            guard let url = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "html") else { return }
-            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
-            
-            webView.loadHTMLString(htmlString, baseURL: url)
-        }
-        
+//        let language = Locale.current.language.languageCode
+//        if language == "pt" {
+//            guard let url = Bundle.main.url(forResource: "PrivacyPolicy_pt", withExtension: "html") else { return }
+//            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
+//            
+//            webView.loadHTMLString(htmlString, baseURL: url)
+//        } else if language == "es" {
+//            guard let url = Bundle.main.url(forResource: "PrivacyPolicy_en", withExtension: "html") else { return }
+//            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
+//            
+//            webView.loadHTMLString(htmlString, baseURL: url)
+//        } else {
+//            guard let url = Bundle.main.url(forResource: "PrivacyPolicy", withExtension: "html") else { return }
+//            guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
+//            
+//            webView.loadHTMLString(htmlString, baseURL: url)
+//        }
+        guard let url = Bundle.main.url(forResource: fileName, withExtension: "html") else { return }
+        guard let htmlString = try? String(contentsOf: url, encoding: .utf8) else { return }
+        webView.loadHTMLString(htmlString, baseURL: url)
     }
 }
 

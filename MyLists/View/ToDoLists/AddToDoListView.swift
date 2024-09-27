@@ -17,17 +17,21 @@ struct AddToDoListView: SheetWrappedViewable {
     @State var details: String = ""
     @State private var showAlert = false
     @State var isSheetPresented: Binding<Bool>
-    var list: ToDoList?
     
     init(isSheetPresented: Binding<Bool>) {
         self.isSheetPresented = isSheetPresented
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 12) {
+            Text("New ToDoList")
+                .font(.title2)
+                .foregroundStyle(Color.cyan)
+                .padding(.top, 24)
+            
             Form {
                 Section("Name") {
-                    TextField("New name", text: $name.max(ToDoList.nameSizeLimit))
+                    TextField("New name", text: $name.max(SizeConstraints.name))
                         .font(.title3.weight(.medium))
                         .focused($focusState, equals: .name)
                         .onSubmit {
@@ -35,10 +39,10 @@ struct AddToDoListView: SheetWrappedViewable {
                         }
                 }
                 Section("Details") {
-                    TextField("New details", text: $details.max(ToDoList.detailsSizeLimit), axis: .vertical)
+                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
-                        .lineLimit(2, reservesSpace: true)
+                        .lineLimit(3, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
                                 details = String(details.dropLast()).trimmingSpaces
@@ -47,33 +51,56 @@ struct AddToDoListView: SheetWrappedViewable {
                         }
                 }
             }
+            .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 260)
+            .frame(height: 250)
             .onAppear {
                 focusState = .name
             }
             .roundClipped()
            
-            Button {
-                do {
-                    try saveList()
-                    dismissSheet()
-                } catch {
-                    showAlert = true
-                }  
-            } label: {
-                Text("Save")
-                    .font(.title2)
-            }
-            .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-            .disabled(isSaveButtonDisabled)
-            .padding(.top, 12)
-            .alert(isPresented: $showAlert) {
-                Alert.genericErrorAlert
-            }
+            buttonsStack
             
             Spacer()
         }
+    }
+}
+
+extension AddToDoListView {
+    var buttonsStack: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            if !isSaveButtonDisabled {
+                saveButton
+                Spacer()
+            }
+        }
+        .font(.title2) 
+    }
+    
+    var saveButton: some View {
+        Button {
+            do {
+                try saveList()
+                dismissSheet()
+            } catch {
+                showAlert = true
+            }
+        } label: {
+            Text("Save")
+        }
+        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
+        .disabled(isSaveButtonDisabled)
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
+    }
+    
+    var exitButton: some View {
+        Button { dismissSheet() } label: { Text("Exit") }
+            .foregroundStyle(Color.cyan)
     }
 }
 
@@ -84,9 +111,7 @@ private extension AddToDoListView {
     }
     
     var isUniqueName: Bool {
-        lists.first {
-            $0.name.trimmingSpacesLowercasedEquals(name)
-        } == nil
+        lists.first { $0.name.trimLowcaseEquals(name) } == nil
     }
     
     var isSaveButtonDisabled: Bool {
@@ -96,7 +121,6 @@ private extension AddToDoListView {
     func saveList() throws {
         let list = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
         modelContext.insert(list)
-
         try modelContext.save()
     }
 }

@@ -16,6 +16,7 @@ struct BlueprintItemRowView: View {
         HStack {
             Text(item.name)
                 .font(.headline.weight(.medium))
+                .foregroundStyle(Color.cyan)
             Spacer()
         }
         .onLongPressGesture {

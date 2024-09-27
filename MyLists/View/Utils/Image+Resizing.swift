@@ -9,6 +9,6 @@ import SwiftUI
 
 extension Image {
     func sizedToFit(width: CGFloat = 20, height: CGFloat = 20, alignment: Alignment = .center) -> some View {
-        resizable().scaledToFit().frame(width: width, height: height, alignment: alignment)
+        resizable().frame(width: width, height: height, alignment: alignment).scaledToFit()
     }
 }

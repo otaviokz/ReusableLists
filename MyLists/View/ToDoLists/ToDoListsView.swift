@@ -11,10 +11,8 @@ import SwiftData
 struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @Query(sort: [
-        SortDescriptor(\ToDoList.name),
-        SortDescriptor(\ToDoList.creationDate, order: .reverse)
-    ]) private var lists: [ToDoList]
+    @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)]) private var lists: [ToDoList]
+    
     @FocusState private var focusState: Field?
     @State var showAddNewItem = false
     @State var itemName: String = ""
@@ -24,16 +22,26 @@ struct ToDoListsView: View {
     
     var body: some View {
         List {
-            ForEach(lists) { list in
+            ForEach(lists)  { list in
                 NavigationLink(destination: ToDoItemsListView(list: list)) {
                     HStack {
-                        VStack(alignment: .leading) {
-                            Text(list.name)
-                                .font(.title3)
-                                .fontWeight(.medium)
-                            
-                            Text(list.creationDate.formatted(date: .abbreviated, time: .omitted))
-                                .font(.footnote)
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(list.name).font(.title3.weight(.medium))
+                            HStack(spacing: 0) {
+                                if !list.items.isEmpty && list.doneItems.count != list.items.count {
+                                    Text("☑")
+                                        .font(.headline.weight(.regular))
+                                    Text(": \(list.doneItems.count) of \(list.doneItems.count)")
+                                    
+                                } else if !list.items.isEmpty {
+                                    Text("✓ ")
+                                        .font(.headline.weight(.semibold))
+                                    Text("Complete")
+                                } else {
+                                    Text("Empty")
+                                }
+                            }
+                            .font(.callout.weight(.light))
                         }
                         
                         Spacer()
@@ -42,12 +50,13 @@ struct ToDoListsView: View {
                             gaugeView(list: list)
                         }
                     }
+                    .foregroundStyle(Color.cyan)
                 }
             }
             .onDelete(perform: deleteLists)
         }
         .toolbar {
-            Images.plus
+            Image.plus
                 .foregroundStyle(Color.cyan)
                 .padding(.trailing, 4)
                 .onTapGesture {
@@ -82,10 +91,10 @@ private extension ToDoListsView {
     func gaugeView(list: ToDoList) -> some View {
         Gauge(value: list.completion, in :0...Double(1)) {
             if list.completion < 1 {
-                Text("\(Formatters.noDecimals.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
+                Text("\(NumberFormatter.noDecimals.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
                     .font(.body)
             } else {
-                Images.checkMark
+                Image.checkMark
                     .sizedToFit(width: 16, height: 16)
                     .foregroundColor(.cyan)
             }

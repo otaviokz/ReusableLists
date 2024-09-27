@@ -11,21 +11,20 @@ import SwiftData
 struct BlueprintsListView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @Query(sort: [SortDescriptor(\Blueprint.name, order: .forward)]) private var blueprints: [Blueprint]
+    @Query(sort: [SortDescriptor(\Blueprint.name, order: .forward)]) private var Blueprints: [Blueprint]
     @Query private var toDoLists: [ToDoList]
     @State private var showAddBlueprint = false
 
     var body: some View {
         List {
-            ForEach(blueprints) { blueprint in
+            ForEach(Blueprints) { blueprint in
                 NavigationLink(destination: BlueprintItemsListView(blueprint)) {
                     BlueprintRowView(blueprint: blueprint)
                 }
             }
-            .onDelete(perform: deleteBlueprints)
         }
         .toolbar {
-            Images.plus
+            Image.plus
                 .foregroundStyle(Color.cyan)
                 .padding(.trailing, 4)
                 .onTapGesture {
@@ -33,20 +32,14 @@ struct BlueprintsListView: View {
                 }
         }
         .sheet(isPresented: $showAddBlueprint) {
-            AddBlueprintView(isSheetPresented: $showAddBlueprint)
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
+            NewListOrBlueprintView(
+                isSheetPresented: $showAddBlueprint,
+                entity: .blueprint
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
         }
         .navigationTitle("Blueprints")
-    }
-}
-
-private extension BlueprintsListView {
-    func deleteBlueprints(_ indexSet: IndexSet) {
-        for index in indexSet {
-            let blueprint = blueprints[index]
-            modelContext.delete(blueprint)
-        }
     }
 }
 

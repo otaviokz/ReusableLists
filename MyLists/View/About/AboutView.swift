@@ -14,25 +14,33 @@ struct AboutView: View {
     var body: some View {
         VStack {
             Form {
-                LabeledContent("Version", value: "1.1.0")
-                
-                Button(action: { isSheetPresented.toggle() }, label: {
-                    Text("Show Onboarding")
-                })
+                HStack {
+                    Image.play.sizedToFit(width: 21, height: 21)
+                        .padding(.top, 2)
+                    Image("").sizedToFit(width: 2, height: 2)
+                    Button { isSheetPresented.toggle() }
+                    label: { Text("Show Onboarding") }
+                }
+                .padding(.leading, 4)
                 
                 ShareLink(item: URL(string: "https://apps.apple.com/us/app/reusable-lists/id6478542301")!) {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }
-                
-                VStack(alignment: .leading) {
-                    Text("Privacy Policy")
-                        .padding(.top, 8)
-                    HTMLView(fileName: "PrivacyPolicy")
-                        .frame(minHeight: UIScreen.main.bounds.height * 0.6, maxHeight: .infinity)
+               
+//                VStack(alignment: .leading) {
+//                    Text("Privacy Policy")
+//                        .padding(.top, 8)
+                    
+                    HTMLView(fileName: localizedPrivecyPolicylFile)
+                    .frame(height: UIScreen.main.bounds.height * 0.7)
                         .cornerRadius(12)
                         .padding(.bottom, 8)
-                }
+//                }
+                
+                
+                LabeledContent("Version", value: "2.1.0")
             }
+            .foregroundStyle(Color.cyan)
             .sheet(isPresented: $isSheetPresented) {
                 VStack {
                     OnboardingView()
@@ -40,6 +48,14 @@ struct AboutView: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.automatic)
             }
+        }
+    }
+    
+    var localizedPrivecyPolicylFile: String {
+        return switch Locale.current.language.languageCode?.identifier {
+            case "es": "PrivacyPolicy_es"
+            case "pt": "PrivacyPolicy_pt"
+            default: "PrivacyPolicy"
         }
     }
 }

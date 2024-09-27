@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import Foundation
 
 struct UpdateBlueprintView: View {
     @Environment(\.modelContext) private var modelContext
@@ -17,19 +16,21 @@ struct UpdateBlueprintView: View {
     @State private var name: String = ""
     @State private var details: String = ""
     @State private var showAlert = false
+    @State private var showDeleteConfirmation = false
+    
     let blueprint: Blueprint
     
     init(_ blueprint: Blueprint) {
         self.blueprint = blueprint
-        name = blueprint.name
-        details = blueprint.details
+        self.name = blueprint.name
+        self.details = blueprint.details
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Form {
                 Section("Name") {
-                    TextField("New name", text: $name.max(Blueprint.nameSizeLimit))
+                    TextField("New name", text: $name.max(SizeConstraints.name))
                         .font(.title3.weight(.medium))
                         .focused($focusState, equals: .name)
                         .onSubmit {
@@ -37,10 +38,10 @@ struct UpdateBlueprintView: View {
                         }
                 }
                 Section("Details") {
-                    TextField("New details", text: $details.max(Blueprint.detailsSizeLimit), axis: .vertical)
+                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
-                        .lineLimit(2, reservesSpace: true)
+                        .lineLimit(4, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
                                 details = String(details.dropLast()).trimmingSpaces
@@ -49,68 +50,122 @@ struct UpdateBlueprintView: View {
                         }
                 }
             }
+            .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 260)
+            .frame(height: 282)
             .onAppear {
                 focusState = .name
             }
             .roundClipped()
             
-            Button {
-                do {
-                    try saveBluePrint()
-                    dismiss()
-                } catch {
-                    showAlert = true
-                }
-            } label: {
-                Text("Save")
-                    .font(.title2)
-            }
-            .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-            .disabled(isSaveButtonDisabled)
-            .padding(.top, 12)
-            .alert(isPresented: $showAlert) {
-                Alert.genericErrorAlert
-            }
+            buttonsStack
             
             Spacer()
         }
-//        .padding(.top, 32)
+        .actionSheet(isPresented: $showDeleteConfirmation) {
+            ActionSheet(
+                title: Text("Are you sure you want to delete \"\(blueprint.name)\" and all its items"),
+                message: nil,
+                buttons: [
+                    .cancel(Text("No")) { showDeleteConfirmation = false},
+                    .destructive(Text("Yes")) {
+                        do {
+                            try deleteBlueprint()
+                            dismiss()
+                        } catch {
+                            showAlert = true
+                        }
+                    }
+                ]
+            )
+        }
         .onAppear {
             name = blueprint.name
             details = blueprint.details
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Image.trash
+                    .foregroundStyle(Color.red)
+                    .onTapGesture {
+                        showDeleteConfirmation = true
+                    }
+            }
         }
         .navigationTitle("Edit \"\(blueprint.name)\"")
     }
 }
 
 fileprivate extension UpdateBlueprintView {
-    enum Field: Hashable {
-        case name
-        case details
+    var buttonsStack: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            if !isSaveButtonDisabled {
+                saveButton
+                Spacer()
+            }
+        }
+        .font(.title2)
     }
     
-    var isUniqueName: Bool {
-        if let sameNameBlueprint: Blueprint = blueprints.first(where: { $0.name.trimmingSpacesLowercasedEquals(name) }) {
-            return sameNameBlueprint == blueprint
+    var saveButton: some View {
+        Button {
+            do {
+                try updateBlueprint()
+                dismiss()
+            } catch {
+                showAlert = true
+            }
+        } label: {
+            Text("Save")
         }
-        return true
+        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
+        .disabled(isSaveButtonDisabled)
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
+    }
+    
+    var exitButton: some View {
+        Button { dismiss() } label: { Text("Exit") }
+            .foregroundStyle(Color.cyan)
+    }
+}
+
+// MARK: - CoreData
+fileprivate extension UpdateBlueprintView {
+    var isUniqueName: Bool {
+        blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
     }
     
     var isSaveButtonDisabled: Bool {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func saveBluePrint() throws {
+    func updateBlueprint() throws {
         blueprint.name = name
         blueprint.details = details
         try modelContext.save()
     }
+    
+    func deleteBlueprint() throws {
+        modelContext.delete(blueprint)
+        try modelContext.save()
+    }
 }
 
-//#Preview {
-//    NavigationStack {
-//        ToDoListUpdateView(ToDoList(name: "List to be edited", details: "List details"), list: [ToDoList]())
-//    }
-//}
+// MARK: - Focus
+extension UpdateBlueprintView {
+    enum Field: Hashable {
+        case name
+        case details
+    }
+}
+
+#Preview {
+    NavigationStack {
+        UpdateToDoListView(ToDoList(name: "Groceries", details: "Try farmers market first"))
+    }
+}

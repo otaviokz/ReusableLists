@@ -11,25 +11,26 @@ import SwiftData
 struct UpdateToDoListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    
     @Query private var lists: [ToDoList]
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
     @State private var showAlert = false
+    @State private var showDeleteConfirmation = false
+    
     let list: ToDoList
     
     init(_ list: ToDoList) {
         self.list = list
-        name = list.name
-        details = list.details
+        self.name = list.name
+        self.details = list.details
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Form {
                 Section("Name") {
-                    TextField("New name", text: $name.max(ToDoList.nameSizeLimit))
+                    TextField("New name", text: $name.max(SizeConstraints.name))
                         .font(.title3.weight(.medium))
                         .focused($focusState, equals: .name)
                         .onSubmit {
@@ -37,10 +38,10 @@ struct UpdateToDoListView: View {
                         }
                 }
                 Section("Details") {
-                    TextField("New details", text: $details.max(ToDoList.detailsSizeLimit), axis: .vertical)
+                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
-                        .lineLimit(2, reservesSpace: true)
+                        .lineLimit(4, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
                                 details = String(details.dropLast()).trimmingSpaces
@@ -49,34 +50,44 @@ struct UpdateToDoListView: View {
                         }
                 }
             }
+            .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 260)
+            .frame(height: 282)
             .onAppear {
                 focusState = .name
             }
             .roundClipped()
             
-            Button {
-                do {
-                    try saveList()
-                    dismiss()
-                } catch {
-                    showAlert = true
-                }
-            } label: {
-                Text("Save")
-                    .font(.title2)
-            }
-            .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-            .disabled(isSaveButtonDisabled)
-            .padding(.top, 12)
-            .alert(isPresented: $showAlert) {
-                Alert.genericErrorAlert
-            }
+            buttonsStack
             
             Spacer()
         }
-        .padding(.top, 32)
+        .actionSheet(isPresented: $showDeleteConfirmation) {
+            ActionSheet(
+                title: Text("Are you sure you want to delete \"\(list.name)\" and all its items"),
+                message: nil,
+                buttons: [
+                    .cancel(Text("No")) { showDeleteConfirmation = false},
+                    .destructive(Text("Yes")) {
+                        do {
+                            try deleteList()
+                            dismiss()
+                        } catch {
+                            showAlert = true
+                        }
+                    }
+                ]
+            )
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Image.trash
+                    .foregroundStyle(Color.red)
+                    .onTapGesture {
+                        showDeleteConfirmation = true
+                    }
+            }
+        }
         .onAppear {
             name = list.name
             details = list.details
@@ -85,32 +96,77 @@ struct UpdateToDoListView: View {
     }
 }
 
-fileprivate extension UpdateToDoListView {
-    enum Field: Hashable {
-        case name
-        case details
+extension UpdateToDoListView {
+    var buttonsStack: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            if !isSaveButtonDisabled {
+                saveButton
+                Spacer()
+            }
+        }
+        .font(.title2)
     }
     
-    var isUniqueName: Bool {
-        if let sameNameList: ToDoList = lists.first(where: { $0.name.trimmingSpacesLowercasedEquals(name) }) {
-            return sameNameList == list
+    var saveButton: some View {
+        Button {
+            do {
+                try updateList()
+                dismiss()
+            } catch {
+                showAlert = true
+            }
+        } label: {
+            Text("Save")
         }
-        return true
+        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
+        .disabled(isSaveButtonDisabled)
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
+    }
+    
+    var exitButton: some View {
+        Button { dismiss() } label: { Text("Exit") }
+            .foregroundStyle(Color.cyan)
+        
+    }
+}
+
+// MARK: - CoreData
+fileprivate extension UpdateToDoListView {
+    var isUniqueName: Bool {
+        lists.first { $0.name.trimLowcaseEquals(name) } == nil
     }
     
     var isSaveButtonDisabled: Bool {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func saveList() throws {
+    func updateList() throws {
         list.name = name
         list.details = details
         try modelContext.save()
     }
+    
+    func deleteList() throws {
+        modelContext.delete(list)
+        try modelContext.save()
+    }
 }
 
-//#Preview {
-//    NavigationStack {
-//        ToDoListUpdateView(ToDoList(name: "List to be edited", details: "List details"), list: [ToDoList]())
-//    }
-//}
+// MARK: - Focus
+extension UpdateToDoListView {
+    enum Field: Hashable {
+        case name
+        case details
+    }
+ }
+
+#Preview {
+    NavigationStack {
+        UpdateToDoListView(ToDoList(name: "List to be edited", details: "List details"))
+    }
+}

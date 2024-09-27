@@ -9,19 +9,17 @@ import Foundation
 import SwiftUI
 
 enum ListError: Error {
-    case listNameUnavailable(_ name: String)
-    case blueprintNameUnavailable(_ name: String)
-    case unableToCreateInstance(error: Error)
-    case bluePrintItemNotFound
-    case unknown(_ error: Error)
+    case listNameUnavailable(name: String)
+    case blueprintNameUnavailable(name: String)
+    case listExistsForBlueprinte(named: String)
+    case unknown(error: Error?)
 
     var message: String {
         return switch self {
             case .listNameUnavailable(let name): "A ToDoList called \(name) already exists."
-            case .blueprintNameUnavailable(let name): "A Blueprint called \(name) already exists."
-            case .unableToCreateInstance(let error), .unknown(let error): "Unable to perform task, try again later. [\(error.localizedDescription)]"
-            case .bluePrintItemNotFound:
-                Alert.defaultErrorMessage
+            case .listExistsForBlueprinte(let name): "A list already exists for \"\(name)\" Blueprint"
+            case .unknown(_): Alert.defaultErrorMessage
+            default: Alert.defaultErrorMessage
         }
     }
 }

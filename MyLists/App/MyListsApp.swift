@@ -13,8 +13,7 @@ struct MyListsApp: App {
     @Environment(\.modelContext) var modelContext
     
     var body: some Scene {
-        
-        
+
         WindowGroup {
             ContentView()
                 .environment(\.modelContext, modelContext)

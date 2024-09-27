@@ -13,20 +13,25 @@ struct ToDoItemsListView: View {
     @Environment(\.modelContext) var modelContext
 //    @EnvironmentObject var tabSelection: TabSelection
     @Environment(\.dismiss) var dismiss
-    @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
+    
+    @Query(sort: [SortDescriptor(\ToDoItem.name, order: .forward)]) private var items: [ToDoItem]
+    @Query(sort: [SortDescriptor(\Blueprint.name, order: .forward)]) private var Blueprints: [Blueprint]
+    
     @State var showSortSheet: Bool = false
     @State var sortType: SortType = .doneLast
-    @State var showAddNewItem = false
     @State var showAlert = false
-    let list: ToDoList
+    @State var alerrMessage = Alert.defaultErrorMessage
+    @State var showAddItemSheet = false
     
+    @State var showConfirmationSheet = false
+    
+    let list: ToDoList
     
     var body: some View {
         List {
             if !list.details.isEmpty {
                 Section("Details") {
-                    Text(list.details)
-                        .font(.title3)
+                    Text(list.details).font(.title3)
                 }
             }
             
@@ -36,14 +41,14 @@ struct ToDoItemsListView: View {
                 }
                 .onDelete { indexSet in
                     if let index = indexSet.first {
-                        let item = list.items.sorted(type: sortType)[index]
-                        guard let translatedIndex = list.items.firstIndex(of: item) else {
-                            fatalError("Item not found in ToDoList.items!")
+                        do {
+                            try delete(item: list.items.sorted(type: sortType)[index], from: list)
+                        } catch {
+                            alerrMessage = Alert.defaultErrorTitle
+                            showAlert = true
                         }
-                        list.items.remove(at: translatedIndex)
                     }
                 }
-                
             }
         }
         .toolbar {
@@ -52,20 +57,32 @@ struct ToDoItemsListView: View {
         .sheet(isPresented: $showSortSheet) {
             sortSheetView
         }
-        .sheet(isPresented: $showAddNewItem) {
-            AddToDoItemView(list, isSheetPresented: $showAddNewItem)
-                .presentationDetents([.large])
+        .sheet(isPresented: $showAddItemSheet) {
+            AddToDoItemView(list, isSheetPresented: $showAddItemSheet)
+                .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
+        .actionSheet(isPresented: $showConfirmationSheet) {
+            ActionSheet(
+                title: Text("Are you sure you want to delete \"\(list.name)\" and all its itens?"),
+                message: nil,
+                buttons: [
+                    .cancel(Text("Cancel")) { },
+                    .destructive(Text("Yes")) {
+                        do {
+                            dismiss()
+                            try delete(list: list)
+                        } catch {
+                            showAlert = true
+                        }
+                    }
+                ]
+            )
+        }
         .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
+            Alert(Alert.defaultErrorTitle, message: alerrMessage)
         }
         .navigationTitle("\u{2611}  \(list.name)")
-//        .onReceive(Just(tabSelection)) { newValue in
-//            if tabSelection.selectedTab == 1 && tabSelection.lastSelectedTab == 2 {
-//                dismiss()
-//            }
-//        }
     }
 }
 
@@ -73,35 +90,34 @@ struct ToDoItemsListView: View {
 private extension ToDoItemsListView {
     var toolBarView: some View {
         HStack(spacing: 12) {
+            Image.trash.sizedToFit()
+                .foregroundStyle(Color.red)
+                .onTapGesture {
+                    showConfirmationSheet = true
+                }
+                .padding(.trailing, -8)
+            
             NavigationLink {
                 UpdateToDoListView(list)
             } label: {
-                Images.gear.sizedToFit()
+                Image.gear.sizedToFit()
             }
             
             if list.items.count > 1 {
-                Images.sort
+                Image.sort
                     .sizedToFit()
                     .onTapGesture {
                         showSortSheet = true
                     }
             }
             
-            if !blueprintExistsFor(list) {
-                Images.docOnDoc
-                    .sizedToFit(width: 21.5, height: 21.5)
-                    .onTapGesture {
-                        do {
-                            try createBlueprint(from: list)
-                        } catch {
-                            showAlert = true
-                        }
-                    }
+            if !instanceListExists(for: list) {
+                createBlueprintIconButton
             }
             
-            Images.plus
+            Image.plus
                 .onTapGesture {
-                    showAddNewItem = true
+                    showAddItemSheet = true
                 }
         }
         .foregroundStyle(Color.cyan)
@@ -111,10 +127,10 @@ private extension ToDoItemsListView {
     var sortSheetView: some View {
         List {
             Section("Sort by:") {
-                hstackFor(label: "Done first", value: AnyView(Images.checkBoxTicked.sizedToFit()))
+                hstackFor(label: "Done first", value: AnyView(Image.checkBoxTicked.sizedToFit()))
                     .onTapGesture { setSortTo(.doneFirst) }
                 
-                hstackFor(label: "Todo first", value: AnyView(Images.checkBox.sizedToFit()))
+                hstackFor(label: "Todo first", value: AnyView(Image.checkBox.sizedToFit()))
                     .onTapGesture { setSortTo(.doneLast) }
                 
                 hstackFor(label: "Alphabetic", value: AnyView(Text("A-Z")))
@@ -139,32 +155,75 @@ private extension ToDoItemsListView {
             sortType = type
             showSortSheet = false
         }
-        
     }
 }
 
+
+// MARK: - UI
 private extension ToDoItemsListView {
-    func blueprintExistsFor(_ list: ToDoList) -> Bool {
-        blueprints.first { $0.name == list.name} != nil
+    var createBlueprintIconButton: some View {
+        Image.docOnDoc
+            .sizedToFit(width: 21.5, height: 21.5)
+            .onTapGesture {
+                alerrMessage = Alert.defaultErrorTitle
+                do {
+                    try createBlueprint(from: list)
+                } catch let error as ListError {
+                    if case ListError.listExistsForBlueprinte(named: list.name) = error {
+                        alerrMessage = error.message
+                    }
+                    showAlert = true
+                } catch {
+                    showAlert = true
+                }
+            }
+    }
+}
+
+// MARK: - SwiftData
+fileprivate extension ToDoItemsListView {
+    func instanceListExists(for list: ToDoList) -> Bool {
+        Blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
     }
     
     func createBlueprint(from list: ToDoList) throws {
-        if blueprintExistsFor(list) {
-            throw ListError.blueprintNameUnavailable(list.name)
+        guard !instanceListExists(for: list) else {
+            throw ListError.listExistsForBlueprinte(named: list.name)
         }
         
-        let blueprint = Blueprint(name: list.name, details: list.details)
-        blueprint.items = list.items.asBlueprintItems()
-        modelContext.insert(blueprint)
-        
+        let newBlueprint = Blueprint(name: list.name, details: list.details)
+        newBlueprint.items = list.items.map { $0.asBlueprintItem }
+        modelContext.insert(newBlueprint)
+        try modelContext.save()
+    }
+    
+    func delete(list: ToDoList) throws {
+        modelContext.delete(list)
+        try modelContext.save()
+    }
+    
+    func delete(item: ToDoItem, from: ToDoList) throws {
+        list.items = list.items.filter { $0 != item }
+        modelContext.delete(item)
         try modelContext.save()
     }
 }
 
+// MARK: - Preview
 #Preview {
-    let list = ToDoList(name: "Sample List")
-    list.items = [ToDoItem(name: "Item1", done: true), ToDoItem(name: "Item2")]
-    return NavigationStack {
+    @Previewable @State var list = ToDoList(
+        name: "Groceries",
+        items: [ToDoItem(name: "Letuce"), ToDoItem(name: "Bananas"), ToDoItem(name: "Eggs")]
+    )
+    
+    NavigationStack {
         ToDoItemsListView(list: list)
+    }
+}
+
+private extension ToDoList {
+    convenience init(name: String = "", details: String = "", items: [ToDoItem]) {
+        self.init(name: name, details: details)
+        self.items = items
     }
 }

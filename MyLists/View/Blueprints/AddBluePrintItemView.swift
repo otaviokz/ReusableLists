@@ -1,5 +1,5 @@
 //
-//  AddBluePrintItemView.swift
+//  AddBlueprintItemView.swift
 //  MyLists
 //
 //  Created by Otávio Zabaleta on 27/02/2024.
@@ -7,54 +7,46 @@
 
 import SwiftUI
 
-struct AddBluePrintItemView: View {
-    enum Field: Hashable {
-        case name
-    }
-    
+struct AddBlueprintItemView: SheetWrappedViewable {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.presentationMode) var presentationMode
-    var blueprint: Blueprint
-    @State var itemName: String = ""
-    @State var itemPriority: Priority = .low
+   
     @FocusState private var focusState: Field?
+    @State private var name: String = ""
+    @State private var showAlert = false
+    @State var isSheetPresented: Binding<Bool>
+    let blueprint: Blueprint
     
-    init(_ blueprint: Blueprint) {
+    init(_ blueprint: Blueprint, isSheetPresented: Binding<Bool>) {
         self.blueprint = blueprint
+        self.isSheetPresented = isSheetPresented
     }
     
     var body: some View {
-        Form {
-            TextField("Name", text: $itemName)
-                .font(.title3)
-                .focused($focusState, equals: .name)
-                .onSubmit {
-                    focusState = nil
-                }
+        VStack(spacing: 12) {
+            Text("New item for \"\(blueprint.name)\"")
+                .font(.title2)
+                .foregroundStyle(Color.cyan)
+                .padding(.top, 24)
             
-            Section {
-                Picker("Priority", selection: $itemPriority) {
-                    Text("Low")
-                        .foregroundColor(Priority.low.color)
-                        .tag(Priority.low)
-                    Text("Medium")
-                        .foregroundColor(Priority.medium.color)
-                        .tag(Priority.medium)
-                    Text("High")
-                        .foregroundColor(Priority.high.color)
-                        .tag(Priority.high)
+            Form {
+                Section("Name field") {
+                    TextField("Your new item's name", text: $name.max(SizeConstraints.name))
+                        .font(.title3)
+                        .focused($focusState, equals: .name)
+                        .onSubmit {
+                            focusState = nil
+                        }
                 }
-                .fontWeight(.bold)
-                .pickerStyle(.inline)
             }
+            .frame(height: 112)
+            .roundClipped()
+            
+            buttonsStack
+            
+            Spacer()
         }
-        .toolbar {
-            Button("Save") {
-                let item = BlueprintItem(name: itemName.trimmingSpaces, priority: itemPriority)
-                blueprint.items.append(item)
-                presentationMode.wrappedValue.dismiss()
-            }
-            .disabled(isSaveButtonDisabled)
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
         }
         .onAppear {
             focusState = .name
@@ -62,14 +54,70 @@ struct AddBluePrintItemView: View {
     }
 }
 
-private extension AddBluePrintItemView {
+// MARK: - UI
+
+private extension AddBlueprintItemView {
+    enum Field: Hashable {
+        case name
+    }
+    
+    var buttonsStack: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            if !isSaveButtonDisabled {
+                saveButton
+                Spacer()
+            }
+        }
+        .font(.title2)
+        .foregroundStyle(Color.cyan)
+    }
+    
+    var saveButton: some View {
+        Button { saveBlueprintItemAndDismissSheet() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
+    }
+    
+    var exitButton: some View {
+        Button { dismissSheet() } label: { Text("Exit") }
+    }
+}
+
+// MARK: - SwiftData
+
+fileprivate extension AddBlueprintItemView {
+    var isUniqueName: Bool {
+        blueprint.items.first { $0.name == name } == nil
+    }
+    
     var isSaveButtonDisabled: Bool {
-        blueprint.items.first {
-            $0.name.trimmingSpacesLowercasedEquals(itemName)
-        } != nil || itemName.trimmingSpaces.isEmpty
+        name.trimmingSpaces.isEmpty || !isUniqueName
+    }
+    
+    func saveBlueprintItemAndDismissSheet() {
+        let item = BlueprintItem(name: name.trimmingSpaces)
+        modelContext.insert(item)
+        blueprint.items.append(item)
+        do {
+            try modelContext.save()
+            dismissSheet()
+        } catch {
+            showAlert = true
+        }
     }
 }
 
 #Preview {
-    AddBluePrintItemView(Blueprint(name: "Groceries"))
+    @Previewable @State var isSheetPresented = true
+    NavigationStack {
+        VStack { }
+            .navigationTitle("Add")
+    }
+    .sheet(isPresented: $isSheetPresented) {
+        AddBlueprintItemView(Blueprint(name: "Groceries"), isSheetPresented: $isSheetPresented)
+            .presentationDetents([.medium, .large])
+            .presentationDragIndicator(.visible)
+    }
 }

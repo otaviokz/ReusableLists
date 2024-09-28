@@ -5,18 +5,17 @@
 //  Created by Otávio Zabaleta on 26/02/2024.
 //
 
-import Foundation
 import SwiftUI
 
 struct BlueprintItemRowView: View {
-    let item: BlueprintItem
     @State private var showAlert = false
+    let item: BlueprintItem
     
     var body: some View {
         HStack {
             Text(item.name)
+                .font(.headline.weight(.medium))
             Spacer()
-            item.priority.coloredCircle
         }
         .onLongPressGesture {
             UIPasteboard.general.string = item.name
@@ -30,6 +29,8 @@ struct BlueprintItemRowView: View {
 
 #Preview {
     VStack {
-        BlueprintItemRowView(item: BlueprintItem(name: "Banana", priority: .high))
+        BlueprintItemRowView(item: BlueprintItem(name: "Bananas"))
+        BlueprintItemRowView(item: BlueprintItem(name: "Tomatoes"))
+        BlueprintItemRowView(item: BlueprintItem(name: "Eggs"))
     }
 }

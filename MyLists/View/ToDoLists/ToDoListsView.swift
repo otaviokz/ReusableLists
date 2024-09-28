@@ -10,73 +10,114 @@ import SwiftData
 
 struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: [
-        SortDescriptor(\ToDoList.name),
-        SortDescriptor(\ToDoList.creationDate, order: .reverse)
-    ]) private var lists: [ToDoList]
     
-    static var numberFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }
+    @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)]) private var lists: [ToDoList]
+    
+    @FocusState private var focusState: Field?
+    @State var showAddNewItem = false
+    @State var itemName: String = ""
+    @State var itemDone: Bool = false
+    @State var showErrorAlert = false
+    @State var showAddToDoListSheet = false
     
     var body: some View {
         List {
-            ForEach(lists) { list in
-                NavigationLink(destination: ToDoItemsListView(list)) {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(list.name)
-                                .font(.title3)
-                                .fontWeight(.medium)
-                            
-                            Text(list.creationDate.formatted(date: .abbreviated, time: .omitted))
-                                .font(.footnote)
-                        }
-                        
-                        Spacer()
-                        
-                        if !list.items.isEmpty {
-                            Gauge(value: list.completion, in :0...Double(1)) {
-                                if list.completion < 1 {
-                                    Text("\(Self.numberFormatter.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
-                                        .font(.body)
-                                } else {
-                                    Image(systemName: "checkmark")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 16, height: 16)
-                                        .foregroundColor(.cyan)
-                                }
-                            }
-                            .gaugeStyle(.accessoryCircularCapacity)
-                            .scaleEffect(CGSize(width: 0.7, height: 0.7))
-                            .tint(.cyan)
-                        }
-                    }
+            ForEach(lists)  { list in
+                NavigationLink(destination: ToDoItemsListView(list: list)) {
+                    listRow(for: list)
                 }
             }
-            .onDelete(perform: deleteLists)
+            .onDelete { indexSet in
+                do {
+                    try deleteLists(indexSet)
+                } catch {
+                    showErrorAlert = true
+                }
+            }
         }
         .toolbar {
-            NavigationLink(destination: {
-                NewToDoListView()
-            }, label: {
-                Button("Add list", systemImage: "plus") {}
-            })
+            Image.plus
+                .foregroundStyle(Color.cyan)
+                .padding(.trailing, 4)
+                .onTapGesture {
+                    showAddToDoListSheet = true
+                }
+        }
+        .sheet(isPresented: $showAddToDoListSheet) {
+            NewListOrBlueprintView(isSheetPresented: $showAddToDoListSheet, entity: .toDoList)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
+        }
+        .onAppear {
+            focusState = .name
         }
         .navigationTitle("Lists")
     }
 }
 
-// MARK: - Private Methods
+// MARK: - UI
+
 private extension ToDoListsView {
-    func deleteLists(_ indexSet: IndexSet) {
-        for index in indexSet {
-            let list = lists[index]
-            modelContext.delete(list)
+    enum Field: Hashable {
+        case name
+    }
+    
+    func listRow(for list: ToDoList) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(list.name).font(.title3.weight(.medium))
+                HStack(spacing: 0) {
+                    if !list.items.isEmpty && list.doneItems.count != list.items.count {
+                        Text("☑")
+                            .font(.headline.weight(.regular))
+                        Text(": \(list.doneItems.count) of \(list.items.count)")
+                        
+                    } else if !list.items.isEmpty {
+                        Text("✓ ")
+                            .font(.headline.weight(.semibold))
+                        Text("Complete")
+                    } else {
+                        Text("Empty")
+                    }
+                }
+                .font(.callout.weight(.light))
+            }
+            
+            Spacer()
+            
+            if !list.items.isEmpty {
+                gaugeView(list: list)
+            }
         }
+        .foregroundStyle(Color.cyan)
+    }
+    
+    func gaugeView(list: ToDoList) -> some View {
+        Gauge(value: list.completion, in :0...Double(1)) {
+            if list.completion < 1 {
+                Text("\(NumberFormatter.noDecimals.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
+                    .font(.body)
+            } else {
+                Image.checkMark
+                    .sizedToFit(width: 16, height: 16)
+                    .foregroundColor(.cyan)
+            }
+        }
+        .gaugeStyle(.accessoryCircularCapacity)
+        .scaleEffect(CGSize(width: 0.7, height: 0.7))
+        .tint(.cyan)
+    }
+}
+
+// MARK: - SwiftData
+
+private extension ToDoListsView {
+    func deleteLists(_ indexSet: IndexSet) throws {
+        guard let index = indexSet.first else {
+            throw  ListError.deleteEntityIndexNotFound
+        }
+        modelContext.delete(lists[index])
+        try modelContext.save()
     }
 }
 

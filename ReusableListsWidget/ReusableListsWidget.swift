@@ -39,13 +39,7 @@ struct SimpleEntry: TimelineEntry {
     let lists: [ToDoList]
 }
 
-struct ReusableListsWidgetEntryView : View {
-    static var numberFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }
-    
+struct ReusableListsWidgetEntryView : View {    
     var entry: Provider.Entry
 
     var body: some View {
@@ -62,7 +56,7 @@ struct ReusableListsWidgetEntryView : View {
             
             HStack(spacing: 0) {
                 Gauge(value: entry.lists.averageCompletion, in: 0...100) {
-                    Text("\(Self.numberFormatter.string(from: NSNumber(value: entry.lists.averageCompletion)) ?? "0")%")
+                    Text("\(Formatters.noDecimals.string(from: NSNumber(value: entry.lists.averageCompletion)) ?? "0")%")
                         .font(.body)
                 }
                 .gaugeStyle(.accessoryCircularCapacity)

@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct ToDoListRowView: View {
+/**********************************************************
+ * Not in use as it doen't update the number of items done and the gauge view  *
+ **********************************************************
+ */
+
+/*struct ToDoListRowView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: [SortDescriptor(\ToDoItem.name, order: .forward)]) private var items: [ToDoItem]
     
-    var list: ToDoList
-    static var numberFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 0
-        return formatter
-    }
+    let list: ToDoList
     
     var body: some View {
         HStack {
@@ -23,8 +26,11 @@ struct ToDoListRowView: View {
                     .font(.title3)
                     .fontWeight(.medium)
                 
-                Text(list.creationDate.formatted(date: .abbreviated, time: .omitted))
-                    .font(.footnote)
+                if !list.items.isEmpty {
+                    Text("Done: \(list.items.doneItems.count) out of \(list.items.count)").font(.footnote)
+                } else {
+                    Text("Empty").font(.footnote)
+                }
             }
             
             Spacer()
@@ -32,13 +38,10 @@ struct ToDoListRowView: View {
             if !list.items.isEmpty {
                 Gauge(value: list.completion, in: 0...1) {
                     if list.completion < 1 {
-                        Text("\(Self.numberFormatter.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
-                            .font(.body)
+                        Text("\(NumberFormatter.noDecimals.string(for: list.completion * 100) ?? "0")")
                     } else {
-                        Image(systemName: "checkmark")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
+                        Image.checkMark
+                            .sizedToFit(width: 16, height: 16)
                             .foregroundColor(.cyan)
                     }
                 }
@@ -50,6 +53,10 @@ struct ToDoListRowView: View {
     }
 }
 
+
+
 #Preview {
     ToDoListRowView(list: ToDoList(name: "List Row Preview"))
 }
+
+*/

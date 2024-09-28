@@ -7,32 +7,30 @@
 
 import SwiftUI
 
-
-
 struct AddBlueprintItemView: SheetWrappedViewable {
     @Environment(\.modelContext) private var modelContext
    
+    @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var showAlert = false
     @State var isSheetPresented: Binding<Bool>
-    @FocusState private var focusState: Field?
-    let Blueprint: Blueprint
+    let blueprint: Blueprint
     
-    init(_ Blueprint: Blueprint, isSheetPresented: Binding<Bool>) {
-        self.Blueprint = Blueprint
+    init(_ blueprint: Blueprint, isSheetPresented: Binding<Bool>) {
+        self.blueprint = blueprint
         self.isSheetPresented = isSheetPresented
     }
     
     var body: some View {
         VStack(spacing: 12) {
-            Text("New item for \(Blueprint.name)")
+            Text("New item for \"\(blueprint.name)\"")
                 .font(.title2)
                 .foregroundStyle(Color.cyan)
                 .padding(.top, 24)
             
             Form {
-                Section("New Item") {
-                    TextField("Name", text: $name.max(SizeConstraints.name))
+                Section("Name field") {
+                    TextField("Your new item's name", text: $name.max(SizeConstraints.name))
                         .font(.title3)
                         .focused($focusState, equals: .name)
                         .onSubmit {
@@ -47,30 +45,20 @@ struct AddBlueprintItemView: SheetWrappedViewable {
             
             Spacer()
         }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
         .onAppear {
             focusState = .name
         }
     }
 }
 
-fileprivate extension AddBlueprintItemView {
+// MARK: - UI
+
+private extension AddBlueprintItemView {
     enum Field: Hashable {
         case name
-    }
-    
-    var isUniqueName: Bool {
-        Blueprint.items.first { $0.name == name } == nil
-    }
-    
-    var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || !isUniqueName
-    }
-    
-    func saveBlueprintItem() throws {
-        let item = BlueprintItem(name: name.trimmingSpaces)
-        modelContext.insert(item)
-        Blueprint.items.append(item)
-        try modelContext.save()
     }
     
     var buttonsStack: some View {
@@ -83,43 +71,49 @@ fileprivate extension AddBlueprintItemView {
                 Spacer()
             }
         }
-        .autocorrectionDisabled()
         .font(.title2)
-        
+        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
-        Button {
-            do {
-                try saveBlueprintItem()
-                dismissSheet()
-            } catch {
-                showAlert = true
-            }
-        } label: {
-            Text("Save")
-        }
-        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-        .disabled(isSaveButtonDisabled)
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
+        Button { saveBlueprintItemAndDismissSheet() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
     }
     
     var exitButton: some View {
         Button { dismissSheet() } label: { Text("Exit") }
-            .foregroundStyle(Color.cyan)
-        
+    }
+}
+
+// MARK: - SwiftData
+
+fileprivate extension AddBlueprintItemView {
+    var isUniqueName: Bool {
+        blueprint.items.first { $0.name == name } == nil
+    }
+    
+    var isSaveButtonDisabled: Bool {
+        name.trimmingSpaces.isEmpty || !isUniqueName
+    }
+    
+    func saveBlueprintItemAndDismissSheet() {
+        let item = BlueprintItem(name: name.trimmingSpaces)
+        modelContext.insert(item)
+        blueprint.items.append(item)
+        do {
+            try modelContext.save()
+            dismissSheet()
+        } catch {
+            showAlert = true
+        }
     }
 }
 
 #Preview {
     @Previewable @State var isSheetPresented = true
     NavigationStack {
-        VStack {
-            
-        }
-        .navigationTitle("Add ")
+        VStack { }
+            .navigationTitle("Add")
     }
     .sheet(isPresented: $isSheetPresented) {
         AddBlueprintItemView(Blueprint(name: "Groceries"), isSheetPresented: $isSheetPresented)

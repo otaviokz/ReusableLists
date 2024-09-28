@@ -11,7 +11,6 @@ import Combine
 
 struct ToDoItemsListView: View {
     @Environment(\.modelContext) var modelContext
-//    @EnvironmentObject var tabSelection: TabSelection
     @Environment(\.dismiss) var dismiss
     
     @Query(sort: [SortDescriptor(\ToDoItem.name, order: .forward)]) private var items: [ToDoItem]
@@ -20,10 +19,9 @@ struct ToDoItemsListView: View {
     @State var showSortSheet: Bool = false
     @State var sortType: SortType = .doneLast
     @State var showAlert = false
-    @State var alerrMessage = Alert.defaultErrorMessage
+    @State var alerMessage = Alert.defaultErrorMessage
     @State var showAddItemSheet = false
-    
-    @State var showConfirmationSheet = false
+//    @State var showConfirmationSheet = false
     
     let list: ToDoList
     
@@ -37,14 +35,15 @@ struct ToDoItemsListView: View {
             
             Section("Items") {
                 ForEach(list.items.sorted(type: sortType)) { item in
-                    ToDoItemRowView(item: item)
+                    ToDoListItemRowView(item: item)
                 }
                 .onDelete { indexSet in
                     if let index = indexSet.first {
                         do {
-                            try delete(item: list.items.sorted(type: sortType)[index], from: list)
+                            let item = list.items.sorted(type: sortType)[index]
+                            try delete(item: item)
                         } catch {
-                            alerrMessage = Alert.defaultErrorTitle
+                            alerMessage = Alert.defaultErrorTitle
                             showAlert = true
                         }
                     }
@@ -62,25 +61,25 @@ struct ToDoItemsListView: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
-        .actionSheet(isPresented: $showConfirmationSheet) {
-            ActionSheet(
-                title: Text("Are you sure you want to delete \"\(list.name)\" and all its itens?"),
-                message: nil,
-                buttons: [
-                    .cancel(Text("Cancel")) { },
-                    .destructive(Text("Yes")) {
-                        do {
-                            dismiss()
-                            try delete(list: list)
-                        } catch {
-                            showAlert = true
-                        }
-                    }
-                ]
-            )
-        }
+//        .actionSheet(isPresented: $showConfirmationSheet) {
+//            ActionSheet(
+//                title: Text("Are you sure you want to delete \"\(list.name)\" and all its itens?"),
+//                message: nil,
+//                buttons: [
+//                    .cancel(Text("Cancel")) { },
+//                    .destructive(Text("Yes")) {
+//                        do {
+//                            dismiss()
+//                            try delete(list: list)
+//                        } catch {
+//                            showAlert = true
+//                        }
+//                    }
+//                ]
+//            )
+//        }
         .alert(isPresented: $showAlert) {
-            Alert(Alert.defaultErrorTitle, message: alerrMessage)
+            Alert(Alert.defaultErrorTitle, message: alerMessage)
         }
         .navigationTitle("\u{2611}  \(list.name)")
     }
@@ -90,13 +89,13 @@ struct ToDoItemsListView: View {
 private extension ToDoItemsListView {
     var toolBarView: some View {
         HStack(spacing: 12) {
-            Image.trash.sizedToFit()
-                .foregroundStyle(Color.red)
-                .onTapGesture {
-                    showConfirmationSheet = true
-                }
-                .padding(.trailing, -8)
-            
+//            Image.trash.sizedToFit()
+//                .foregroundStyle(Color.red)
+//                .onTapGesture {
+//                    showConfirmationSheet = true
+//                }
+//                .padding(.trailing, -8)
+//            
             NavigationLink {
                 UpdateToDoListView(list)
             } label: {
@@ -111,7 +110,7 @@ private extension ToDoItemsListView {
                     }
             }
             
-            if !instanceListExists(for: list) {
+            if !blueprintExistsFor(list: list) {
                 createBlueprintIconButton
             }
             
@@ -165,36 +164,35 @@ private extension ToDoItemsListView {
         Image.docOnDoc
             .sizedToFit(width: 21.5, height: 21.5)
             .onTapGesture {
-                alerrMessage = Alert.defaultErrorTitle
-                do {
-                    try createBlueprint(from: list)
-                } catch let error as ListError {
-                    if case ListError.listExistsForBlueprinte(named: list.name) = error {
-                        alerrMessage = error.message
-                    }
-                    showAlert = true
-                } catch {
-                    showAlert = true
-                }
+                createBlueprint(from: list)
             }
     }
 }
 
 // MARK: - SwiftData
 fileprivate extension ToDoItemsListView {
-    func instanceListExists(for list: ToDoList) -> Bool {
+    func blueprintExistsFor(list: ToDoList) -> Bool {
         Blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
     }
     
-    func createBlueprint(from list: ToDoList) throws {
-        guard !instanceListExists(for: list) else {
-            throw ListError.listExistsForBlueprinte(named: list.name)
+    func createBlueprint(from list: ToDoList) {
+        alerMessage = Alert.defaultErrorMessage
+        do {
+            guard !blueprintExistsFor(list: list) else {
+                throw ListError.blueprintExistsForList(named: list.name)
+            }
+            let newBlueprint = Blueprint(name: list.name, details: list.details)
+            newBlueprint.items = list.items.map { $0.asBlueprintItem }
+            modelContext.insert(newBlueprint)
+            try modelContext.save()
+        } catch let error as ListError {
+            if case ListError.blueprintExistsForList(named: list.name) = error {
+                alerMessage = error.message
+            }
+            showAlert = true
+        } catch {
+            showAlert = true
         }
-        
-        let newBlueprint = Blueprint(name: list.name, details: list.details)
-        newBlueprint.items = list.items.map { $0.asBlueprintItem }
-        modelContext.insert(newBlueprint)
-        try modelContext.save()
     }
     
     func delete(list: ToDoList) throws {
@@ -202,7 +200,20 @@ fileprivate extension ToDoItemsListView {
         try modelContext.save()
     }
     
-    func delete(item: ToDoItem, from: ToDoList) throws {
+    func deleteItem(_ indexSet: IndexSet) {
+        alerMessage = Alert.defaultErrorMessage
+        do {
+            guard let index = indexSet.first else { throw ListError.deleteEntityIndexNotFound }
+            let item = items[index]
+            list.items = list.items.filter { $0 != item }
+            modelContext.delete(item)
+            try modelContext.save()
+        } catch {
+            showAlert = true
+        }
+    }
+    
+    func delete(item: ToDoItem) throws {
         list.items = list.items.filter { $0 != item }
         modelContext.delete(item)
         try modelContext.save()

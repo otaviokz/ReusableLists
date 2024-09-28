@@ -31,42 +31,58 @@ struct AddToDoListView: SheetWrappedViewable {
             
             Form {
                 Section("Name") {
-                    TextField("New name", text: $name.max(SizeConstraints.name))
+                    TextField("Your new ToDoList's name", text: $name.max(SizeConstraints.name))
                         .font(.title3.weight(.medium))
                         .focused($focusState, equals: .name)
                         .onSubmit {
                             focusState = .details
                         }
+                        .submitLabel(.next)
                 }
+                
                 Section("Details") {
-                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
+                    TextField(
+                        "Anything you should keep in mind when using this list.",
+                        text: $details.max(SizeConstraints.details),
+                        axis: .vertical
+                    )
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
                         .lineLimit(3, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
-                                details = String(details.dropLast()).trimmingSpaces
+                                details = String(details.dropLast())
                                 focusState = nil
                             }
                         }
+                        .submitLabel(.done)
                 }
             }
-            .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 250)
-            .onAppear {
-                focusState = .name
-            }
+            .frame(height: 257)
             .roundClipped()
            
             buttonsStack
             
             Spacer()
         }
+        .onAppear {
+            focusState = .name
+        }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
     }
 }
 
-extension AddToDoListView {
+// MARK: - UI
+
+fileprivate extension AddToDoListView {
+    enum Field: Hashable {
+        case name
+        case details
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -77,39 +93,23 @@ extension AddToDoListView {
                 Spacer()
             }
         }
-        .font(.title2) 
+        .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
-        Button {
-            do {
-                try saveList()
-                dismissSheet()
-            } catch {
-                showAlert = true
-            }
-        } label: {
-            Text("Save")
-        }
-        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-        .disabled(isSaveButtonDisabled)
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
+        Button { saveListAndDismissSheet() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
     }
     
     var exitButton: some View {
         Button { dismissSheet() } label: { Text("Exit") }
-            .foregroundStyle(Color.cyan)
     }
 }
 
+// MARK: - SwiftData
+
 private extension AddToDoListView {
-    enum Field: Hashable {
-        case name
-        case details
-    }
-    
     var isUniqueName: Bool {
         lists.first { $0.name.trimLowcaseEquals(name) } == nil
     }
@@ -118,10 +118,15 @@ private extension AddToDoListView {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func saveList() throws {
+    func saveListAndDismissSheet() {
         let list = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
         modelContext.insert(list)
-        try modelContext.save()
+        do {
+            try modelContext.save()
+            dismissSheet()
+        } catch {
+            showAlert = true
+        }
     }
 }
 

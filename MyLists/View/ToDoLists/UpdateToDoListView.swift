@@ -16,7 +16,6 @@ struct UpdateToDoListView: View {
     @State private var name: String = ""
     @State private var details: String = ""
     @State private var showAlert = false
-    @State private var showDeleteConfirmation = false
     
     let list: ToDoList
     
@@ -41,18 +40,17 @@ struct UpdateToDoListView: View {
                     TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
-                        .lineLimit(4, reservesSpace: true)
+                        .lineLimit(3, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
-                                details = String(details.dropLast()).trimmingSpaces
+                                details = String(details.dropLast())
                                 focusState = nil
                             }
                         }
                 }
             }
-            .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 282)
+            .frame(height: 250)
             .onAppear {
                 focusState = .name
             }
@@ -62,31 +60,8 @@ struct UpdateToDoListView: View {
             
             Spacer()
         }
-        .actionSheet(isPresented: $showDeleteConfirmation) {
-            ActionSheet(
-                title: Text("Are you sure you want to delete \"\(list.name)\" and all its items"),
-                message: nil,
-                buttons: [
-                    .cancel(Text("No")) { showDeleteConfirmation = false},
-                    .destructive(Text("Yes")) {
-                        do {
-                            try deleteList()
-                            dismiss()
-                        } catch {
-                            showAlert = true
-                        }
-                    }
-                ]
-            )
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Image.trash
-                    .foregroundStyle(Color.red)
-                    .onTapGesture {
-                        showDeleteConfirmation = true
-                    }
-            }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
         }
         .onAppear {
             name = list.name
@@ -108,30 +83,21 @@ extension UpdateToDoListView {
             }
         }
         .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
         Button {
-            do {
-                try updateList()
-                dismiss()
-            } catch {
-                showAlert = true
-            }
+            updateList()
+            dismiss()
         } label: {
             Text("Save")
         }
-        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
         .disabled(isSaveButtonDisabled)
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
     }
     
     var exitButton: some View {
         Button { dismiss() } label: { Text("Exit") }
-            .foregroundStyle(Color.cyan)
-        
     }
 }
 
@@ -145,15 +111,14 @@ fileprivate extension UpdateToDoListView {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func updateList() throws {
+    func updateList() {
         list.name = name
         list.details = details
-        try modelContext.save()
-    }
-    
-    func deleteList() throws {
-        modelContext.delete(list)
-        try modelContext.save()
+        do {
+            try modelContext.save()
+        } catch {
+            showAlert = true
+        }
     }
 }
 

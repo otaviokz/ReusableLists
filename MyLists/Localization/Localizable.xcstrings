@@ -147,6 +147,9 @@
         }
       }
     },
+    "%lld items" : {
+
+    },
     "☑" : {
       "localizations" : {
         "en" : {
@@ -315,10 +318,10 @@
         }
       }
     },
-    "Are you sure you want to delete \"%@\" and all its items" : {
+    "Anything you should keep in mind when using a list generated from this blueprint." : {
 
     },
-    "Are you sure you want to delete \"%@\" and all its itens?" : {
+    "Anything you should keep in mind when using this list." : {
 
     },
     "Blueprints" : {
@@ -348,9 +351,6 @@
           }
         }
       }
-    },
-    "Cancel" : {
-
     },
     "Check lists" : {
       "localizations" : {
@@ -633,6 +633,12 @@
         }
       }
     },
+    "Name field" : {
+
+    },
+    "Name Field" : {
+
+    },
     "New Blueprint" : {
       "localizations" : {
         "en" : {
@@ -690,6 +696,7 @@
       }
     },
     "New Item" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -717,7 +724,7 @@
         }
       }
     },
-    "New item for %@" : {
+    "New item for \"%@\"" : {
 
     },
     "New name" : {
@@ -775,9 +782,6 @@
           }
         }
       }
-    },
-    "No" : {
-
     },
     "OK" : {
       "localizations" : {
@@ -1034,7 +1038,13 @@
         }
       }
     },
-    "Yes" : {
+    "Your new Blueprint's name" : {
+
+    },
+    "Your new item's name" : {
+
+    },
+    "Your new ToDoList's name" : {
 
     }
   },

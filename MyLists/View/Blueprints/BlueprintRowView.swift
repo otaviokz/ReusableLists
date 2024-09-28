@@ -12,13 +12,23 @@ struct BlueprintRowView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8) {
                 Text(blueprint.name)
-                    .font(.title3)
-                    .fontWeight(.medium)
+                    .font(.title3.weight(.medium))
+                   
+                Group {
+                    if blueprint.items.isEmpty {
+                        Text("Empty")
+                            .font(.callout.weight(.light))
+                    } else {
+                        Text("\(blueprint.items.count) items")
+                            .font(.callout.weight(.light))
+                    }
+                }
+                
             }
-            
             Spacer()
         }
+        .foregroundStyle(Color.cyan)
     }
 }

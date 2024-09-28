@@ -12,7 +12,6 @@ struct AddToDoItemView: SheetWrappedViewable {
     
     @FocusState private var focusState: Field?
     @State private var name: String = ""
-    @State private var itemDone: Bool = false
     @State private var showAlert = false
     @State var isSheetPresented: Binding<Bool>
     let list: ToDoList
@@ -24,25 +23,21 @@ struct AddToDoItemView: SheetWrappedViewable {
     
     var body: some View {
         VStack(spacing: 12) {
-            Text("New item for \(list.name)")
+            Text("New item for \"\(list.name)\"")
                 .font(.title2)
                 .foregroundStyle(Color.cyan)
                 .padding(.top, 24)
             
             Form {
-                HStack {
-                    TextField("Name", text: $name.max(SizeConstraints.name))
-                        .font(.title3)
-                        .focused($focusState, equals: .name)
-                        .onSubmit {
-                            focusState = nil
-                        }
-                        
-                    Spacer()
+                Section("Name Field") {
+                        TextField("Your new item's name", text: $name.max(SizeConstraints.name))
+                            .font(.title3)
+                            .focused($focusState, equals: .name)
+                            .onSubmit {
+                                focusState = nil
+                            }
                 }
-
             }
-            .autocorrectionDisabled()
             .frame(height: 112)
             .roundClipped()
                 
@@ -50,13 +45,22 @@ struct AddToDoItemView: SheetWrappedViewable {
             
             Spacer()
         }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
         .onAppear {
             focusState = .name
         }
     }
 }
 
+// MARK: - UI
+
 extension AddToDoItemView {
+    enum Field: Hashable {
+        case name
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -68,38 +72,22 @@ extension AddToDoItemView {
             }
         }
         .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
-        Button {
-            do {
-                try saveItem()
-                dismissSheet()
-            } catch {
-                showAlert = true
-            }
-        } label: {
-            Text("Save")
-        }
-        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-        .disabled(isSaveButtonDisabled)
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
+        Button { saveTodoItemAndDismissSheet() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
     }
     
     var exitButton: some View {
         Button { dismissSheet() } label: { Text("Exit") }
-            .foregroundStyle(Color.cyan)
-        
     }
 }
 
+// MARK: - SwiftData
+
 fileprivate extension AddToDoItemView {
-    enum Field: Hashable {
-        case name
-    }
-    
     var isUniqueName: Bool {
         list.items.first { $0.name.trimLowcaseEquals(name)
         } == nil
@@ -109,18 +97,26 @@ fileprivate extension AddToDoItemView {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func saveItem() throws {
+    func saveTodoItemAndDismissSheet() {
         let item = ToDoItem(name: name.trimmingSpaces, done: false)
-        modelContext.insert(item)
         list.items.append(item)
-        try modelContext.save()
+        modelContext.insert(item)
+        do {
+            try modelContext.save()
+            dismissSheet()
+        } catch {
+            showAlert = true
+        }
     }
 }
 
 #Preview {
     @Previewable @State var isSheetPresented = true
-    let list = ToDoList(name: "Groceries list")
     NavigationStack {
-        AddToDoItemView(list, isSheetPresented: $isSheetPresented)
+        VStack { }
+            .navigationTitle("Groceries")
+    }
+    .sheet(isPresented: $isSheetPresented) {
+        AddToDoItemView(ToDoList(name: "Groceries"), isSheetPresented: $isSheetPresented)
     }
 }

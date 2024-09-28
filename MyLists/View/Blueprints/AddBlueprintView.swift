@@ -31,42 +31,58 @@ struct AddBlueprintView: SheetWrappedViewable {
             
             Form {
                 Section("Name") {
-                    TextField("New name", text: $name.max(SizeConstraints.name))
+                    TextField("Your new Blueprint's name", text: $name.max(SizeConstraints.name))
                         .font(.title3.weight(.medium))
                         .focused($focusState, equals: .name)
+                        .submitLabel(.next)
                         .onSubmit {
                             focusState = .details
                         }
                 }
+                
                 Section("Details") {
-                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
+                    TextField(
+                        "Anything you should keep in mind when using a list generated from this blueprint.",
+                        text: $details.max(SizeConstraints.details),
+                        axis: .vertical
+                    )
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
                         .lineLimit(3, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
-                                details = String(details.dropLast()).trimmingSpaces
+                                details = String(details.dropLast())
                                 focusState = nil
                             }
                         }
+                        .submitLabel(.done)
                 }
             }
-            .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 250)
-            .onAppear {
-                focusState = .name
-            }
+            .frame(height: 256)
             .roundClipped()
             
             buttonsStack
             
             Spacer()
         }
+        .onAppear {
+            focusState = .name
+        }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
+        }
     }
 }
 
+// MARK: - UI
+
 fileprivate extension AddBlueprintView {
+    enum Field: Hashable {
+        case name
+        case details
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -78,38 +94,22 @@ fileprivate extension AddBlueprintView {
             }
         }
         .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
-        Button {
-            do {
-                try saveBlueprint()
-                dismissSheet()
-            } catch {
-                showAlert = true
-            }
-        } label: {
-            Text("Save")
-        }
-        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-        .disabled(isSaveButtonDisabled)
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
+        Button { saveBlueprintAndDismissSheet() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
     }
     
     var exitButton: some View {
         Button { dismissSheet() } label: { Text("Exit") }
-            .foregroundStyle(Color.cyan)
     }
 }
 
+// MARK: - SwiftData
+
 fileprivate extension AddBlueprintView {
-    enum Field: Hashable {
-        case name
-        case details
-    }
-    
     var isUniqueName: Bool {
         blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
     }
@@ -118,10 +118,15 @@ fileprivate extension AddBlueprintView {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func saveBlueprint() throws {
+    func saveBlueprintAndDismissSheet() {
         let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
         modelContext.insert(newBlueprint)
-        try modelContext.save()
+        do {
+            try modelContext.save()
+            dismissSheet()
+        } catch {
+            showAlert = true
+        }
     }
 }
 

@@ -18,6 +18,9 @@ extension Image {
     static let play = Image(systemName: "play.circle")
     static let share = Image(systemName: "square.and.arrow.up")
     static let trash = Image(systemName: "trash")
+    static func imageForItem(_ item: ToDoItem) -> Image {
+        item.done ? checkBoxTicked : checkBox
+    }
 }
 
 extension NumberFormatter {

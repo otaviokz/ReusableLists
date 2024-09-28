@@ -27,16 +27,11 @@ struct AboutView: View {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }
                
-//                VStack(alignment: .leading) {
-//                    Text("Privacy Policy")
-//                        .padding(.top, 8)
-                    
-                    HTMLView(fileName: localizedPrivecyPolicylFile)
+
+                HTMLView(fileName: localizedPrivecyPolicylFile)
                     .frame(height: UIScreen.main.bounds.height * 0.7)
-                        .cornerRadius(12)
-                        .padding(.bottom, 8)
-//                }
-                
+                    .cornerRadius(12)
+                    .padding(.bottom, 8)
                 
                 LabeledContent("Version", value: "2.1.0")
             }

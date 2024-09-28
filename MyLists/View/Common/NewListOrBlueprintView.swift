@@ -16,7 +16,8 @@ struct NewListOrBlueprintView: SheetWrappedViewable {
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
-    @State private var showAlert = false
+    @State private var showErrorAlert = false
+    @State private var errorAlertMessage = Alert.defaultErrorMessage
     @State var isSheetPresented: Binding<Bool>
     var entity: Entity
     
@@ -56,7 +57,10 @@ struct NewListOrBlueprintView: SheetWrappedViewable {
             }
             .autocorrectionDisabled()
             .scrollDisabled(true)
-            .frame(height: 250)
+            .frame(height: 256)
+            .alert(isPresented: $showErrorAlert) {
+                Alert.genericErrorAlert
+            }
             .onAppear {
                 self.focusState = .name
             }
@@ -69,8 +73,15 @@ struct NewListOrBlueprintView: SheetWrappedViewable {
     }
 }
 
-// MARK: - Controls
+// MARK: - UI
+
 fileprivate extension NewListOrBlueprintView {
+    enum Field: Hashable {
+        case name
+        case details
+    }
+    
+
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -82,38 +93,28 @@ fileprivate extension NewListOrBlueprintView {
             }
         }
         .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
-        Button {
-            do {
-                try createEntityInstante()
-                dismissSheet()
-            } catch {
-                showAlert = true
-            }
-        } label: {
-            Text("Save")
-        }
-        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
-        .disabled(isSaveButtonDisabled)
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
+        Button { createEntityInstanteAndDismissSheet() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
     }
     
     var exitButton: some View {
         Button { dismissSheet() } label: { Text("Exit") }
-            .foregroundStyle(Color.cyan)
     }
 }
 
 // MARK: - SwiftData
+
 fileprivate extension NewListOrBlueprintView {
     var isUniqueName: Bool {
         switch entity {
-            case .toDoList: lists.first { $0.name.trimLowcaseEquals(name) } == nil
-            case.blueprint: blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
+            case .toDoList:
+                lists.first { $0.name.trimLowcaseEquals(name) } == nil
+            case.blueprint:
+                blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
         }
     }
     
@@ -121,7 +122,7 @@ fileprivate extension NewListOrBlueprintView {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func createEntityInstante() throws {
+    func createEntityInstanteAndDismissSheet() {
         switch entity {
             case .toDoList:
                 let newList = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
@@ -130,16 +131,20 @@ fileprivate extension NewListOrBlueprintView {
                 let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
                 modelContext.insert(newBlueprint)
         }
-        
-        try modelContext.save()
-    }
-    
-    func save(blueprint: Blueprint) {
-        
-    }
-    
-    func save(list: ToDoList) {
-        
+        errorAlertMessage = Alert.defaultErrorMessage
+        do {
+            try modelContext.save()
+            dismissSheet()
+        } catch let error as ListError {
+            switch error as ListError {
+                case .listNameUnavailable(_), .blueprintNameUnavailable(_):
+                    errorAlertMessage = error.message
+                default: break
+            }
+            showErrorAlert = true
+        } catch {
+            showErrorAlert = true
+        }
     }
 }
 
@@ -151,17 +156,10 @@ extension NewListOrBlueprintView {
         
         var creteNewTitle: String {
             return switch self {
-                case .toDoList: "New ToDo List"
+                case .toDoList: "New ToDoList"
                 case .blueprint: "New List Blueprint"
             }
         }
     }
 }
 
-// MARK: - Private
-private extension NewListOrBlueprintView {
-    enum Field: Hashable {
-        case name
-        case details
-    }
-}

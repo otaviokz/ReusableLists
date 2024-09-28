@@ -8,8 +8,10 @@
 import SwiftUI
 import SwiftData
 
-//  Not in use as it doen't update the number of items done and the gauge view
-
+/**********************************************************
+ * Not in use as it doen't update the number of items done and the gauge view  *
+ **********************************************************
+ */
 
 /*struct ToDoListRowView: View {
     @Environment(\.modelContext) private var modelContext

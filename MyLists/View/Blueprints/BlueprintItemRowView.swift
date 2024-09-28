@@ -5,7 +5,6 @@
 //  Created by Otávio Zabaleta on 26/02/2024.
 //
 
-import Foundation
 import SwiftUI
 
 struct BlueprintItemRowView: View {
@@ -16,7 +15,6 @@ struct BlueprintItemRowView: View {
         HStack {
             Text(item.name)
                 .font(.headline.weight(.medium))
-                .foregroundStyle(Color.cyan)
             Spacer()
         }
         .onLongPressGesture {
@@ -31,6 +29,8 @@ struct BlueprintItemRowView: View {
 
 #Preview {
     VStack {
-        BlueprintItemRowView(item: BlueprintItem(name: "Banana"))
+        BlueprintItemRowView(item: BlueprintItem(name: "Bananas"))
+        BlueprintItemRowView(item: BlueprintItem(name: "Tomatoes"))
+        BlueprintItemRowView(item: BlueprintItem(name: "Eggs"))
     }
 }

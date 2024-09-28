@@ -16,7 +16,6 @@ struct UpdateBlueprintView: View {
     @State private var name: String = ""
     @State private var details: String = ""
     @State private var showAlert = false
-    @State private var showDeleteConfirmation = false
     
     let blueprint: Blueprint
     
@@ -41,7 +40,7 @@ struct UpdateBlueprintView: View {
                     TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
                         .font(.title3.weight(.light))
                         .focused($focusState, equals: .details)
-                        .lineLimit(4, reservesSpace: true)
+                        .lineLimit(3, reservesSpace: true)
                         .onChange(of: details) { _, _ in
                             if details.last == "\n" {
                                 details = String(details.dropLast()).trimmingSpaces
@@ -50,7 +49,6 @@ struct UpdateBlueprintView: View {
                         }
                 }
             }
-            .autocorrectionDisabled()
             .scrollDisabled(true)
             .frame(height: 282)
             .onAppear {
@@ -62,35 +60,12 @@ struct UpdateBlueprintView: View {
             
             Spacer()
         }
-        .actionSheet(isPresented: $showDeleteConfirmation) {
-            ActionSheet(
-                title: Text("Are you sure you want to delete \"\(blueprint.name)\" and all its items"),
-                message: nil,
-                buttons: [
-                    .cancel(Text("No")) { showDeleteConfirmation = false},
-                    .destructive(Text("Yes")) {
-                        do {
-                            try deleteBlueprint()
-                            dismiss()
-                        } catch {
-                            showAlert = true
-                        }
-                    }
-                ]
-            )
-        }
         .onAppear {
             name = blueprint.name
             details = blueprint.details
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Image.trash
-                    .foregroundStyle(Color.red)
-                    .onTapGesture {
-                        showDeleteConfirmation = true
-                    }
-            }
+        .alert(isPresented: $showAlert) {
+            Alert.genericErrorAlert
         }
         .navigationTitle("Edit \"\(blueprint.name)\"")
     }
@@ -108,29 +83,21 @@ fileprivate extension UpdateBlueprintView {
             }
         }
         .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
         Button {
-            do {
-                try updateBlueprint()
-                dismiss()
-            } catch {
-                showAlert = true
-            }
+            updateBlueprint()
+            dismiss()
         } label: {
             Text("Save")
         }
-        .foregroundStyle(Color.cyan.opacity(isSaveButtonDisabled ? 0 : 1))
         .disabled(isSaveButtonDisabled)
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
     }
     
     var exitButton: some View {
         Button { dismiss() } label: { Text("Exit") }
-            .foregroundStyle(Color.cyan)
     }
 }
 
@@ -144,15 +111,14 @@ fileprivate extension UpdateBlueprintView {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
     
-    func updateBlueprint() throws {
+    func updateBlueprint() {
         blueprint.name = name
         blueprint.details = details
-        try modelContext.save()
-    }
-    
-    func deleteBlueprint() throws {
-        modelContext.delete(blueprint)
-        try modelContext.save()
+        do {
+            try modelContext.save()
+        } catch {
+            showAlert = true
+        }
     }
 }
 

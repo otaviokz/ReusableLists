@@ -17,7 +17,7 @@ struct BlueprintItemsListView: View {
     @State var alertMessage = Alert.defaultErrorMessage
     @State var showInstanceAlert = false
     @State var showAddItemSheet = false
-    @State var showConfirmationSheet = false
+//    @State var showConfirmationSheet = false
     let blueprint: Blueprint
     
     init(_ blueprint: Blueprint) {
@@ -37,13 +37,7 @@ struct BlueprintItemsListView: View {
                 ForEach(blueprint.items.sortedByName) { item in
                     BlueprintItemRowView(item: item)
                 }
-                .onDelete(perform: { indexSet in
-                    do {
-                       try delete(indexSet)
-                    } catch {
-                        showAlert = true
-                    }
-                })
+                .onDelete(perform: deleteBlueprintItem)
             }
         }
         .alert(isPresented: $showAlert) {
@@ -57,33 +51,33 @@ struct BlueprintItemsListView: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
-        .actionSheet(isPresented: $showConfirmationSheet) {
-            ActionSheet(
-                title: Text("Are you sure you want to delete \"\(blueprint.name)\" and all its itens?"),
-                message: nil,
-                buttons: [
-                    .cancel(Text("Cancel")) { },
-                    .destructive(Text("Yes")) {
-                        do {
-                            try delete(blueprint: blueprint)
-                            dismiss()
-                        } catch {
-                            showAlert = true
-                        }
-                    }
-                ]
-            )
-        }
+//        .actionSheet(isPresented: $showConfirmationSheet) {
+//            ActionSheet(
+//                title: Text("Are you sure you want to delete \"\(blueprint.name)\" and all its itens?"),
+//                message: nil,
+//                buttons: [
+//                    .cancel(Text("Cancel")) { },
+//                    .destructive(Text("Yes")) {
+//                        do {
+//                            try delete(blueprint: blueprint)
+//                            dismiss()
+//                        } catch {
+//                            showAlert = true
+//                        }
+//                    }
+//                ]
+//            )
+//        }
         .navigationTitle("\u{270E}  \(blueprint.name)")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 HStack(spacing: 12) {
-                    Image.trash.sizedToFit()
-                        .foregroundStyle(Color.red)
-                        .onTapGesture {
-                            showConfirmationSheet = true
-                        }
-                        .padding(.trailing, -8)
+//                    Image.trash.sizedToFit()
+//                        .foregroundStyle(Color.red)
+//                        .onTapGesture {
+//                            showConfirmationSheet = true
+//                        }
+//                        .padding(.trailing, -8)
                     
                     NavigationLink {
                         UpdateBlueprintView(blueprint)
@@ -91,21 +85,11 @@ struct BlueprintItemsListView: View {
                         Image.gear.sizedToFit()
                     }
                     
-                    if !listExistsFor(blueprint) {
+                    if !listInstanceAlreadyExists(for: blueprint) {
                         Image.docOnDoc
                             .sizedToFit(width: 21.5, height: 21.5)
                             .onTapGesture {
-                                alertMessage = Alert.defaultErrorMessage
-                                do {
-                                    try createInstance(of: blueprint)
-                                } catch let error as ListError {
-                                    if case .listExistsForBlueprinte(named: blueprint.name) = error {
-                                        alertMessage = error.message
-                                    }
-                                    showAlert = true
-                                } catch {
-                                    showAlert = true
-                                }
+                                createListInstance(of: blueprint)
                             }
                     }
                     
@@ -128,31 +112,41 @@ private extension BlueprintItemsListView {
         try modelContext.save()
     }
     
-    func listExistsFor(_ Blueprint: Blueprint) -> Bool {
-        lists.first { $0.name == Blueprint.name} != nil
-    }
-    
-    func instanceExistsFor(_ blueprint: Blueprint) -> Bool {
+    func listInstanceAlreadyExists(for blueprint: Blueprint) -> Bool {
         lists.first { $0.name.trimLowcaseEquals(blueprint.name) } != nil
     }
     
-    func createInstance(of Blueprint: Blueprint) throws {
-        if instanceExistsFor(Blueprint) {
-            throw ListError.listExistsForBlueprinte(named: Blueprint.name)
+    func createListInstance(of blueprint: Blueprint) {
+        alertMessage = Alert.defaultErrorMessage
+        do {
+            if listInstanceAlreadyExists(for: blueprint) {
+                throw ListError.listExistsForBlueprint(named: blueprint.name)
+            }
+            let list = ToDoList(name: blueprint.name, details: blueprint.details)
+            list.items = blueprint.items.asToDoItemList()
+            modelContext.insert(list)
+            
+            try modelContext.save()
+        } catch let error as ListError {
+            if case ListError.listExistsForBlueprint(named: blueprint.name) = error {
+                alertMessage = error.message
+            }
+            showAlert = true
+        } catch {
+            showAlert = true
         }
-        
-        let list = ToDoList(name: Blueprint.name, details: Blueprint.details)
-        list.items = Blueprint.items.asToDoItemList()
-        modelContext.insert(list)
-        
-        try modelContext.save()
     }
         
-    func delete(_ indexSet: IndexSet) throws  {
-        guard let index = indexSet.first else { throw ListError.unknown(error: nil) }
-        let item: BlueprintItem = blueprint.items[index]
-        blueprint.items = blueprint.items.filter { $0 != item }
-        modelContext.delete(item)
-        try modelContext.save()
+    func deleteBlueprintItem(_ indexSet: IndexSet)  {
+        alertMessage = Alert.defaultErrorMessage
+        do {
+            guard let index = indexSet.first else { throw ListError.deleteEntityIndexNotFound }
+            let item: BlueprintItem = blueprint.items[index]
+            blueprint.items = blueprint.items.filter { $0 != item }
+            modelContext.delete(item)
+            try modelContext.save()
+        } catch {
+            showAlert = true
+        }
     }
 }

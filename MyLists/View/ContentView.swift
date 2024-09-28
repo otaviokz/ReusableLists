@@ -53,7 +53,7 @@ struct ContentView: View {
             }
             .tag(3)
         }
-        .modelContext(modelContext)
+//        .modelContext(modelContext)
         .modelContainer(for: [ToDoList.self, Blueprint.self, ToDoItem.self, BlueprintItem.self], isUndoEnabled: true)
         .onAppear {
             tabSelection.selectedTab = 1

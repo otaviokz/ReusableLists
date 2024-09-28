@@ -13,7 +13,7 @@ final class ToDoList: ObservableObject {
     var name: String
     var details: String
     var creationDate: Date
-    @Relationship(deleteRule: .cascade) var items: [ToDoItem] = []
+    @Relationship(deleteRule: .cascade, minimumModelCount: 0) var items: [ToDoItem] = []
     
     init(name: String = "", details: String = "") {
         self.name = name

@@ -11,11 +11,12 @@ import SwiftData
 struct UpdateToDoListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    
     @Query private var lists: [ToDoList]
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
-    @State private var showAlert = false
+    @State private var presentAlert = false
     
     let list: ToDoList
     
@@ -26,52 +27,63 @@ struct UpdateToDoListView: View {
     }
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack {
             Form {
-                Section("Name") {
-                    TextField("New name", text: $name.max(SizeConstraints.name))
-                        .font(.title3.weight(.medium))
-                        .focused($focusState, equals: .name)
-                        .onSubmit {
-                            focusState = .details
-                        }
-                }
-                Section("Details") {
-                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
-                        .font(.title3.weight(.light))
-                        .focused($focusState, equals: .details)
-                        .lineLimit(3, reservesSpace: true)
-                        .onChange(of: details) { _, _ in
-                            if details.last == "\n" {
-                                details = String(details.dropLast())
-                                focusState = nil
+                Section("Fields:") {
+                    Group {
+                        TextField("New name", text: $name.max(SizeConstraints.name))
+                            .font(.title3)
+                            .focused($focusState, equals: .name)
+                            .onSubmit { focusState = .details }
+                        
+                        TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
+                            .font(.headline.weight(.light))
+                            .focused($focusState, equals: .details)
+                            .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)
+                            .onChange(of: details) { _, _ in
+                                if details.last == "\n" {
+                                    details = String(details.dropLast())
+                                    focusState = nil
+                                }
                             }
-                        }
+                    }
+                    .foregroundStyle(Color.primary)
                 }
+                .font(.subheadline.weight(.medium))
             }
             .scrollDisabled(true)
-            .frame(height: 250)
+            .frame(height: Sizes.newEntityFormHeight)
             .onAppear {
                 focusState = .name
             }
             .roundClipped()
             
-            buttonsStack
-            
             Spacer()
+            
+            buttonsStack
+                .padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
+        .foregroundStyle(Color.cyan)
+        .alert(isPresented: $presentAlert) {
+            Alert.genericError
         }
         .onAppear {
             name = list.name
             details = list.details
         }
-        .navigationTitle("Edit \"\(list.name)\"")
+        .padding(.top, Sizes.updateEtityViewTopPadding)
+        .navigationTitle("List update")
     }
 }
 
-extension UpdateToDoListView {
+// MARK: - UI
+
+private extension UpdateToDoListView {
+    enum Field: Hashable {
+        case name
+        case details
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -83,17 +95,11 @@ extension UpdateToDoListView {
             }
         }
         .font(.title2)
-        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
-        Button {
-            updateList()
-            dismiss()
-        } label: {
-            Text("Save")
-        }
-        .disabled(isSaveButtonDisabled)
+        Button { updateListAndDismiss() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
     }
     
     var exitButton: some View {
@@ -101,34 +107,32 @@ extension UpdateToDoListView {
     }
 }
 
-// MARK: - CoreData
+// MARK: - SwiftData
+
 fileprivate extension UpdateToDoListView {
     var isUniqueName: Bool {
         lists.first { $0.name.trimLowcaseEquals(name) } == nil
     }
     
-    var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || !isUniqueName
+    var didChangeDetails: Bool {
+        details != list.details
     }
     
-    func updateList() {
+    var isSaveButtonDisabled: Bool {
+        name.trimmingSpaces.isEmpty || (!isUniqueName && !didChangeDetails)
+    }
+    
+    func updateListAndDismiss() {
         list.name = name
         list.details = details
         do {
             try modelContext.save()
+            dismiss()
         } catch {
-            showAlert = true
+            presentAlert = true
         }
     }
 }
-
-// MARK: - Focus
-extension UpdateToDoListView {
-    enum Field: Hashable {
-        case name
-        case details
-    }
- }
 
 #Preview {
     NavigationStack {

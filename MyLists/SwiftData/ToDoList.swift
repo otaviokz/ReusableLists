@@ -1,6 +1,6 @@
 //
 //  ToDoList.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //
@@ -13,7 +13,7 @@ final class ToDoList: ObservableObject {
     var name: String
     var details: String
     var creationDate: Date
-    @Relationship(deleteRule: .cascade, minimumModelCount: 0) var items: [ToDoItem] = []
+    @Relationship(deleteRule: .cascade) var items: [ToDoItem] = []
     
     init(name: String = "", details: String = "") {
         self.name = name
@@ -25,10 +25,22 @@ final class ToDoList: ObservableObject {
 extension ToDoList {
     var completion: Double {
         guard items.count > 0 else { return 0 }
-        return min(1, Double(items.filter { $0.done }.count) / Double(items.count))
+        return min(1, Double(doneItems.count) / Double(items.count))
     }
     
     var doneItems: [ToDoItem] {
         items.doneItems
+    }
+    
+    var isDone: Bool {
+        doneItems.count == items.count
+    }
+    
+    var progress: Double {
+        Double(doneItems.count) / Double(items.count)
+    }
+    
+    static var placeholderList: ToDoList {
+        ToDoList(name: "Placeholder")
     }
 }

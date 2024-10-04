@@ -1,6 +1,6 @@
 //
-//  EditItemView.swift
-//  MyLists
+//  AddToDoItemView.swift
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //
@@ -14,6 +14,8 @@ struct AddToDoItemView: SheetWrappedViewable {
     @State private var name: String = ""
     @State private var showAlert = false
     @State var isSheetPresented: Binding<Bool>
+    @State var invalidNameSent = false
+    
     let list: ToDoList
     
     init(_ list: ToDoList, isSheetPresented: Binding<Bool>) {
@@ -23,30 +25,45 @@ struct AddToDoItemView: SheetWrappedViewable {
     
     var body: some View {
         VStack(spacing: 12) {
-            Text("New item for \"\(list.name)\"")
-                .font(.title2)
-                .foregroundStyle(Color.cyan)
-                .padding(.top, 24)
+            HStack {
+                Image.todolist
+                Text("List: \"\(list.name)\"")
+                    .font(.title3)
+            }
+            .padding(.top, 24)
             
             Form {
-                Section("Name Field") {
-                        TextField("Your new item's name", text: $name.max(SizeConstraints.name))
+                Section("Fields:") {
+                    TextField("New item's name", text: $name.max(SizeConstraints.name))
                             .font(.title3)
+                            .foregroundStyle(Color.primary)
                             .focused($focusState, equals: .name)
+                            .onChange(of: name) { invalidNameSent = false }
+                            .submitLabel(.send)
                             .onSubmit {
-                                focusState = nil
+                                invalidNameSent = isSaveButtonDisabled
+                                if !isSaveButtonDisabled {
+                                    saveTodoItemAndDismissSheet()
+                                }
                             }
                 }
+                .font(.subheadline.weight(.medium))
             }
-            .frame(height: 112)
+            .frame(height: Sizes.newItemFormHeight)
             .roundClipped()
-                
-            buttonsStack
+            
+            if showNameUnavailableMessage {
+                nameNotAvailableMessage
+            }
             
             Spacer()
+            
+            buttonsStack
+                .padding(.bottom, 8)
         }
+        .foregroundStyle(Color.cyan)
         .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
+            Alert.genericError
         }
         .onAppear {
             focusState = .name
@@ -56,9 +73,26 @@ struct AddToDoItemView: SheetWrappedViewable {
 
 // MARK: - UI
 
-extension AddToDoItemView {
+private extension AddToDoItemView {
     enum Field: Hashable {
         case name
+    }
+    
+    var isSaveButtonDisabled: Bool {
+        name.trimmingSpaces.isEmpty || !isUniqueName
+    }
+    
+    var showNameUnavailableMessage: Bool {
+        invalidNameSent && isSaveButtonDisabled
+    }
+
+    var nameNotAvailableMessage: some View {
+        Text("⚠ An item named \"\(name)\" already exists for this List.")
+            .font(.headline.weight(.light))
+            .foregroundStyle(Color.red)
+            .frame(alignment: .leading)
+            .padding(.top, -6)
+            .padding(.horizontal, 16)
     }
     
     var buttonsStack: some View {
@@ -72,7 +106,6 @@ extension AddToDoItemView {
             }
         }
         .font(.title2)
-        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
@@ -89,16 +122,11 @@ extension AddToDoItemView {
 
 fileprivate extension AddToDoItemView {
     var isUniqueName: Bool {
-        list.items.first { $0.name.trimLowcaseEquals(name)
-        } == nil
-    }
-    
-    var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || !isUniqueName
+        list.items.first { $0.name.trimLowcaseEquals(name) } == nil
     }
     
     func saveTodoItemAndDismissSheet() {
-        let item = ToDoItem(name: name.trimmingSpaces, done: false)
+        let item = ToDoItem(name.trimmingSpaces, done: false)
         list.items.append(item)
         modelContext.insert(item)
         do {

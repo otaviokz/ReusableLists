@@ -1,6 +1,6 @@
 //
 //  MetaListItem.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 26/02/2024.
 //
@@ -17,7 +17,7 @@ final class BlueprintItem: ObservableObject {
     }
     
     func asToDoItem() -> ToDoItem {
-        ToDoItem(name: name, done: false)
+        ToDoItem(name, done: false)
     }
 }
 
@@ -30,4 +30,3 @@ extension Array where Element == BlueprintItem {
         map { $0.asToDoItem() }
     }
 }
-

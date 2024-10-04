@@ -1,6 +1,6 @@
 //
 //  AddBlueprintItemView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 27/02/2024.
 //
@@ -14,6 +14,8 @@ struct AddBlueprintItemView: SheetWrappedViewable {
     @State private var name: String = ""
     @State private var showAlert = false
     @State var isSheetPresented: Binding<Bool>
+    @State var invalidNameSent = false
+    
     let blueprint: Blueprint
     
     init(_ blueprint: Blueprint, isSheetPresented: Binding<Bool>) {
@@ -23,30 +25,45 @@ struct AddBlueprintItemView: SheetWrappedViewable {
     
     var body: some View {
         VStack(spacing: 12) {
-            Text("New item for \"\(blueprint.name)\"")
-                .font(.title2)
-                .foregroundStyle(Color.cyan)
-                .padding(.top, 24)
+            HStack {
+                Image.blueprint
+                Text("Blueprint: \"\(blueprint.name)\"")
+                    .font(.title3)
+            }
+            .padding(.top, 24)
             
             Form {
-                Section("Name field") {
-                    TextField("Your new item's name", text: $name.max(SizeConstraints.name))
+                Section("Fields:") {
+                    TextField("New item's name", text: $name.max(SizeConstraints.name))
                         .font(.title3)
+                        .foregroundStyle(Color.primary)
                         .focused($focusState, equals: .name)
+                        .onChange(of: name) { invalidNameSent = false }
+                        .submitLabel(.send)
                         .onSubmit {
-                            focusState = nil
+                            invalidNameSent = isSaveButtonDisabled
+                            if !isSaveButtonDisabled {
+                                saveBlueprintItemAndDismissSheet()
+                            }
                         }
                 }
+                .font(.subheadline.weight(.medium))
             }
-            .frame(height: 112)
+            .frame(height: Sizes.newItemFormHeight)
             .roundClipped()
             
-            buttonsStack
+            if showNameUnavailableMessage {
+                nameNotAvailableMessage
+            }
             
             Spacer()
+            
+            buttonsStack
+                .padding(.bottom, 8)
         }
+        .foregroundStyle(Color.cyan)
         .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
+            Alert.genericError
         }
         .onAppear {
             focusState = .name
@@ -61,6 +78,23 @@ private extension AddBlueprintItemView {
         case name
     }
     
+    var isSaveButtonDisabled: Bool {
+        name.trimmingSpaces.isEmpty || !isUniqueName
+    }
+    
+    var showNameUnavailableMessage: Bool {
+        invalidNameSent && isSaveButtonDisabled
+    }
+    
+    var nameNotAvailableMessage: some View {
+            Text("⚠ An item named \"\(name)\" already exists for this Blueprint.")
+                .font(.headline.weight(.light))
+                .foregroundStyle(Color.red)
+                .frame(alignment: .leading)
+                .padding(.top, -6)
+                .padding(.horizontal, 16)
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -72,7 +106,6 @@ private extension AddBlueprintItemView {
             }
         }
         .font(.title2)
-        .foregroundStyle(Color.cyan)
     }
     
     var saveButton: some View {
@@ -92,10 +125,6 @@ fileprivate extension AddBlueprintItemView {
         blueprint.items.first { $0.name == name } == nil
     }
     
-    var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || !isUniqueName
-    }
-    
     func saveBlueprintItemAndDismissSheet() {
         let item = BlueprintItem(name: name.trimmingSpaces)
         modelContext.insert(item)
@@ -113,11 +142,9 @@ fileprivate extension AddBlueprintItemView {
     @Previewable @State var isSheetPresented = true
     NavigationStack {
         VStack { }
-            .navigationTitle("Add")
+            .navigationTitle("Groceries")
     }
     .sheet(isPresented: $isSheetPresented) {
         AddBlueprintItemView(Blueprint(name: "Groceries"), isSheetPresented: $isSheetPresented)
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.visible)
     }
 }

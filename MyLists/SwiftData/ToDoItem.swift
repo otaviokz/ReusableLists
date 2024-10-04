@@ -1,6 +1,6 @@
 //
 //  Item.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //
@@ -13,7 +13,7 @@ final class ToDoItem: ObservableObject {
     var name: String
     var done: Bool
     
-    init(name: String = "", done: Bool = false) {
+    init(_ name: String = "", done: Bool = false) {
         self.name = name
         self.done = done
     }
@@ -21,7 +21,7 @@ final class ToDoItem: ObservableObject {
 
 enum SortType {
     case doneFirst
-    case doneLast
+    case todoFirst
     case alphabetic
 }
 extension ToDoItem {
@@ -31,38 +31,29 @@ extension ToDoItem {
 }
 
 extension Array where Element == ToDoItem {
-    func sorted(type: SortType) -> Self {
-        switch type {
-            case .doneFirst: return sortedByDoneFirst
-            case .doneLast: return sortedByDoneLast
-            case .alphabetic: return sortedByName
+    func sorted(by sortType: SortType) -> [ToDoItem] {
+        switch sortType {
+            case .doneFirst: sortedByDoneFirst
+            case .todoFirst: sortedByTodoFirst
+            case .alphabetic: sortedByName
         }
     }
     
     var sortedByDoneFirst: [ToDoItem] {
-        sorted {
-            if $0.done != $1.done {
-                $0.done.sortValue > $1.done.sortValue
-            } else {
-                $0.name < $1.name
-            }
-        }
+        sorted { $0.done.sortValue > $1.done.sortValue }.sortedByNameKeepingStatus
     }
     
-    var sortedByDoneLast: Self {
-        sorted {
-            if $0.done != $1.done {
-                $0.done.sortValue < $1.done.sortValue
-            } else {
-                $0.name < $1.name
-            }
-        }
+    var sortedByTodoFirst: [ToDoItem] {
+        sorted { $0.done.sortValue < $1.done.sortValue }.sortedByNameKeepingStatus
     }
     
-    var sortedByName: Self {
-        sorted {
-            $0.name < $1.name
-        }
+    var sortedByName: [ToDoItem] {
+        sorted { $0.name < $1.name }
+    }
+    
+    /// Only switch element places if both have same "done" value but different names
+    var sortedByNameKeepingStatus: [ToDoItem] {
+        sorted { if $0.done == $1.done { $0.name < $1.name } else { false } }
     }
     
     func asBlueprintItems() -> [BlueprintItem] {
@@ -75,7 +66,5 @@ extension Array where Element == ToDoItem {
 }
 
 fileprivate extension Bool {
-    var sortValue: Int {
-        self ? 1 : 0
-    }
+    var sortValue: Int { self ? 1 : 0 }
 }

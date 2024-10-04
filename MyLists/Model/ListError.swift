@@ -1,6 +1,6 @@
 //
 //  ListError.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 27/02/2024.
 //
@@ -13,17 +13,17 @@ enum ListError: Error {
     case listExistsForBlueprint(named: String)
     case blueprintNameUnavailable(name: String)
     case blueprintExistsForList(named: String)
-    case deleteEntityIndexNotFound
+    case emptyDeleteIndexSet
     case unknown(error: Error?)
 
     var message: String {
         return switch self {
-            case .listNameUnavailable(let name): "A ToDoList called \(name) already exists."
-            case .listExistsForBlueprint(let name): "A ToDoList already exists for \"\(name)\" Blueprint."
-            case .blueprintNameUnavailable(let name): "A blueprint called \(name) already exists."
-            case .blueprintExistsForList(let name): "A blueprint already exists for \"\(name)\" ToDoList."
-            case .unknown(_): Alert.defaultErrorMessage
-            default: Alert.defaultErrorMessage
+            case .listNameUnavailable(let name): "A List called \"\(name)\" already exists."
+            case .listExistsForBlueprint(let name): "A List already exists for \"\(name)\"."
+            case .blueprintNameUnavailable(let name): "A Blueprint called \"\(name)\" already exists."
+            case .blueprintExistsForList(let name): "A Blueprint already exists for \"\(name)\"."
+            case .unknown: Alert.gnericErrorMessage
+            default: Alert.gnericErrorMessage
         }
     }
 }

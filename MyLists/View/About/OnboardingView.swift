@@ -1,11 +1,10 @@
 //
 //  OnboardingView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/03/2024.
 //
 
-import SwiftUI
 import SwiftUI
 import AVKit
 

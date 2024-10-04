@@ -11,67 +11,79 @@ import SwiftData
 struct UpdateBlueprintView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    
     @Query private var blueprints: [Blueprint]
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
-    @State private var showAlert = false
-    
+    @State private var presetAlert = false
+
     let blueprint: Blueprint
-    
+
     init(_ blueprint: Blueprint) {
         self.blueprint = blueprint
         self.name = blueprint.name
         self.details = blueprint.details
     }
-    
+
     var body: some View {
-        VStack(spacing: 16) {
+        VStack {
             Form {
-                Section("Name") {
-                    TextField("New name", text: $name.max(SizeConstraints.name))
-                        .font(.title3.weight(.medium))
-                        .focused($focusState, equals: .name)
-                        .onSubmit {
-                            focusState = .details
-                        }
-                }
-                Section("Details") {
-                    TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
-                        .font(.title3.weight(.light))
-                        .focused($focusState, equals: .details)
-                        .lineLimit(3, reservesSpace: true)
-                        .onChange(of: details) { _, _ in
-                            if details.last == "\n" {
-                                details = String(details.dropLast()).trimmingSpaces
-                                focusState = nil
+                Section("Fields:") {
+                    Group {
+                        TextField("New name", text: $name.max(SizeConstraints.name))
+                            .font(.title3)
+                            .focused($focusState, equals: .name)
+                            .onSubmit { focusState = .details }
+                        
+                        TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
+                            .font(.headline.weight(.light))
+                            .focused($focusState, equals: .details)
+                            .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)
+                            .onChange(of: details) { _, _ in
+                                if details.last == "\n" {
+                                    details = String(details.dropLast()).trimmingSpaces
+                                    focusState = nil
+                                }
                             }
-                        }
+                    }
+                    .foregroundStyle(Color.primary)
                 }
+                .font(.subheadline.weight(.medium))
             }
             .scrollDisabled(true)
-            .frame(height: 282)
+            .frame(height: Sizes.newEntityFormHeight)
             .onAppear {
                 focusState = .name
             }
             .roundClipped()
-            
-            buttonsStack
-            
+
             Spacer()
+
+            buttonsStack
+                .padding(.bottom, Sizes.exitOrSaveBottomPadding)
+        }
+        .foregroundStyle(Color.cyan)
+        .alert(isPresented: $presetAlert) {
+            Alert.genericError
         }
         .onAppear {
             name = blueprint.name
             details = blueprint.details
         }
-        .alert(isPresented: $showAlert) {
-            Alert.genericErrorAlert
-        }
-        .navigationTitle("Edit \"\(blueprint.name)\"")
+        .padding(.top, Sizes.updateEtityViewTopPadding)
+        .navigationTitle("Blueprint update")
     }
 }
 
+// MARK: - UI
+
 fileprivate extension UpdateBlueprintView {
+    enum Field: Hashable {
+        case name
+        case details
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -83,50 +95,42 @@ fileprivate extension UpdateBlueprintView {
             }
         }
         .font(.title2)
-        .foregroundStyle(Color.cyan)
     }
-    
+
     var saveButton: some View {
-        Button {
-            updateBlueprint()
-            dismiss()
-        } label: {
-            Text("Save")
-        }
-        .disabled(isSaveButtonDisabled)
+        Button { updateBlueprintAndDismiss() } label: { Text("Save") }
+            .disabled(isSaveButtonDisabled)
     }
-    
+
     var exitButton: some View {
         Button { dismiss() } label: { Text("Exit") }
     }
 }
 
-// MARK: - CoreData
+// MARK: - SwiftData
+
 fileprivate extension UpdateBlueprintView {
     var isUniqueName: Bool {
         blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
     }
-    
-    var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || !isUniqueName
+
+    var didChangeDetails: Bool {
+        details != blueprint.details
     }
-    
-    func updateBlueprint() {
+
+    var isSaveButtonDisabled: Bool {
+        name.trimmingSpaces.isEmpty || (!isUniqueName && !didChangeDetails)
+    }
+
+    func updateBlueprintAndDismiss() {
         blueprint.name = name
         blueprint.details = details
         do {
             try modelContext.save()
+            dismiss()
         } catch {
-            showAlert = true
+            presetAlert = true
         }
-    }
-}
-
-// MARK: - Focus
-extension UpdateBlueprintView {
-    enum Field: Hashable {
-        case name
-        case details
     }
 }
 

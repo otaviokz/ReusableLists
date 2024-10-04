@@ -1,6 +1,6 @@
 //
 //  ToDoListItemRowView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 09/01/2024.
 //
@@ -10,39 +10,98 @@ import SwiftUI
 struct ToDoListItemRowView: View {
     @Environment(\.modelContext) private var modelContext
     
-    @State private var showAlert = false
+    @State private var alertType: AlertType = .pasteboard
+    @State private var presentAlert = false
+    @State private var scaleEffectSize = CGSize.ScaleEffect.original
+    @State private var nameColor = Color.primary
+    
     let item: ToDoItem
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top, spacing: 12) {
             Text(item.name)
-                .font(.headline.weight(.medium))
-            Spacer()
+                .scaleEffect(scaleEffectSize)
+                .font(.title3.weight(.medium))
+                .foregroundStyle(nameColor)
             
-            Image.imageForItem(item)
+            Spacer()
+                
+            Image.checkBoxiImageForItem(item)
                 .sizedToFit()
                 .foregroundStyle(Color.cyan)
                 .onTapGesture {
-                    withAnimation {
-                        item.done.toggle()
-                        try? modelContext.save()
+                    withAnimation(.linear(duration: .Animations.toggleDone)) {
+                        toggleDone(for: item)
                     }
                 }
+                .scaleEffect(scaleEffectSize)
         }
+        // It needs to specify content shape to cover all area, since by default only opaque views handle gesture
+        // https://stackoverflow.com/a/62640126/884744
+        .contentShape(Rectangle())
         .onLongPressGesture {
-            UIPasteboard.general.string = item.name
-            showAlert = true
+            copyNameToClipboard()
         }
-        .alert("'\(item.name)' copied to Pasteboard", isPresented: $showAlert) {
-            Button("OK", role: .cancel) { showAlert = false }
+        .alert(isPresented: $presentAlert) {
+            switch alertType {
+                case .pasteboard: Alert("'\(item.name)' copied to Pasteboard", message: "")
+                case .swiftDataError: Alert.genericError
+            }
+        }  
+    }
+}
+
+// MARK: - UI
+
+private extension ToDoListItemRowView {
+    enum AlertType {
+        case pasteboard
+        case swiftDataError
+    }
+    
+    func copyNameToClipboard() {
+        withAnimation(.linear(duration: .Animations.itemLongpress)) {
+            scaleEffectSize = .ScaleEffect.copyToClipboard
+            nameColor = .cyan
+        } completion: {
+            withAnimation(.linear(duration: .Animations.itemLongpress)) {
+                scaleEffectSize = .ScaleEffect.original
+                nameColor = .primary
+            } completion: {
+                UIPasteboard.general.string = item.name
+                alertType = .pasteboard
+                presentAlert = true
+            }
+        }
+    }
+}
+
+// MARK: - SwiftData
+
+private extension ToDoListItemRowView {
+    func toggleDone(for item: ToDoItem) {
+        do {
+            item.done.toggle()
+            try modelContext.save()
+        } catch {
+            alertType = .swiftDataError
+            presentAlert = true
+            item.done.toggle()
         }
     }
 }
 
 #Preview {
-    VStack {
-        ToDoListItemRowView(item: ToDoItem(name: "Bananas"))
-        ToDoListItemRowView(item: ToDoItem(name: "Tomatoes"))
-        ToDoListItemRowView(item: ToDoItem(name: "Eggs"))
+    NavigationStack {
+        VStack {
+            List {
+                ToDoListItemRowView(item: ToDoItem("Avocado"))
+                ToDoListItemRowView(item: ToDoItem("Bananas"))
+                ToDoListItemRowView(item: ToDoItem("Tomatoes"))
+                ToDoListItemRowView(item: ToDoItem("Eggs", done: true))
+                ToDoListItemRowView(item: ToDoItem("Wine", done: true))
+            }
+        }
+        .navigationTitle("Groceries")
     }
 }

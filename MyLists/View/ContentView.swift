@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //
@@ -28,16 +28,16 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $tabSelection.selectedTab) {
-            NavigationView {
+            NavigationStack {
                 ToDoListsView()
             }
             .tabItem {
-                Label("Check lists", systemImage: "list.bullet.clipboard")
+                Label("Lists", systemImage: "list.bullet.clipboard")
             }
             .tag(1)
             
-            NavigationView {
-                BlueprintsListView()
+            NavigationStack {
+                BlueprintsView()
             }
             .tabItem {
                 Label("Blueprints", systemImage: "pencil.and.list.clipboard")
@@ -45,7 +45,7 @@ struct ContentView: View {
             }
             .tag(2)
             
-            NavigationView {
+            NavigationStack {
                 AboutView()
             }
             .tabItem {
@@ -53,14 +53,10 @@ struct ContentView: View {
             }
             .tag(3)
         }
-//        .modelContext(modelContext)
         .modelContainer(for: [ToDoList.self, Blueprint.self, ToDoItem.self, BlueprintItem.self], isUndoEnabled: true)
         .onAppear {
             tabSelection.selectedTab = 1
         }
-        .environmentObject(tabSelection)
-        
-
     }
 }
 

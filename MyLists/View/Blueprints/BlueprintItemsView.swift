@@ -11,6 +11,8 @@ import UIKit
 
 struct BlueprintItemsView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var tabselection: TabSelection
+    @Environment(\.dismiss) private var dismiss
     
     @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
     
@@ -45,7 +47,7 @@ struct BlueprintItemsView: View {
         .font(.subheadline.weight(.medium))
         .foregroundStyle(Color.cyan)
         .alert(isPresented: $presentAlert) {
-            Alert(Alert.genericErrorTitle, message: alertMessage)
+            Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
         .sheet(isPresented: $presentAddItemSheet) {
             AddBlueprintItemView(blueprint, isSheetPresented: $presentAddItemSheet)
@@ -68,23 +70,25 @@ fileprivate extension BlueprintItemsView {
                 NavigationLink {
                     UpdateBlueprintView(blueprint)
                 } label: {
-                    Image.gear.sizedToFit(width: 21, height: 21)
+                    Image.gear.sizedToFitSquare(side: 21)
                         .padding(.top, 1.5)
                 }
                 
                 if !listInstanceAlreadyExists(for: blueprint) {
-                    Image.todolist.sizedToFit(width: 16, height: 20)
+                    Image.docOnDoc.sizedToFit(width: 18.5)
                         .onTapGesture {
                             addListInstance(from: blueprint)
                         }
+                        .padding(.trailing, -3.75)
                 }
-                
+                    
                 Image.plus.onTapGesture { presentAddItemSheet = true }
-                    .padding(.leading, -4)
+                    .padding(.trailing, 4)
             }
             .foregroundStyle(Color.cyan)
             .padding(.trailing, 4)
         }
+        
     }
 }
 
@@ -103,9 +107,23 @@ private extension BlueprintItemsView {
             }
             let list = ToDoList(name: blueprint.name, details: blueprint.details)
             list.items = blueprint.items.asToDoItemList()
-            modelContext.insert(list)
             
-            try modelContext.save()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                withAnimation(.easeIn(duration: 0.25)) {
+                    do {
+                        modelContext.insert(list)
+                        try modelContext.save()
+                    } catch {
+                        presentAlert = true
+                    }
+                }
+            }
+            
+            withAnimation(.easeInOut(duration: 0.25)) {
+                dismiss()
+                tabselection.select(tab: 1, shouldPopToRootView: true)
+            }
+            
         } catch let error as ListError {
             if case ListError.listExistsForBlueprint(named: blueprint.name) = error {
                 alertMessage = error.message

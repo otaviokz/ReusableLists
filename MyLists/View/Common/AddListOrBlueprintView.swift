@@ -129,28 +129,30 @@ fileprivate extension AddListOrBlueprintView {
     func createEntityInstanteAndDismissSheet() {
         dismissSheet()
         
-        switch listEntity {
-            case .toDoList:
-                let newList = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
-                modelContext.insert(newList)
-            case .blueprint:
-                let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
-                modelContext.insert(newBlueprint)
-        }
-        
         errorAlertMessage = Alert.gnericErrorMessage
-        
-        do {
-            try modelContext.save()
-        } catch let error as ListError {
-            switch error as ListError {
-                case .listNameUnavailable, .blueprintNameUnavailable:
-                    errorAlertMessage = error.message
-                default: break
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                switch listEntity {
+                    case .toDoList:
+                        let newList = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
+                        modelContext.insert(newList)
+                    case .blueprint:
+                        let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
+                        modelContext.insert(newBlueprint)
+                }
+                do {
+                    try modelContext.save()
+                } catch let error as ListError {
+                    switch error as ListError {
+                        case .listNameUnavailable, .blueprintNameUnavailable:
+                            errorAlertMessage = error.message
+                        default: break
+                    }
+                    presentAlert = true
+                } catch {
+                    presentAlert = true
+                }
             }
-            presentAlert = true
-        } catch {
-            presentAlert = true
         }
     }
 }

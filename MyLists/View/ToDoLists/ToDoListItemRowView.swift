@@ -27,13 +27,14 @@ struct ToDoListItemRowView: View {
             Spacer()
                 
             Image.checkBoxiImageForItem(item)
-                .sizedToFit()
+                .sizedToFit(width: 22, height: 22)
                 .foregroundStyle(Color.cyan)
                 .onTapGesture {
                     withAnimation(.linear(duration: .Animations.toggleDone)) {
                         toggleDone(for: item)
                     }
                 }
+                .padding(.top, 0.5)
                 .scaleEffect(scaleEffectSize)
         }
         // It needs to specify content shape to cover all area, since by default only opaque views handle gesture
@@ -44,7 +45,7 @@ struct ToDoListItemRowView: View {
         }
         .alert(isPresented: $presentAlert) {
             switch alertType {
-                case .pasteboard: Alert("'\(item.name)' copied to Pasteboard", message: "")
+                case .pasteboard: Alert(title: "'\(item.name)' copied to Pasteboard", message: "")
                 case .swiftDataError: Alert.genericError
             }
         }  

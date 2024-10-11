@@ -65,7 +65,7 @@ struct AddBlueprintItemView: SheetWrappedViewable {
         .alert(isPresented: $showAlert) {
             Alert.genericError
         }
-        .onAppear {
+        .task {
             focusState = .name
         }
     }

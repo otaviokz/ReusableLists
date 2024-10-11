@@ -10,6 +10,7 @@ import SwiftData
 
 struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var tabselection: TabSelection
     
     @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)]) private var lists: [ToDoList]
     
@@ -58,6 +59,11 @@ struct ToDoListsView: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
+        .task {
+            if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
+                tabselection.didPopToRootView()
+            }
+        }
         .navigationTitle("Lists")
     }
 }
@@ -70,6 +76,9 @@ extension ToDoListsView {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
                 Text(list.name).font(.title3.weight(.medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+                
                 HStack(spacing: 0) {
                     if !list.items.isEmpty && list.doneItems.count != list.items.count {
                         Text("☑").font(.headline.weight(.regular))
@@ -123,13 +132,15 @@ extension ToDoListsView {
 
 private extension ToDoListsView {
     func delete(list: ToDoList) {
-        do {
-            modelContext.delete(list)
-            listToDelete = .placeholderList
-            try modelContext.save()
-        } catch {
-            presentErrorAlert = true
-        }
+        withAnimation(.easeIn(duration: 0.25)) {
+            do {
+                modelContext.delete(list)
+                listToDelete = .placeholderList
+                try modelContext.save()
+            } catch {
+                presentErrorAlert = true
+            }
+        }        
     }
 }
 

@@ -11,7 +11,9 @@ import Combine
 
 struct ToDoListItemsView: View {
     @Environment(\.modelContext) var modelContext
-
+    @EnvironmentObject private var tabselection: TabSelection
+    @Environment(\.dismiss) private var dismiss
+    
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
         
     @State var presentAlert = false
@@ -20,6 +22,7 @@ struct ToDoListItemsView: View {
     @State var showSortSheet: Bool = false
     @State var sortType: SortType = .todoFirst
     @State var showDetails = false
+    @State var showListToBlueprint = false
     
     let list: ToDoList
     
@@ -57,10 +60,16 @@ struct ToDoListItemsView: View {
                     .presentationDragIndicator(.visible)
             }
             .alert(isPresented: $presentAlert) {
-                Alert(Alert.genericErrorTitle, message: alerMessage)
+                Alert(title: Alert.genericErrorTitle, message: alerMessage)
             }
             .toolbar {
                 toolBarView
+            }
+            .task {
+                if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
+                    dismiss()
+                    tabselection.didPopToRootView()
+                }
             }
             .navigationTitle(list.name)
         }
@@ -82,11 +91,11 @@ private extension ToDoListItemsView {
                 Image.sort.sizedToFit(height: 18).onTapGesture { showSortSheet = true }
             }
             
-            if !blueprintAlreadyExistsFor(list: list) {
-                Image.blueprint.sizedToFit().onTapGesture {
-                    addBlueprint(from: list)
-                }
-            }
+//            if !blueprintAlreadyExistsFor(list: list) && showListToBlueprint {
+//                Image.blueprint.sizedToFit().onTapGesture {
+//                    addBlueprint(from: list)
+//                }
+//            }
             
             Image.plus.onTapGesture { presentAddItemSheet = true }
                 .padding(.leading, -4)
@@ -106,7 +115,7 @@ private extension ToDoListItemsView {
             }
             .font(.headline)
         }
-        .presentationDetents([.medium])
+        .presentationDetents([.fraction(0.35)])
         .presentationDragIndicator(.visible)
     }
     
@@ -186,4 +195,3 @@ fileprivate extension ToDoListItemsView {
     
     NavigationStack { ToDoListItemsView(for: list) }
 }
-

@@ -1,6 +1,6 @@
 //
 //  ListsView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //
@@ -10,46 +10,59 @@ import SwiftData
 
 struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var tabselection: TabSelection
     
     @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)]) private var lists: [ToDoList]
     
-    @FocusState private var focusState: Field?
-    @State var showAddNewItem = false
-    @State var itemName: String = ""
-    @State var itemDone: Bool = false
-    @State var showErrorAlert = false
-    @State var showAddToDoListSheet = false
+    @State var presentErrorAlert = false
+    @State var presentAddToDoListSheet = false
+    @State var listToDelete = ToDoList.placeholderList
+    @State var showingDeleteAlert = false
     
     var body: some View {
         List {
-            ForEach(lists)  { list in
-                NavigationLink(destination: ToDoItemsListView(list: list)) {
+            ForEach(lists) { list in
+                NavigationLink(destination: ToDoListItemsView(for: list)) {
                     listRow(for: list)
                 }
-            }
-            .onDelete { indexSet in
-                do {
-                    try deleteLists(indexSet)
-                } catch {
-                    showErrorAlert = true
+                .swipeActions {
+                    Button("Delete", role: .cancel) {
+                        listToDelete = list
+                        showingDeleteAlert = true
+                    }
+                    .tint(.red)
                 }
+            }
+            .confirmationDialog(deleteConfirmationText, isPresented: $showingDeleteAlert, titleVisibility: .visible) {
+                Button(
+                    role: .destructive,
+                    action: {
+                        delete(list: listToDelete)
+                    },
+                    label: { Text("Delete").foregroundStyle(Color.red) }
+                )
+                Button("Cancel", role: .cancel) { showingDeleteAlert = false }
             }
         }
         .toolbar {
             Image.plus
-                .foregroundStyle(Color.cyan)
                 .padding(.trailing, 4)
-                .onTapGesture {
-                    showAddToDoListSheet = true
-                }
+                .onTapGesture { presentAddToDoListSheet = true }
+                .foregroundStyle(Color.cyan)
+                .accessibilityIdentifier("plus")
         }
-        .sheet(isPresented: $showAddToDoListSheet) {
-            NewListOrBlueprintView(isSheetPresented: $showAddToDoListSheet, entity: .toDoList)
+        .alert(isPresented: $presentErrorAlert) {
+            Alert.genericError
+        }
+        .sheet(isPresented: $presentAddToDoListSheet) {
+            AddListOrBlueprintView(isSheetPresented: $presentAddToDoListSheet, entity: .toDoList)
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
-        .onAppear {
-            focusState = .name
+        .task {
+            if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
+                tabselection.didPopToRootView()
+            }
         }
         .navigationTitle("Lists")
     }
@@ -57,24 +70,21 @@ struct ToDoListsView: View {
 
 // MARK: - UI
 
-private extension ToDoListsView {
-    enum Field: Hashable {
-        case name
-    }
-    
+extension ToDoListsView {
+    // List rows are not created as proper ToDoListRowViews because it stops the completion gauge from updating
     func listRow(for list: ToDoList) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
                 Text(list.name).font(.title3.weight(.medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+                
                 HStack(spacing: 0) {
                     if !list.items.isEmpty && list.doneItems.count != list.items.count {
-                        Text("☑")
-                            .font(.headline.weight(.regular))
+                        Text("☑").font(.headline.weight(.regular))
                         Text(": \(list.doneItems.count) of \(list.items.count)")
-                        
                     } else if !list.items.isEmpty {
-                        Text("✓ ")
-                            .font(.headline.weight(.semibold))
+                        Text("✓ ").font(.headline.weight(.semibold))
                         Text("Complete")
                     } else {
                         Text("Empty")
@@ -93,13 +103,13 @@ private extension ToDoListsView {
     }
     
     func gaugeView(list: ToDoList) -> some View {
-        Gauge(value: list.completion, in :0...Double(1)) {
+        Gauge(value: list.completion, in: 0...Double(1)) {
             if list.completion < 1 {
                 Text("\(NumberFormatter.noDecimals.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
                     .font(.body)
             } else {
                 Image.checkMark
-                    .sizedToFit(width: 16, height: 16)
+                    .sizedToFitSquare(side: 16)
                     .foregroundColor(.cyan)
             }
         }
@@ -107,22 +117,35 @@ private extension ToDoListsView {
         .scaleEffect(CGSize(width: 0.7, height: 0.7))
         .tint(.cyan)
     }
+    
+    var deleteConfirmationText: Text {
+        var message = "List \"\(listToDelete.name)\""
+        if !listToDelete.items.isEmpty {
+            message += " and it's \(listToDelete.items.count) items"
+        }
+        message += " will be deleted."
+        return Text(message)
+    }
 }
 
 // MARK: - SwiftData
 
 private extension ToDoListsView {
-    func deleteLists(_ indexSet: IndexSet) throws {
-        guard let index = indexSet.first else {
-            throw  ListError.deleteEntityIndexNotFound
-        }
-        modelContext.delete(lists[index])
-        try modelContext.save()
+    func delete(list: ToDoList) {
+        withAnimation(.easeIn(duration: 0.25)) {
+            do {
+                modelContext.delete(list)
+                listToDelete = .placeholderList
+                try modelContext.save()
+            } catch {
+                presentErrorAlert = true
+            }
+        }        
     }
 }
 
 #Preview {
-    NavigationStack {    
+    NavigationStack {
         ToDoListsView()
     }
 }

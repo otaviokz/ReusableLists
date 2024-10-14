@@ -1,6 +1,6 @@
 //
 //  BlueprintRowView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 26/02/2024.
 //
@@ -9,6 +9,10 @@ import SwiftUI
 
 struct BlueprintRowView: View {
     let blueprint: Blueprint
+    
+    init(_ blueprint: Blueprint) {
+        self.blueprint = blueprint
+    }
     
     var body: some View {
         HStack {
@@ -19,16 +23,15 @@ struct BlueprintRowView: View {
                 Group {
                     if blueprint.items.isEmpty {
                         Text("Empty")
-                            .font(.callout.weight(.light))
                     } else {
                         Text("\(blueprint.items.count) items")
-                            .font(.callout.weight(.light))
                     }
                 }
-                
+                .font(.callout.weight(.light))
             }
             Spacer()
         }
+        .contentShape(Rectangle())
         .foregroundStyle(Color.cyan)
     }
 }

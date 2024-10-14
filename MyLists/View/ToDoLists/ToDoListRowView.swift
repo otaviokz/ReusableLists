@@ -1,6 +1,6 @@
 //
 //  ToDoListRowView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 02/01/2024.
 //

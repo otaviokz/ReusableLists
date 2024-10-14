@@ -1,14 +1,14 @@
 //
-//  MyListsTests.swift
-//  MyListsTests
+//  ReusableListsTests.swift
+//  ReusableListsTests
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //
 
 import XCTest
-@testable import MyLists
+@testable import ReusableLists
 
-final class MyListsTests: XCTestCase {
+final class ReusableListsTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

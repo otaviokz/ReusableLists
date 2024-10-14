@@ -1,6 +1,6 @@
 //
 //  AddToDoListView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //
@@ -25,7 +25,7 @@ struct AddToDoListView: SheetWrappedViewable {
     var body: some View {
         VStack(spacing: 12) {
             Text("New ToDoList")
-                .font(.title2)
+                .font(.title3)
                 .foregroundStyle(Color.cyan)
                 .padding(.top, 24)
             
@@ -62,9 +62,10 @@ struct AddToDoListView: SheetWrappedViewable {
             .frame(height: 257)
             .roundClipped()
            
-            buttonsStack
-            
             Spacer()
+            
+            buttonsStack
+                .padding(.bottom, 8)            
         }
         .onAppear {
             focusState = .name

@@ -1,6 +1,6 @@
 //
 //  AddBlueprintView.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 27/02/2024.
 //
@@ -25,7 +25,7 @@ struct AddBlueprintView: SheetWrappedViewable {
     var body: some View {
         VStack(spacing: 11) {
             Text("New Blueprint")
-                .font(.title2)
+                .font(.title3)
                 .foregroundStyle(Color.cyan)
                 .padding(.top, 24)
             
@@ -62,9 +62,10 @@ struct AddBlueprintView: SheetWrappedViewable {
             .frame(height: 256)
             .roundClipped()
             
-            buttonsStack
-            
             Spacer()
+            
+            buttonsStack
+                .padding(.bottom, 8)
         }
         .onAppear {
             focusState = .name

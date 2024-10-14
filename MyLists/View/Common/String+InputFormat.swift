@@ -1,6 +1,6 @@
 //
 //  String+Trimming.swift
-//  MyLists
+//  ReusableLists
 //
 //  Created by Otávio Zabaleta on 01/01/2024.
 //

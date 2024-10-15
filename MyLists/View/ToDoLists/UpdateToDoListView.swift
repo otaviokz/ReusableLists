@@ -136,6 +136,6 @@ fileprivate extension UpdateToDoListView {
 
 #Preview {
     NavigationStack {
-        UpdateToDoListView(ToDoList(name: "List to be edited", details: "List details"))
+        UpdateToDoListView(ToDoList("List to be edited", details: "List details"))
     }
 }

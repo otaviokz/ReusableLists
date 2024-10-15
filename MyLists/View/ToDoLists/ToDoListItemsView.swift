@@ -23,6 +23,7 @@ struct ToDoListItemsView: View {
     @State var sortType: SortType = .todoFirst
     @State var showDetails = false
     @State var showListToBlueprint = false
+    @State var presentDeleteOption = false
     
     let list: ToDoList
     
@@ -34,20 +35,27 @@ struct ToDoListItemsView: View {
         VStack {
             List {
                 if !list.details.isEmpty {
-                    Section("Details:") {
+                    Section("List Details:") {
                         Text(list.details).font(.title3)
                             .foregroundStyle(Color.primary)
                     }
                 }
                 
                 if !list.items.isEmpty {
-                    Section("Items:") {
+                    Section("List Items:") {
                         ForEach(list.items.sorted(by: sortType)) { item in
-                            ToDoListItemRowView(item: item)
+                            ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
                         }
                         .onDelete(perform: deleteItem)
                     }
                 }
+            }
+            .actionSheet(isPresented: $presentDeleteOption) {
+                ActionSheet(
+                    title: Text("List completed!"),
+                    message: Text("Would you like to delete it now it's completed?"),
+                    buttons: [ActionSheet.Button.destructive(Text("Yes")) { deleteList() }, .cancel(Text("Cancel"))]
+                )
             }
             .font(.subheadline.weight(.medium))
             .foregroundStyle(Color.cyan)
@@ -62,22 +70,31 @@ struct ToDoListItemsView: View {
             .alert(isPresented: $presentAlert) {
                 Alert(title: Alert.genericErrorTitle, message: alerMessage)
             }
+            
             .toolbar {
                 toolBarView
             }
-            .task {
+            .onAppear {
                 if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
                     dismiss()
                     tabselection.didPopToRootView()
                 }
             }
             .navigationTitle(list.name)
+            
         }
     }
 }
 
 // MARK: - UI
+
 private extension ToDoListItemsView {
+    func presentDeleteOptionIfCompleted() {
+        if list.doneItems.count == list.items.count {
+            presentDeleteOption = true
+        }
+    }
+                      
     var toolBarView: some View {
         HStack(spacing: 16) {
             NavigationLink {
@@ -148,29 +165,29 @@ private extension ToDoListItemsView {
 
 fileprivate extension ToDoListItemsView {
     
-    func blueprintAlreadyExistsFor(list: ToDoList) -> Bool {
-        blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
-    }
-    
-    func addBlueprint(from list: ToDoList) {
-        alerMessage = Alert.gnericErrorMessage
-        do {
-            guard !blueprintAlreadyExistsFor(list: list) else {
-                throw ListError.blueprintExistsForList(named: list.name)
-            }
-            let newBlueprint = Blueprint(name: list.name, details: list.details)
-            newBlueprint.items = list.items.map { $0.asBlueprintItem }
-            modelContext.insert(newBlueprint)
-            try modelContext.save()
-        } catch let error as ListError {
-            if case ListError.blueprintExistsForList(named: list.name) = error {
-                alerMessage = error.message
-            }
-            presentAlert = true
-        } catch {
-            presentAlert = true
-        }
-    }
+//    func blueprintAlreadyExistsFor(list: ToDoList) -> Bool {
+//        blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
+//    }
+//    
+//    func addBlueprint(from list: ToDoList) {
+//        alerMessage = Alert.gnericErrorMessage
+//        do {
+//            guard !blueprintAlreadyExistsFor(list: list) else {
+//                throw ListError.blueprintExistsForList(named: list.name)
+//            }
+//            let newBlueprint = Blueprint(name: list.name, details: list.details)
+//            newBlueprint.items = list.items.map { $0.asBlueprintItem }
+//            modelContext.insert(newBlueprint)
+//            try modelContext.save()
+//        } catch let error as ListError {
+//            if case ListError.blueprintExistsForList(named: list.name) = error {
+//                alerMessage = error.message
+//            }
+//            presentAlert = true
+//        } catch {
+//            presentAlert = true
+//        }
+//    }
     
     func deleteItem(_ indexSet: IndexSet) {
         do {
@@ -184,14 +201,32 @@ fileprivate extension ToDoListItemsView {
             presentAlert = true
         }
     }
+    
+    func deleteList() {
+        dismiss()
+        Task {
+            do {
+                try await Task.sleep(nanoseconds: 450_000_000)
+                try withAnimation {
+                    modelContext.delete(list)
+                    try modelContext.save()
+                }
+            } catch {
+                alerMessage = Alert.gnericErrorMessage
+                presentAlert = true
+            }
+        }
+    }
 }
 
 // MARK: - Preview
-#Preview {
-    @Previewable @State var list = ToDoList(
-        "Groceries",
-        items: [ToDoItem("Letuce"), ToDoItem("Bananas"), ToDoItem("Eggs")]
-    )
-    
-    NavigationStack { ToDoListItemsView(for: list) }
-}
+// #Preview {
+//    @Previewable @State var list = ToDoList(
+//        "Groceries",
+//        details: "Try farmers market first",
+//        items:
+//            [ToDoItem("Letuce"), ToDoItem("Bananas"), ToDoItem("Eggs")]
+//    )
+//    
+//    NavigationStack { ToDoListItemsView(for: list) }
+// }

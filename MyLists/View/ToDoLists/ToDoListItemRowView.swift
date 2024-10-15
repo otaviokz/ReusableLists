@@ -16,6 +16,7 @@ struct ToDoListItemRowView: View {
     @State private var nameColor = Color.primary
     
     let item: ToDoItem
+    let onCheckedAsDone: () -> Void
     
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -84,6 +85,7 @@ private extension ToDoListItemRowView {
         do {
             item.done.toggle()
             try modelContext.save()
+            if item.done { onCheckedAsDone() }
         } catch {
             alertType = .swiftDataError
             presentAlert = true
@@ -96,11 +98,11 @@ private extension ToDoListItemRowView {
     NavigationStack {
         VStack {
             List {
-                ToDoListItemRowView(item: ToDoItem("Avocado"))
-                ToDoListItemRowView(item: ToDoItem("Bananas"))
-                ToDoListItemRowView(item: ToDoItem("Tomatoes"))
-                ToDoListItemRowView(item: ToDoItem("Eggs", done: true))
-                ToDoListItemRowView(item: ToDoItem("Wine", done: true))
+                ToDoListItemRowView(item: ToDoItem("Avocado")) { }
+                ToDoListItemRowView(item: ToDoItem("Bananas")) { }
+                ToDoListItemRowView(item: ToDoItem("Tomatoes")) { }
+                ToDoListItemRowView(item: ToDoItem("Eggs", done: true)) { }
+                ToDoListItemRowView(item: ToDoItem("Wine", done: true)) { }
             }
         }
         .navigationTitle("Groceries")

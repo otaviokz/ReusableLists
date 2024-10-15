@@ -10,7 +10,7 @@ import SwiftData
 
 extension ToDoList {
     convenience init(_ name: String = "", details: String = "", items: [ToDoItem]) {
-        self.init(name: name, details: details)
+        self.init(name, details: details)
         self.items = items
     }
 }

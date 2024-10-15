@@ -11,7 +11,7 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     @StateObject var tabSelection = TabSelection()
-    @State private var showOnboarding = false
+    @State private var onboardingCompleted = true
     @State var onboardingState: OnboardingState
     
     init() {
@@ -20,7 +20,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            if showOnboarding {
+            if onboardingCompleted {
                 TabView(selection: $tabSelection.selectedTab) {
                     NavigationStack {
                         ToDoListsView()
@@ -61,8 +61,7 @@ struct ContentView: View {
             }
         }
         .task {
-            onboardingState.seen = $showOnboarding
-//            showOnboarding = !onboardingState.completed
+            onboardingState.completed = $onboardingCompleted
         }
         .environmentObject(onboardingState)
     }

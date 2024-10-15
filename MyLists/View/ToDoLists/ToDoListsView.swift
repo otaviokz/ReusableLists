@@ -34,16 +34,16 @@ struct ToDoListsView: View {
                 }
             }
             .confirmationDialog(deleteConfirmationText, isPresented: $showingDeleteAlert, titleVisibility: .visible) {
-                Button(
-                    role: .destructive,
-                    action: {
-                        delete(list: listToDelete)
-                    },
-                    label: { Text("Delete").foregroundStyle(Color.red) }
-                )
+                Button(role: .destructive) {
+                    delete(list: listToDelete)
+                } label: {
+                    Text("Delete").foregroundStyle(Color.red)
+                }
+                
                 Button("Cancel", role: .cancel) { showingDeleteAlert = false }
             }
         }
+        .scrollIndicators(.hidden)
         .toolbar {
             Image.plus
                 .padding(.trailing, 4)

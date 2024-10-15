@@ -145,6 +145,6 @@ fileprivate extension AddBlueprintItemView {
             .navigationTitle("Groceries")
     }
     .sheet(isPresented: $isSheetPresented) {
-        AddBlueprintItemView(Blueprint(name: "Groceries"), isSheetPresented: $isSheetPresented)
+        AddBlueprintItemView(Blueprint("Groceries"), isSheetPresented: $isSheetPresented)
     }
 }

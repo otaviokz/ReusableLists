@@ -15,7 +15,7 @@ final class ToDoList: ObservableObject {
     var creationDate: Date
     @Relationship(deleteRule: .cascade) var items: [ToDoItem] = []
     
-    init(name: String = "", details: String = "") {
+    init(_ name: String = "", details: String = "") {
         self.name = name
         self.creationDate = .now
         self.details = details
@@ -41,6 +41,6 @@ extension ToDoList {
     }
     
     static var placeholderList: ToDoList {
-        ToDoList(name: "Placeholder")
+        ToDoList("Placeholder")
     }
 }

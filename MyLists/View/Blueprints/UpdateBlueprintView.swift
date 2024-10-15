@@ -136,6 +136,6 @@ fileprivate extension UpdateBlueprintView {
 
 #Preview {
     NavigationStack {
-        UpdateToDoListView(ToDoList(name: "Groceries", details: "Try farmers market first"))
+        UpdateToDoListView(ToDoList("Groceries", details: "Try farmers market first"))
     }
 }

@@ -29,14 +29,14 @@ struct BlueprintItemsView: View {
     var body: some View {
         List {
             if !blueprint.details.isEmpty {
-                Section("Details:") {
+                Section("Blueprint Details:") {
                     Text(blueprint.details).font(.title3)
                         .foregroundStyle(Color.primary)
                 }
             }
             
             if !blueprint.items.isEmpty {
-                Section("Items:") {
+                Section("Blueprint Items:") {
                     ForEach(blueprint.items.sortedByName) { item in
                         BlueprintItemRowView(item: item)
                     }
@@ -100,38 +100,61 @@ private extension BlueprintItemsView {
     }
     
     func addListInstance(from blueprint: Blueprint) {
-        alertMessage = Alert.gnericErrorMessage
-        do {
-            if listInstanceAlreadyExists(for: blueprint) {
-                throw ListError.listExistsForBlueprint(named: blueprint.name)
-            }
-            let list = ToDoList(name: blueprint.name, details: blueprint.details)
-            list.items = blueprint.items.asToDoItemList()
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                withAnimation(.easeIn(duration: 0.25)) {
-                    do {
-                        modelContext.insert(list)
-                        try modelContext.save()
-                    } catch {
-                        presentAlert = true
-                    }
+        Task {
+            do {
+                if listInstanceAlreadyExists(for: blueprint) {
+                    throw ListError.listExistsForBlueprint(named: blueprint.name)
                 }
+                let list = ToDoList(blueprint.name, details: blueprint.details)
+                list.items = blueprint.items.asToDoItemList()
+                
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    dismiss()
+                    tabselection.select(tab: 1, shouldPopToRootView: true)
+                }
+                
+                try await Task.sleep(nanoseconds: 450_000_000)
+                try withAnimation(.easeIn(duration: 0.25)) {
+                    modelContext.insert(list)
+                    try modelContext.save()
+                }
+                
+            } catch {
+                alertMessage = Alert.gnericErrorMessage
+                if let error = error as? ListError {
+                    alertMessage = error.message
+                }
+                presentAlert = true
             }
-            
-            withAnimation(.easeInOut(duration: 0.25)) {
-                dismiss()
-                tabselection.select(tab: 1, shouldPopToRootView: true)
-            }
-            
-        } catch let error as ListError {
-            if case ListError.listExistsForBlueprint(named: blueprint.name) = error {
-                alertMessage = error.message
-            }
-            presentAlert = true
-        } catch {
-            presentAlert = true
         }
+        
+//        do {
+//            
+//            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                withAnimation(.easeIn(duration: 0.25)) {
+//                    do {
+//                        modelContext.insert(list)
+//                        try modelContext.save()
+//                    } catch {
+//                        presentAlert = true
+//                    }
+//                }
+//            }
+            
+//            withAnimation(.easeInOut(duration: 0.25)) {
+//                dismiss()
+//                tabselection.select(tab: 1, shouldPopToRootView: true)
+//            }
+//            
+//        } catch let error as ListError {
+//            if case ListError.listExistsForBlueprint(named: blueprint.name) = error {
+//                alertMessage = error.message
+//            }
+//            presentAlert = true
+//        } catch {
+//            presentAlert = true
+//        }
     }
     
     func deleteItem(_ indexSet: IndexSet) {

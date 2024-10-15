@@ -145,6 +145,6 @@ fileprivate extension AddToDoItemView {
             .navigationTitle("Groceries")
     }
     .sheet(isPresented: $isSheetPresented) {
-        AddToDoItemView(ToDoList(name: "Groceries"), isSheetPresented: $isSheetPresented)
+        AddToDoItemView(ToDoList("Groceries"), isSheetPresented: $isSheetPresented)
     }
 }

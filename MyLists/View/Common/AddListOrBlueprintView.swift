@@ -17,30 +17,30 @@ struct AddListOrBlueprintView: SheetWrappedViewable {
     @State private var name: String = ""
     @State private var details: String = ""
     @State private var presentAlert = false
-    @State private var errorAlertMessage = Alert.gnericErrorMessage
+    @State private var errorMessage = Alert.gnericErrorMessage
     @State var isSheetPresented: Binding<Bool>
-    var listEntity: ListEntity
+    var entity: ListEntity
     
     init(isSheetPresented: Binding<Bool>, entity: ListEntity) {
         self.isSheetPresented = isSheetPresented
-        self.listEntity = entity
+        self.entity = entity
     }
     
     var body: some View {
         VStack(spacing: 16) {
             HStack(spacing: 8) {
-                listEntity.headerImage
+                entity.headerImage
                     .sizedToFitHeight(22)
-                    .padding(.trailing, listEntity.addEntityTitleImageRightPadding)
+                    .padding(.trailing, entity.addEntityTitleImageRightPadding)
                 
-                Text("New \(listEntity.rawValue)")
-                    .font(.title2.weight(.light))                    
+                Text("New \(entity.rawValue)")
+                    .font(.title2.weight(.light))
             }
             .foregroundStyle(Color.cyan)
             .padding(.top, 24)
             
             Form {
-                Section("Fields:") {
+                Section("\(entity.rawValue) Fields:") {
                     Group {
                         TextField("Name", text: $name.max(SizeConstraints.name))
                             .font(.title3)
@@ -116,7 +116,7 @@ fileprivate extension AddListOrBlueprintView {
 
 fileprivate extension AddListOrBlueprintView {
     var isUniqueName: Bool {
-        switch listEntity {
+        switch entity {
             case .toDoList: lists.first { $0.name.trimLowcaseEquals(name) } == nil
             case .blueprint: blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
         }
@@ -128,31 +128,57 @@ fileprivate extension AddListOrBlueprintView {
     
     func createEntityInstanteAndDismissSheet() {
         dismissSheet()
-        
-        errorAlertMessage = Alert.gnericErrorMessage
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            withAnimation(.easeInOut(duration: 0.25)) {
-                switch listEntity {
-                    case .toDoList:
-                        let newList = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
-                        modelContext.insert(newList)
-                    case .blueprint:
-                        let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
-                        modelContext.insert(newBlueprint)
-                }
-                do {
+        Task {
+            do {
+                try await Task.sleep(nanoseconds: 450_000_000)
+                try withAnimation(.easeIn(duration: 0.25)) {
+                    switch (entity, name.trimmingSpaces, details.trimmingSpaces) {
+                        case (.toDoList, let name, let details):
+                            modelContext.insert(ToDoList(name, details: details))
+                        case (.blueprint, let name, let details):
+                            modelContext.insert(Blueprint(name, details: details))
+                    }
+                    
                     try modelContext.save()
-                } catch let error as ListError {
+                }
+            } catch {
+                errorMessage = Alert.gnericErrorMessage
+                if let error = error as? ListError {
                     switch error as ListError {
                         case .listNameUnavailable, .blueprintNameUnavailable:
-                            errorAlertMessage = error.message
+                            errorMessage = error.message
                         default: break
                     }
-                    presentAlert = true
-                } catch {
-                    presentAlert = true
                 }
+                presentAlert = true
             }
+//            catch {
+//                presentAlert = true
+//            }
         }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            withAnimation(.easeInOut(duration: 0.25)) {
+//                switch entity {
+//                    case .toDoList:
+//                        let newList = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
+//                        modelContext.insert(newList)
+//                    case .blueprint:
+//                        let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
+//                        modelContext.insert(newBlueprint)
+//                }
+//                do {
+//                    try modelContext.save()
+//                } catch let error as ListError {
+//                    switch error as ListError {
+//                        case .listNameUnavailable, .blueprintNameUnavailable:
+//                            errorAlertMessage = error.message
+//                        default: break
+//                    }
+//                    presentAlert = true
+//                } catch {
+//                    presentAlert = true
+//                }
+//            }
+//        }
     }
 }

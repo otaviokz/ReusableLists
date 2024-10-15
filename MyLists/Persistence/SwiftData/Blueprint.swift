@@ -14,7 +14,7 @@ final class Blueprint: ObservableObject {
     var details: String
     @Relationship(deleteRule: .cascade) var items: [BlueprintItem] = []
     
-    init(name: String, details: String = "") {
+    init(_ name: String, details: String = "") {
         self.name = name.trimmingSpaces
         self.details = details.trimmingSpaces
     }
@@ -22,6 +22,6 @@ final class Blueprint: ObservableObject {
 
 extension Blueprint {
     static var placeholderBlueprint: Blueprint {
-        Blueprint(name: "Placeholder")
+        Blueprint("Placeholder")
     }
 }

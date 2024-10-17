@@ -12,6 +12,8 @@
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F42B91EAB6002439F3 /* OnboardingVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */; };
 		2B4917F72B91EB12002439F3 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */; };
+		2B57308A2CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5730892CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift */; };
+		2B57308B2CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5730892CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift */; };
 		2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */; };
 		2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */; };
 		2B9369232CBB8E4B00E8AC27 /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9369222CBB8E4B00E8AC27 /* TabSelection.swift */; };
@@ -108,6 +110,7 @@
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVideoView.swift; sourceTree = "<group>"; };
 		2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
+		2B5730892CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
 		2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListItemRowView.swift; sourceTree = "<group>"; };
 		2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Shortcuts.swift"; sourceTree = "<group>"; };
 		2B8F02AE2CA2195200607923 /* SwiftData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftData.framework; path = System/Library/Frameworks/SwiftData.framework; sourceTree = SDKROOT; };
@@ -404,6 +407,7 @@
 				2BE3B5252B42B033003CB25F /* ToDoList.swift */,
 				2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */,
 				2BE3B5272B42B097003CB25F /* ToDoItem.swift */,
+				2B5730892CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift */,
 			);
 			path = SwiftData;
 			sourceTree = "<group>";
@@ -551,6 +555,7 @@
 				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
 				2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */,
 				2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */,
+				2B57308B2CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift in Sources */,
 				2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */,
 				2BEC68762B8DA07200BA2DC0 /* AddBlueprintItemView.swift in Sources */,
 				2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */,
@@ -601,6 +606,7 @@
 				2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */,
 				2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */,
+				2B57308A2CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift in Sources */,
 				2BAE0E8D2CB78815007FCC47 /* Blueprint.swift in Sources */,
 				2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */,
 				2BE3B5152B42B002003CB25F /* MyListsUITests.swift in Sources */,

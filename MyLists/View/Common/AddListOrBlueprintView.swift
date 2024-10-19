@@ -47,7 +47,11 @@ struct AddListOrBlueprintView: SheetWrappedViewable {
                             .focused($focusState, equals: .name)
                             .onSubmit { focusState = .details }
                         
-                        TextField("Details (optional)", text: $details.max(DataFieldsSizeLimit.details), axis: .vertical)
+                        TextField(
+                            "Details (optional)",
+                            text: $details.max(DataFieldsSizeLimit.details),
+                            axis: .vertical
+                        )
                             .font(.headline.weight(.light))
                             .focused($focusState, equals: .details)
                             .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)

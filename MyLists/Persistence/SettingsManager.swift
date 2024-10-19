@@ -10,7 +10,9 @@ import Combine
 
 class SettingsManager {
     @Published private(set)var isOnboardingComplete: Bool
-    @Published private(set)var showAddBluetrpintFromList: Bool = false
+    // Creating Blueprints from Lists is not part of the app's functionalities,
+    // but can be made available for testing purposes¹
+//    @Published private(set)var addBlueprintFromListEnabled: Bool = false
     
     static var shared = SettingsManager()
     
@@ -18,7 +20,7 @@ class SettingsManager {
     
     private init() {
         self.isOnboardingComplete = userPreferences.bool(forKey: Keys.isOnboardingComplete)
-        self.hideAddBluetrpintFromList()
+//        self.hideAddBluetrpintFromList()
     }
     
     func setIsOnbardingComplete(_ complete: Bool) {
@@ -26,18 +28,16 @@ class SettingsManager {
         isOnboardingComplete = complete
     }
     
-    func hideAddBluetrpintFromList() {
-        userPreferences.setValue(false, forKey: Keys.showAddBluetrpintFromList)
-    }
-    
-    func flipShowAddBluetrpintFromList() -> Bool {
-        userPreferences.setValue(showAddBluetrpintFromList.toggle(), forKey: Keys.showAddBluetrpintFromList)
-        return userPreferences.bool(forKey: Keys.showAddBluetrpintFromList)
-    }
+//    func hideAddBluetrpintFromList() {
+//        userPreferences.setValue(false, forKey: Keys.showAddBluetrpintFromList)
+//    }
 //    
-//    func setAddBluetprintFromListVisible(_ show: Bool) {
-//        showAddBluetrpintFromList = show
-//        userPreferences.setValue(show, forKey: Keys.showAddBluetrpintFromList)
+//    func flipShowAddBluetrpintFromList() {
+//        addBlueprintFromListEnabled = !addBluePrinFromListVisible()
+//    }
+//    
+//    func addBluePrinFromListVisible() -> Bool {
+//        userPreferences.bool(forKey: Keys.showAddBluetrpintFromList)
 //    }
 }
 

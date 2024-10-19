@@ -11,7 +11,7 @@ import SwiftData
 @Model
 final class ToDoItem: ObservableObject {
     var name: String
-    var done: Bool
+    var done: Bool = false
     
     init(_ name: String = "", done: Bool = false) {
         self.name = name
@@ -24,9 +24,10 @@ enum SortType {
     case todoFirst
     case alphabetic
 }
+
 extension ToDoItem {
     var asBlueprintItem: BlueprintItem {
-        BlueprintItem(name: name)
+        BlueprintItem(name)
     }
 }
 
@@ -56,9 +57,9 @@ extension Array where Element == ToDoItem {
         sorted { if $0.done == $1.done { $0.name < $1.name } else { false } }
     }
     
-    func asBlueprintItems() -> [BlueprintItem] {
-        map { $0.asBlueprintItem }
-    }
+//    func asBlueprintItems() -> [BlueprintItem] {
+//        map { $0.asBlueprintItem }
+//    }
     
     var doneItems: [ToDoItem] {
         filter { $0.done }

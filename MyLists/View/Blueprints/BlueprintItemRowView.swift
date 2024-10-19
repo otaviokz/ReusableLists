@@ -58,11 +58,11 @@ private extension BlueprintItemRowView {
     NavigationStack {
         VStack {
             List {
-                BlueprintItemRowView(item: BlueprintItem(name: "Avocado"))
-                BlueprintItemRowView(item: BlueprintItem(name: "Bananas"))
-                BlueprintItemRowView(item: BlueprintItem(name: "Tomatoes"))
-                BlueprintItemRowView(item: BlueprintItem(name: "Eggs"))
-                BlueprintItemRowView(item: BlueprintItem(name: "Wine"))
+                BlueprintItemRowView(item: BlueprintItem("Avocado"))
+                BlueprintItemRowView(item: BlueprintItem("Bananas"))
+                BlueprintItemRowView(item: BlueprintItem("Tomatoes"))
+                BlueprintItemRowView(item: BlueprintItem("Eggs"))
+                BlueprintItemRowView(item: BlueprintItem("Wine"))
             }
         }
         .navigationTitle("Groceries")

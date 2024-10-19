@@ -12,7 +12,7 @@ struct AddToDoItemView: SheetWrappedViewable {
     
     @FocusState private var focusState: Field?
     @State private var name: String = ""
-    @State private var showAlert = false
+    @State private var presentAlert = false
     @State var isSheetPresented: Binding<Bool>
     @State var invalidNameSent = false
     
@@ -62,7 +62,7 @@ struct AddToDoItemView: SheetWrappedViewable {
                 .padding(.bottom, 8)
         }
         .foregroundStyle(Color.cyan)
-        .alert(isPresented: $showAlert) {
+        .alert(isPresented: $presentAlert) {
             Alert.genericError
         }
         .onAppear {
@@ -126,14 +126,14 @@ fileprivate extension AddToDoItemView {
     }
     
     func saveTodoItemAndDismissSheet() {
-        let item = ToDoItem(name.trimmingSpaces, done: false)
+        let item = ToDoItem(name.trimmingSpaces)
         list.items.append(item)
         modelContext.insert(item)
         do {
             try modelContext.save()
             dismissSheet()
         } catch {
-            showAlert = true
+            presentAlert = true
         }
     }
 }

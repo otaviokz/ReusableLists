@@ -50,6 +50,7 @@ struct BlueprintItemsView: View {
             Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
         .sheet(isPresented: $presentAddItemSheet) {
+//            AddNewListOrBlueprintItemView(.blueprint(entity: blueprint), isSheetPresented: $presentAddItemSheet)
             AddBlueprintItemView(blueprint, isSheetPresented: $presentAddItemSheet)
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
@@ -129,8 +130,6 @@ private extension BlueprintItemsView {
         }
         
 //        do {
-//            
-//            
 //            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 //                withAnimation(.easeIn(duration: 0.25)) {
 //                    do {

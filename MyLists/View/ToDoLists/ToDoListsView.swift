@@ -12,17 +12,19 @@ struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var tabselection: TabSelection
     
-    @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)]) private var lists: [ToDoList]
-    
-    @State var presentErrorAlert = false
-    @State var presentAddToDoListSheet = false
-    @State var listToDelete = ToDoList.placeholderList
-    @State var showingDeleteAlert = false
+    @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)])
+    private var lists: [ToDoList]
+    @State private var presentErrorAlert = false
+    @State private var presentAddToDoListSheet = false
+    @State private var listToDelete = ToDoList.placeholderList
+    @State private var showingDeleteAlert = false
     
     var body: some View {
         List {
             ForEach(lists) { list in
-                NavigationLink(destination: ToDoListItemsView(for: list)) {
+                NavigationLink(
+                    destination: ToDoListItemsView(for: list, action: {_ in delete(list: list, waitFotDimiss: true) })
+                ) {
                     listRow(for: list)
                 }
                 .swipeActions {
@@ -131,16 +133,36 @@ extension ToDoListsView {
 // MARK: - SwiftData
 
 private extension ToDoListsView {
-    func delete(list: ToDoList) {
-        withAnimation(.easeIn(duration: 0.25)) {
+    func delete(list: ToDoList, waitFotDimiss: Bool = true) {
+        
+        Task {
             do {
-                modelContext.delete(list)
-                listToDelete = .placeholderList
-                try modelContext.save()
+                if waitFotDimiss {
+                    try await Task.sleep(nanoseconds: 450_000_000)
+                }
+                try withAnimation(.easeIn(duration: 0.25)) {
+                    modelContext.delete(list)
+                    listToDelete = .placeholderList
+                    try modelContext.save()
+                }
+            } catch {
+                    presentErrorAlert = true
+            }
+        }
+    }
+    
+    func didDeleteList(list: ToDoList) {
+        Task {
+            do {
+                try await Task.sleep(nanoseconds: 450_000_000)
+                try withAnimation {
+                    modelContext.delete(list)
+                    try modelContext.save()
+                }
             } catch {
                 presentErrorAlert = true
             }
-        }        
+        }
     }
 }
 

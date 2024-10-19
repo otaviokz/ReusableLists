@@ -126,7 +126,7 @@ fileprivate extension AddBlueprintItemView {
     }
     
     func saveBlueprintItemAndDismissSheet() {
-        let item = BlueprintItem(name: name.trimmingSpaces)
+        let item = BlueprintItem(name.trimmingSpaces)
         modelContext.insert(item)
         blueprint.items.append(item)
         do {

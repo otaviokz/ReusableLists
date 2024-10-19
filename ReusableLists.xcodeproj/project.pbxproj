@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B06E3492CA20D13000D26BF /* Image+Resizing.swift */; };
+		2B342A602CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A5F2CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift */; };
+		2B342A622CC34DE10034D1D7 /* NewItemForEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A612CC34DC80034D1D7 /* NewItemForEntity.swift */; };
+		2B342A632CC34DE10034D1D7 /* NewItemForEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A612CC34DC80034D1D7 /* NewItemForEntity.swift */; };
 		2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917EF2B91EA46002439F3 /* AboutView.swift */; };
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F42B91EAB6002439F3 /* OnboardingVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */; };
@@ -106,6 +109,8 @@
 
 /* Begin PBXFileReference section */
 		2B06E3492CA20D13000D26BF /* Image+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Resizing.swift"; sourceTree = "<group>"; };
+		2B342A5F2CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewListOrBlueprintItemView.swift; sourceTree = "<group>"; };
+		2B342A612CC34DC80034D1D7 /* NewItemForEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemForEntity.swift; sourceTree = "<group>"; };
 		2B4917EF2B91EA46002439F3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVideoView.swift; sourceTree = "<group>"; };
@@ -284,6 +289,7 @@
 				2BDCB79D2CA5FED50077CB97 /* Text+UltraThinSpace.swift */,
 				2BA2494D2CA38DF2004725CD /* Theme.swift */,
 				2BAE0EA12CB92C5B007FCC47 /* RoundBorderedModifier.swift */,
+				2B342A5F2CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -403,6 +409,7 @@
 		2BEC68792B8DD48500BA2DC0 /* SwiftData */ = {
 			isa = PBXGroup;
 			children = (
+				2B342A612CC34DC80034D1D7 /* NewItemForEntity.swift */,
 				2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */,
 				2BE3B5252B42B033003CB25F /* ToDoList.swift */,
 				2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */,
@@ -585,6 +592,8 @@
 				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
 				2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */,
+				2B342A602CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */,
+				2B342A632CC34DE10034D1D7 /* NewItemForEntity.swift in Sources */,
 				2BE3B5262B42B033003CB25F /* ToDoList.swift in Sources */,
 				2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */,
 				2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */,
@@ -611,6 +620,7 @@
 				2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */,
 				2BE3B5152B42B002003CB25F /* MyListsUITests.swift in Sources */,
 				2BAE0E8E2CB7881C007FCC47 /* ToDoItem.swift in Sources */,
+				2B342A622CC34DE10034D1D7 /* NewItemForEntity.swift in Sources */,
 				2BAE0E912CB78872007FCC47 /* String+InputFormat.swift in Sources */,
 				2BAE0E8F2CB7881C007FCC47 /* ToDoList.swift in Sources */,
 				2BAE0E902CB7881C007FCC47 /* BlueprintItem.swift in Sources */,

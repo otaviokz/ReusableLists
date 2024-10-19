@@ -26,9 +26,11 @@ struct ToDoListItemsView: View {
     @State var presentDeleteOption = false
     
     let list: ToDoList
+    let action: (ToDoList) -> Void
     
-    init(for list: ToDoList) {
+    init(for list: ToDoList, action: @escaping (ToDoList) -> Void) {
         self.list = list
+        self.action = action
     }
     
     var body: some View {
@@ -54,7 +56,10 @@ struct ToDoListItemsView: View {
                 ActionSheet(
                     title: Text("List completed!"),
                     message: Text("Would you like to delete it now it's completed?"),
-                    buttons: [ActionSheet.Button.destructive(Text("Yes")) { deleteList() }, .cancel(Text("Cancel"))]
+                    buttons: [ActionSheet.Button.destructive(Text("Yes")) {
+                        dismiss()
+                        action(list)
+                    }, .cancel(Text("Cancel"))]
                 )
             }
             .font(.subheadline.weight(.medium))
@@ -63,14 +68,13 @@ struct ToDoListItemsView: View {
                 sortView
             }
             .sheet(isPresented: $presentAddItemSheet) {
-                AddToDoItemView(list, isSheetPresented: $presentAddItemSheet)
+                AddNewListOrBlueprintItemView(.toDoList(entity: list), isSheetPresented: $presentAddItemSheet)
                     .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
             }
             .alert(isPresented: $presentAlert) {
                 Alert(title: Alert.genericErrorTitle, message: alerMessage)
             }
-            
             .toolbar {
                 toolBarView
             }
@@ -80,7 +84,7 @@ struct ToDoListItemsView: View {
                     tabselection.didPopToRootView()
                 }
             }
-            .navigationTitle(list.name)
+//            .navigationTitle(list.name)
             
         }
     }
@@ -108,7 +112,7 @@ private extension ToDoListItemsView {
                 Image.sort.sizedToFit(height: 18).onTapGesture { showSortSheet = true }
             }
             
-//            if !blueprintAlreadyExistsFor(list: list) && showListToBlueprint {
+//            if !blueprintAlreadyExistsFor(list: list) && SettingsManager.shared.addBlueprintFromListEnabled {
 //                Image.blueprint.sizedToFit().onTapGesture {
 //                    addBlueprint(from: list)
 //                }
@@ -165,17 +169,17 @@ private extension ToDoListItemsView {
 
 fileprivate extension ToDoListItemsView {
     
-//    func blueprintAlreadyExistsFor(list: ToDoList) -> Bool {
-//        blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
-//    }
-//    
+    func blueprintAlreadyExistsFor(list: ToDoList) -> Bool {
+        blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
+    }
+    
 //    func addBlueprint(from list: ToDoList) {
 //        alerMessage = Alert.gnericErrorMessage
 //        do {
 //            guard !blueprintAlreadyExistsFor(list: list) else {
 //                throw ListError.blueprintExistsForList(named: list.name)
 //            }
-//            let newBlueprint = Blueprint(name: list.name, details: list.details)
+//            let newBlueprint = Blueprint(list.name, details: list.details)
 //            newBlueprint.items = list.items.map { $0.asBlueprintItem }
 //            modelContext.insert(newBlueprint)
 //            try modelContext.save()
@@ -202,21 +206,21 @@ fileprivate extension ToDoListItemsView {
         }
     }
     
-    func deleteList() {
-        dismiss()
-        Task {
-            do {
-                try await Task.sleep(nanoseconds: 450_000_000)
-                try withAnimation {
-                    modelContext.delete(list)
-                    try modelContext.save()
-                }
-            } catch {
-                alerMessage = Alert.gnericErrorMessage
-                presentAlert = true
-            }
-        }
-    }
+//    func deleteList() {
+//        dismiss()
+//        Task {
+//            do {
+//                try await Task.sleep(nanoseconds: 450_000_000)
+//                try withAnimation {
+//                    modelContext.delete(list)
+//                    try modelContext.save()
+//                }
+//            } catch {
+//                alerMessage = Alert.gnericErrorMessage
+//                presentAlert = true
+//            }
+//        }
+//    }
 }
 
 // MARK: - Preview

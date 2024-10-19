@@ -4,9 +4,6 @@
 //
 //  Created by Otávio Zabaleta on 18/10/2024.
 //
- // =======================================================================
- // swiftlint:disable comment_spacing
- // =======================================================================
 
 import SwiftUI
 
@@ -175,7 +172,3 @@ private extension AddNewListOrBlueprintItemView {
             entity: ToDoList("Sample List", details: "Sample details where something relevant is highlighted.")),
         isSheetPresented: $isSheetPresented)
 }
-
- // =======================================================================
- // swiftlint:enable comment_spacing
- // =======================================================================

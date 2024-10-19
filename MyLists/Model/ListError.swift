@@ -22,8 +22,8 @@ enum ListError: Error {
             case .listExistsForBlueprint(let name): "A List already exists for \"\(name)\"."
             case .blueprintNameUnavailable(let name): "A Blueprint called \"\(name)\" already exists."
             case .blueprintExistsForList(let name): "A Blueprint already exists for \"\(name)\"."
-            case .unknown: Alert.gnericErrorMessage
-            default: Alert.gnericErrorMessage
+            case .unknown: Alert.genericErrorMessage
+            default: Alert.genericErrorMessage
         }
     }
 }

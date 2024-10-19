@@ -17,7 +17,7 @@ struct AddListOrBlueprintView: SheetWrappedViewable {
     @State private var name: String = ""
     @State private var details: String = ""
     @State private var presentAlert = false
-    @State private var errorMessage = Alert.gnericErrorMessage
+    @State private var errorMessage = Alert.genericErrorMessage
     @State var isSheetPresented: Binding<Bool>
     var entity: ListEntity
     
@@ -146,7 +146,7 @@ fileprivate extension AddListOrBlueprintView {
                     try modelContext.save()
                 }
             } catch {
-                errorMessage = Alert.gnericErrorMessage
+                errorMessage = Alert.genericErrorMessage
                 if let error = error as? ListError {
                     switch error as ListError {
                         case .listNameUnavailable, .blueprintNameUnavailable:

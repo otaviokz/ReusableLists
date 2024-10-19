@@ -11,7 +11,6 @@ import WebKit
 struct AboutView: View {
     @State var isSheetPresented = false
     @EnvironmentObject private var onboardigState: OnboardingState
-    @State private var showAddBlueprintFromListValueAlert = false
     
     var body: some View {
         VStack {
@@ -30,14 +29,7 @@ struct AboutView: View {
                 }
                 
                 LabeledContent("Version", value: "2.3.1")
-//                    .onLongPressGesture {
-//                        SettingsManager
-//                            .shared
-//                            .flipShowAddBluetrpintFromList()
-//                        
-//                        showAddBlueprintFromListValueAlert = true
-//                    }
-                
+
                 HTMLView(fileName: "PrivacyPolicy")
                     .frame(height: UIScreen.main.bounds.height * 0.7)
                     .padding(.bottom, 12)
@@ -51,18 +43,9 @@ struct AboutView: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.automatic)
             }
-//            .alert(isPresented: $showAddBlueprintFromListValueAlert) {
-//                Alert(title: "Warning.", message: createBluePrintFromListEnabledMessage, dismiss: "OK")
-//            }
             .navigationTitle("About")
         }
     }
-}
-
-private extension AboutView {
-//    var createBluePrintFromListEnabledMessage: String {
-//        "Create Blueprint from List: \(SettingsManager.shared.addBlueprintFromListEnabled ? "ENABLED" : "DISABLED")"
-//    }
 }
 
 #Preview {

@@ -16,7 +16,7 @@ struct BlueprintItemsView: View {
     
     @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
     
-    @State private var alertMessage = Alert.gnericErrorMessage
+    @State private var alertMessage = Alert.genericErrorMessage
     @State private var presentAlert = false
     @State private var presentAddItemSheet = false
     
@@ -121,7 +121,7 @@ private extension BlueprintItemsView {
                 }
                 
             } catch {
-                alertMessage = Alert.gnericErrorMessage
+                alertMessage = Alert.genericErrorMessage
                 if let error = error as? ListError {
                     alertMessage = error.message
                 }
@@ -157,7 +157,7 @@ private extension BlueprintItemsView {
     }
     
     func deleteItem(_ indexSet: IndexSet) {
-        alertMessage = Alert.gnericErrorMessage
+        alertMessage = Alert.genericErrorMessage
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
             let item: BlueprintItem = blueprint.items.sortedByName[index]

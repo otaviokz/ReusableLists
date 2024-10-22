@@ -11,6 +11,8 @@
 		2B342A602CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A5F2CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift */; };
 		2B342A622CC34DE10034D1D7 /* NewItemForEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A612CC34DC80034D1D7 /* NewItemForEntity.swift */; };
 		2B342A632CC34DE10034D1D7 /* NewItemForEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A612CC34DC80034D1D7 /* NewItemForEntity.swift */; };
+		2B342A652CC3A1620034D1D7 /* ToDoListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A642CC3A1620034D1D7 /* ToDoListRowView.swift */; };
+		2B342A672CC75C2B0034D1D7 /* View+Screenshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A662CC75C1E0034D1D7 /* View+Screenshot.swift */; };
 		2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917EF2B91EA46002439F3 /* AboutView.swift */; };
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F42B91EAB6002439F3 /* OnboardingVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */; };
@@ -56,14 +58,12 @@
 		2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */; };
 		2BE3B52E2B42B79C003CB25F /* ToDoListItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */; };
 		2BE3B5362B42D7CF003CB25F /* String+InputFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */; };
-		2BE3B5382B42ECDC003CB25F /* AddToDoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5372B42ECDC003CB25F /* AddToDoItemView.swift */; };
-		2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */; };
+		2BE3B53C2B44CC86003CB25F /* ToDoListRowView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B53B2B44CC86003CB25F /* ToDoListRowView2.swift */; };
 		2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */; };
 		2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */; };
 		2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */; };
 		2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */; };
 		2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift */; };
-		2BEC68762B8DA07200BA2DC0 /* AddBlueprintItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68752B8DA07200BA2DC0 /* AddBlueprintItemView.swift */; };
 		2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC687C2B8DD77300BA2DC0 /* ListError.swift */; };
 /* End PBXBuildFile section */
 
@@ -111,6 +111,8 @@
 		2B06E3492CA20D13000D26BF /* Image+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Resizing.swift"; sourceTree = "<group>"; };
 		2B342A5F2CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewListOrBlueprintItemView.swift; sourceTree = "<group>"; };
 		2B342A612CC34DC80034D1D7 /* NewItemForEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemForEntity.swift; sourceTree = "<group>"; };
+		2B342A642CC3A1620034D1D7 /* ToDoListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListRowView.swift; sourceTree = "<group>"; };
+		2B342A662CC75C1E0034D1D7 /* View+Screenshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Screenshot.swift"; sourceTree = "<group>"; };
 		2B4917EF2B91EA46002439F3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVideoView.swift; sourceTree = "<group>"; };
@@ -157,15 +159,13 @@
 		2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListsView.swift; sourceTree = "<group>"; };
 		2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListItemsView.swift; sourceTree = "<group>"; };
 		2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+InputFormat.swift"; sourceTree = "<group>"; };
-		2BE3B5372B42ECDC003CB25F /* AddToDoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToDoItemView.swift; sourceTree = "<group>"; };
-		2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListRowView.swift; sourceTree = "<group>"; };
+		2BE3B53B2B44CC86003CB25F /* ToDoListRowView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListRowView2.swift; sourceTree = "<group>"; };
 		2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItem.swift; sourceTree = "<group>"; };
 		2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blueprint.swift; sourceTree = "<group>"; };
 		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
 		2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemRowView.swift; sourceTree = "<group>"; };
 		2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintsView.swift; sourceTree = "<group>"; };
 		2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemsView.swift; sourceTree = "<group>"; };
-		2BEC68752B8DA07200BA2DC0 /* AddBlueprintItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBlueprintItemView.swift; sourceTree = "<group>"; };
 		2BEC687C2B8DD77300BA2DC0 /* ListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -360,6 +360,7 @@
 		2BE3B5232B42B014003CB25F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2B342A662CC75C1E0034D1D7 /* View+Screenshot.swift */,
 				2B9369212CBB8E2F00E8AC27 /* Environment */,
 				2BE3B4FB2B42B001003CB25F /* ContentView.swift */,
 				2BAE0E922CB91ECB007FCC47 /* Onbording */,
@@ -383,12 +384,12 @@
 		2BEC686C2B8D8B4500BA2DC0 /* ToDoLists */ = {
 			isa = PBXGroup;
 			children = (
-				2BE3B5372B42ECDC003CB25F /* AddToDoItemView.swift */,
 				2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */,
-				2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */,
+				2BE3B53B2B44CC86003CB25F /* ToDoListRowView2.swift */,
 				2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */,
 				2B9E8D4D2CA127900098C595 /* UpdateToDoListView.swift */,
 				2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */,
+				2B342A642CC3A1620034D1D7 /* ToDoListRowView.swift */,
 			);
 			path = ToDoLists;
 			sourceTree = "<group>";
@@ -396,7 +397,6 @@
 		2BEC686D2B8D8B5A00BA2DC0 /* Blueprints */ = {
 			isa = PBXGroup;
 			children = (
-				2BEC68752B8DA07200BA2DC0 /* AddBlueprintItemView.swift */,
 				2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */,
 				2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift */,
 				2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */,
@@ -564,9 +564,9 @@
 				2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */,
 				2B57308B2CC0B3E1007DC1AB /* DataFieldsSizeLimit.swift in Sources */,
 				2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */,
-				2BEC68762B8DA07200BA2DC0 /* AddBlueprintItemView.swift in Sources */,
 				2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */,
 				2B9369232CBB8E4B00E8AC27 /* TabSelection.swift in Sources */,
+				2B342A652CC3A1620034D1D7 /* ToDoListRowView.swift in Sources */,
 				2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */,
 				2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */,
 				2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift in Sources */,
@@ -584,12 +584,12 @@
 				2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */,
 				2B4917F42B91EAB6002439F3 /* OnboardingVideoView.swift in Sources */,
 				2BDCB79E2CA5FED50077CB97 /* Text+UltraThinSpace.swift in Sources */,
-				2BE3B5382B42ECDC003CB25F /* AddToDoItemView.swift in Sources */,
 				2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */,
 				2B9AECC52CB54AE5003E6F28 /* Preview+SampleData.swift in Sources */,
 				2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */,
+				2B342A672CC75C2B0034D1D7 /* View+Screenshot.swift in Sources */,
 				2B9E8D392CA0A0080098C595 /* RoundClipped.swift in Sources */,
-				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
+				2BE3B53C2B44CC86003CB25F /* ToDoListRowView2.swift in Sources */,
 				2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */,
 				2B342A602CC34DA20034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */,

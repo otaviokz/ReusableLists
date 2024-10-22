@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import Combine
+import UIKit
 
 struct ToDoListItemsView: View {
     @Environment(\.modelContext) var modelContext
@@ -36,7 +37,6 @@ struct ToDoListItemsView: View {
     var body: some View {
         VStack {
             List {
-                
                 if !list.details.isEmpty {
                     Section("List Details:") {
                         Text(list.details).font(.title3)
@@ -86,8 +86,8 @@ struct ToDoListItemsView: View {
                 }
             }
             .navigationTitle(list.name)
-            
         }
+        
     }
 }
 

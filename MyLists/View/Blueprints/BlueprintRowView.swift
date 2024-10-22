@@ -27,7 +27,7 @@ struct BlueprintRowView: View {
                         Text("\(blueprint.items.count) items")
                     }
                 }
-                .font(.callout.weight(.light))
+                .font(.callout.weight(.light)).opacity(0.725)
             }
             Spacer()
         }

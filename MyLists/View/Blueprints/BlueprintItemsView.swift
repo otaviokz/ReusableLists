@@ -50,8 +50,7 @@ struct BlueprintItemsView: View {
             Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
         .sheet(isPresented: $presentAddItemSheet) {
-//            AddNewListOrBlueprintItemView(.blueprint(entity: blueprint), isSheetPresented: $presentAddItemSheet)
-            AddBlueprintItemView(blueprint, isSheetPresented: $presentAddItemSheet)
+            AddNewListOrBlueprintItemView(.blueprint(entity: blueprint), isSheetPresented: $presentAddItemSheet)
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }

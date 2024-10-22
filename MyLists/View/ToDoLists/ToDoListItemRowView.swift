@@ -22,7 +22,7 @@ struct ToDoListItemRowView: View {
         HStack(alignment: .top, spacing: 12) {
             Text(item.name)
                 .scaleEffect(scaleEffectSize)
-                .font(.title3.weight(.medium))
+                .font(.title3.weight(.light))
                 .foregroundStyle(nameColor)
             
             Spacer()

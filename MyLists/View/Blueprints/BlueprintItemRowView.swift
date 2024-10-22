@@ -18,7 +18,7 @@ struct BlueprintItemRowView: View {
         HStack {
             Text(item.name)
                 .scaleEffect(scaleEffectSize)
-                .font(.title3.weight(.medium))
+                .font(.title3.weight(.light))
                 .foregroundStyle(nameColor)
             
             Spacer()

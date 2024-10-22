@@ -38,6 +38,9 @@ struct ToDoListRowView: View {
                 gaugeView(list: list)
             }
         }
+        // It needs to specify content shape to cover all area, since by default only opaque views handle gesture
+        // https://stackoverflow.com/a/62640126/884744
+        .contentShape(Rectangle())
         .foregroundStyle(Color.cyan)
         .task {
             items = list.items

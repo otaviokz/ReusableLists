@@ -1,8 +1,8 @@
 //
-//  AddNewListOrBlueprintItemView.swift
+//  NewEntityItem.swift
 //  ReusableLists
 //
-//  Created by Otávio Zabaleta on 22/10/2024.
+//  Created by Otávio Zabaleta on 18/10/2024.
 //
 
 import SwiftUI

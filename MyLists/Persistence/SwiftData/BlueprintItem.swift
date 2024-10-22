@@ -17,7 +17,7 @@ final class BlueprintItem: ObservableObject {
     }
     
     func asToDoItem() -> ToDoItem {
-        ToDoItem(name, done: false)
+        ToDoItem(name)
     }
 }
 

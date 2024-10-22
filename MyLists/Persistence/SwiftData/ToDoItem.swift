@@ -47,7 +47,7 @@ extension Array where Element == ToDoItem {
     }
     
     /// Only switch element places if both have same "done" value but different names
-    var sortedByNameKeepingStatus: [ToDoItem] {
+    private var sortedByNameKeepingStatus: [ToDoItem] {
         sorted { if $0.done == $1.done { $0.name < $1.name } else { false } }
     }
     

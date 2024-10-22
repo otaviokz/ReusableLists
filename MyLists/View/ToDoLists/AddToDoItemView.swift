@@ -34,7 +34,7 @@ struct AddToDoItemView: SheetWrappedViewable {
             
             Form {
                 Section("Fields:") {
-                    TextField("New item's name", text: $name.max(SizeConstraints.name))
+                    TextField("New item's name", text: $name.max(DataFieldsSizeLimit.name))
                             .font(.title3)
                             .foregroundStyle(Color.primary)
                             .focused($focusState, equals: .name)

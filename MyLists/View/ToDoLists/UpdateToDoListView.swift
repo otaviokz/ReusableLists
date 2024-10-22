@@ -31,12 +31,12 @@ struct UpdateToDoListView: View {
             Form {
                 Section("Fields:") {
                     Group {
-                        TextField("New name", text: $name.max(SizeConstraints.name))
+                        TextField("New name", text: $name.max(DataFieldsSizeLimit.name))
                             .font(.title3)
                             .focused($focusState, equals: .name)
                             .onSubmit { focusState = .details }
                         
-                        TextField("New details", text: $details.max(SizeConstraints.details), axis: .vertical)
+                        TextField("New details", text: $details.max(DataFieldsSizeLimit.details), axis: .vertical)
                             .font(.headline.weight(.light))
                             .focused($focusState, equals: .details)
                             .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)

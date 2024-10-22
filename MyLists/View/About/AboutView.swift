@@ -30,12 +30,7 @@ struct AboutView: View {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }
                 
-                LabeledContent("Version", value: "2.2.1")
-                // .onLongPressGesture {
-                //     showAddBlueprintFromListValueAlert = SettingsManager
-                //    .shared
-                //    .flipShowAddBluetrpintFromList()
-                //                    }
+                LabeledContent("Version", value: "2.3.1")
                 
                 HTMLView(fileName: "PrivacyPolicy")
                     .frame(height: UIScreen.main.bounds.height * 0.7)
@@ -50,17 +45,6 @@ struct AboutView: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.automatic)
             }
-//            .alert(isPresented: $showAddBlueprintFromListValueAlert) {
-//                Alert(
-//                    title: "Warning.",
-//                    message:
-// """
-// Create Blueprint from List (⚙) is \(SettingsManager.shared.showAddBluetrpintFromList ? "enabled" : "disabled")
-// ⚙ (Create Blueprint from List)")
-// """,
-//                    dismiss: "OK")
-//            }
-            
             .navigationTitle("About")
         }
     }

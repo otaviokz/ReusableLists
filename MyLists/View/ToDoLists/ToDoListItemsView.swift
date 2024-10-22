@@ -17,7 +17,7 @@ struct ToDoListItemsView: View {
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
         
     @State var presentAlert = false
-    @State var alerMessage = Alert.gnericErrorMessage
+    @State var alerMessage = Alert.genericErrorMessage
     @State var presentAddItemSheet = false
     @State var showSortSheet: Bool = false
     @State var sortType: SortType = .todoFirst
@@ -26,9 +26,11 @@ struct ToDoListItemsView: View {
     @State var presentDeleteOption = false
     
     let list: ToDoList
+    let allDoneAction: (ToDoList) -> Void
     
-    init(for list: ToDoList) {
+    init(for list: ToDoList, allDoneAction: @escaping (ToDoList) -> Void) {
         self.list = list
+        self.allDoneAction = allDoneAction
     }
     
     var body: some View {
@@ -45,6 +47,7 @@ struct ToDoListItemsView: View {
                     Section("List Items:") {
                         ForEach(list.items.sorted(by: sortType)) { item in
                             ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
+                                
                         }
                         .onDelete(perform: deleteItem)
                     }
@@ -54,7 +57,10 @@ struct ToDoListItemsView: View {
                 ActionSheet(
                     title: Text("List completed!"),
                     message: Text("Would you like to delete it now it's completed?"),
-                    buttons: [ActionSheet.Button.destructive(Text("Yes")) { deleteList() }, .cancel(Text("Cancel"))]
+                    buttons: [ActionSheet.Button.destructive(Text("Yes")) {
+                        dismiss()
+                        allDoneAction(list)
+                    }, .cancel(Text("Cancel"))]
                 )
             }
             .font(.subheadline.weight(.medium))
@@ -63,7 +69,8 @@ struct ToDoListItemsView: View {
                 sortView
             }
             .sheet(isPresented: $presentAddItemSheet) {
-                AddToDoItemView(list, isSheetPresented: $presentAddItemSheet)
+//                AddToDoItemView(list, isSheetPresented: $presentAddItemSheet)
+                AddNewListOrBlueprintItemView(.toDoList(entity: list), isSheetPresented: $presentAddItemSheet)
                     .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
             }
@@ -89,6 +96,22 @@ struct ToDoListItemsView: View {
 // MARK: - UI
 
 private extension ToDoListItemsView {
+    var shareMessage: String {
+        var string = "Name:  " + list.name
+        if !list.details.isEmpty {
+            string += "\n\nDetails:\n\n\(list.details)\n\n\n"
+        }
+        
+        for item in list.items.sorted(by: sortType) {
+            string += " ▢  -  \(item.name)\n\n"
+        }
+        
+        string += "\nReusable Lists\n"
+        string += "https://tinyurl.com/mr3essyr"
+        
+        return string
+    }
+    
     func presentDeleteOptionIfCompleted() {
         if list.doneItems.count == list.items.count {
             presentDeleteOption = true
@@ -97,6 +120,12 @@ private extension ToDoListItemsView {
                       
     var toolBarView: some View {
         HStack(spacing: 16) {
+            ShareLink(item: shareMessage) {
+                Label("", systemImage: "square.and.arrow.up")
+            }
+            .padding(.trailing, -8)
+            .padding(.top, -4)
+            
             NavigationLink {
                 UpdateToDoListView(list)
             } label: {
@@ -107,12 +136,6 @@ private extension ToDoListItemsView {
             if list.items.count > 1 {
                 Image.sort.sizedToFit(height: 18).onTapGesture { showSortSheet = true }
             }
-            
-//            if !blueprintAlreadyExistsFor(list: list) && showListToBlueprint {
-//                Image.blueprint.sizedToFit().onTapGesture {
-//                    addBlueprint(from: list)
-//                }
-//            }
             
             Image.plus.onTapGesture { presentAddItemSheet = true }
                 .padding(.leading, -4)
@@ -165,30 +188,6 @@ private extension ToDoListItemsView {
 
 fileprivate extension ToDoListItemsView {
     
-//    func blueprintAlreadyExistsFor(list: ToDoList) -> Bool {
-//        blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
-//    }
-//    
-//    func addBlueprint(from list: ToDoList) {
-//        alerMessage = Alert.gnericErrorMessage
-//        do {
-//            guard !blueprintAlreadyExistsFor(list: list) else {
-//                throw ListError.blueprintExistsForList(named: list.name)
-//            }
-//            let newBlueprint = Blueprint(name: list.name, details: list.details)
-//            newBlueprint.items = list.items.map { $0.asBlueprintItem }
-//            modelContext.insert(newBlueprint)
-//            try modelContext.save()
-//        } catch let error as ListError {
-//            if case ListError.blueprintExistsForList(named: list.name) = error {
-//                alerMessage = error.message
-//            }
-//            presentAlert = true
-//        } catch {
-//            presentAlert = true
-//        }
-//    }
-    
     func deleteItem(_ indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
@@ -197,7 +196,7 @@ fileprivate extension ToDoListItemsView {
             modelContext.delete(item)
             try modelContext.save()
         } catch {
-            alerMessage = Alert.gnericErrorMessage
+            alerMessage = Alert.genericErrorMessage
             presentAlert = true
         }
     }
@@ -206,13 +205,13 @@ fileprivate extension ToDoListItemsView {
         dismiss()
         Task {
             do {
-                try await Task.sleep(nanoseconds: 450_000_000)
+                try await Task.sleep(nanoseconds: 350_000_000)
                 try withAnimation {
                     modelContext.delete(list)
                     try modelContext.save()
                 }
             } catch {
-                alerMessage = Alert.gnericErrorMessage
+                alerMessage = Alert.genericErrorMessage
                 presentAlert = true
             }
         }

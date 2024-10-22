@@ -47,8 +47,6 @@ extension NumberFormatter {
 }
 
 struct SizeConstraints {
-    static var name: Int { 64 }
-    static var details: Int { 128 }
     static var detailsFieldLineLimit: Int { 2 }
 }
 

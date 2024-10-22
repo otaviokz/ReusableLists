@@ -1,5 +1,5 @@
 //
-//  NewItem.swift
+//  NewEntityItem.swift
 //  ReusableLists
 //
 //  Created by Otávio Zabaleta on 22/10/2024.

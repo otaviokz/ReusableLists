@@ -26,9 +26,11 @@ struct ToDoListItemsView: View {
     @State var presentDeleteOption = false
     
     let list: ToDoList
+    let allDoneAction: (ToDoList) -> Void
     
-    init(for list: ToDoList) {
+    init(for list: ToDoList, allDoneAction: @escaping (ToDoList) -> Void) {
         self.list = list
+        self.allDoneAction = allDoneAction
     }
     
     var body: some View {
@@ -45,6 +47,7 @@ struct ToDoListItemsView: View {
                     Section("List Items:") {
                         ForEach(list.items.sorted(by: sortType)) { item in
                             ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
+                                
                         }
                         .onDelete(perform: deleteItem)
                     }
@@ -54,7 +57,10 @@ struct ToDoListItemsView: View {
                 ActionSheet(
                     title: Text("List completed!"),
                     message: Text("Would you like to delete it now it's completed?"),
-                    buttons: [ActionSheet.Button.destructive(Text("Yes")) { deleteList() }, .cancel(Text("Cancel"))]
+                    buttons: [ActionSheet.Button.destructive(Text("Yes")) {
+                        dismiss()
+                        allDoneAction(list)
+                    }, .cancel(Text("Cancel"))]
                 )
             }
             .font(.subheadline.weight(.medium))
@@ -63,7 +69,8 @@ struct ToDoListItemsView: View {
                 sortView
             }
             .sheet(isPresented: $presentAddItemSheet) {
-                AddToDoItemView(list, isSheetPresented: $presentAddItemSheet)
+//                AddToDoItemView(list, isSheetPresented: $presentAddItemSheet)
+                AddNewListOrBlueprintItemView(.toDoList(entity: list), isSheetPresented: $presentAddItemSheet)
                     .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
             }
@@ -107,12 +114,6 @@ private extension ToDoListItemsView {
             if list.items.count > 1 {
                 Image.sort.sizedToFit(height: 18).onTapGesture { showSortSheet = true }
             }
-            
-//            if !blueprintAlreadyExistsFor(list: list) && showListToBlueprint {
-//                Image.blueprint.sizedToFit().onTapGesture {
-//                    addBlueprint(from: list)
-//                }
-//            }
             
             Image.plus.onTapGesture { presentAddItemSheet = true }
                 .padding(.leading, -4)
@@ -182,7 +183,7 @@ fileprivate extension ToDoListItemsView {
         dismiss()
         Task {
             do {
-                try await Task.sleep(nanoseconds: 450_000_000)
+                try await Task.sleep(nanoseconds: 350_000_000)
                 try withAnimation {
                     modelContext.delete(list)
                     try modelContext.save()

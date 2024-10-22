@@ -10,8 +10,9 @@
 		2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B06E3492CA20D13000D26BF /* Image+Resizing.swift */; };
 		2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */; };
 		2B342A6A2CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */; };
-		2B342A6C2CC771440034D1D7 /* NewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewItem.swift */; };
-		2B342A6D2CC771440034D1D7 /* NewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewItem.swift */; };
+		2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
+		2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
+		2B342A6F2CC776D40034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6E2CC776D40034D1D7 /* AddNewListOrBlueprintItemView.swift */; };
 		2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917EF2B91EA46002439F3 /* AboutView.swift */; };
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F42B91EAB6002439F3 /* OnboardingVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */; };
@@ -109,7 +110,8 @@
 /* Begin PBXFileReference section */
 		2B06E3492CA20D13000D26BF /* Image+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Resizing.swift"; sourceTree = "<group>"; };
 		2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
-		2B342A6B2CC7712C0034D1D7 /* NewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItem.swift; sourceTree = "<group>"; };
+		2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityItem.swift; sourceTree = "<group>"; };
+		2B342A6E2CC776D40034D1D7 /* AddNewListOrBlueprintItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewListOrBlueprintItemView.swift; sourceTree = "<group>"; };
 		2B4917EF2B91EA46002439F3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVideoView.swift; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				2BDCB79D2CA5FED50077CB97 /* Text+UltraThinSpace.swift */,
 				2BA2494D2CA38DF2004725CD /* Theme.swift */,
 				2BAE0EA12CB92C5B007FCC47 /* RoundBorderedModifier.swift */,
+				2B342A6E2CC776D40034D1D7 /* AddNewListOrBlueprintItemView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -406,7 +409,7 @@
 		2BEC68792B8DD48500BA2DC0 /* SwiftData */ = {
 			isa = PBXGroup;
 			children = (
-				2B342A6B2CC7712C0034D1D7 /* NewItem.swift */,
+				2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */,
 				2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */,
 				2BE3B5252B42B033003CB25F /* ToDoList.swift */,
 				2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */,
@@ -567,7 +570,7 @@
 				2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */,
 				2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */,
 				2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift in Sources */,
-				2B342A6D2CC771440034D1D7 /* NewItem.swift in Sources */,
+				2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
 				2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */,
 				2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */,
 				2BE3B5362B42D7CF003CB25F /* String+InputFormat.swift in Sources */,
@@ -593,6 +596,7 @@
 				2BE3B5262B42B033003CB25F /* ToDoList.swift in Sources */,
 				2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */,
 				2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */,
+				2B342A6F2CC776D40034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,7 +613,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */,
-				2B342A6C2CC771440034D1D7 /* NewItem.swift in Sources */,
+				2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
 				2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */,
 				2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,

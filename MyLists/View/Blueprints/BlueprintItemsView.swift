@@ -22,7 +22,7 @@ struct BlueprintItemsView: View {
     
     let blueprint: Blueprint
     
-    init(for blueprint: Blueprint) {        
+    init(for blueprint: Blueprint) {
         self.blueprint = blueprint
     }
     
@@ -50,7 +50,7 @@ struct BlueprintItemsView: View {
             Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
         .sheet(isPresented: $presentAddItemSheet) {
-            AddBlueprintItemView(blueprint, isSheetPresented: $presentAddItemSheet)
+            AddNewListOrBlueprintItemView(.blueprint(entity: blueprint), isSheetPresented: $presentAddItemSheet)
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
@@ -81,7 +81,7 @@ fileprivate extension BlueprintItemsView {
                         }
                         .padding(.trailing, -3.75)
                 }
-                    
+                
                 Image.plus.onTapGesture { presentAddItemSheet = true }
                     .padding(.trailing, 4)
             }

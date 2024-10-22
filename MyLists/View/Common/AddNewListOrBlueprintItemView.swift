@@ -1,33 +1,33 @@
 //
-//  AddBlueprintItemView.swift
+//  AddNewListOrBlueprintItemView.swift
 //  ReusableLists
 //
-//  Created by Otávio Zabaleta on 27/02/2024.
+//  Created by Otávio Zabaleta on 22/10/2024.
 //
 
 import SwiftUI
 
-struct AddBlueprintItemView: SheetWrappedViewable {
+struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
     @Environment(\.modelContext) private var modelContext
-   
+    
     @FocusState private var focusState: Field?
     @State private var name: String = ""
-    @State private var showAlert = false
+    @State private var invalidNameSent = false
+    @State private var presentAlert = false
     @State var isSheetPresented: Binding<Bool>
-    @State var invalidNameSent = false
     
-    let blueprint: Blueprint
+    let newItemForEntity: NewEntityItem
     
-    init(_ blueprint: Blueprint, isSheetPresented: Binding<Bool>) {
-        self.blueprint = blueprint
+    init(_ newItemForEntity: NewEntityItem, isSheetPresented: Binding<Bool>) {
+        self.newItemForEntity = newItemForEntity
         self.isSheetPresented = isSheetPresented
     }
     
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                Image.blueprint
-                Text("Blueprint: \"\(blueprint.name)\"")
+                newItemForEntity.image
+                Text(headerTitle)
                     .font(.title3)
             }
             .padding(.top, 24)
@@ -43,7 +43,7 @@ struct AddBlueprintItemView: SheetWrappedViewable {
                         .onSubmit {
                             invalidNameSent = isSaveButtonDisabled
                             if !isSaveButtonDisabled {
-                                saveBlueprintItemAndDismissSheet()
+                                saveNewItemAdnDismissSheet()
                             }
                         }
                 }
@@ -61,11 +61,11 @@ struct AddBlueprintItemView: SheetWrappedViewable {
             buttonsStack
                 .padding(.bottom, 8)
         }
-        .foregroundStyle(Color.cyan)
-        .alert(isPresented: $showAlert) {
+        .foregroundColor(Color.cyan)
+        .alert(isPresented: $presentAlert) {
             Alert.genericError
         }
-        .task {
+        .onAppear {
             focusState = .name
         }
     }
@@ -73,9 +73,16 @@ struct AddBlueprintItemView: SheetWrappedViewable {
 
 // MARK: - UI
 
-private extension AddBlueprintItemView {
+private extension AddNewListOrBlueprintItemView {
     enum Field: Hashable {
         case name
+    }
+    
+    var headerTitle: String {
+        switch newItemForEntity {
+            case .toDoList(let list): "List: \"\(list.name)\""
+            case .blueprint(let blueprint): "Blueprint: \"\(blueprint.name)\""
+        }
     }
     
     var isSaveButtonDisabled: Bool {
@@ -87,12 +94,19 @@ private extension AddBlueprintItemView {
     }
     
     var nameNotAvailableMessage: some View {
-            Text("⚠ An item named \"\(name)\" already exists for this Blueprint.")
-                .font(.headline.weight(.light))
-                .foregroundStyle(Color.red)
-                .frame(alignment: .leading)
-                .padding(.top, -6)
-                .padding(.horizontal, 16)
+        let text = switch newItemForEntity {
+            case .toDoList:
+                Text("⚠ An item named \"\(name)\" already exists for this List.")
+            case .blueprint:
+                Text("⚠ An item named \"\(name)\" already exists for this Blueprint.")
+        }
+        
+        return text
+            .font(.headline.weight(.light))
+            .foregroundStyle(Color.red)
+            .frame(alignment: .leading)
+            .padding(.top, -6)
+            .padding(.horizontal, 16)
     }
     
     var buttonsStack: some View {
@@ -109,7 +123,7 @@ private extension AddBlueprintItemView {
     }
     
     var saveButton: some View {
-        Button { saveBlueprintItemAndDismissSheet() } label: { Text("Save") }
+        Button { saveNewItemAdnDismissSheet() } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
     }
     
@@ -119,21 +133,30 @@ private extension AddBlueprintItemView {
 }
 
 // MARK: - SwiftData
-
-fileprivate extension AddBlueprintItemView {
+private extension AddNewListOrBlueprintItemView {
     var isUniqueName: Bool {
-        blueprint.items.first { $0.name == name } == nil
+        switch newItemForEntity {
+            case .toDoList(let list): list.items.first { $0.name.trimLowcaseEquals(name) } == nil
+            case .blueprint(let blueprint): blueprint.items.first { $0.name.trimLowcaseEquals(name) } == nil
+        }
     }
     
-    func saveBlueprintItemAndDismissSheet() {
-        let item = BlueprintItem(name.trimmingSpaces)
-        modelContext.insert(item)
-        blueprint.items.append(item)
+    func saveNewItemAdnDismissSheet() {
         do {
+            switch newItemForEntity {
+                case .toDoList(let list):
+                    let item = ToDoItem(name.trimmingSpaces)
+                    list.items.append(item)
+                    modelContext.insert(item)
+                case .blueprint(let blueprint):
+                    let item = BlueprintItem(name.trimmingSpaces)
+                    blueprint.items.append(item)
+                    modelContext.insert(item)
+            }
             try modelContext.save()
             dismissSheet()
         } catch {
-            showAlert = true
+            presentAlert = true
         }
     }
 }
@@ -142,9 +165,10 @@ fileprivate extension AddBlueprintItemView {
     @Previewable @State var isSheetPresented = true
     NavigationStack {
         VStack { }
-            .navigationTitle("Groceries")
+            .navigationTitle("List: \"Grocries\"")
     }
-    .sheet(isPresented: $isSheetPresented) {
-        AddBlueprintItemView(Blueprint("Groceries"), isSheetPresented: $isSheetPresented)
-    }
+    AddNewListOrBlueprintItemView(
+        .toDoList(
+            entity: ToDoList("Sample List", details: "Sample details where something relevant is highlighted.")),
+        isSheetPresented: $isSheetPresented)
 }

@@ -2,61 +2,70 @@
 //  ToDoListRowView.swift
 //  ReusableLists
 //
-//  Created by Otávio Zabaleta on 02/01/2024.
+//  Created by Otávio Zabaleta on 19/10/2024.
 //
 
 import SwiftUI
-import SwiftData
 
-/**********************************************************
- * Not in use as it doen't update the number of items done and the gauge view  *
- **********************************************************
- */
-
-/*struct ToDoListRowView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: [SortDescriptor(\ToDoItem.name, order: .forward)]) private var items: [ToDoItem]
-    
+struct ToDoListRowView: View {
     let list: ToDoList
+    @State private var items: [ToDoItem] = []
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(list.name)
-                    .font(.title3)
-                    .fontWeight(.medium)
+        HStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text(list.name).font(.title3.weight(.medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
                 
-                if !list.items.isEmpty {
-                    Text("Done: \(list.items.doneItems.count) out of \(list.items.count)").font(.footnote)
-                } else {
-                    Text("Empty").font(.footnote)
+                HStack(spacing: 0) {
+                    if !items.isEmpty && items.doneItems.count != items.count {
+                        Text("☑").font(.headline.weight(.regular))
+                        Text(": \(items.doneItems.count) of \(items.count)")
+                    } else if !items.isEmpty {
+                        Text("✓ ").font(.headline.weight(.semibold))
+                        Text("Complete")
+                    } else {
+                        Text("Empty")
+                    }
                 }
+                .font(.callout.weight(.light)).opacity(0.725)
             }
             
             Spacer()
             
-            if !list.items.isEmpty {
-                Gauge(value: list.completion, in: 0...1) {
-                    if list.completion < 1 {
-                        Text("\(NumberFormatter.noDecimals.string(for: list.completion * 100) ?? "0")")
-                    } else {
-                        Image.checkMark
-                            .sizedToFit(width: 16, height: 16)
-                            .foregroundColor(.cyan)
-                    }
-                }
-                .gaugeStyle(.accessoryCircularCapacity)
-                .scaleEffect(CGSize(width: 0.7, height: 0.7))
-                .tint(.cyan)
+            if !list.items.isEmpty  && !list.doneItems.isEmpty {
+                gaugeView(list: list)
             }
+        }
+        .foregroundStyle(Color.cyan)
+        .task {
+            items = list.items
         }
     }
 }
 
+// MARK: - UI
 
-
-#Preview {
-    ToDoListRowView(list: ToDoList(name: "List Row Preview"))
+private extension ToDoListRowView {
+    func gaugeView(list: ToDoList) -> some View {
+        Gauge(value: list.completion, in: 0...Double(1)) {
+            if list.completion < 1 {
+                Text("\(NumberFormatter.noDecimals.string(from: NSNumber(value: list.completion * 100)) ?? "0")%")
+                    .font(.body)
+            } else {
+                Image.checkMark
+                    .sizedToFitSquare(side: 16)
+                    .foregroundColor(.cyan)
+            }
+        }
+        .gaugeStyle(.accessoryCircularCapacity)
+        .scaleEffect(CGSize(width: 0.7, height: 0.7))
+        .tint(.cyan)
+    }
 }
 
-*/
+#Preview {
+    ToDoListRowView(list: ToDoList("Sample list", details: ""))
+        .padding()
+}

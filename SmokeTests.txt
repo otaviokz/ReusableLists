@@ -1,0 +1,55 @@
+Reusable Lists Smoke Tests
+
+1 - Item and List Deletion
+
+[ ] - Create List
+[ ] - Intsert a few items in the list
+[ ] - Delete some of the items (app may crash depending on new functionalities, usually unrelated)
+[ ] - Delete List from ListsView
+
+1.1 - Delete List when all items marked as done
+
+[ ] - Create List
+[ ] - Intsert a few items in the list
+[ ] - Mark every item as done, select yes when asked if you wanto to delete de list too
+
+2 - Sort List Items
+
+[ ] - Create List
+[ ] - Add items [A, B, C, D, E, F, G]
+[ ] - Mark [B, D, F] as done
+[ ] - Sort alphabetically
+[ ] - Sort done first
+[ ] - Sort todo first
+
+3 - Edit Lists
+
+[ ] - Create List
+[ ] - Edit List name and details
+		> Should not accept names already in use by other lists
+
+4 - Edit Blueprints
+
+[ ] - Create Blueprint
+[ ] - Edit Blueprint name and details
+		> Should not accept names already in use by other blueprints
+
+5 - Create List from blueprint
+
+[ ] - Create Blueprint
+[ ] - Add items
+[ ] - Create list from blueprint
+[ ] - Check list works coreectly as in steps 1, 1.1, and 2
+
+6 - Add and Delete Blueprint and items
+
+[ ] - Create Blueprint
+[ ] - Add items
+[ ] - Delete a few items
+[ ] - Delete blueprint
+
+7 - Share List
+
+[ ] - Check right text is generated and check if it is sent correctly via WhatsApp and Gmail
+
+

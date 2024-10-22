@@ -96,6 +96,22 @@ struct ToDoListItemsView: View {
 // MARK: - UI
 
 private extension ToDoListItemsView {
+    var shareMessage: String {
+        var string = "Name:  " + list.name
+        if !list.details.isEmpty {
+            string += "\n\nDetails:\n\n\(list.details)\n\n\n"
+        }
+        
+        for item in list.items.sorted(by: sortType) {
+            string += " ▢  -  \(item.name)\n\n"
+        }
+        
+        string += "\nReusable Lists\n"
+        string += "https://tinyurl.com/mr3essyr"
+        
+        return string
+    }
+    
     func presentDeleteOptionIfCompleted() {
         if list.doneItems.count == list.items.count {
             presentDeleteOption = true
@@ -104,6 +120,12 @@ private extension ToDoListItemsView {
                       
     var toolBarView: some View {
         HStack(spacing: 16) {
+            ShareLink(item: shareMessage) {
+                Label("", systemImage: "square.and.arrow.up")
+            }
+            .padding(.trailing, -8)
+            .padding(.top, -4)
+            
             NavigationLink {
                 UpdateToDoListView(list)
             } label: {

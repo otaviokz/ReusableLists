@@ -17,7 +17,7 @@ struct ToDoListItemsView: View {
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
         
     @State var presentAlert = false
-    @State var alerMessage = Alert.gnericErrorMessage
+    @State var alerMessage = Alert.genericErrorMessage
     @State var presentAddItemSheet = false
     @State var showSortSheet: Bool = false
     @State var sortType: SortType = .todoFirst
@@ -173,7 +173,7 @@ fileprivate extension ToDoListItemsView {
             modelContext.delete(item)
             try modelContext.save()
         } catch {
-            alerMessage = Alert.gnericErrorMessage
+            alerMessage = Alert.genericErrorMessage
             presentAlert = true
         }
     }
@@ -188,7 +188,7 @@ fileprivate extension ToDoListItemsView {
                     try modelContext.save()
                 }
             } catch {
-                alerMessage = Alert.gnericErrorMessage
+                alerMessage = Alert.genericErrorMessage
                 presentAlert = true
             }
         }

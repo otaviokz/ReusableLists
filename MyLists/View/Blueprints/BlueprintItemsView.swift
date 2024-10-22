@@ -16,7 +16,7 @@ struct BlueprintItemsView: View {
     
     @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
     
-    @State private var alertMessage = Alert.gnericErrorMessage
+    @State private var alertMessage = Alert.genericErrorMessage
     @State private var presentAlert = false
     @State private var presentAddItemSheet = false
     
@@ -120,45 +120,17 @@ private extension BlueprintItemsView {
                 }
                 
             } catch {
-                alertMessage = Alert.gnericErrorMessage
+                alertMessage = Alert.genericErrorMessage
                 if let error = error as? ListError {
                     alertMessage = error.message
                 }
                 presentAlert = true
             }
         }
-        
-//        do {
-//            
-//            
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                withAnimation(.easeIn(duration: 0.25)) {
-//                    do {
-//                        modelContext.insert(list)
-//                        try modelContext.save()
-//                    } catch {
-//                        presentAlert = true
-//                    }
-//                }
-//            }
-            
-//            withAnimation(.easeInOut(duration: 0.25)) {
-//                dismiss()
-//                tabselection.select(tab: 1, shouldPopToRootView: true)
-//            }
-//            
-//        } catch let error as ListError {
-//            if case ListError.listExistsForBlueprint(named: blueprint.name) = error {
-//                alertMessage = error.message
-//            }
-//            presentAlert = true
-//        } catch {
-//            presentAlert = true
-//        }
     }
     
     func deleteItem(_ indexSet: IndexSet) {
-        alertMessage = Alert.gnericErrorMessage
+        alertMessage = Alert.genericErrorMessage
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
             let item: BlueprintItem = blueprint.items.sortedByName[index]

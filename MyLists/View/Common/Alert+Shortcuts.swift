@@ -16,9 +16,9 @@ extension Alert {
         )
     }
     
-    static var genericError: Alert { Alert(title: genericErrorTitle, message: gnericErrorMessage) }
+    static var genericError: Alert { Alert(title: genericErrorTitle, message: genericErrorMessage) }
     
     static var genericErrorTitle: String { "Whoops" }
     
-    static var gnericErrorMessage: String { "Unable to perform task, try again later." }
+    static var genericErrorMessage: String { "Unable to perform task, try again later." }
 }

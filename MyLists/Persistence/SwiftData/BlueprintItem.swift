@@ -12,7 +12,7 @@ import SwiftData
 final class BlueprintItem: ObservableObject {
     var name: String
     
-    init(name: String) {
+    init(_ name: String) {
         self.name = name
     }
     

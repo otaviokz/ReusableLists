@@ -165,30 +165,6 @@ private extension ToDoListItemsView {
 
 fileprivate extension ToDoListItemsView {
     
-//    func blueprintAlreadyExistsFor(list: ToDoList) -> Bool {
-//        blueprints.first { $0.name.trimLowcaseEquals(list.name) } != nil
-//    }
-//    
-//    func addBlueprint(from list: ToDoList) {
-//        alerMessage = Alert.gnericErrorMessage
-//        do {
-//            guard !blueprintAlreadyExistsFor(list: list) else {
-//                throw ListError.blueprintExistsForList(named: list.name)
-//            }
-//            let newBlueprint = Blueprint(name: list.name, details: list.details)
-//            newBlueprint.items = list.items.map { $0.asBlueprintItem }
-//            modelContext.insert(newBlueprint)
-//            try modelContext.save()
-//        } catch let error as ListError {
-//            if case ListError.blueprintExistsForList(named: list.name) = error {
-//                alerMessage = error.message
-//            }
-//            presentAlert = true
-//        } catch {
-//            presentAlert = true
-//        }
-//    }
-    
     func deleteItem(_ indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }

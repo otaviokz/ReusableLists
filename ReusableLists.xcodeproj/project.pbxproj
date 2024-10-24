@@ -252,9 +252,9 @@
 		2BAE0E922CB91ECB007FCC47 /* Onbording */ = {
 			isa = PBXGroup;
 			children = (
-				2BAE0E992CB92735007FCC47 /* OnboardingView.swift */,
 				2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */,
 				2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */,
+				2BAE0E992CB92735007FCC47 /* OnboardingView.swift */,
 			);
 			path = Onbording;
 			sourceTree = "<group>";
@@ -280,16 +280,16 @@
 			isa = PBXGroup;
 			children = (
 				2BDCB8DB2CA7925F0077CB97 /* AddListOrBlueprintView.swift */,
+				2B342A702CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift */,
 				2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */,
 				2B9E8D492CA101780098C595 /* Binding+Characterlimit.swift */,
 				2B06E3492CA20D13000D26BF /* Image+Resizing.swift */,
+				2BAE0EA12CB92C5B007FCC47 /* RoundBorderedModifier.swift */,
 				2B9E8D382CA09F9B0098C595 /* RoundClipped.swift */,
 				2B9E8D4B2CA122F40098C595 /* SheetWrappedViewable.swift */,
 				2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */,
 				2BDCB79D2CA5FED50077CB97 /* Text+UltraThinSpace.swift */,
 				2BA2494D2CA38DF2004725CD /* Theme.swift */,
-				2BAE0EA12CB92C5B007FCC47 /* RoundBorderedModifier.swift */,
-				2B342A702CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -384,11 +384,11 @@
 			isa = PBXGroup;
 			children = (
 				2BE3B5372B42ECDC003CB25F /* AddToDoItemView.swift */,
+				2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */,
 				2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */,
 				2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */,
 				2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */,
 				2B9E8D4D2CA127900098C595 /* UpdateToDoListView.swift */,
-				2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */,
 			);
 			path = ToDoLists;
 			sourceTree = "<group>";

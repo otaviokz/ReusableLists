@@ -17,6 +17,7 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
     @State var isSheetPresented: Binding<Bool>
     
     let newItemForEntity: NewEntityItem
+    @State private var namesList: [String] = []
     
     init(_ newItemForEntity: NewEntityItem, isSheetPresented: Binding<Bool>) {
         self.newItemForEntity = newItemForEntity
@@ -27,8 +28,8 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
         VStack(spacing: 12) {
             HStack {
                 newItemForEntity.image
-                Text(headerTitle)
-                    .font(.title3)
+                
+                Text(headerTitle).font(.title3)
             }
             .padding(.top, 24)
             
@@ -41,9 +42,19 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
                         .onChange(of: name) { invalidNameSent = false }
                         .submitLabel(.send)
                         .onSubmit {
-                            invalidNameSent = isSaveButtonDisabled
-                            if !isSaveButtonDisabled {
-                                saveNewItemAdnDismissSheet()
+                            let newName = name.asInput
+                            guard !newName.isEmptyAsInput else {
+                                focusState = .name
+                                return
+                            }
+                            if /*!newName.isEmptyAsInput && */!isUnique(newName: newName) {
+                                invalidNameSent = isSaveButtonDisabled
+                            } else if /*!name.isEmptyAsInput &&*/ !isSaveButtonDisabled && isUnique(newName: newName) {
+                                addToList(newName: newName)
+                                name = ""
+                                focusState = .name
+                            } else if /*newName.isEmpty &&*/ !namesList.isEmpty {
+                                saveNewItemsAndDismissSheet()
                             }
                         }
                 }
@@ -54,6 +65,15 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
             
             if showNameUnavailableMessage {
                 nameNotAvailableMessage
+            }
+                        
+            if !namesList.isEmpty {
+                List {
+                    ForEach(namesList, id: \.self) { name in
+                        Text(name)
+                            .font(.headline.weight(.light))
+                    }.onDelete(perform: deleteListItem)
+                }
             }
             
             Spacer()
@@ -85,11 +105,11 @@ private extension AddNewListOrBlueprintItemView {
         }
     }
     
-    var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || !isUniqueName
+    var showNameUnavailableMessage: Bool {
+        invalidNameSent && isSaveButtonDisabled
     }
     
-    var showNameUnavailableMessage: Bool {
+    var showEmptyNameMessage: Bool {
         invalidNameSent && isSaveButtonDisabled
     }
     
@@ -116,14 +136,33 @@ private extension AddNewListOrBlueprintItemView {
             Spacer()
             if !isSaveButtonDisabled {
                 saveButton
+                if isAddMoreButtonEnabled {
+                    Spacer()
+                    addMoreButton
+                }
                 Spacer()
             }
         }
         .font(.title2)
     }
     
+    var addMoreButton: some View {
+        Button {
+            let newName = name.asInput
+            invalidNameSent = isSaveButtonDisabled && !newName.isEmptyAsInput
+            if !isSaveButtonDisabled && isUnique(newName: newName) && !newName.isEmptyAsInput {
+                withAnimation { addToList(newName: newName) }
+                name = ""
+            }
+        } label: {
+            HStack(spacing: 4) {
+                Image.plus.sizedToFit()
+            }
+        }
+    }
+    
     var saveButton: some View {
-        Button { saveNewItemAdnDismissSheet() } label: { Text("Save") }
+        Button { saveNewItemsAndDismissSheet() } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
     }
     
@@ -133,30 +172,69 @@ private extension AddNewListOrBlueprintItemView {
 }
 
 // MARK: - SwiftData
+
 private extension AddNewListOrBlueprintItemView {
-    var isUniqueName: Bool {
-        switch newItemForEntity {
-            case .toDoList(let list): list.items.first { $0.name.trimLowcaseEquals(name) } == nil
-            case .blueprint(let blueprint): blueprint.items.first { $0.name.trimLowcaseEquals(name) } == nil
+    func deleteListItem(_ indexSet: IndexSet) {
+        if let first = indexSet.first {
+            withAnimation {
+                namesList = namesList.filter { $0 != namesList[first] }
+            }
         }
     }
     
-    func saveNewItemAdnDismissSheet() {
+    var isSaveButtonDisabled: Bool {
+        (namesList.isEmpty && (!name.isEmptyAsInput && !isUnique(newName: name))) ||
+        (namesList.isEmpty && name.isEmptyAsInput) ||
+        (!name.isEmptyAsInput && !isUnique(newName: name))
+    }
+
+    var isAddMoreButtonEnabled: Bool {
+        !name.isEmptyAsInput && isUnique(newName: name)
+    }
+    
+    func isUnique(newName new: String) -> Bool {
+        let newName = new.asInput
+        guard namesList.first(where: { $0.trimLowcaseEquals(newName)}) == nil else { return false }
+        return switch newItemForEntity {
+            case .toDoList(let list): list.items.first { $0.name.trimLowcaseEquals(newName) } == nil
+            case .blueprint(let blueprint): blueprint.items.first { $0.name.trimLowcaseEquals(newName) } == nil
+        }
+    }
+    
+    func addTextFieldNameToListIfValid() {
+        let newName = name.asInput
+        if !name.isEmptyAsInput && isUnique(newName: newName) {
+            addToList(newName: name)
+        }
+    }
+    
+    func saveNewItemsAndDismissSheet() {
+        addTextFieldNameToListIfValid()
         do {
             switch newItemForEntity {
                 case .toDoList(let list):
-                    let item = ToDoItem(name.trimmingSpaces)
-                    list.items.append(item)
-                    modelContext.insert(item)
-                case .blueprint(let blueprint):
-                    let item = BlueprintItem(name.trimmingSpaces)
-                    blueprint.items.append(item)
-                    modelContext.insert(item)
+                    for newName in namesList {
+                        let item = ToDoItem(newName.asInput)
+                        list.items.append(item)
+                        modelContext.insert(item)
+                    }
+                case . blueprint(let blueprint):
+                    for newName in namesList {
+                        let item = BlueprintItem(newName.asInput)
+                        blueprint.items.append(item)
+                    }
             }
             try modelContext.save()
             dismissSheet()
         } catch {
             presentAlert = true
+        }
+    }
+    
+    /// Expects 'newName' to be the result = name.asInput
+    func addToList(newName: String) {
+        withAnimation {
+            namesList = [newName] + namesList
         }
     }
 }
@@ -169,6 +247,8 @@ private extension AddNewListOrBlueprintItemView {
     }
     AddNewListOrBlueprintItemView(
         .toDoList(
-            entity: ToDoList("Sample List", details: "Sample details where something relevant is highlighted.")),
-        isSheetPresented: $isSheetPresented)
+            entity: ToDoList("Sample List", details: "Sample details where something relevant is highlighted.")
+        ),
+        isSheetPresented: $isSheetPresented
+    )
 }

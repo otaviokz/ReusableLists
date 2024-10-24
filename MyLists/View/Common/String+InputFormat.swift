@@ -12,7 +12,15 @@ extension String {
         trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
+    var asInput: String {
+        trimmingSpaces
+    }
+    
     func trimLowcaseEquals(_ rhs: String) -> Bool {
-        trimmingSpaces.lowercased() == rhs.trimmingSpaces.lowercased()
+        asInput.lowercased() == rhs.asInput.lowercased()
+    }
+    
+    var isEmptyAsInput: Bool {
+        asInput.isEmpty
     }
 }

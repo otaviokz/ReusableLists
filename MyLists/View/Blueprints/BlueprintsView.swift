@@ -75,22 +75,13 @@ private extension BlueprintsView {
 // MARK: - SwiftData
 
 private extension BlueprintsView {
-    func deleteBlueprint(_ indexSet: IndexSet) {
-        do {
-            guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
-            modelContext.delete(blueprints[index])
-            try modelContext.save()
-        } catch {
-            presentErrorAlert = true
-        }
-    }
-    
     func delete(blueprint: Blueprint) {
         do {
             modelContext.delete(blueprint)
             blueprintToDelete = .placeholderBlueprint
             try modelContext.save()
         } catch {
+            logger.error("delete(\(blueprint.name)) \(error)")
             presentErrorAlert = true
         }
     }

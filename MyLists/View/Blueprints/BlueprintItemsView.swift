@@ -13,7 +13,6 @@ struct BlueprintItemsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var tabselection: TabSelection
     @Environment(\.dismiss) private var dismiss
-    
     @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
     
     @State private var alertMessage = Alert.genericErrorMessage
@@ -107,19 +106,25 @@ private extension BlueprintItemsView {
                 }
                 let list = ToDoList(blueprint.name, details: blueprint.details)
                 list.items = blueprint.items.asToDoItemList()
-                
                 withAnimation(.easeInOut(duration: 0.25)) {
                     dismiss()
+                }
+                
+                try await Task.sleep(nanoseconds: WaitTimes.tabSelection)
+                
+                withAnimation(.easeInOut(duration: 0.25)) {
                     tabselection.select(tab: 1, shouldPopToRootView: true)
                 }
                 
-                try await Task.sleep(nanoseconds: 450_000_000)
+                try await Task.sleep(nanoseconds: WaitTimes.insertOrRemove)
+                
                 try withAnimation(.easeIn(duration: 0.25)) {
                     modelContext.insert(list)
                     try modelContext.save()
                 }
                 
             } catch {
+                logger.error("Error addListInstance(from: \(blueprint.name): \(error.localizedDescription)")
                 alertMessage = Alert.genericErrorMessage
                 if let error = error as? ListError {
                     alertMessage = error.message
@@ -138,6 +143,7 @@ private extension BlueprintItemsView {
             modelContext.delete(item)
             try modelContext.save()
         } catch {
+            logger.error("Error deleteItem(indexSet \(indexSet)): \(error.localizedDescription)")
             presentAlert = true
         }
     }

@@ -9,10 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) var modelContext
-    @StateObject var tabSelection = TabSelection()
+    @Environment(\.modelContext) private var modelContext
+    @StateObject private var tabSelection = TabSelection()
     @State private var onboardingCompleted = true
-    @State var onboardingState: OnboardingState
+    @State private var onboardingState: OnboardingState
     
     init() {
         onboardingState = OnboardingState()

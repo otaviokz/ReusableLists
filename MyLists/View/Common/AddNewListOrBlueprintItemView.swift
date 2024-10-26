@@ -15,9 +15,10 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
     @State private var invalidNameSent = false
     @State private var presentAlert = false
     @State var isSheetPresented: Binding<Bool>
-    
     let newItemForEntity: NewEntityItem
     @State private var namesList: [String] = []
+    @State private var scrollId: String?
+    @State var scrollViewProxy: ScrollViewProxy?
     
     init(_ newItemForEntity: NewEntityItem, isSheetPresented: Binding<Bool>) {
         self.newItemForEntity = newItemForEntity
@@ -25,58 +26,24 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
     }
     
     var body: some View {
-        VStack(spacing: 12) {
-            HStack {
-                newItemForEntity.image
-                
-                Text(headerTitle).font(.title3)
-            }
-            .padding(.top, 24)
+        VStack(spacing: 4) {
+            headerView
+                .padding(.top, 28)
             
-            Form {
-                Section("Fields:") {
-                    TextField("New item's name", text: $name.max(DataFieldsSizeLimit.name))
-                        .font(.title3)
-                        .foregroundStyle(Color.primary)
-                        .focused($focusState, equals: .name)
-                        .onChange(of: name) { invalidNameSent = false }
-                        .submitLabel(.send)
-                        .onSubmit {
-                            let newName = name.asInput
-                            guard !newName.isEmptyAsInput else {
-                                focusState = .name
-                                return
-                            }
-                            if /*!newName.isEmptyAsInput && */!isUnique(newName: newName) {
-                                invalidNameSent = isSaveButtonDisabled
-                            } else if /*!name.isEmptyAsInput &&*/ !isSaveButtonDisabled && isUnique(newName: newName) {
-                                addToList(newName: newName)
-                                name = ""
-                                focusState = .name
-                            } else if /*newName.isEmpty &&*/ !namesList.isEmpty {
-                                saveNewItemsAndDismissSheet()
-                            }
-                        }
-                }
-                .font(.subheadline.weight(.medium))
-            }
-            .frame(height: Sizes.newItemFormHeight)
-            .roundClipped()
+            formView
+                .padding(.top, 4)
             
             if showNameUnavailableMessage {
                 nameNotAvailableMessage
             }
-                        
-            if !namesList.isEmpty {
-                List {
-                    ForEach(namesList, id: \.self) { name in
-                        Text(name)
-                            .font(.headline.weight(.light))
-                    }.onDelete(perform: deleteListItem)
-                }
-            }
             
-            Spacer()
+            itemsListView
+                .padding(.top, 8)
+                .padding(.bottom, 2)
+                
+            if !namesList.isEmpty {
+                Spacer()
+            }
             
             buttonsStack
                 .padding(.bottom, 8)
@@ -98,6 +65,71 @@ private extension AddNewListOrBlueprintItemView {
         case name
     }
     
+    var headerView: some View {
+        HStack {
+            newItemForEntity.image
+            Text(headerTitle).font(.title3)
+        }
+    }
+    
+    var formView: some View {
+        Form {
+            Section("Fields:") {
+                TextField("New item's name", text: $name.max(DataFieldsSizeLimit.name))
+                    .font(.title3)
+                    .foregroundStyle(Color.primary)
+                    .focused($focusState, equals: .name)
+                    .onChange(of: name) { invalidNameSent = false }
+                    .submitLabel(.send)
+                    .onSubmit {
+                        if name.isEmptyAsInput && !namesList.isEmpty {
+                            saveNewItemsAndDismissSheet()
+                        }
+                        guard !name.isEmptyAsInput else {
+                            focusState = .name
+                            return
+                        }
+                        let newName = name.asInput
+                        if !isUnique(newName: newName) {
+                            invalidNameSent = isSaveButtonDisabled
+                        } else if !isSaveButtonDisabled && isUnique(newName: newName) {
+                            withAnimation(.linear(duration: 0.125)) {
+                                addToList(newName: newName)
+                            }
+                            focusState = .name
+                        }
+                    }
+            }
+            .font(.subheadline.weight(.medium))
+        }
+        .frame(height: Sizes.newItemFormHeight)
+        .roundClipped()
+    }
+    
+    var itemsListView: some View {
+        ScrollViewReader { proxy in
+            List {
+                ForEach(namesList, id: \.self) { name in
+                    Text(name)
+                        .font(.headline.weight(.light))
+                        .id(name)
+                    
+                }
+                .onDelete(perform: deleteListItem)
+                .listRowBackground(Color.clear)
+                
+            }
+            .roundBordered(borderColor: Color.cyan, boderWidht: 1)
+            .listStyle(.plain)
+            .padding(.horizontal, 12)
+            .onAppear {
+                if scrollViewProxy == nil {
+                    scrollViewProxy = proxy
+                }
+            }
+        }
+    }
+    
     var headerTitle: String {
         switch newItemForEntity {
             case .toDoList(let list): "List: \"\(list.name)\""
@@ -106,10 +138,6 @@ private extension AddNewListOrBlueprintItemView {
     }
     
     var showNameUnavailableMessage: Bool {
-        invalidNameSent && isSaveButtonDisabled
-    }
-    
-    var showEmptyNameMessage: Bool {
         invalidNameSent && isSaveButtonDisabled
     }
     
@@ -131,15 +159,23 @@ private extension AddNewListOrBlueprintItemView {
     
     var buttonsStack: some View {
         HStack {
-            Spacer()
-            exitButton
-            Spacer()
-            if !isSaveButtonDisabled {
+            if !isSaveButtonDisabled && isAddMoreButtonEnabled {
+                Spacer()
+                exitButton
+                Spacer()
                 saveButton
-                if isAddMoreButtonEnabled {
-                    Spacer()
-                    addMoreButton
-                }
+                Spacer()
+                addMoreButton
+                Spacer()
+            } else if isSaveButtonDisabled {
+                Spacer()
+                exitButton
+                Spacer()
+                saveButton
+                Spacer()
+            } else {
+                Spacer()
+                exitButton
                 Spacer()
             }
         }
@@ -151,8 +187,16 @@ private extension AddNewListOrBlueprintItemView {
             let newName = name.asInput
             invalidNameSent = isSaveButtonDisabled && !newName.isEmptyAsInput
             if !isSaveButtonDisabled && isUnique(newName: newName) && !newName.isEmptyAsInput {
-                withAnimation { addToList(newName: newName) }
-                name = ""
+                withAnimation(.linear(duration: 0.125)) {
+                    addToList(newName: newName)
+                } completion: {
+                    scrollId = newName
+                    if let scrollViewProxy = scrollViewProxy {
+                        withAnimation(.linear(duration: 0.125)) {
+                            scrollViewProxy.scrollTo(scrollId, anchor: .top)
+                        }
+                    }
+                }
             }
         } label: {
             HStack(spacing: 4) {
@@ -176,9 +220,7 @@ private extension AddNewListOrBlueprintItemView {
 private extension AddNewListOrBlueprintItemView {
     func deleteListItem(_ indexSet: IndexSet) {
         if let first = indexSet.first {
-            withAnimation {
-                namesList = namesList.filter { $0 != namesList[first] }
-            }
+            namesList = namesList.filter { $0 != namesList[first] }
         }
     }
     
@@ -227,6 +269,7 @@ private extension AddNewListOrBlueprintItemView {
             try modelContext.save()
             dismissSheet()
         } catch {
+            logger.error("Error saveNewItemsAndDismissSheet(): \(error.localizedDescription)")
             presentAlert = true
         }
     }
@@ -235,6 +278,7 @@ private extension AddNewListOrBlueprintItemView {
     func addToList(newName: String) {
         withAnimation {
             namesList = [newName] + namesList
+            name = "" // Because of "Assign on read", we can't set name to "" before saving it's content
         }
     }
 }

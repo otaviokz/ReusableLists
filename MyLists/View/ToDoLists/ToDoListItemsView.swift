@@ -13,7 +13,6 @@ struct ToDoListItemsView: View {
     @Environment(\.modelContext) var modelContext
     @EnvironmentObject private var tabselection: TabSelection
     @Environment(\.dismiss) private var dismiss
-    
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
         
     @State var presentAlert = false
@@ -69,7 +68,6 @@ struct ToDoListItemsView: View {
                 sortView
             }
             .sheet(isPresented: $presentAddItemSheet) {
-//                AddToDoItemView(list, isSheetPresented: $presentAddItemSheet)
                 AddNewListOrBlueprintItemView(.toDoList(entity: list), isSheetPresented: $presentAddItemSheet)
                     .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
@@ -77,18 +75,26 @@ struct ToDoListItemsView: View {
             .alert(isPresented: $presentAlert) {
                 Alert(title: Alert.genericErrorTitle, message: alerMessage)
             }
-            
             .toolbar {
                 toolBarView
             }
             .onAppear {
                 if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
-                    dismiss()
-                    tabselection.didPopToRootView()
+                    Task {
+                        do {
+                            withAnimation(.easeIn(duration: 0.25)) {
+                                dismiss()
+                                tabselection.didPopToRootView()
+                            }
+                            try await Task.sleep(nanoseconds: WaitTimes.dismiss)
+                        } catch {
+                            logger.error("Error dismissing ToDoListItemsView: \(error)")
+                        }
+                    }
                 }
             }
             .navigationTitle(list.name)
-            
+
         }
     }
 }
@@ -196,36 +202,9 @@ fileprivate extension ToDoListItemsView {
             modelContext.delete(item)
             try modelContext.save()
         } catch {
+            logger.error("Error deleting ToDoItem: \(error)")
             alerMessage = Alert.genericErrorMessage
             presentAlert = true
         }
     }
-    
-    func deleteList() {
-        dismiss()
-        Task {
-            do {
-                try await Task.sleep(nanoseconds: 350_000_000)
-                try withAnimation {
-                    modelContext.delete(list)
-                    try modelContext.save()
-                }
-            } catch {
-                alerMessage = Alert.genericErrorMessage
-                presentAlert = true
-            }
-        }
-    }
 }
-
-// MARK: - Preview
-// #Preview {
-//    @Previewable @State var list = ToDoList(
-//        "Groceries",
-//        details: "Try farmers market first",
-//        items:
-//            [ToDoItem("Letuce"), ToDoItem("Bananas"), ToDoItem("Eggs")]
-//    )
-//    
-//    NavigationStack { ToDoListItemsView(for: list) }
-// }

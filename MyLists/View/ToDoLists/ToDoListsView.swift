@@ -95,8 +95,9 @@ private extension ToDoListsView {
         Task {
             do {
                 if waitFotDimiss {
-                    try await Task.sleep(nanoseconds: 450_000_000)
+                    try await Task.sleep(nanoseconds: WaitTimes.insertOrRemove)
                 }
+                
                 try withAnimation(.easeIn(duration: 0.25)) {
                     modelContext.delete(list)
                     listToDelete = .placeholderList
@@ -104,6 +105,7 @@ private extension ToDoListsView {
                 }
             } catch {
                 presentErrorAlert = true
+                logger.error("Error deleting ToDoList: \(error)")
             }
         }
     }

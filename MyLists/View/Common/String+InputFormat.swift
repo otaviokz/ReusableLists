@@ -13,7 +13,7 @@ extension String {
     }
     
     var asInput: String {
-        trimmingSpaces
+        String(trimmingSpaces)
     }
     
     func trimLowcaseEquals(_ rhs: String) -> Bool {

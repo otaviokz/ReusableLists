@@ -29,8 +29,9 @@ struct BlueprintItemsView: View {
         List {
             if !blueprint.details.isEmpty {
                 Section("Blueprint Details:") {
-                    Text(blueprint.details).font(.title3)
-                        .foregroundStyle(Color.primary)
+                    BlueprintDetailsRowView(blueprint: blueprint)
+                        .listRowBackground(Color.gray.opacity(0.35))
+                        .listRowSeparatorTint(.gray, edges: .all)
                 }
             }
             
@@ -38,6 +39,8 @@ struct BlueprintItemsView: View {
                 Section("Blueprint Items:") {
                     ForEach(blueprint.items.sortedByName) { item in
                         BlueprintItemRowView(item: item)
+                            .listRowBackground(Color.gray.opacity(0.35))
+                            .listRowSeparatorTint(.gray, edges: .all)
                     }
                     .onDelete(perform: deleteItem)
                 }

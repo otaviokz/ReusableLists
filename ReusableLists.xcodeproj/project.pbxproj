@@ -58,6 +58,7 @@
 		2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */; };
 		2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */; };
 		2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8462CCCC695009DD6BB /* Logger.swift */; };
+		2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */; };
 		2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */; };
 		2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */; };
 		2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */; };
@@ -158,6 +159,7 @@
 		2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListRowView.swift; sourceTree = "<group>"; };
 		2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimes.swift; sourceTree = "<group>"; };
 		2BE5A8462CCCC695009DD6BB /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintDetailsRowView.swift; sourceTree = "<group>"; };
 		2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItem.swift; sourceTree = "<group>"; };
 		2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blueprint.swift; sourceTree = "<group>"; };
 		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */,
 				2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */,
 				2B9E8D3C2CA0CB3F0098C595 /* UpdateBlueprintView.swift */,
+				2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */,
 			);
 			path = Blueprints;
 			sourceTree = "<group>";
@@ -600,6 +603,7 @@
 				2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */,
 				2B9AECC52CB54AE5003E6F28 /* Preview+SampleData.swift in Sources */,
 				2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */,
+				2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */,
 				2B9E8D392CA0A0080098C595 /* RoundClipped.swift in Sources */,
 				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
 				2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */,

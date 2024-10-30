@@ -37,9 +37,13 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
                 nameNotAvailableMessage
             }
             
-            itemsListView
-                .padding(.top, 8)
-                .padding(.bottom, 2)
+            if namesList.isEmpty {
+                Spacer()
+            } else {
+                itemsListView
+                    .padding(.top, 8)
+                    .padding(.bottom, 2)
+            }
                 
             if !namesList.isEmpty {
                 Spacer()
@@ -75,30 +79,31 @@ private extension AddNewListOrBlueprintItemView {
     var formView: some View {
         Form {
             Section("Fields:") {
-                TextField("New item's name", text: $name.max(DataFieldsSizeLimit.name))
-                    .font(.title3)
-                    .foregroundStyle(Color.primary)
-                    .focused($focusState, equals: .name)
-                    .onChange(of: name) { invalidNameSent = false }
-                    .submitLabel(.send)
-                    .onSubmit {
-                        if name.isEmptyAsInput && !namesList.isEmpty {
-                            saveNewItemsAndDismissSheet()
-                        }
-                        guard !name.isEmptyAsInput else {
-                            focusState = .name
-                            return
-                        }
-                        let newName = name.asInput
-                        if !isUnique(newName: newName) {
-                            invalidNameSent = isSaveButtonDisabled
-                        } else if !isSaveButtonDisabled && isUnique(newName: newName) {
-                            withAnimation(.linear(duration: 0.125)) {
-                                addToList(newName: newName)
-                            }
-                            focusState = .name
-                        }
+                TextField(
+                    "Item Name (max \(DataFieldsSizeLimit.name) characters)",
+                    text: $name.max(DataFieldsSizeLimit.name)
+                )
+                .font(.title3)
+                .foregroundStyle(Color.primary)
+                .focused($focusState, equals: .name)
+                .onChange(of: name) { invalidNameSent = false }
+                .submitLabel(.send)
+                .onSubmit {
+                    if name.isEmptyAsInput && !namesList.isEmpty {
+                        saveNewItemsAndDismissSheet()
                     }
+                    guard !name.isEmptyAsInput else {
+                        focusState = .name
+                        return
+                    }
+                    let newName = name.asInput
+                    if !isUnique(newName: newName) {
+                        invalidNameSent = isSaveButtonDisabled
+                    } else if !isSaveButtonDisabled && isUnique(newName: newName) {
+                        saveNewItemsAndDismissSheet()
+                    }
+                    focusState = .name
+                }
             }
             .font(.subheadline.weight(.medium))
         }
@@ -123,9 +128,7 @@ private extension AddNewListOrBlueprintItemView {
             .listStyle(.plain)
             .padding(.horizontal, 12)
             .onAppear {
-                if scrollViewProxy == nil {
-                    scrollViewProxy = proxy
-                }
+                scrollViewProxy = proxy
             }
         }
     }
@@ -155,31 +158,6 @@ private extension AddNewListOrBlueprintItemView {
             .frame(alignment: .leading)
             .padding(.top, -6)
             .padding(.horizontal, 16)
-    }
-    
-    var buttonsStack: some View {
-        HStack {
-            if !isSaveButtonDisabled && isAddMoreButtonEnabled {
-                Spacer()
-                exitButton
-                Spacer()
-                saveButton
-                Spacer()
-                addMoreButton
-                Spacer()
-            } else if isSaveButtonDisabled {
-                Spacer()
-                exitButton
-                Spacer()
-                saveButton
-                Spacer()
-            } else {
-                Spacer()
-                exitButton
-                Spacer()
-            }
-        }
-        .font(.title2)
     }
     
     var addMoreButton: some View {
@@ -213,6 +191,36 @@ private extension AddNewListOrBlueprintItemView {
     var exitButton: some View {
         Button { dismissSheet() } label: { Text("Exit") }
     }
+    
+    var buttonsStack: some View {
+        HStack {
+            if !isSaveButtonDisabled && isAddMoreButtonEnabled {
+                Spacer()
+                exitButton
+                Spacer()
+                saveButton
+                Spacer()
+                addMoreButton
+                Spacer()
+            } else if (!isSaveButtonDisabled && !isAddMoreButtonEnabled) ||
+                      (!namesList.isEmpty && isSaveButtonDisabled && !isAddMoreButtonEnabled) {
+                Spacer()
+                exitButton
+                Spacer()
+                saveButton
+                Spacer()
+            } else if isSaveButtonDisabled && isAddMoreButtonEnabled {
+                Spacer()
+                exitButton
+                Spacer()
+                addMoreButton
+                Spacer()
+            } else {
+                exitButton
+            }
+        }
+        .font(.title2)
+    }
 }
 
 // MARK: - SwiftData
@@ -225,9 +233,12 @@ private extension AddNewListOrBlueprintItemView {
     }
     
     var isSaveButtonDisabled: Bool {
-        (namesList.isEmpty && (!name.isEmptyAsInput && !isUnique(newName: name))) ||
-        (namesList.isEmpty && name.isEmptyAsInput) ||
-        (!name.isEmptyAsInput && !isUnique(newName: name))
+        switch (namesList.isEmpty, name.isEmptyAsInput, isUnique(newName: name.asInput)) {
+            case (true, false, false): true
+            case (true, true, _): true
+            case (_, false, false): true
+            default: false
+        }
     }
 
     var isAddMoreButtonEnabled: Bool {
@@ -243,15 +254,12 @@ private extension AddNewListOrBlueprintItemView {
         }
     }
     
-    func addTextFieldNameToListIfValid() {
-        let newName = name.asInput
-        if !name.isEmptyAsInput && isUnique(newName: newName) {
-            addToList(newName: name)
-        }
-    }
-    
     func saveNewItemsAndDismissSheet() {
-        addTextFieldNameToListIfValid()
+        let newName = name.asInput
+        if !newName.isEmpty, isUnique(newName: newName) {
+            addToList(newName: newName)
+        }
+
         do {
             switch newItemForEntity {
                 case .toDoList(let list):
@@ -260,7 +268,7 @@ private extension AddNewListOrBlueprintItemView {
                         list.items.append(item)
                         modelContext.insert(item)
                     }
-                case . blueprint(let blueprint):
+                case .blueprint(let blueprint):
                     for newName in namesList {
                         let item = BlueprintItem(newName.asInput)
                         blueprint.items.append(item)

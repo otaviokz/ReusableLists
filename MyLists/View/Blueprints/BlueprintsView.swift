@@ -31,6 +31,8 @@ struct BlueprintsView: View {
                     }
                     .tint(.red)
                 }
+                .listRowBackground(Color.gray.opacity(0.4))
+                .listRowSeparatorTint(.gray, edges: .all)
             }
             .confirmationDialog(deleteConfirmationText, isPresented: $showingDeleteAlert, titleVisibility: .visible) {
                 Button(
@@ -44,7 +46,7 @@ struct BlueprintsView: View {
             }
         }
         .toolbar {
-                Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
+            Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
                 .foregroundStyle(Color.cyan)
         }
         .alert(isPresented: $presentErrorAlert) {

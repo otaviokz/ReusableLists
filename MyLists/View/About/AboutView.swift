@@ -30,7 +30,7 @@ struct AboutView: View {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }
                 
-                LabeledContent("Version", value: "2.3.1")
+                LabeledContent("Version", value: "2.4.0")
                 
                 HTMLView(fileName: "PrivacyPolicy")
                     .frame(height: UIScreen.main.bounds.height * 0.7)

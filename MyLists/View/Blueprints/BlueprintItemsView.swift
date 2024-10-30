@@ -13,7 +13,6 @@ struct BlueprintItemsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var tabselection: TabSelection
     @Environment(\.dismiss) private var dismiss
-    
     @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
     
     @State private var alertMessage = Alert.genericErrorMessage
@@ -30,8 +29,9 @@ struct BlueprintItemsView: View {
         List {
             if !blueprint.details.isEmpty {
                 Section("Blueprint Details:") {
-                    Text(blueprint.details).font(.title3)
-                        .foregroundStyle(Color.primary)
+                    BlueprintDetailsRowView(blueprint: blueprint)
+                        .listRowBackground(Color.gray.opacity(0.35))
+                        .listRowSeparatorTint(.gray, edges: .all)
                 }
             }
             
@@ -39,6 +39,8 @@ struct BlueprintItemsView: View {
                 Section("Blueprint Items:") {
                     ForEach(blueprint.items.sortedByName) { item in
                         BlueprintItemRowView(item: item)
+                            .listRowBackground(Color.gray.opacity(0.35))
+                            .listRowSeparatorTint(.gray, edges: .all)
                     }
                     .onDelete(perform: deleteItem)
                 }
@@ -107,19 +109,25 @@ private extension BlueprintItemsView {
                 }
                 let list = ToDoList(blueprint.name, details: blueprint.details)
                 list.items = blueprint.items.asToDoItemList()
-                
                 withAnimation(.easeInOut(duration: 0.25)) {
                     dismiss()
+                }
+                
+                try await Task.sleep(nanoseconds: WaitTimes.tabSelection)
+                
+                withAnimation(.easeInOut(duration: 0.25)) {
                     tabselection.select(tab: 1, shouldPopToRootView: true)
                 }
                 
-                try await Task.sleep(nanoseconds: 450_000_000)
+                try await Task.sleep(nanoseconds: WaitTimes.insertOrRemove)
+                
                 try withAnimation(.easeIn(duration: 0.25)) {
                     modelContext.insert(list)
                     try modelContext.save()
                 }
                 
             } catch {
+                logger.error("Error addListInstance(from: \(blueprint.name): \(error.localizedDescription)")
                 alertMessage = Alert.genericErrorMessage
                 if let error = error as? ListError {
                     alertMessage = error.message
@@ -138,6 +146,7 @@ private extension BlueprintItemsView {
             modelContext.delete(item)
             try modelContext.save()
         } catch {
+            logger.error("Error deleteItem(indexSet \(indexSet)): \(error.localizedDescription)")
             presentAlert = true
         }
     }

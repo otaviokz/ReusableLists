@@ -31,6 +31,8 @@ struct BlueprintsView: View {
                     }
                     .tint(.red)
                 }
+                .listRowBackground(Color.gray.opacity(0.4))
+                .listRowSeparatorTint(.gray, edges: .all)
             }
             .confirmationDialog(deleteConfirmationText, isPresented: $showingDeleteAlert, titleVisibility: .visible) {
                 Button(
@@ -44,7 +46,7 @@ struct BlueprintsView: View {
             }
         }
         .toolbar {
-                Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
+            Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
                 .foregroundStyle(Color.cyan)
         }
         .alert(isPresented: $presentErrorAlert) {
@@ -75,22 +77,13 @@ private extension BlueprintsView {
 // MARK: - SwiftData
 
 private extension BlueprintsView {
-    func deleteBlueprint(_ indexSet: IndexSet) {
-        do {
-            guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
-            modelContext.delete(blueprints[index])
-            try modelContext.save()
-        } catch {
-            presentErrorAlert = true
-        }
-    }
-    
     func delete(blueprint: Blueprint) {
         do {
             modelContext.delete(blueprint)
             blueprintToDelete = .placeholderBlueprint
             try modelContext.save()
         } catch {
+            logger.error("delete(\(blueprint.name)) \(error)")
             presentErrorAlert = true
         }
     }

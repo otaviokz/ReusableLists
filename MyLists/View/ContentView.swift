@@ -9,10 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) var modelContext
-    @StateObject var tabSelection = TabSelection()
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject private var tabSelection = TabSelection()
     @State private var onboardingCompleted = true
-    @State var onboardingState: OnboardingState
+    @State private var onboardingState: OnboardingState
     
     init() {
         onboardingState = OnboardingState()
@@ -46,7 +47,7 @@ struct ContentView: View {
                     }
                     .tag(3)
                 }
-                .accentColor(.cyan)
+                .accentColor(colorScheme == .dark ? .cyan : .blue)
                 .modelContainer(
                     for: [ToDoList.self, Blueprint.self, ToDoItem.self, BlueprintItem.self],
                     isUndoEnabled: true

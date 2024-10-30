@@ -42,7 +42,7 @@ struct UpdateBlueprintView: View {
                             .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)
                             .onChange(of: details) { _, _ in
                                 if details.last == "\n" {
-                                    details = String(details.dropLast()).trimmingSpaces
+                                    details = String(details.dropLast()).asInput
                                     focusState = nil
                                 }
                             }
@@ -119,7 +119,7 @@ fileprivate extension UpdateBlueprintView {
     }
 
     var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || (!isUniqueName && !didChangeDetails)
+        name.asInput.isEmpty || (!isUniqueName && !didChangeDetails)
     }
 
     func updateBlueprintAndDismiss() {
@@ -129,6 +129,7 @@ fileprivate extension UpdateBlueprintView {
             try modelContext.save()
             dismiss()
         } catch {
+            logger.error("updateBlueprintAndDismiss: \(error)")
             presetAlert = true
         }
     }

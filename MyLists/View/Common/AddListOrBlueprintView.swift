@@ -28,50 +28,9 @@ struct AddListOrBlueprintView: SheetWrappedViewable {
     
     var body: some View {
         VStack(spacing: 16) {
-            HStack(spacing: 8) {
-                entity.headerImage
-                    .sizedToFitHeight(22)
-                    .padding(.trailing, entity.addEntityTitleImageRightPadding)
-                
-                Text("New \(entity.rawValue)")
-                    .font(.title2.weight(.light))
-            }
-            .foregroundStyle(Color.cyan)
-            .padding(.top, 24)
-            
-            Form {
-                Section("\(entity.rawValue) Fields:") {
-                    Group {
-                        TextField("Name", text: $name.max(DataFieldsSizeLimit.name))
-                            .font(.title3)
-                            .focused($focusState, equals: .name)
-                            .onSubmit { focusState = .details }
-                        
-                        TextField(
-                            "Details (optional)",
-                            text: $details.max(DataFieldsSizeLimit.details),
-                            axis: .vertical
-                        )
-                            .font(.headline.weight(.light))
-                            .focused($focusState, equals: .details)
-                            .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)
-                            .onChange(of: details) { _, _ in
-                                if details.last == "\n" {
-                                    details = String(self.details.dropLast()).trimmingSpaces
-                                    focusState = nil
-                                }
-                            }
-                    }
-                    .foregroundStyle(Color.primary)
-                }
-                .font(.subheadline.weight(.medium))
-            }
-            .scrollDisabled(true)
-            .frame(height: Sizes.newEntityFormHeight)
-            .roundClipped()
-            
+            headerView
+            formView
             Spacer()
-            
             buttonsStack
                 .padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
@@ -92,7 +51,56 @@ fileprivate extension AddListOrBlueprintView {
         case name
         case details
     }
-
+    
+    var headerView: some View {
+        HStack(spacing: 8) {
+            entity.headerImage
+                .sizedToFitHeight(22)
+                .padding(.trailing, entity.addEntityTitleImageRightPadding)
+            
+            Text("New \(entity.rawValue)")
+                .font(.title2.weight(.light))
+        }
+        .foregroundStyle(Color.cyan)
+        .padding(.top, 24)
+    }
+    
+    var formView: some View {
+        Form {
+            Section("\(entity.rawValue) Fields:") {
+                Group {
+                    TextField(
+                        "Name (max \(DataFieldsSizeLimit.name) characters)",
+                        text: $name.max(DataFieldsSizeLimit.name)
+                    )
+                    .font(.title3)
+                    .focused($focusState, equals: .name)
+                    .onSubmit { focusState = .details }
+                    
+                    TextField(
+                        "Details (optional, max \(DataFieldsSizeLimit.details) characters)",
+                        text: $details.max(DataFieldsSizeLimit.details),
+                        axis: .vertical
+                    )
+                    .font(.headline.weight(.light))
+                    .focused($focusState, equals: .details)
+                    .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)
+                    .onChange(of: details) { _, _ in
+                        if details.last == "\n" {
+                            details = String(self.details.dropLast()).asInput
+                            focusState = nil
+                        }
+                    }
+                }
+                .foregroundStyle(Color.primary)
+            }
+            .font(.subheadline.weight(.medium))
+        }
+        .scrollDisabled(true)
+        .frame(height: Sizes.newEntityFormHeight)
+        .roundClipped()
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -127,16 +135,16 @@ fileprivate extension AddListOrBlueprintView {
     }
     
     var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || !isUniqueName
+        name.asInput.isEmpty || !isUniqueName
     }
     
     func createEntityInstanteAndDismissSheet() {
         dismissSheet()
         Task {
             do {
-                try await Task.sleep(nanoseconds: 450_000_000)
+                try await Task.sleep(nanoseconds: WaitTimes.insertOrRemove)
                 try withAnimation(.easeIn(duration: 0.25)) {
-                    switch (entity, name.trimmingSpaces, details.trimmingSpaces) {
+                    switch (entity, name.asInput, details.asInput) {
                         case (.toDoList, let name, let details):
                             modelContext.insert(ToDoList(name, details: details))
                         case (.blueprint, let name, let details):
@@ -146,43 +154,20 @@ fileprivate extension AddListOrBlueprintView {
                     try modelContext.save()
                 }
             } catch {
-                errorMessage = Alert.genericErrorMessage
-                if let error = error as? ListError {
-                    switch error as ListError {
-                        case .listNameUnavailable, .blueprintNameUnavailable:
-                            errorMessage = error.message
-                        default: break
-                    }
-                }
-                presentAlert = true
+                logger.error("Error createEntityInstanteAndDismissSheet(): \(error)")
+                handleSaveError(error)
             }
-//            catch {
-//                presentAlert = true
-//            }
         }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            withAnimation(.easeInOut(duration: 0.25)) {
-//                switch entity {
-//                    case .toDoList:
-//                        let newList = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
-//                        modelContext.insert(newList)
-//                    case .blueprint:
-//                        let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
-//                        modelContext.insert(newBlueprint)
-//                }
-//                do {
-//                    try modelContext.save()
-//                } catch let error as ListError {
-//                    switch error as ListError {
-//                        case .listNameUnavailable, .blueprintNameUnavailable:
-//                            errorAlertMessage = error.message
-//                        default: break
-//                    }
-//                    presentAlert = true
-//                } catch {
-//                    presentAlert = true
-//                }
-//            }
-//        }
+        
+        func handleSaveError(_ error: Error) {
+            errorMessage = Alert.genericErrorMessage
+            if let listError = error as? ListError {
+                errorMessage = switch listError {
+                    case .listNameUnavailable, .blueprintNameUnavailable: listError.message
+                    default: errorMessage
+                }
+            }
+            presentAlert = true
+        }
     }
 }

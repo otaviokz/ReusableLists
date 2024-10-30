@@ -15,8 +15,8 @@ final class Blueprint: ObservableObject {
     @Relationship(deleteRule: .cascade) var items: [BlueprintItem] = []
     
     init(_ name: String, details: String = "") {
-        self.name = name.trimmingSpaces
-        self.details = details.trimmingSpaces
+        self.name = name.asInput
+        self.details = details.asInput
     }
 }
 

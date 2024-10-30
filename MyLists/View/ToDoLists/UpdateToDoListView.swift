@@ -119,7 +119,7 @@ fileprivate extension UpdateToDoListView {
     }
     
     var isSaveButtonDisabled: Bool {
-        name.trimmingSpaces.isEmpty || (!isUniqueName && !didChangeDetails)
+        name.asInput.isEmpty || (!isUniqueName && !didChangeDetails)
     }
     
     func updateListAndDismiss() {
@@ -129,6 +129,7 @@ fileprivate extension UpdateToDoListView {
             try modelContext.save()
             dismiss()
         } catch {
+            logger.error("Error updating list: \(error)")
             presentAlert = true
         }
     }

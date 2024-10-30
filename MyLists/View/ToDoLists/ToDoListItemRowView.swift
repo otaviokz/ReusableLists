@@ -87,6 +87,7 @@ private extension ToDoListItemRowView {
             try modelContext.save()
             if item.done { onCheckedAsDone() }
         } catch {
+            logger.error("Error saving item: (\(item.name)) after toggle done: \(error)")
             alertType = .swiftDataError
             presentAlert = true
             item.done.toggle()

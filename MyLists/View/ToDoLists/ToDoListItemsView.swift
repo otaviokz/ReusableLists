@@ -103,13 +103,13 @@ struct ToDoListItemsView: View {
 
 private extension ToDoListItemsView {
     var shareMessage: String {
-        var string = "Name:  " + list.name
+        var string = "☑️📝 " + list.name + " checklist"
         if !list.details.isEmpty {
-            string += "\n\nDetails:\n\n\(list.details)\n\n\n"
+            string += "\n\nDetails:\n    - \(list.details)\n\n\n"
         }
         
         for item in list.items.sorted(by: sortType) {
-            string += " ▢  -  \(item.name)\n\n"
+            string += " ▢  -  \(item.name)\n"
         }
         
         string += "\nReusable Lists\n"
@@ -126,7 +126,7 @@ private extension ToDoListItemsView {
                       
     var toolBarView: some View {
         HStack(spacing: 16) {
-            ShareLink(item: shareMessage) {
+            ShareLink(item: PDFCreator(page: PDFInfo(list: list)).createPDFData(displayScale: 1)) {
                 Label("", systemImage: "square.and.arrow.up")
             }
             .padding(.trailing, -8)

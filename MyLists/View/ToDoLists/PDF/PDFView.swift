@@ -11,7 +11,8 @@ import PDFKit
 
 struct PDFView: View {
     let list: ToDoList
-//    let items: [ToDoItem]
+    let items: [ToDoItem]
+    let listItems: [ToDoItem] = []
 //    let page: Int
     
     var body: some View {
@@ -21,48 +22,47 @@ struct PDFView: View {
                 HStack {
                     Spacer()
                     Image.todolist
-                    Text(" - \(list.name)")
-                        .font(.title.weight(.bold))
+                    Text("- \(list.name)")
                     Spacer()
                 }
-                .padding(.bottom, 4)
+                .font(.title2.weight(.bold))
+                .padding(.vertical, 16)
                 .foregroundStyle(Color.cyan)
                 
                 // MARK: - Details
                 Group {
                     Text("Details:")
-                        .font(.title3.weight(.semibold))
-                    //                    .padding(.bottom, 2)
+                        .font(.title2.weight(.semibold))
                     Text(list.details)
                         .font(.headline.weight(.light))
                 }
-                .foregroundStyle(Color.gray)
-                .padding(.bottom, 12)
+                .padding(.bottom, 16)
 //            }
 //            
             // MARK: - Items
-            ForEach(list.items) { item in
-                HStack {
+            ForEach(items) { item in
+                HStack(spacing: 0) {
                     Text(" ▢ - ")
-                        .foregroundStyle(Color.cyan)
+                        .foregroundStyle(Color.blue)
                     Text(item.name)
                     Spacer()
                 }
-                .font(.headline.weight(.light))
+                .font(.subheadline)
                 .multilineTextAlignment(.leading)
             }
-            .padding(.bottom, 12)
+            .padding(.bottom, 18)
             
 //            if page == 1 && list.items.count < 12 {
-            VStack(alignment: .leading, spacing: 0) {
-                    Text("Reusable Lists - https://apps.apple.com/us/app/reusable-lists/id6478542301?l=en")
-                        .font(.subheadline)
-                    
-                    Text("By Otavio Zabaleta - https://otaviokz.github.io/")
-                        .font(.subheadline)
-                }
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Reusable Lists - https://apps.apple.com/us/app/reusable-lists/id6478542301?l=en")
+                Text("By Otavio Zabaleta - https://otaviokz.github.io/")
+            }
+            .font(.subheadline)
+            
+            Spacer()
 //            }
         }
+        .padding(.horizontal, 24)
         .frame(width: Constants.pdfWidth, height: Constants.pdfHeight)
     }
     
@@ -76,6 +76,7 @@ struct PDFView: View {
 //    }
 }
 
+
 struct Constants {
     static let dotsPerInch: CGFloat = 72.0
     static let pageWidth: CGFloat = 8.5
@@ -83,11 +84,30 @@ struct Constants {
     static let pdfWidth: CGFloat = 8.5 * dotsPerInch
     static let pdfHeight: CGFloat = 11.0 * dotsPerInch
     static let pdfSize: CGSize = CGSize(width: pdfWidth, height: pdfHeight)
-    static let maxItemsFirstPage: Int = 14
-    static let maxItemsMiddlePagePage: Int = 18
-    static let maxItemsLasttPage: Int = 16
+    static let maxItemsFirstPage: Int = 16
+    static let maxItemsMiddlePagePage: Int = 20
+    static let maxItemsLasttPage: Int = 18
     
 }
+
+//struct PDFBuilder {
+//    static func itemLists(for list: ToDoList) -> [([ToDoItem], Int)] {
+//        var result: [([ToDoItem], Int)] = []
+//        var page = 1
+//        if list.items.count <= Constants.maxItemsFirstPage {
+//            result = [(list.items.suffix(Constants.maxItemsFirstPage), page)]
+//        } else {
+//            result = [(list.items.suffix(Constants.maxItemsFirstPage), page)]
+//            page += 1
+//            
+//            while result.count > 18 {
+//                result.append(contentsOf: (list.items.suffix(18)
+//            }
+//        }
+//        
+//        return result
+//    }
+//}
 
 //struct PDFViewBuilder {
 //    static func createViews(for list: ToDoList) -> [PDFView] {

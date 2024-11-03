@@ -40,7 +40,7 @@ class PDFCreator {
         try? renderer.writePDF(to: tempURL) { context in
 //            for info in multiplePages {
                 context.beginPage()
-            let imageRenderer = ImageRenderer(content: PDFView(list: page.list/*, items: page.list.items, page: 1)*/))
+            let imageRenderer = ImageRenderer(content: PDFView(list: page.list, items: page.list.items/*, page: 1*/))
                 imageRenderer.scale = displayScale
                 imageRenderer.uiImage?.draw(at: CGPoint.zero)
 //            }

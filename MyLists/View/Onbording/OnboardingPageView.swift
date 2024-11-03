@@ -145,7 +145,7 @@ Don’t worry about forgetting anything; you can always review these instruction
         OnboardingPageView(
             title: "New list fields:",
             image: Image("3.OverviewNewListDetails"),
-            text: 
+            text:
 """
 A list has two basic fields: Name and Details. The Name is mandatory and must be unique, while Details is optional \
 and may be left empty.
@@ -157,10 +157,12 @@ and may be left empty.
         OnboardingPageView(
             title: "New list items:",
             image: Image("4.OverviewNewListItem"),
-            text: 
+            text:
 """
 Once a list is created, select it to view a screen displaying its name and details. To add items, simply press the \
-'＋' icon, choose a name for your item, and save it.
+'＋' icon on the top right corner of the list view.
+
+In the add items view (as seen in the screenshot above), you can add one or more items in the same screen. The bottom right "+" is used to add more than one items. Once you have all the items you need, just press "Save". 
 """
         )
     }
@@ -251,9 +253,21 @@ it's needed again.
             image: Image("11.OverviewUpdate"),
             text:
 """
-Lastly, you can modify the names and details of both lists and blueprints. Simply press the designated button, \
+You can modify the names and details of both lists and blueprints. Simply press the designated button, \
 and you will be directed to the same interface used for creating them, but this time you’ll be editing an existing \
 list or blueprint.
+""",
+            isLastPage: true
+        )
+    }
+    
+    static var shareList: OnboardingPageView {
+        OnboardingPageView(
+            title: "Sharing lists as text",
+            image: Image("12.ShareYourListInTextFormat"),
+            text:
+"""
+Lastly, you can share your checklists in text format, making it possible to not only send them to a friend, but to print them!
 """,
             isLastPage: true
         )

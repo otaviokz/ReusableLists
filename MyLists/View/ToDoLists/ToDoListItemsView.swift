@@ -34,6 +34,13 @@ struct ToDoListItemsView: View {
     
     var body: some View {
         VStack {
+            if !list.items.isEmpty {
+                Gauge(value: list.completion) { }
+                    .animation(.linear(duration: 0.25), value: list.completion)
+                    .tint(.green)
+                    .padding(.horizontal, 22)
+            }
+            
             List {
                 if !list.details.isEmpty {
                     Section("List Details:") {
@@ -46,7 +53,7 @@ struct ToDoListItemsView: View {
                     Section("List Items:") {
                         ForEach(list.items.sorted(by: sortType)) { item in
                             ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
-                                
+                            
                         }
                         .onDelete(perform: deleteItem)
                     }
@@ -94,7 +101,6 @@ struct ToDoListItemsView: View {
                 }
             }
             .navigationTitle(list.name)
-
         }
     }
 }
@@ -119,7 +125,7 @@ private extension ToDoListItemsView {
     }
     
     func presentDeleteOptionIfCompleted() {
-        if list.doneItems.count == list.items.count {
+        if list.completion >= 1 {
             presentDeleteOption = true
         }
     }

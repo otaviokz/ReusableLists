@@ -11,8 +11,6 @@ import WebKit
 struct AboutView: View {
     @State var isSheetPresented = false
     @EnvironmentObject private var onboardigState: OnboardingState
-    //    @State private var showBlueprintFromList
-    //    @State private var showAddBlueprintFromListValueAlert = false
     
     var body: some View {
         VStack {
@@ -38,13 +36,6 @@ struct AboutView: View {
             }
             .scrollIndicators(.hidden)
             .foregroundStyle(Color.cyan)
-            .sheet(isPresented: $isSheetPresented) {
-                VStack {
-                    OnboardingVideoView()
-                }
-                .presentationDetents([.large])
-                .presentationDragIndicator(.automatic)
-            }
             .navigationTitle("About")
         }
     }

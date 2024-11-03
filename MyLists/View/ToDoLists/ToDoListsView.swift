@@ -42,7 +42,7 @@ struct ToDoListsView: View {
             }
             .confirmationDialog(deleteConfirmationText, isPresented: $showingDeleteAlert, titleVisibility: .visible) {
                 Button(role: .destructive) {
-                    delete(list: listToDelete)
+                    delete(list: listToDelete, waitFotDimiss: false)
                 } label: {
                     Text("Delete").foregroundStyle(Color.red)
                 }
@@ -50,6 +50,7 @@ struct ToDoListsView: View {
                 Button("Cancel", role: .cancel) { showingDeleteAlert = false }
             }
         }
+        .animation(.linear(duration: 0.25), value: lists)
         .scrollIndicators(.hidden)
         .toolbar {
             Image.plus

@@ -124,6 +124,7 @@ private extension AddNewListOrBlueprintItemView {
                 .listRowBackground(Color.clear)
                 
             }
+            .animation(.easeInOut, value: namesList)
             .roundBordered(borderColor: Color.cyan, boderWidht: 1)
             .listStyle(.plain)
             .padding(.horizontal, 12)
@@ -259,26 +260,34 @@ private extension AddNewListOrBlueprintItemView {
         if !newName.isEmpty, isUnique(newName: newName) {
             addToList(newName: newName)
         }
-
-        do {
-            switch newItemForEntity {
-                case .toDoList(let list):
-                    for newName in namesList {
-                        let item = ToDoItem(newName.asInput)
-                        list.items.append(item)
-                        modelContext.insert(item)
+        dismissSheet()
+        
+        Task {
+            do {
+                try await Task.sleep(nanoseconds: 400_000_000)
+                withAnimation {
+                    switch newItemForEntity {
+                        case .toDoList(let list):
+                            for newName in namesList {
+                                let item = ToDoItem(newName.asInput)
+                                list.items.append(item)
+                                modelContext.insert(item)
+                            }
+                        case .blueprint(let blueprint):
+                            for newName in namesList {
+                                let item = BlueprintItem(newName.asInput)
+                                blueprint.items.append(item)
+                                modelContext.insert(item)
+                            }
                     }
-                case .blueprint(let blueprint):
-                    for newName in namesList {
-                        let item = BlueprintItem(newName.asInput)
-                        blueprint.items.append(item)
-                    }
+                }
+                
+                try modelContext.save()
+                
+            } catch {
+                logger.error("Error saveNewItemsAndDismissSheet(): \(error.localizedDescription)")
+                presentAlert = true
             }
-            try modelContext.save()
-            dismissSheet()
-        } catch {
-            logger.error("Error saveNewItemsAndDismissSheet(): \(error.localizedDescription)")
-            presentAlert = true
         }
     }
     

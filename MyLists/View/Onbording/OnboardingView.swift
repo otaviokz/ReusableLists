@@ -32,6 +32,7 @@ struct OboardingPagedView: View {
                 OnboardingPageView.blueprintAddListInstance
                 OnboardingPageView.blueprintsInstanceList
                 OnboardingPageView.entityUpdate
+                OnboardingPageView.shareList
                     .onAppear {
                         buttonTitle = "Done"
                     }

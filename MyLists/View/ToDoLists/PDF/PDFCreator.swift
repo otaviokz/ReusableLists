@@ -34,7 +34,7 @@ class PDFCreator {
         let renderer = UIGraphicsPDFRenderer(bounds: rect, format: format)
         
         let tempFolder = FileManager.default.temporaryDirectory
-        let fileName = "My Custom PDF Title.pdf"
+        let fileName = "\(page.list.name.replacingOccurrences(of: " ", with: "_")).pdf"
         let tempURL = tempFolder.appendingPathComponent(fileName)
         
         try? renderer.writePDF(to: tempURL) { context in
@@ -50,8 +50,8 @@ class PDFCreator {
     }
 }
 
-//extension PDFCreator {
+// extension PDFCreator {
 //    func createPageViews(list: [ToDoItem]) -> [PageView] {
 //        
 //    }
-//}
+// }

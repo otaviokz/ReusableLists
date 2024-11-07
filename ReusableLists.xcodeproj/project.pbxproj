@@ -59,6 +59,10 @@
 		2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */; };
 		2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8462CCCC695009DD6BB /* Logger.swift */; };
 		2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */; };
+		2BE5A8512CD3224D009DD6BB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8502CD3224D009DD6BB /* PDFView.swift */; };
+		2BE5A8542CD322B7009DD6BB /* PDFInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8532CD322B7009DD6BB /* PDFInfo.swift */; };
+		2BE5A8562CD327E3009DD6BB /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8552CD327E3009DD6BB /* PDFCreator.swift */; };
+		2BE5A89D2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */; };
 		2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */; };
 		2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */; };
 		2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */; };
@@ -160,6 +164,10 @@
 		2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimes.swift; sourceTree = "<group>"; };
 		2BE5A8462CCCC695009DD6BB /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintDetailsRowView.swift; sourceTree = "<group>"; };
+		2BE5A8502CD3224D009DD6BB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
+		2BE5A8532CD322B7009DD6BB /* PDFInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFInfo.swift; sourceTree = "<group>"; };
+		2BE5A8552CD327E3009DD6BB /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
+		2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+CurrentDevice.swift"; sourceTree = "<group>"; };
 		2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItem.swift; sourceTree = "<group>"; };
 		2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blueprint.swift; sourceTree = "<group>"; };
 		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
@@ -393,6 +401,7 @@
 			isa = PBXGroup;
 			children = (
 				2BE5A8462CCCC695009DD6BB /* Logger.swift */,
+				2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -451,7 +460,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				2B9AECC12CB509AA003E6F28 /* PBXTargetDependency */,
+				2BE5A89B2CDC3E41009DD6BB /* PBXTargetDependency */,
 			);
 			name = ReusableLists;
 			productName = MyLists;
@@ -526,7 +535,7 @@
 			);
 			mainGroup = 2BE3B4ED2B42B001003CB25F;
 			packageReferences = (
-				2B9AECBD2CB50875003E6F28 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = 2BE3B4F72B42B001003CB25F /* Products */;
 			projectDirPath = "";
@@ -579,6 +588,7 @@
 				2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */,
 				2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */,
 				2B342A6A2CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,
+				2BE5A89D2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift in Sources */,
 				2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */,
 				2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */,
 				2B9369232CBB8E4B00E8AC27 /* TabSelection.swift in Sources */,
@@ -646,10 +656,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2B9AECC12CB509AA003E6F28 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 2B9AECC02CB509AA003E6F28 /* SwiftLintBuildToolPlugin */;
-		};
 		2BE3B5082B42B002003CB25F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			platformFilter = ios;
@@ -660,6 +666,10 @@
 			isa = PBXTargetDependency;
 			target = 2BE3B4F52B42B001003CB25F /* ReusableLists */;
 			targetProxy = 2BE3B5112B42B002003CB25F /* PBXContainerItemProxy */;
+		};
+		2BE5A89B2CDC3E41009DD6BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 2BE5A89A2CDC3E41009DD6BB /* SwiftLintBuildToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -995,7 +1005,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2B9AECBD2CB50875003E6F28 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+		2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
 			requirement = {
@@ -1006,9 +1016,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2B9AECC02CB509AA003E6F28 /* SwiftLintBuildToolPlugin */ = {
+		2BE5A89A2CDC3E41009DD6BB /* SwiftLintBuildToolPlugin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2B9AECBD2CB50875003E6F28 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			package = 2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
 			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 /* End XCSwiftPackageProductDependency section */

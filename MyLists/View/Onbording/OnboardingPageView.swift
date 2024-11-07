@@ -46,34 +46,13 @@ struct OnboardingPageView: View {
                             }
                         }
                         .foregroundStyle(Color.cyan)
-//                        if !isFirstPage {
-//                            HStack {
-//                                Image.backward
-//                                    .sizedToFit(height: 16)
-//                                    
-//                                Spacer()
-//                            }
-//                            .foregroundStyle(Color.cyan.opacity(0.5))
-//                        }
-//                        
-//                        if !isLastPage {
-//                            HStack {
-//                                Spacer()
-//
-//                                Image
-//                                    .forward
-//                                    .sizedToFit(height: 16)
-//                                    
-//                            }
-//                            .foregroundStyle(Color.cyan.opacity(0.5))
-//                        }
                     }
                     
                     if let image = image {
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 520)
+                            .frame(height: UIDevice.iPhone ? 520 : 894)
                         
                     }
                     
@@ -108,7 +87,6 @@ extension OnboardingPageView {
 // MARK: - Onboarding Pages
 
 extension OnboardingPageView {
-    
     static var welcomeTextPageView: OnboardingPageView {
         OnboardingPageView(
             title: "Hi there!",
@@ -128,7 +106,7 @@ Don’t worry about forgetting anything; you can always review these instruction
     static var toDoLists: OnboardingPageView {
         OnboardingPageView(
             title: "Lists:",
-            image: Image("1.OverviewLists"),
+            image: Image(UIDevice.iPhone ? "1.OverviewLists" : "1.OverviewLists_iPad"),
             text: "This is the starting page of our app, displaying all your lists."
         )
     }
@@ -136,7 +114,7 @@ Don’t worry about forgetting anything; you can always review these instruction
     static var addToDoListsButton: OnboardingPageView {
         OnboardingPageView(
             title: "Add a list:",
-            image: Image("2.OverviewNewList"),
+            image: Image(UIDevice.iPhone ? "2.OverviewNewList" : "2.OverviewNewList_iPad"),
             text: "To add a new list, press the plus button indicated by the red arrow."
         )
     }
@@ -144,7 +122,7 @@ Don’t worry about forgetting anything; you can always review these instruction
     static var addToDoListsFields: OnboardingPageView {
         OnboardingPageView(
             title: "New list fields:",
-            image: Image("3.OverviewNewListDetails"),
+            image: Image(UIDevice.iPhone ? "3.OverviewNewListDetails" : "3.OverviewNewListDetails_iPad"),
             text:
 """
 A list has two basic fields: Name and Details. The Name is mandatory and must be unique, while Details is optional \
@@ -156,13 +134,14 @@ and may be left empty.
     static var addNewToDoItems: OnboardingPageView {
         OnboardingPageView(
             title: "New list items:",
-            image: Image("4.OverviewNewListItem"),
+            image: Image(UIDevice.iPhone ? "4.OverviewNewListItem" : "4.OverviewNewListItem_iPad"),
             text:
 """
 Once a list is created, select it to view a screen displaying its name and details. To add items, simply press the \
 '＋' icon on the top right corner of the list view.
 
-In the add items view (as seen in the screenshot above), you can add one or more items in the same screen. The bottom right "+" is used to add more than one items. Once you have all the items you need, just press "Save". 
+In the add items view (as seen in the screenshot above), you can add one or more items in the same screen. The bottom \
+right "+" is used to add more than one items. Once you have all the items you need, just press "Save". 
 """
         )
     }
@@ -170,7 +149,7 @@ In the add items view (as seen in the screenshot above), you can add one or more
     static var listItems: OnboardingPageView {
         OnboardingPageView(
             title: "List items:",
-            image: Image("5.OverviewMarkItemsAsDone"),
+            image: Image(UIDevice.iPhone ? "5.OverviewMarkItemsAsDone" : "5.OverviewMarkItemsAsDone_iPad"),
             text: "Now your list contains items that can be toggled between ☑ (done) and ☐ (todo) by tapping on them."
         )
     }
@@ -178,7 +157,7 @@ In the add items view (as seen in the screenshot above), you can add one or more
     static var sortlistItems: OnboardingPageView {
         OnboardingPageView(
             title: "Sorting list items:",
-            image: Image("6.OverviewAlphabetically"),
+            image: Image(UIDevice.iPhone ? "6.OverviewAlphabetically" : "6.OverviewAlphabetically_iPad"),
             text: "You can also sort a list’s items either alphabetically or by their completion status."
         )
     }
@@ -186,8 +165,8 @@ In the add items view (as seen in the screenshot above), you can add one or more
     static var listsCompletion: OnboardingPageView {
         OnboardingPageView(
             title: "Lists completion:",
-            image: Image("7.OverviewListCompletion"),
-            text: 
+            image: Image(UIDevice.iPhone ? "7.OverviewListCompletion" : "7.OverviewListCompletion_iPad"),
+            text:
 """
 As you mark list items as ☑ (done), the Lists screen updates each list’s completion gauge to reflect the percentage \
 of items completed.
@@ -198,8 +177,8 @@ of items completed.
     static var blueprints: OnboardingPageView {
         OnboardingPageView(
             title: "Blueprints:",
-            image: Image("8.OverviewBlueprints"),
-            text: 
+            image: Image(UIDevice.iPhone ? "8.OverviewBlueprints" : "8.OverviewBlueprints_iPad"),
+            text:
 """
 Blueprints are models of lists. You create them in the same way as you do with regular lists. Their purpose is to \
 store templates for lists you use regularly, such as a chores list or a travel checklist. Whenever you need one of \
@@ -211,8 +190,8 @@ these lists, you can simply create a copy from its corresponding Blueprint.
     static var blueprintAddListInstance: OnboardingPageView {
         OnboardingPageView(
             title: "More about blueprints:",
-            image: Image("9.OverviewCreateListFromBlueprint"),
-            text: 
+            image: Image(UIDevice.iPhone ? "9.OverviewCreateListFromBlueprint" : "9.OverviewCreateListFromBlueprint_iPad"),
+            text:
 """
 Like lists, blueprints have names, details (optional), and items, but they are distinct entities.
 
@@ -237,8 +216,8 @@ from that blueprint, as all lists must have unique names. The 'Create List' butt
     static var blueprintsInstanceList: OnboardingPageView {
         OnboardingPageView(
             title: "List from blueprint:",
-            image: Image("10.OverviewBlueprintInstance"),
-            text: 
+            image: Image(UIDevice.iPhone ? "10.OverviewBlueprintInstance" : "10.OverviewBlueprintInstance_iPad"),
+            text:
 """
 Here we have a brand-new Business Trip checklist to help ensure you don’t forget anything important before boarding \
 your flight. Meanwhile the corresponding Blueprint remains there to recreate a "Business Trip" checklist whenever \
@@ -250,7 +229,7 @@ it's needed again.
     static var entityUpdate: OnboardingPageView {
         OnboardingPageView(
             title: "Editing Lists and Blueprints",
-            image: Image("11.OverviewUpdate"),
+            image: Image(UIDevice.iPhone ? "11.OverviewUpdate" : "11.OverviewUpdate_iPad"),
             text:
 """
 You can modify the names and details of both lists and blueprints. Simply press the designated button, \
@@ -264,10 +243,11 @@ list or blueprint.
     static var shareList: OnboardingPageView {
         OnboardingPageView(
             title: "Sharing lists as text",
-            image: Image("12.ShareYourListInTextFormat"),
+            image: Image(UIDevice.iPhone ? "12.ShareYourListInTextFormat" :  "12.ShareYourListInTextFormat_iPad"),
             text:
 """
-Lastly, you can share your checklists in text format, making it possible to not only send them to a friend, but to print them!
+Lastly, you can share your checklists in text format, making it possible to not only send them to a friend, \
+but to print them!
 """,
             isLastPage: true
         )

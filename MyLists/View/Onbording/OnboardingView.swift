@@ -39,7 +39,7 @@ struct OboardingPagedView: View {
             }
             .roundBordered(borderColor: .cyan, boderWidht: 1)
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(height: UIScreen.main.bounds.height * 0.75)
+            .frame(height: UIScreen.main.bounds.height *  (UIDevice.iPhone ? 0.75 : 0.85))
             
             Button {
                 onboardigState.didComplete()

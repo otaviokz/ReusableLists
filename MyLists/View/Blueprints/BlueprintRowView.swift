@@ -31,12 +31,6 @@ struct BlueprintRowView: View {
                                 Text(", Usage: \(blueprint.usageCount)")
                             }
                         }
-                        
-//                        if blueprint.usageCount > 0 {
-//                            Text("Usage: \(blueprint.usageCount)")
-//                        } else {
-//                            //                                Text("Never used")
-//                        }
                     }
                 }
                 .font(.footnote/*.weight(.light)*/)

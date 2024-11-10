@@ -8,20 +8,6 @@
 import Foundation
 import SwiftData
 
-@Model
-final class ToDoList: ObservableObject {
-    var name: String
-    var details: String
-    var creationDate: Date
-    @Relationship(deleteRule: .cascade) var items: [ToDoItem] = []
-    
-    init(_ name: String = "", details: String = "") {
-        self.name = name
-        self.creationDate = .now
-        self.details = details
-    }
-}
-
 extension ToDoList {
     var completion: Double {
         guard items.count > 0 else { return 0 }

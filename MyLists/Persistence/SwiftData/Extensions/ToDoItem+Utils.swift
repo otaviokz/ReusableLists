@@ -8,17 +8,6 @@
 import Foundation
 import SwiftData
 
-@Model
-final class ToDoItem: ObservableObject {
-    var name: String
-    var done: Bool = false
-    
-    init(_ name: String = "", done: Bool = false) {
-        self.name = name
-        self.done = done
-    }
-}
-
 enum SortType {
     case doneFirst
     case todoFirst

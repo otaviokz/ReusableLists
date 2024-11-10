@@ -21,13 +21,25 @@ struct BlueprintRowView: View {
                     .font(.title3.weight(.medium))
                    
                 Group {
-                    if blueprint.items.isEmpty {
-                        Text("Empty")
-                    } else {
-                        Text("\(blueprint.items.count) items")
+                    HStack(spacing: 0) {
+                        if blueprint.items.isEmpty {
+                            Text("Empty")
+                        } else {
+                            Text("Items: \(blueprint.items.count)")
+                                .frame(alignment: .leading)
+                            if blueprint.usageCount > 0 {
+                                Text(", Usage: \(blueprint.usageCount)")
+                            }
+                        }
+                        
+//                        if blueprint.usageCount > 0 {
+//                            Text("Usage: \(blueprint.usageCount)")
+//                        } else {
+//                            //                                Text("Never used")
+//                        }
                     }
                 }
-                .font(.callout.weight(.light))
+                .font(.footnote/*.weight(.light)*/)
             }
             Spacer()
         }

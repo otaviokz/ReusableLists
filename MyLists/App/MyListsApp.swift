@@ -8,10 +8,7 @@
 import SwiftUI
 import SwiftData
 
-typealias ToDoList = DataSchemaV1.ToDoList
-typealias ToDoItem = DataSchemaV1.ToDoItem
-typealias Blueprint = DataSchemaV1.Blueprint
-typealias BlueprintItem = DataSchemaV1.BlueprintItem
+// MARK: - Model
 
 @main
 struct ReusableListsApp: App {
@@ -21,10 +18,7 @@ struct ReusableListsApp: App {
         WindowGroup {
             ContentView()
                 .environment(\.modelContext, modelContext)
-                .modelContainer(
-                    for: [ToDoList.self, Blueprint.self, ToDoItem.self, BlueprintItem.self],
-                    isUndoEnabled: true
-                )
+                .modelContainer(buildModelContainer())
         }
     }
     
@@ -34,7 +28,7 @@ struct ReusableListsApp: App {
         do {
             let container = try ModelContainer(
                 for: schema,
-                migrationPlan: nil,
+                migrationPlan: DataMigrationPlan.self,
                 configurations: [configuration]
             )
             return container

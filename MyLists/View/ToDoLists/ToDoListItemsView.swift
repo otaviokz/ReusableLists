@@ -163,9 +163,9 @@ private extension ToDoListItemsView {
             Section("Sort by:") {
                 sortOption("Todo first:", icon: .checkBox, sortyType: .todoFirst)
                 
-                sortOption("Done first:", icon: .checkBoxTicked, sortyType: .doneFirst)
-                
                 sortOption("Alphabetically:", icon: .az, sortyType: .alphabetic)
+                
+                sortOption("Done first:", icon: .checkBoxTicked, sortyType: .doneFirst)
             }
             .font(.headline)
         }

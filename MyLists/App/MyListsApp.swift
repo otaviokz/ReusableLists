@@ -8,6 +8,11 @@
 import SwiftUI
 import SwiftData
 
+typealias ToDoList = DataSchemaV1.ToDoList
+typealias ToDoItem = DataSchemaV1.ToDoItem
+typealias Blueprint = DataSchemaV1.Blueprint
+typealias BlueprintItem = DataSchemaV1.BlueprintItem
+
 @main
 struct ReusableListsApp: App {
     @Environment(\.modelContext) var modelContext
@@ -21,5 +26,21 @@ struct ReusableListsApp: App {
                     isUndoEnabled: true
                 )
         }
+    }
+    
+    func buildModelContainer() -> ModelContainer {
+        let schema = Schema([ToDoList.self, ToDoItem.self, Blueprint.self, BlueprintItem.self])
+        let configuration = ModelConfiguration()
+        do {
+            let container = try ModelContainer(
+                for: schema,
+                migrationPlan: nil,
+                configurations: [configuration]
+            )
+            return container
+        } catch {
+            fatalError()
+        }
+        
     }
 }

@@ -30,10 +30,10 @@
 		2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D4D2CA127900098C595 /* UpdateToDoListView.swift */; };
 		2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2494D2CA38DF2004725CD /* Theme.swift */; };
 		2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E8A2CB7828D007FCC47 /* TestDataController.swift */; };
-		2BAE0E8D2CB78815007FCC47 /* Blueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */; };
-		2BAE0E8E2CB7881C007FCC47 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem.swift */; };
-		2BAE0E8F2CB7881C007FCC47 /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList.swift */; };
-		2BAE0E902CB7881C007FCC47 /* BlueprintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */; };
+		2BAE0E8D2CB78815007FCC47 /* Blueprint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */; };
+		2BAE0E8E2CB7881C007FCC47 /* ToDoItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */; };
+		2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */; };
+		2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */; };
 		2BAE0E912CB78872007FCC47 /* String+InputFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */; };
 		2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E962CB9224E007FCC47 /* SettingsManager.swift */; };
 		2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E962CB9224E007FCC47 /* SettingsManager.swift */; };
@@ -42,7 +42,7 @@
 		2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */; };
 		2BAE0EC72CB98BC8007FCC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */; };
 		2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */; };
-		2BDCB7982CA5E95C0077CB97 /* Blueprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */; };
+		2BDCB7982CA5E95C0077CB97 /* Blueprint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */; };
 		2BDCB8DC2CA7925F0077CB97 /* AddListOrBlueprintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* AddListOrBlueprintView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
 		2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FB2B42B001003CB25F /* ContentView.swift */; };
@@ -50,8 +50,8 @@
 		2BE3B50B2B42B002003CB25F /* MyListsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B50A2B42B002003CB25F /* MyListsTests.swift */; };
 		2BE3B5152B42B002003CB25F /* MyListsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5142B42B002003CB25F /* MyListsUITests.swift */; };
 		2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5162B42B002003CB25F /* MyListsUITestsLaunchTests.swift */; };
-		2BE3B5262B42B033003CB25F /* ToDoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList.swift */; };
-		2BE3B5282B42B097003CB25F /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem.swift */; };
+		2BE3B5262B42B033003CB25F /* ToDoList+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */; };
+		2BE3B5282B42B097003CB25F /* ToDoItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */; };
 		2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */; };
 		2BE3B52E2B42B79C003CB25F /* ToDoListItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */; };
 		2BE3B5362B42D7CF003CB25F /* String+InputFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */; };
@@ -59,11 +59,10 @@
 		2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */; };
 		2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8462CCCC695009DD6BB /* Logger.swift */; };
 		2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */; };
-		2BE5A8512CD3224D009DD6BB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8502CD3224D009DD6BB /* PDFView.swift */; };
-		2BE5A8542CD322B7009DD6BB /* PDFInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8532CD322B7009DD6BB /* PDFInfo.swift */; };
-		2BE5A8562CD327E3009DD6BB /* PDFCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8552CD327E3009DD6BB /* PDFCreator.swift */; };
 		2BE5A89D2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */; };
-		2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */; };
+		2BE5A8AC2CE08168009DD6BB /* DataSchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */; };
+		2BE5A8AD2CE08168009DD6BB /* DataSchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */; };
+		2BEC68612B8D75C500BA2DC0 /* BlueprintItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */; };
 		2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */; };
 		2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */; };
 		2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */; };
@@ -155,8 +154,8 @@
 		2BE3B5102B42B002003CB25F /* ReusableListsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReusableListsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE3B5142B42B002003CB25F /* MyListsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsUITests.swift; sourceTree = "<group>"; };
 		2BE3B5162B42B002003CB25F /* MyListsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		2BE3B5252B42B033003CB25F /* ToDoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoList.swift; sourceTree = "<group>"; };
-		2BE3B5272B42B097003CB25F /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
+		2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoList+Utils.swift"; sourceTree = "<group>"; };
+		2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoItem+Utils.swift"; sourceTree = "<group>"; };
 		2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListsView.swift; sourceTree = "<group>"; };
 		2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListItemsView.swift; sourceTree = "<group>"; };
 		2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+InputFormat.swift"; sourceTree = "<group>"; };
@@ -164,12 +163,10 @@
 		2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitTimes.swift; sourceTree = "<group>"; };
 		2BE5A8462CCCC695009DD6BB /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintDetailsRowView.swift; sourceTree = "<group>"; };
-		2BE5A8502CD3224D009DD6BB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
-		2BE5A8532CD322B7009DD6BB /* PDFInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFInfo.swift; sourceTree = "<group>"; };
-		2BE5A8552CD327E3009DD6BB /* PDFCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFCreator.swift; sourceTree = "<group>"; };
 		2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+CurrentDevice.swift"; sourceTree = "<group>"; };
-		2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItem.swift; sourceTree = "<group>"; };
-		2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blueprint.swift; sourceTree = "<group>"; };
+		2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV1.swift; sourceTree = "<group>"; };
+		2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlueprintItem+Utils.swift"; sourceTree = "<group>"; };
+		2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Blueprint+Utils.swift"; sourceTree = "<group>"; };
 		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
 		2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemRowView.swift; sourceTree = "<group>"; };
 		2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintsView.swift; sourceTree = "<group>"; };
@@ -406,6 +403,34 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		2BE5A8AA2CE08152009DD6BB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */,
+				2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */,
+				2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */,
+				2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2BE5A8AE2CE082BD009DD6BB /* Schema */ = {
+			isa = PBXGroup;
+			children = (
+				2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */,
+			);
+			path = Schema;
+			sourceTree = "<group>";
+		};
+		2BE5A8AF2CE082D5009DD6BB /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */,
+				2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		2BEC686C2B8D8B4500BA2DC0 /* ToDoLists */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,12 +459,9 @@
 		2BEC68792B8DD48500BA2DC0 /* SwiftData */ = {
 			isa = PBXGroup;
 			children = (
-				2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */,
-				2BEC68642B8D75E600BA2DC0 /* Blueprint.swift */,
-				2BE3B5252B42B033003CB25F /* ToDoList.swift */,
-				2BEC68602B8D75C500BA2DC0 /* BlueprintItem.swift */,
-				2BE3B5272B42B097003CB25F /* ToDoItem.swift */,
-				2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */,
+				2BE5A8AE2CE082BD009DD6BB /* Schema */,
+				2BE5A8AA2CE08152009DD6BB /* Extensions */,
+				2BE5A8AF2CE082D5009DD6BB /* Util */,
 			);
 			path = SwiftData;
 			sourceTree = "<group>";
@@ -580,9 +602,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BDCB7982CA5E95C0077CB97 /* Blueprint.swift in Sources */,
+				2BDCB7982CA5E95C0077CB97 /* Blueprint+Utils.swift in Sources */,
 				2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */,
-				2BE3B5282B42B097003CB25F /* ToDoItem.swift in Sources */,
+				2BE3B5282B42B097003CB25F /* ToDoItem+Utils.swift in Sources */,
 				2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */,
 				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
 				2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */,
@@ -592,7 +614,7 @@
 				2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */,
 				2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */,
 				2B9369232CBB8E4B00E8AC27 /* TabSelection.swift in Sources */,
-				2BEC68612B8D75C500BA2DC0 /* BlueprintItem.swift in Sources */,
+				2BEC68612B8D75C500BA2DC0 /* BlueprintItem+Utils.swift in Sources */,
 				2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */,
 				2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift in Sources */,
 				2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
@@ -615,11 +637,12 @@
 				2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */,
 				2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */,
 				2B9E8D392CA0A0080098C595 /* RoundClipped.swift in Sources */,
+				2BE5A8AD2CE08168009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
 				2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */,
 				2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */,
-				2BE3B5262B42B033003CB25F /* ToDoList.swift in Sources */,
+				2BE3B5262B42B033003CB25F /* ToDoList+Utils.swift in Sources */,
 				2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */,
 				2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */,
 				2B342A712CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */,
@@ -638,18 +661,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BE5A8AC2CE08168009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */,
 				2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
 				2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */,
 				2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,
-				2BAE0E8D2CB78815007FCC47 /* Blueprint.swift in Sources */,
+				2BAE0E8D2CB78815007FCC47 /* Blueprint+Utils.swift in Sources */,
 				2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */,
 				2BE3B5152B42B002003CB25F /* MyListsUITests.swift in Sources */,
-				2BAE0E8E2CB7881C007FCC47 /* ToDoItem.swift in Sources */,
+				2BAE0E8E2CB7881C007FCC47 /* ToDoItem+Utils.swift in Sources */,
 				2BAE0E912CB78872007FCC47 /* String+InputFormat.swift in Sources */,
-				2BAE0E8F2CB7881C007FCC47 /* ToDoList.swift in Sources */,
-				2BAE0E902CB7881C007FCC47 /* BlueprintItem.swift in Sources */,
+				2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */,
+				2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,7 +827,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.0;
+				CURRENT_PROJECT_VERSION = 2.4.1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -820,7 +844,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -842,7 +866,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.0;
+				CURRENT_PROJECT_VERSION = 2.4.1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -859,7 +883,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -878,11 +902,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.0;
+				CURRENT_PROJECT_VERSION = 2.4.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -901,11 +925,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.0;
+				CURRENT_PROJECT_VERSION = 2.4.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -923,10 +947,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.0;
+				CURRENT_PROJECT_VERSION = 2.4.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -945,10 +969,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.0;
+				CURRENT_PROJECT_VERSION = 2.4.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.4.0;
+				MARKETING_VERSION = 2.4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

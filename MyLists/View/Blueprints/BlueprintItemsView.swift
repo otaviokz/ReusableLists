@@ -123,6 +123,7 @@ private extension BlueprintItemsView {
                 
                 try withAnimation(.easeIn(duration: 0.25)) {
                     modelContext.insert(list)
+                    blueprint.usageCount += 1
                     try modelContext.save()
                 }
                 

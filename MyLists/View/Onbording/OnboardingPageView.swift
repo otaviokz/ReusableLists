@@ -190,7 +190,8 @@ these lists, you can simply create a copy from its corresponding Blueprint.
     static var blueprintAddListInstance: OnboardingPageView {
         OnboardingPageView(
             title: "More about blueprints:",
-            image: Image(UIDevice.iPhone ? "9.OverviewCreateListFromBlueprint" : "9.OverviewCreateListFromBlueprint_iPad"),
+            image: Image(
+                UIDevice.iPhone ? "9.OverviewCreateListFromBlueprint" : "9.OverviewCreateListFromBlueprint_iPad"),
             text:
 """
 Like lists, blueprints have names, details (optional), and items, but they are distinct entities.

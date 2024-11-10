@@ -60,8 +60,14 @@
 		2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8462CCCC695009DD6BB /* Logger.swift */; };
 		2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */; };
 		2BE5A89D2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */; };
-		2BE5A8AC2CE08168009DD6BB /* DataSchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */; };
-		2BE5A8AD2CE08168009DD6BB /* DataSchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */; };
+		2BE5A8A22CE0577C009DD6BB /* DataSchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8A12CE0577C009DD6BB /* DataSchemaV1.swift */; };
+		2BE5A8A32CE0577C009DD6BB /* DataSchemaV1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8A12CE0577C009DD6BB /* DataSchemaV1.swift */; };
+		2BE5A8A52CE06342009DD6BB /* DataSchemaV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */; };
+		2BE5A8A62CE06342009DD6BB /* DataSchemaV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */; };
+		2BE5A8A82CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */; };
+		2BE5A8A92CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */; };
+		2BE5A8B22CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */; };
+		2BE5A8B32CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */; };
 		2BEC68612B8D75C500BA2DC0 /* BlueprintItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */; };
 		2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */; };
 		2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */; };
@@ -164,7 +170,10 @@
 		2BE5A8462CCCC695009DD6BB /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		2BE5A8482CD1B020009DD6BB /* BlueprintDetailsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintDetailsRowView.swift; sourceTree = "<group>"; };
 		2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+CurrentDevice.swift"; sourceTree = "<group>"; };
-		2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV1.swift; sourceTree = "<group>"; };
+		2BE5A8A12CE0577C009DD6BB /* DataSchemaV1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV1.swift; sourceTree = "<group>"; };
+		2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV2.swift; sourceTree = "<group>"; };
+		2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV3.swift; sourceTree = "<group>"; };
+		2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationPlan.swift; sourceTree = "<group>"; };
 		2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlueprintItem+Utils.swift"; sourceTree = "<group>"; };
 		2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Blueprint+Utils.swift"; sourceTree = "<group>"; };
 		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
@@ -267,7 +276,9 @@
 		2BAE0E952CB9220D007FCC47 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				2BEC68792B8DD48500BA2DC0 /* SwiftData */,
+				2BE5A8A02CE0575B009DD6BB /* DataSchemas */,
+				2BEC68792B8DD48500BA2DC0 /* Extensions */,
+				2BE5A8B02CE08509009DD6BB /* Utils */,
 				2BAE0E962CB9224E007FCC47 /* SettingsManager.swift */,
 			);
 			path = Persistence;
@@ -403,32 +414,24 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		2BE5A8AA2CE08152009DD6BB /* Extensions */ = {
+		2BE5A8A02CE0575B009DD6BB /* DataSchemas */ = {
 			isa = PBXGroup;
 			children = (
-				2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */,
-				2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */,
-				2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */,
-				2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */,
+				2BE5A8A12CE0577C009DD6BB /* DataSchemaV1.swift */,
+				2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */,
+				2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */,
+				2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */,
 			);
-			path = Extensions;
+			path = DataSchemas;
 			sourceTree = "<group>";
 		};
-		2BE5A8AE2CE082BD009DD6BB /* Schema */ = {
+		2BE5A8B02CE08509009DD6BB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				2BE5A8AB2CE08168009DD6BB /* DataSchemaV1.swift */,
-			);
-			path = Schema;
-			sourceTree = "<group>";
-		};
-		2BE5A8AF2CE082D5009DD6BB /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */,
 				2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */,
+				2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */,
 			);
-			path = Util;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		2BEC686C2B8D8B4500BA2DC0 /* ToDoLists */ = {
@@ -456,14 +459,15 @@
 			path = Blueprints;
 			sourceTree = "<group>";
 		};
-		2BEC68792B8DD48500BA2DC0 /* SwiftData */ = {
+		2BEC68792B8DD48500BA2DC0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				2BE5A8AE2CE082BD009DD6BB /* Schema */,
-				2BE5A8AA2CE08152009DD6BB /* Extensions */,
-				2BE5A8AF2CE082D5009DD6BB /* Util */,
+				2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */,
+				2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */,
+				2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */,
+				2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */,
 			);
-			path = SwiftData;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -608,9 +612,11 @@
 				2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */,
 				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
 				2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */,
+				2BE5A8A32CE0577C009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */,
 				2B342A6A2CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,
 				2BE5A89D2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift in Sources */,
+				2BE5A8A92CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */,
 				2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */,
 				2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */,
 				2B9369232CBB8E4B00E8AC27 /* TabSelection.swift in Sources */,
@@ -622,6 +628,7 @@
 				2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */,
 				2BE3B5362B42D7CF003CB25F /* String+InputFormat.swift in Sources */,
 				2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */,
+				2BE5A8B22CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */,
 				2B9E8D4C2CA122F40098C595 /* SheetWrappedViewable.swift in Sources */,
 				2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */,
 				2BDCB8DC2CA7925F0077CB97 /* AddListOrBlueprintView.swift in Sources */,
@@ -637,12 +644,12 @@
 				2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */,
 				2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */,
 				2B9E8D392CA0A0080098C595 /* RoundClipped.swift in Sources */,
-				2BE5A8AD2CE08168009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
 				2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */,
 				2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */,
 				2BE3B5262B42B033003CB25F /* ToDoList+Utils.swift in Sources */,
+				2BE5A8A62CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 				2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */,
 				2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */,
 				2B342A712CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */,
@@ -661,11 +668,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BE5A8AC2CE08168009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */,
 				2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
+				2BE5A8A22CE0577C009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */,
+				2BE5A8B32CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */,
+				2BE5A8A82CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */,
 				2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,
 				2BAE0E8D2CB78815007FCC47 /* Blueprint+Utils.swift in Sources */,
 				2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */,
@@ -674,6 +683,7 @@
 				2BAE0E912CB78872007FCC47 /* String+InputFormat.swift in Sources */,
 				2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */,
 				2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */,
+				2BE5A8A52CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,7 +837,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.1;
+				CURRENT_PROJECT_VERSION = 2.5.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -844,7 +854,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -866,7 +876,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.1;
+				CURRENT_PROJECT_VERSION = 2.5.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -883,7 +893,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -902,11 +912,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.1;
+				CURRENT_PROJECT_VERSION = 2.5.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -925,11 +935,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.1;
+				CURRENT_PROJECT_VERSION = 2.5.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -947,10 +957,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.1;
+				CURRENT_PROJECT_VERSION = 2.5.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -969,10 +979,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.4.1;
+				CURRENT_PROJECT_VERSION = 2.5.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

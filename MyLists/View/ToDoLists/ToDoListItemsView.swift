@@ -53,7 +53,6 @@ struct ToDoListItemsView: View {
                     Section("List Items:") {
                         ForEach(list.items.sorted(by: sortType)) { item in
                             ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
-                            
                         }
                         .onDelete(perform: deleteItem)
                     }
@@ -120,7 +119,7 @@ private extension ToDoListItemsView {
             string += " ▢  -  \(item.name)\n\n"
         }
         
-        string += "\nReusable Lists\n"
+        string += "Reusable Lists\n"
         string += "https://tinyurl.com/mr3essyr"
         
         return string
@@ -201,7 +200,6 @@ private extension ToDoListItemsView {
 // MARK: - SwiftData
 
 fileprivate extension ToDoListItemsView {
-    
     func deleteItem(_ indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }

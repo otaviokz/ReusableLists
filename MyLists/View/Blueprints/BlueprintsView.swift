@@ -15,7 +15,7 @@ struct BlueprintsView: View {
     
     @State private var presentErrorAlert = false
     @State private var presentAddBlueprintSheet = false
-    @State private var blueprintToDelete = Blueprint.placeholderBlueprint
+    @State private var blueprintToDelete: Blueprint?
     @State var showingDeleteAlert = false
 
     var body: some View {
@@ -38,6 +38,7 @@ struct BlueprintsView: View {
                 Button(
                     role: .destructive,
                     action: {
+                        guard let blueprintToDelete = blueprintToDelete else { return }
                         delete(blueprint: blueprintToDelete)
                     },
                     label: { Text("Delete").foregroundStyle(Color.red) }
@@ -65,6 +66,7 @@ struct BlueprintsView: View {
 
 private extension BlueprintsView {
     var deleteConfirmationText: Text {
+        guard let blueprintToDelete = blueprintToDelete else { return Text("") }
         var message = "Blueprint \"\(blueprintToDelete.name)\""
         if !blueprintToDelete.items.isEmpty {
             message += " and it's \(blueprintToDelete.items.count) items"
@@ -80,8 +82,8 @@ private extension BlueprintsView {
     func delete(blueprint: Blueprint) {
         do {
             modelContext.delete(blueprint)
-            blueprintToDelete = .placeholderBlueprint
             try modelContext.save()
+            blueprintToDelete = nil
         } catch {
             logger.error("delete(\(blueprint.name)) \(error)")
             presentErrorAlert = true

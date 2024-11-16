@@ -29,9 +29,7 @@ extension DataSchemaV1 {
             self.name = name
             self.creationDate = .now
             self.details = details
-        }
-        
-//        @Attribute(.externalStorage) var image: Data?
+        }        
     }
     
     @Model

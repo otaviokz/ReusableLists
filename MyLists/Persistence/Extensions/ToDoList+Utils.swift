@@ -18,15 +18,7 @@ extension ToDoList {
         items.doneItems
     }
     
-    var isDone: Bool {
-        doneItems.count == items.count
-    }
-    
     var progress: Double {
         Double(doneItems.count) / Double(items.count)
-    }
-    
-    static var placeholderList: ToDoList {
-        ToDoList("Placeholder")
     }
 }

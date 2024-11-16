@@ -25,7 +25,7 @@ struct ReusableListsApp: App {
     func buildModelContainer() -> ModelContainer {
         let schema = Schema([ToDoList.self, ToDoItem.self, Blueprint.self, BlueprintItem.self])
         let configuration = ModelConfiguration()
-        do {
+        do { 
             let container = try ModelContainer(
                 for: schema,
                 migrationPlan: DataMigrationPlan.self,
@@ -35,6 +35,5 @@ struct ReusableListsApp: App {
         } catch {
             fatalError()
         }
-        
     }
 }

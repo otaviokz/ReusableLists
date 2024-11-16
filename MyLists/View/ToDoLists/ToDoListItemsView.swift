@@ -110,10 +110,10 @@ private extension ToDoListItemsView {
     var shareMessage: String {
         var string = "Name:  " + list.name
         if !list.details.isEmpty {
-            string += "\n\nDetails:\n\n\(list.details)\n\n"
-        } else {
-            string += "\n\n"
+            string += "\n\nDetails:\n\n\(list.details)"
         }
+        
+        string += "\n\n"
         
         for item in list.items.sorted(by: sortType) {
             string += " ▢  -  \(item.name)\n\n"

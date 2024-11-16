@@ -16,8 +16,8 @@ struct ToDoListsView: View {
     private var lists: [ToDoList]
     @State private var presentErrorAlert = false
     @State private var presentAddToDoListSheet = false
-    @State private var listToDelete = ToDoList.placeholderList
-    @State private var showingDeleteAlert = false
+    @State private var listToDelete: ToDoList?
+    @State private var presentDeleteConfirmation = false
     
     var body: some View {
         List {
@@ -35,19 +35,24 @@ struct ToDoListsView: View {
                 .swipeActions {
                     Button("Delete", role: .cancel) {
                         listToDelete = list
-                        showingDeleteAlert = true
+                        presentDeleteConfirmation = true
                     }
                     .tint(.red)
                 }
             }
-            .confirmationDialog(deleteConfirmationText, isPresented: $showingDeleteAlert, titleVisibility: .visible) {
+            .confirmationDialog(
+                deleteConfirmationText,
+                isPresented: $presentDeleteConfirmation,
+                titleVisibility: .visible
+            ) {
                 Button(role: .destructive) {
+                    guard let listToDelete = listToDelete else { return }
                     delete(list: listToDelete, waitFotDimiss: false)
                 } label: {
                     Text("Delete").foregroundStyle(Color.red)
                 }
                 
-                Button("Cancel", role: .cancel) { showingDeleteAlert = false }
+                Button("Cancel", role: .cancel) { presentDeleteConfirmation = false }
             }
         }
         .animation(.linear(duration: 0.25), value: lists)
@@ -80,6 +85,7 @@ struct ToDoListsView: View {
 
 extension ToDoListsView {
     var deleteConfirmationText: Text {
+        guard let listToDelete = listToDelete else { return Text("") }
         var message = "List \"\(listToDelete.name)\""
         if !listToDelete.items.isEmpty {
             message += " and it's \(listToDelete.items.count) items"
@@ -101,8 +107,8 @@ private extension ToDoListsView {
                 
                 try withAnimation(.easeIn(duration: 0.25)) {
                     modelContext.delete(list)
-                    listToDelete = .placeholderList
                     try modelContext.save()
+                    listToDelete = nil
                 }
             } catch {
                 presentErrorAlert = true

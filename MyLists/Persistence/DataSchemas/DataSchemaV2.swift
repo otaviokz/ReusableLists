@@ -30,9 +30,7 @@ extension DataSchemaV2 {
             self.name = name
             self.timestamp = .now
             self.details = details
-        }
-        
-        //        @Attribute(.externalStorage) var image: Data?
+        }        
     }
     
     @Model

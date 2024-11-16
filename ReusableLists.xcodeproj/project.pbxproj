@@ -30,7 +30,6 @@
 		2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D4D2CA127900098C595 /* UpdateToDoListView.swift */; };
 		2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2494D2CA38DF2004725CD /* Theme.swift */; };
 		2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E8A2CB7828D007FCC47 /* TestDataController.swift */; };
-		2BAE0E8D2CB78815007FCC47 /* Blueprint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */; };
 		2BAE0E8E2CB7881C007FCC47 /* ToDoItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */; };
 		2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */; };
 		2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */; };
@@ -42,7 +41,6 @@
 		2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */; };
 		2BAE0EC72CB98BC8007FCC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */; };
 		2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */; };
-		2BDCB7982CA5E95C0077CB97 /* Blueprint+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */; };
 		2BDCB8DC2CA7925F0077CB97 /* AddListOrBlueprintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* AddListOrBlueprintView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
 		2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FB2B42B001003CB25F /* ContentView.swift */; };
@@ -175,7 +173,6 @@
 		2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV3.swift; sourceTree = "<group>"; };
 		2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationPlan.swift; sourceTree = "<group>"; };
 		2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlueprintItem+Utils.swift"; sourceTree = "<group>"; };
-		2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Blueprint+Utils.swift"; sourceTree = "<group>"; };
 		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
 		2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemRowView.swift; sourceTree = "<group>"; };
 		2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintsView.swift; sourceTree = "<group>"; };
@@ -462,7 +459,6 @@
 		2BEC68792B8DD48500BA2DC0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				2BEC68642B8D75E600BA2DC0 /* Blueprint+Utils.swift */,
 				2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */,
 				2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */,
 				2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */,
@@ -606,7 +602,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BDCB7982CA5E95C0077CB97 /* Blueprint+Utils.swift in Sources */,
 				2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */,
 				2BE3B5282B42B097003CB25F /* ToDoItem+Utils.swift in Sources */,
 				2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */,
@@ -676,7 +671,6 @@
 				2BE5A8B32CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */,
 				2BE5A8A82CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */,
 				2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,
-				2BAE0E8D2CB78815007FCC47 /* Blueprint+Utils.swift in Sources */,
 				2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */,
 				2BE3B5152B42B002003CB25F /* MyListsUITests.swift in Sources */,
 				2BAE0E8E2CB7881C007FCC47 /* ToDoItem+Utils.swift in Sources */,

@@ -31,8 +31,6 @@ extension DataSchemaV3 {
             self.timestamp = .now
             self.details = details
         }
-        
-        //        @Attribute(.externalStorage) var image: Data?
     }
     
     @Model

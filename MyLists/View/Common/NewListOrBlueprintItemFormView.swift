@@ -7,22 +7,29 @@
 
 import SwiftUI
 
-struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
-    @Environment(\.modelContext) private var modelContext
-    
+struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var invalidNameSent = false
     @State private var presentAlert = false
     @State var isSheetPresented: Binding<Bool>
-    let newItemForEntity: NewEntityItem
     @State private var namesList: [String] = []
     @State private var scrollId: String?
-    @State var scrollViewProxy: ScrollViewProxy?
+    @State private var scrollViewProxy: ScrollViewProxy?
+    private let newItemForEntity: NewEntityItem
+    private let isUniqueNameInEntity: (String) -> Bool
+    private let createAndInsertNewItems: ([String]) throws -> Void
     
-    init(_ newItemForEntity: NewEntityItem, isSheetPresented: Binding<Bool>) {
+    init(
+        _ newItemForEntity: NewEntityItem,
+        isSheetPresented: Binding<Bool>,
+        isUniqueNameInEntity: @escaping (String) -> Bool,
+        createAndInsertNewItems: @escaping ([String]) throws -> Void
+    ) {
         self.newItemForEntity = newItemForEntity
         self.isSheetPresented = isSheetPresented
+        self.isUniqueNameInEntity = isUniqueNameInEntity
+        self.createAndInsertNewItems = createAndInsertNewItems
     }
     
     var body: some View {
@@ -64,7 +71,7 @@ struct AddNewListOrBlueprintItemView: View, SheetWrappedViewable {
 
 // MARK: - UI
 
-private extension AddNewListOrBlueprintItemView {
+private extension NewListOrBlueprintItemFormView {
     enum Field: Hashable {
         case name
     }
@@ -72,7 +79,7 @@ private extension AddNewListOrBlueprintItemView {
     var headerView: some View {
         HStack {
             newItemForEntity.image
-            Text(headerTitle).font(.title3)
+            Text(newItemForEntity.name).font(.title3)
         }
     }
     
@@ -134,26 +141,12 @@ private extension AddNewListOrBlueprintItemView {
         }
     }
     
-    var headerTitle: String {
-        switch newItemForEntity {
-            case .toDoList(let list): "List: \"\(list.name)\""
-            case .blueprint(let blueprint): "Blueprint: \"\(blueprint.name)\""
-        }
-    }
-    
     var showNameUnavailableMessage: Bool {
         invalidNameSent && isSaveButtonDisabled
     }
     
     var nameNotAvailableMessage: some View {
-        let text = switch newItemForEntity {
-            case .toDoList:
-                Text("⚠ An item named \"\(name)\" already exists for this List.")
-            case .blueprint:
-                Text("⚠ An item named \"\(name)\" already exists for this Blueprint.")
-        }
-        
-        return text
+        Text(newItemForEntity.nameNotAvailableMessage)
             .font(.headline.weight(.light))
             .foregroundStyle(Color.red)
             .frame(alignment: .leading)
@@ -226,7 +219,7 @@ private extension AddNewListOrBlueprintItemView {
 
 // MARK: - SwiftData
 
-private extension AddNewListOrBlueprintItemView {
+private extension NewListOrBlueprintItemFormView {
     func deleteListItem(_ indexSet: IndexSet) {
         if let first = indexSet.first {
             namesList = namesList.filter { $0 != namesList[first] }
@@ -248,11 +241,8 @@ private extension AddNewListOrBlueprintItemView {
     
     func isUnique(newName new: String) -> Bool {
         let newName = new.asInput
-        guard namesList.first(where: { $0.trimLowcaseEquals(newName)}) == nil else { return false }
-        return switch newItemForEntity {
-            case .toDoList(let list): list.items.first { $0.name.trimLowcaseEquals(newName) } == nil
-            case .blueprint(let blueprint): blueprint.items.first { $0.name.trimLowcaseEquals(newName) } == nil
-        }
+        guard namesList.first(where: { $0.asInputLowercasedEquals(newName)}) == nil else { return false }
+        return isUniqueNameInEntity(newName)
     }
     
     func saveNewItemsAndDismissSheet() {
@@ -260,30 +250,16 @@ private extension AddNewListOrBlueprintItemView {
         if !newName.isEmpty, isUnique(newName: newName) {
             addToList(newName: newName)
         }
+        
         dismissSheet()
         
         Task {
             do {
-                try await Task.sleep(nanoseconds: 400_000_000)
-                withAnimation {
-                    switch newItemForEntity {
-                        case .toDoList(let list):
-                            for newName in namesList {
-                                let item = ToDoItem(newName.asInput)
-                                list.items.append(item)
-                                modelContext.insert(item)
-                            }
-                        case .blueprint(let blueprint):
-                            for newName in namesList {
-                                let item = BlueprintItem(newName.asInput)
-                                blueprint.items.append(item)
-                                modelContext.insert(item)
-                            }
-                    }
+                try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
+                
+                try withAnimation {
+                    try createAndInsertNewItems(namesList)
                 }
-                
-                try modelContext.save()
-                
             } catch {
                 logger.error("Error saveNewItemsAndDismissSheet(): \(error.localizedDescription)")
                 presentAlert = true
@@ -303,13 +279,14 @@ private extension AddNewListOrBlueprintItemView {
 #Preview {
     @Previewable @State var isSheetPresented = true
     NavigationStack {
-        VStack { }
-            .navigationTitle("List: \"Grocries\"")
+        VStack {
+            NewListOrBlueprintItemFormView(
+                .toDoList(entity: ToDoList("Sample List", details: "Sample details for preview purposes.")),
+                isSheetPresented: $isSheetPresented,
+                isUniqueNameInEntity: {_ in true},
+                createAndInsertNewItems: {_ in }
+            )
+        }
+        .navigationTitle("List: \"Grocries\"")
     }
-    AddNewListOrBlueprintItemView(
-        .toDoList(
-            entity: ToDoList("Sample List", details: "Sample details where something relevant is highlighted.")
-        ),
-        isSheetPresented: $isSheetPresented
-    )
 }

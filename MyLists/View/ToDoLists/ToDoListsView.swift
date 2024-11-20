@@ -14,7 +14,8 @@ struct ToDoListsView: View {
     
     @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)])
     private var lists: [ToDoList]
-    @State private var presentErrorAlert = false
+    @State private var presentAlert = false
+    @State private var alertMessage: String = Alert.genericErrorMessage
     @State private var presentAddToDoListSheet = false
     @State private var listToDelete: ToDoList?
     @State private var presentDeleteConfirmation = false
@@ -26,7 +27,7 @@ struct ToDoListsView: View {
                     destination: ToDoListItemsView(
                         for: list,
                         allDoneAction: {_ in
-                            delete(list: list, waitFotDimiss: true)
+                            delete(list: list, waitFotItemsViewDimiss: true)
                         }
                     )
                 ) {
@@ -41,13 +42,13 @@ struct ToDoListsView: View {
                 }
             }
             .confirmationDialog(
-                deleteConfirmationText,
+                deleteConfirmationDialogTitle,
                 isPresented: $presentDeleteConfirmation,
                 titleVisibility: .visible
             ) {
                 Button(role: .destructive) {
                     guard let listToDelete = listToDelete else { return }
-                    delete(list: listToDelete, waitFotDimiss: false)
+                    delete(list: listToDelete, waitFotItemsViewDimiss: false)
                 } label: {
                     Text("Delete").foregroundStyle(Color.red)
                 }
@@ -64,13 +65,19 @@ struct ToDoListsView: View {
                 .foregroundStyle(Color.cyan)
                 .accessibilityIdentifier("plus")
         }
-        .alert(isPresented: $presentErrorAlert) {
+        .alert(isPresented: $presentAlert) {
             Alert.genericError
         }
         .sheet(isPresented: $presentAddToDoListSheet) {
-            AddListOrBlueprintView(isSheetPresented: $presentAddToDoListSheet, entity: .toDoList)
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
+            NewListOrBlueprintFormView(
+                isSheetPresented: $presentAddToDoListSheet,
+                entity: .toDoList,
+                isUniqueName: isUniqueName,
+                createEntity: createNewEntity,
+                handleSaveError: handleSaveError
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
         }
         .task {
             if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
@@ -83,8 +90,8 @@ struct ToDoListsView: View {
 
 // MARK: - UI
 
-extension ToDoListsView {
-    var deleteConfirmationText: Text {
+private extension ToDoListsView {
+    var deleteConfirmationDialogTitle: Text {
         guard let listToDelete = listToDelete else { return Text("") }
         var message = "List \"\(listToDelete.name)\""
         if !listToDelete.items.isEmpty {
@@ -98,11 +105,11 @@ extension ToDoListsView {
 // MARK: - SwiftData
 
 private extension ToDoListsView {
-    func delete(list: ToDoList, waitFotDimiss: Bool = true) {
+    func delete(list: ToDoList, waitFotItemsViewDimiss: Bool) {
         Task {
             do {
-                if waitFotDimiss {
-                    try await Task.sleep(nanoseconds: WaitTimes.insertOrRemove)
+                if waitFotItemsViewDimiss {
+                    try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
                 }
                 
                 try withAnimation(.easeIn(duration: 0.25)) {
@@ -111,10 +118,30 @@ private extension ToDoListsView {
                     listToDelete = nil
                 }
             } catch {
-                presentErrorAlert = true
+                presentAlert = true
                 logger.error("Error deleting ToDoList: \(error)")
             }
         }
+    }
+}
+
+extension ToDoListsView: NewEntityCreatorProtocol {
+    func insertEntity(name: String, details: String) throws {
+        modelContext.insert(ToDoList(name, details: details))
+        try modelContext.save()
+    }
+    
+    func isUniqueName(name: String) -> Bool {
+        lists.first { $0.name.asInputLowercasedEquals(name) } == nil
+    }
+    
+    func handleSaveError(error: Error, name: String) {
+        logger.error("Error createNewEntity(ToDoList): \(error)")
+        alertMessage = Alert.genericErrorMessage
+        if case ListError.listNameUnavailable = error {
+            alertMessage = ListError.listNameUnavailable(name: name).message
+        }
+        presentAlert = true
     }
 }
 

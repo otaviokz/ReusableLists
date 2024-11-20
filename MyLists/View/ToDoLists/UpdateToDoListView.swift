@@ -111,7 +111,7 @@ private extension UpdateToDoListView {
 
 fileprivate extension UpdateToDoListView {
     var isUniqueName: Bool {
-        lists.first { $0.name.trimLowcaseEquals(name) } == nil
+        lists.first { $0.name.asInputLowercasedEquals(name) } == nil
     }
     
     var didChangeDetails: Bool {

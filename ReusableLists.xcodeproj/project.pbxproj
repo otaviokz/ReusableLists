@@ -12,10 +12,9 @@
 		2B342A6A2CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */; };
 		2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
 		2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
-		2B342A712CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A702CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift */; };
+		2B342A712CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */; };
 		2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917EF2B91EA46002439F3 /* AboutView.swift */; };
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
-		2B4917F42B91EAB6002439F3 /* OnboardingVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */; };
 		2B4917F72B91EB12002439F3 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */; };
 		2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */; };
 		2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */; };
@@ -28,6 +27,8 @@
 		2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D492CA101780098C595 /* Binding+Characterlimit.swift */; };
 		2B9E8D4C2CA122F40098C595 /* SheetWrappedViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D4B2CA122F40098C595 /* SheetWrappedViewable.swift */; };
 		2B9E8D4E2CA127900098C595 /* UpdateToDoListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D4D2CA127900098C595 /* UpdateToDoListView.swift */; };
+		2B9FA13A2CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9FA1392CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift */; };
+		2B9FA13C2CEDE2F50054A62A /* NewItemCreatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9FA13B2CEDE2F50054A62A /* NewItemCreatorProtocol.swift */; };
 		2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2494D2CA38DF2004725CD /* Theme.swift */; };
 		2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E8A2CB7828D007FCC47 /* TestDataController.swift */; };
 		2BAE0E8E2CB7881C007FCC47 /* ToDoItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */; };
@@ -41,7 +42,7 @@
 		2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */; };
 		2BAE0EC72CB98BC8007FCC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */; };
 		2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */; };
-		2BDCB8DC2CA7925F0077CB97 /* AddListOrBlueprintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* AddListOrBlueprintView.swift */; };
+		2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
 		2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FB2B42B001003CB25F /* ContentView.swift */; };
 		2BE3B5012B42B002003CB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BE3B5002B42B002003CB25F /* Preview Assets.xcassets */; };
@@ -118,10 +119,9 @@
 		2B06E3492CA20D13000D26BF /* Image+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Resizing.swift"; sourceTree = "<group>"; };
 		2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
 		2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityItem.swift; sourceTree = "<group>"; };
-		2B342A702CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewListOrBlueprintItemView.swift; sourceTree = "<group>"; };
+		2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintItemFormView.swift; sourceTree = "<group>"; };
 		2B4917EF2B91EA46002439F3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
-		2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVideoView.swift; sourceTree = "<group>"; };
 		2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
 		2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListItemRowView.swift; sourceTree = "<group>"; };
 		2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Shortcuts.swift"; sourceTree = "<group>"; };
@@ -136,6 +136,8 @@
 		2B9E8D492CA101780098C595 /* Binding+Characterlimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Characterlimit.swift"; sourceTree = "<group>"; };
 		2B9E8D4B2CA122F40098C595 /* SheetWrappedViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetWrappedViewable.swift; sourceTree = "<group>"; };
 		2B9E8D4D2CA127900098C595 /* UpdateToDoListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateToDoListView.swift; sourceTree = "<group>"; };
+		2B9FA1392CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityCreatorProtocol.swift; sourceTree = "<group>"; };
+		2B9FA13B2CEDE2F50054A62A /* NewItemCreatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemCreatorProtocol.swift; sourceTree = "<group>"; };
 		2BA2494D2CA38DF2004725CD /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		2BA513D42B95A62600B8F583 /* ReusableListsWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableListsWidgetBundle.swift; sourceTree = "<group>"; };
 		2BA513D62B95A62600B8F583 /* ReusableListsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableListsWidget.swift; sourceTree = "<group>"; };
@@ -148,7 +150,7 @@
 		2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowTests.swift; sourceTree = "<group>"; };
 		2BDCB7942CA4FD800077CB97 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		2BDCB8DB2CA7925F0077CB97 /* AddListOrBlueprintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddListOrBlueprintView.swift; sourceTree = "<group>"; };
+		2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintFormView.swift; sourceTree = "<group>"; };
 		2BE3B4F62B42B001003CB25F /* ReusableLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReusableLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE3B4F92B42B001003CB25F /* MyListsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsApp.swift; sourceTree = "<group>"; };
 		2BE3B4FB2B42B001003CB25F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -233,6 +235,15 @@
 			path = Environment;
 			sourceTree = "<group>";
 		};
+		2B9FA1382CEDDD530054A62A /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				2B9FA1392CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift */,
+				2B9FA13B2CEDE2F50054A62A /* NewItemCreatorProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		2BA513CE2B95A62600B8F583 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,7 +275,6 @@
 			isa = PBXGroup;
 			children = (
 				2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */,
-				2B4917F32B91EAB6002439F3 /* OnboardingVideoView.swift */,
 				2BAE0E992CB92735007FCC47 /* OnboardingView.swift */,
 			);
 			path = Onbording;
@@ -292,8 +302,9 @@
 		2BDCB79F2CA61E5F0077CB97 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				2BDCB8DB2CA7925F0077CB97 /* AddListOrBlueprintView.swift */,
-				2B342A702CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift */,
+				2B9FA1382CEDDD530054A62A /* Protocol */,
+				2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */,
+				2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */,
 				2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */,
 				2B9E8D492CA101780098C595 /* Binding+Characterlimit.swift */,
 				2B06E3492CA20D13000D26BF /* Image+Resizing.swift */,
@@ -604,6 +615,7 @@
 			files = (
 				2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */,
 				2BE3B5282B42B097003CB25F /* ToDoItem+Utils.swift in Sources */,
+				2B9FA13C2CEDE2F50054A62A /* NewItemCreatorProtocol.swift in Sources */,
 				2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */,
 				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
 				2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */,
@@ -626,20 +638,20 @@
 				2BE5A8B22CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */,
 				2B9E8D4C2CA122F40098C595 /* SheetWrappedViewable.swift in Sources */,
 				2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */,
-				2BDCB8DC2CA7925F0077CB97 /* AddListOrBlueprintView.swift in Sources */,
+				2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */,
 				2BE3B52E2B42B79C003CB25F /* ToDoListItemsView.swift in Sources */,
 				2B9E8D3D2CA0CB3F0098C595 /* UpdateBlueprintView.swift in Sources */,
 				2BAE0E9A2CB92735007FCC47 /* OnboardingView.swift in Sources */,
 				2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */,
 				2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */,
 				2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */,
-				2B4917F42B91EAB6002439F3 /* OnboardingVideoView.swift in Sources */,
 				2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */,
 				2B9AECC52CB54AE5003E6F28 /* Preview+SampleData.swift in Sources */,
 				2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */,
 				2BE5A8492CD1B020009DD6BB /* BlueprintDetailsRowView.swift in Sources */,
 				2B9E8D392CA0A0080098C595 /* RoundClipped.swift in Sources */,
 				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
+				2B9FA13A2CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift in Sources */,
 				2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */,
 				2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */,
@@ -647,7 +659,7 @@
 				2BE5A8A62CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 				2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */,
 				2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */,
-				2B342A712CC7820C0034D1D7 /* AddNewListOrBlueprintItemView.swift in Sources */,
+				2B342A712CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

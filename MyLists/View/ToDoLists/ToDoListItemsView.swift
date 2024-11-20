@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftData
-import Combine
 
 struct ToDoListItemsView: View {
     @Environment(\.modelContext) var modelContext
@@ -74,34 +73,40 @@ struct ToDoListItemsView: View {
                 sortView
             }
             .sheet(isPresented: $presentAddItemSheet) {
-                AddNewListOrBlueprintItemView(.toDoList(entity: list), isSheetPresented: $presentAddItemSheet)
-                    .presentationDetents([.large])
-                    .presentationDragIndicator(.visible)
+                NewListOrBlueprintItemFormView(
+                    .toDoList(entity: list),
+                    isSheetPresented: $presentAddItemSheet,
+                    isUniqueNameInEntity: isUniqueNameInEntity,
+                    createAndInsertNewItems: createAndInsertNewItems
+                )
             }
-            .alert(isPresented: $presentAlert) {
-                Alert(title: Alert.genericErrorTitle, message: alerMessage)
-            }
-            .toolbar {
-                toolBarView
-            }
-            .onAppear {
-                if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
-                    Task {
-                        do {
-                            withAnimation(.easeIn(duration: 0.25)) {
-                                dismiss()
-                                tabselection.didPopToRootView()
-                            }
-                            try await Task.sleep(nanoseconds: WaitTimes.dismiss)
-                        } catch {
-                            logger.error("Error dismissing ToDoListItemsView: \(error)")
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+        }
+        .alert(isPresented: $presentAlert) {
+            Alert(title: Alert.genericErrorTitle, message: alerMessage)
+        }
+        .toolbar {
+            toolBarView
+        }
+        .onAppear {
+            if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
+                Task {
+                    do {
+                        withAnimation(.easeIn(duration: 0.25)) {
+                            dismiss()
+                            tabselection.didPopToRootView()
                         }
+                        try await Task.sleep(nanoseconds: WaitTimes.dismiss)
+                    } catch {
+                        logger.error("Error dismissing ToDoListItemsView: \(error)")
                     }
                 }
             }
-            .navigationTitle(list.name)
         }
+        .navigationTitle(list.name)
     }
+
 }
 
 // MARK: - UI
@@ -199,7 +204,7 @@ private extension ToDoListItemsView {
 
 // MARK: - SwiftData
 
-fileprivate extension ToDoListItemsView {
+private extension ToDoListItemsView {
     func deleteItem(_ indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
@@ -212,5 +217,20 @@ fileprivate extension ToDoListItemsView {
             alerMessage = Alert.genericErrorMessage
             presentAlert = true
         }
+    }
+}
+
+extension ToDoListItemsView: NewItemCreatorProtocol {
+    func isUniqueNameInEntity(name: String) -> Bool {
+        list.items.first { $0.name.asInputLowercasedEquals(name) } == nil
+    }
+    
+    func createAndInsertNewItems(names: [String]) throws {
+        for name in names {
+            let item = ToDoItem(name)
+            list.items.append(item)
+            modelContext.insert(item)
+        }
+        try modelContext.save()
     }
 }

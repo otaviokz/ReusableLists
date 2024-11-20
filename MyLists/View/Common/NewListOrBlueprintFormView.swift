@@ -8,22 +8,28 @@
 import SwiftUI
 import SwiftData
 
-struct AddListOrBlueprintView: SheetWrappedViewable {
-    @Environment(\.modelContext) private var modelContext
-    
-    @Query private var blueprints: [Blueprint]
-    @Query private var lists: [ToDoList]
+struct NewListOrBlueprintFormView: SheetWrappedViewable {
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
-    @State private var presentAlert = false
-    @State private var errorMessage = Alert.genericErrorMessage
     @State var isSheetPresented: Binding<Bool>
-    var entity: ListEntity
     
-    init(isSheetPresented: Binding<Bool>, entity: ListEntity) {
+    private var entity: ListEntity
+    private let isUniqueName: (String) -> Bool
+    private let createEntity: (String, String) -> Void
+    private let handleSaveError: (Error, String) -> Void
+    
+    init(isSheetPresented: Binding<Bool>,
+         entity: ListEntity,
+         isUniqueName: @escaping (String) -> Bool,
+         createEntity: @escaping (String, String) -> Void,
+         handleSaveError: @escaping (Error, String) -> Void
+    ) {
         self.isSheetPresented = isSheetPresented
         self.entity = entity
+        self.isUniqueName = isUniqueName
+        self.createEntity = createEntity
+        self.handleSaveError = handleSaveError
     }
     
     var body: some View {
@@ -34,9 +40,6 @@ struct AddListOrBlueprintView: SheetWrappedViewable {
             buttonsStack
                 .padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
-        .alert(isPresented: $presentAlert) {
-            Alert.genericError
-        }
         .onAppear {
             focusState = .name
         }
@@ -46,7 +49,7 @@ struct AddListOrBlueprintView: SheetWrappedViewable {
 
 // MARK: - UI
 
-fileprivate extension AddListOrBlueprintView {
+fileprivate extension NewListOrBlueprintFormView {
     enum Field: Hashable {
         case name
         case details
@@ -115,7 +118,7 @@ fileprivate extension AddListOrBlueprintView {
     }
     
     var saveButton: some View {
-        Button { createEntityInstanteAndDismissSheet() } label: { Text("Save") }
+        Button { dismissSheetAndCreateEntity() } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
     }
     
@@ -126,48 +129,24 @@ fileprivate extension AddListOrBlueprintView {
 
 // MARK: - SwiftData
 
-fileprivate extension AddListOrBlueprintView {
-    var isUniqueName: Bool {
-        switch entity {
-            case .toDoList: lists.first { $0.name.trimLowcaseEquals(name) } == nil
-            case .blueprint: blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
-        }
-    }
-    
+fileprivate extension NewListOrBlueprintFormView {
     var isSaveButtonDisabled: Bool {
-        name.asInput.isEmpty || !isUniqueName
+        name.asInput.isEmpty || !isUniqueName(name.asInput)
     }
     
-    func createEntityInstanteAndDismissSheet() {
+    func dismissSheetAndCreateEntity() {
         dismissSheet()
-        Task {
-            do {
-                try await Task.sleep(nanoseconds: WaitTimes.insertOrRemove)
-                try withAnimation(.easeIn(duration: 0.25)) {
-                    switch (entity, name.asInput, details.asInput) {
-                        case (.toDoList, let name, let details):
-                            modelContext.insert(ToDoList(name, details: details))
-                        case (.blueprint, let name, let details):
-                            modelContext.insert(Blueprint(name, details: details))
-                    }
-                    
-                    try modelContext.save()
-                }
-            } catch {
-                logger.error("Error createEntityInstanteAndDismissSheet(): \(error)")
-                handleSaveError(error)
-            }
-        }
-        
-        func handleSaveError(_ error: Error) {
-            errorMessage = Alert.genericErrorMessage
-            if let listError = error as? ListError {
-                errorMessage = switch listError {
-                    case .listNameUnavailable, .blueprintNameUnavailable: listError.message
-                    default: errorMessage
-                }
-            }
-            presentAlert = true
-        }
+        createEntity(name.asInput, details.asInput)
     }
+}
+
+#Preview {
+    @Previewable @State var isSheetPresented: Bool = false
+    NewListOrBlueprintFormView(
+        isSheetPresented: $isSheetPresented,
+        entity: .toDoList,
+        isUniqueName: {_ in true },
+        createEntity: { _, _ in },
+        handleSaveError: { _, _ in }
+    )
 }

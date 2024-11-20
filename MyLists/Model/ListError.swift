@@ -11,7 +11,7 @@ import SwiftUI
 enum ListError: Error {
     case listNameUnavailable(name: String)
     case listExistsForBlueprint(named: String)
-    case blueprintNameUnavailable(name: String)
+    case blueprintNameUnavailable(String)
     case emptyDeleteIndexSet
 
     var message: String {

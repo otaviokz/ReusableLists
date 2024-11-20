@@ -13,6 +13,7 @@ struct UpdateBlueprintView: View {
     @Environment(\.dismiss) private var dismiss
     
     @Query private var blueprints: [Blueprint]
+    
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
@@ -111,7 +112,7 @@ fileprivate extension UpdateBlueprintView {
 
 fileprivate extension UpdateBlueprintView {
     var isUniqueName: Bool {
-        blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
+        blueprints.first { $0.name.asInputLowercasedEquals(name) } == nil
     }
 
     var didChangeDetails: Bool {
@@ -137,6 +138,6 @@ fileprivate extension UpdateBlueprintView {
 
 #Preview {
     NavigationStack {
-        UpdateToDoListView(ToDoList("Groceries", details: "Try farmers market first"))
+        UpdateBlueprintView(Blueprint("Groceries", details: "Try farmers market first"))
     }
 }

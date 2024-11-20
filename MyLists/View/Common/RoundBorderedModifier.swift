@@ -29,3 +29,10 @@ extension View {
         modifier(RoundBorderedModifier(borderColor: borderColor, boderWidht: boderWidht))
     }
 }
+
+#Preview {
+    Rectangle()
+        .foregroundStyle(Color.clear)
+        .frame(width: 256, height: 256)
+        .roundBordered(borderColor: .purple, boderWidht: 4)
+}

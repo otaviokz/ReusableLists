@@ -13,7 +13,8 @@ struct BlueprintsView: View {
     
     @Query(sort: [SortDescriptor(\Blueprint.name, order: .forward)]) private var blueprints: [Blueprint]
     
-    @State private var presentErrorAlert = false
+    @State private var presentAlert = false
+    @State private var alertMessage: String = Alert.genericErrorMessage
     @State private var presentAddBlueprintSheet = false
     @State private var blueprintToDelete: Blueprint?
     @State var showingDeleteAlert = false
@@ -34,7 +35,11 @@ struct BlueprintsView: View {
                 .listRowBackground(Color.gray.opacity(0.4))
                 .listRowSeparatorTint(.gray, edges: .all)
             }
-            .confirmationDialog(deleteConfirmationText, isPresented: $showingDeleteAlert, titleVisibility: .visible) {
+            .confirmationDialog(
+                deleteConfirmationDialogTitle,
+                isPresented: $showingDeleteAlert,
+                titleVisibility: .visible
+            ) {
                 Button(
                     role: .destructive,
                     action: {
@@ -46,17 +51,24 @@ struct BlueprintsView: View {
                 Button("Cancel", role: .cancel) { showingDeleteAlert = false }
             }
         }
+        .animation(.linear(duration: 0.25), value: blueprints)
         .toolbar {
             Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
                 .foregroundStyle(Color.cyan)
         }
-        .alert(isPresented: $presentErrorAlert) {
+        .alert(isPresented: $presentAlert) {
             Alert.genericError
         }
         .sheet(isPresented: $presentAddBlueprintSheet) {
-            AddListOrBlueprintView(isSheetPresented: $presentAddBlueprintSheet, entity: .blueprint)
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
+            NewListOrBlueprintFormView(
+                isSheetPresented: $presentAddBlueprintSheet,
+                entity: .blueprint,
+                isUniqueName: isUniqueName,
+                createEntity: createNewEntity,
+                handleSaveError: handleSaveError
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
         }
         .navigationTitle("Blueprints")
     }
@@ -65,7 +77,7 @@ struct BlueprintsView: View {
 // MARK: - UI
 
 private extension BlueprintsView {
-    var deleteConfirmationText: Text {
+    var deleteConfirmationDialogTitle: Text {
         guard let blueprintToDelete = blueprintToDelete else { return Text("") }
         var message = "Blueprint \"\(blueprintToDelete.name)\""
         if !blueprintToDelete.items.isEmpty {
@@ -86,8 +98,28 @@ private extension BlueprintsView {
             blueprintToDelete = nil
         } catch {
             logger.error("delete(\(blueprint.name)) \(error)")
-            presentErrorAlert = true
+            presentAlert = true
         }
+    }
+}
+
+extension BlueprintsView: NewEntityCreatorProtocol {
+    func isUniqueName(name: String) -> Bool {
+        blueprints.first { $0.name.asInputLowercasedEquals(name) } == nil
+    }
+    
+    func insertEntity(name: String, details: String) throws {
+        modelContext.insert(Blueprint(name, details: details))
+        try modelContext.save()
+    }
+    
+    func handleSaveError(error: Error, name: String) {
+        logger.error("Error createEntityInstanteAndDismissSheet(): \(error)")
+        alertMessage = Alert.genericErrorMessage
+        if case ListError.blueprintNameUnavailable = error {
+            alertMessage = ListError.blueprintNameUnavailable(name).message
+        }
+        presentAlert = true
     }
 }
 

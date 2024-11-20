@@ -18,7 +18,7 @@ extension ToDoList {
         items.doneItems
     }
     
-    var progress: Double {
+    private var progress: Double {
         Double(doneItems.count) / Double(items.count)
     }
 }

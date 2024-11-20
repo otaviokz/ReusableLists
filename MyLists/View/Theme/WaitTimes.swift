@@ -8,7 +8,8 @@
 import Foundation
 
 struct WaitTimes {
-    static var insertOrRemove: UInt64 = 350_000_000
-    static var tabSelection: UInt64 = 250_000_000
+    
     static var dismiss: UInt64 = 100_000_000
+    static var tabSelection: UInt64 = 200_000_000
+    static var sheetDismissAndInsertOrRemove: UInt64 = 400_000_000
 }

@@ -33,7 +33,7 @@ struct BlueprintRowView: View {
                         }
                     }
                 }
-                .font(.footnote/*.weight(.light)*/)
+                .font(.footnote)
             }
             Spacer()
         }

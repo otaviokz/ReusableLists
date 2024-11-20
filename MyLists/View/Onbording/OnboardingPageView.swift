@@ -53,7 +53,6 @@ struct OnboardingPageView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(height: UIDevice.iPhone ? 520 : 894)
-                        
                     }
                     
                     Text(text)
@@ -66,7 +65,6 @@ struct OnboardingPageView: View {
             }
             .scrollIndicators(.hidden)
         }
-        
     }
 }
 
@@ -253,12 +251,10 @@ but to print them!
             isLastPage: true
         )
     }
-    
 }
 
 #Preview {
     NavigationStack {
         OnboardingPageView.blueprintsInstanceList
     }
-    
 }

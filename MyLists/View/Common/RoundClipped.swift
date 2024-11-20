@@ -19,3 +19,10 @@ extension View {
         modifier(RoundClipped())
     }
 }
+
+#Preview {
+    Rectangle()
+        .frame(width: 300, height: 300)
+        .foregroundStyle(Color.red)
+        .roundClipped()
+}

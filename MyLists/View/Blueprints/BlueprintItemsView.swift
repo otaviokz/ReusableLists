@@ -52,10 +52,15 @@ struct BlueprintItemsView: View {
             Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
         .sheet(isPresented: $presentAddItemSheet) {
-            AddNewListOrBlueprintItemView(.blueprint(entity: blueprint), isSheetPresented: $presentAddItemSheet)
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
+            NewListOrBlueprintItemFormView(
+                .blueprint(entity: blueprint),
+                isSheetPresented: $presentAddItemSheet,
+                isUniqueNameInEntity: isUniqueNameInEntity,
+                createAndInsertNewItems: createAndInsertNewItems
+            )
         }
+        .presentationDetents([.large])
+        .presentationDragIndicator(.visible)
         .toolbar {
             toobarItem
         }
@@ -98,7 +103,7 @@ fileprivate extension BlueprintItemsView {
 
 private extension BlueprintItemsView {
     func listInstanceAlreadyExists(for blueprint: Blueprint) -> Bool {
-        lists.first { $0.name.trimLowcaseEquals(blueprint.name) } != nil
+        lists.first { $0.name.asInputLowercasedEquals(blueprint.name) } != nil
     }
     
     func addListInstance(from blueprint: Blueprint) {
@@ -119,7 +124,7 @@ private extension BlueprintItemsView {
                     tabselection.select(tab: 1, shouldPopToRootView: true)
                 }
                 
-                try await Task.sleep(nanoseconds: WaitTimes.insertOrRemove)
+                try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
                 
                 try withAnimation(.easeIn(duration: 0.25)) {
                     modelContext.insert(list)
@@ -150,5 +155,29 @@ private extension BlueprintItemsView {
             logger.error("Error deleteItem(indexSet \(indexSet)): \(error.localizedDescription)")
             presentAlert = true
         }
+    }
+}
+
+extension BlueprintItemsView: NewItemCreatorProtocol {
+    func isUniqueNameInEntity(name: String) -> Bool {
+        blueprint.items.first { $0.name.asInputLowercasedEquals(name) } == nil
+    }
+    
+    func createAndInsertNewItems(names: [String]) throws {
+        for name in names {
+            let item = BlueprintItem(name)
+            blueprint.items.append(item)
+            modelContext.insert(item)
+        }
+        try modelContext.save()
+    }
+}
+
+#Preview {
+    let blueprint = Blueprint("Chores:", details: "There's no scape from the weekend chores!")
+    blueprint.items.append(BlueprintItem("Laundry"))
+    blueprint.items.append(BlueprintItem("Dishwashing"))
+    return NavigationStack {
+        BlueprintItemsView(for: blueprint)
     }
 }

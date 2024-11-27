@@ -27,11 +27,11 @@ struct ToDoListItemRowView: View {
             
             Spacer()
                 
-            Image.checkBoxiImageForItem(item)
+            Image.checkBoxImageForItem(item)
                 .sizedToFit(width: 22, height: 22)
                 .foregroundStyle(Color.cyan)
                 .onTapGesture {
-                    withAnimation(.linear(duration: .Animations.toggleDone)) {
+                    withAnimation(.easeOut(duration: .Animations.toggleDone)) {
                         toggleDone(for: item)
                     }
                 }

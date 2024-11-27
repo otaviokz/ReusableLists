@@ -51,5 +51,3 @@ Reusable Lists Smoke Tests
 7 - Share List
 
 [ ] - Check right text is generated and check if it is sent correctly via WhatsApp and Gmail
-
-

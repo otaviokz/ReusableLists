@@ -26,7 +26,7 @@ extension Image {
     static let backward = Image(systemName: "backward")
     static let forward = Image(systemName: "forward")
     static let iconSize: CGFloat = 20
-    static func checkBoxiImageForItem(_ item: ToDoItem) -> Image {
+    static func checkBoxImageForItem(_ item: ToDoItem) -> Image {
         item.done ? checkBoxTicked : checkBox
     }
 }

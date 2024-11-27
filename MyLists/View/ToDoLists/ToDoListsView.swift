@@ -24,15 +24,13 @@ struct ToDoListsView: View {
         List {
             ForEach(lists) { list in
                 NavigationLink(
-                    destination: ToDoListItemsView(
-                        for: list,
-                        allDoneAction: {_ in
-                            delete(list: list, waitFotItemsViewDimiss: true)
-                        }
-                    )
-                ) {
-                    ToDoListRowView(list: list)
-                }
+                    destination: ToDoListItemsView(for: list, allDoneAction: {_ in
+                        delete(list, waitFotItemsViewDimiss: true)
+                    }),
+                    label: {
+                        ToDoListRowView(list: list)
+                    }
+                )
                 .swipeActions {
                     Button("Delete", role: .cancel) {
                         listToDelete = list
@@ -48,7 +46,7 @@ struct ToDoListsView: View {
             ) {
                 Button(role: .destructive) {
                     guard let listToDelete = listToDelete else { return }
-                    delete(list: listToDelete, waitFotItemsViewDimiss: false)
+                    delete(listToDelete, waitFotItemsViewDimiss: false)
                 } label: {
                     Text("Delete").foregroundStyle(Color.red)
                 }
@@ -105,7 +103,7 @@ private extension ToDoListsView {
 // MARK: - SwiftData
 
 private extension ToDoListsView {
-    func delete(list: ToDoList, waitFotItemsViewDimiss: Bool) {
+    func delete(_ list: ToDoList, waitFotItemsViewDimiss: Bool) {
         Task {
             do {
                 if waitFotItemsViewDimiss {

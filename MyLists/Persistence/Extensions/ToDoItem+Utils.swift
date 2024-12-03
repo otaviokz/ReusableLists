@@ -8,10 +8,11 @@
 import Foundation
 import SwiftData
 
-enum SortType {
-    case doneFirst
-    case todoFirst
-    case alphabetic
+enum SortType: String, Codable {
+    case doneFirst = "Done first"
+    case todoFirst = "Todo first"
+    case byName = "Name A-Z"
+    case byNameInverted = "Name Z-A"
 }
 
 extension Array where Element == ToDoItem {
@@ -19,7 +20,8 @@ extension Array where Element == ToDoItem {
         switch sortType {
             case .doneFirst: sortedByDoneFirst
             case .todoFirst: sortedByTodoFirst
-            case .alphabetic: sortedByName
+            case .byName: sortedByName
+            case .byNameInverted: sortedByName.reversed()
         }
     }
     

@@ -11,8 +11,10 @@ import UIKit
 extension Image {
     static let checkBoxTicked = Image(systemName: "checkmark.square")
     static let checkBox = Image(systemName: "square")
-    // swiftlint:disable:next identifier_name
+    // swiftlint:disable identifier_name
     static let az = Image("a-z")
+    static let za = Image("z-a")
+    // swiftlint:enable identifier_name
     static let plus = Image(systemName: "plus")
     static let checkMark = Image(systemName: "checkmark")
     static let docOnDoc = Image(systemName: "doc.on.doc")

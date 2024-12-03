@@ -19,14 +19,15 @@ struct ToDoListItemRowView: View {
     let onCheckedAsDone: () -> Void
     
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        
+        HStack(alignment: .top, spacing: 8) {
             Text(item.name)
                 .scaleEffect(scaleEffectSize)
                 .font(.title3.weight(.light))
                 .foregroundStyle(nameColor)
             
             Spacer()
-                
+            
             Image.checkBoxImageForItem(item)
                 .sizedToFit(width: 22, height: 22)
                 .foregroundStyle(Color.cyan)
@@ -90,7 +91,6 @@ private extension ToDoListItemRowView {
             logger.error("Error saving item: (\(item.name)) after toggle done: \(error)")
             alertType = .swiftDataError
             presentAlert = true
-            item.done.toggle()
         }
     }
 }

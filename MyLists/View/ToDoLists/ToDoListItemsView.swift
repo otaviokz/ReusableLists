@@ -18,7 +18,6 @@ struct ToDoListItemsView: View {
     @State var alerMessage = Alert.genericErrorMessage
     @State var presentAddItemSheet = false
     @State var showSortSheet: Bool = false
-    @State var sortType: SortType = .todoFirst
     @State var showDetails = false
     @State var showListToBlueprint = false
     @State var presentDeleteOption = false
@@ -49,8 +48,8 @@ struct ToDoListItemsView: View {
                 }
                 
                 if !list.items.isEmpty {
-                    Section("List Items:") {
-                        ForEach(list.items.sorted(by: sortType)) { item in
+                    Section("List Items  -  ⇅: \(list.sortType.rawValue.lowercased())") {
+                        ForEach(list.items.sorted(by: list.sortType)) { item in
                             ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
                         }
                         .onDelete(perform: deleteItem)
@@ -89,6 +88,9 @@ struct ToDoListItemsView: View {
         .toolbar {
             toolBarView
         }
+        .task {
+            setSortBy(list.sortType)
+        }
         .onAppear {
             if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
                 Task {
@@ -120,7 +122,7 @@ private extension ToDoListItemsView {
         
         string += "\n\n"
         
-        for item in list.items.sorted(by: sortType) {
+        for item in list.items.sorted(by: list.sortType) {
             string += " ▢  -  \(item.name)\n\n"
         }
         
@@ -167,9 +169,11 @@ private extension ToDoListItemsView {
             Section("Sort by:") {
                 sortOption("Todo first:", icon: .checkBox, sortyType: .todoFirst)
                 
-                sortOption("Alphabetically:", icon: .az, sortyType: .alphabetic)
-                
                 sortOption("Done first:", icon: .checkBoxTicked, sortyType: .doneFirst)
+                
+                sortOption("By Name:", icon: .az, sortyType: .byName)
+                
+                sortOption("By Name (reversed):", icon: .za, sortyType: .byNameInverted)
             }
             .font(.headline)
         }
@@ -177,11 +181,12 @@ private extension ToDoListItemsView {
         .presentationDragIndicator(.visible)
     }
     
-    func setSortTo(_ type: SortType) {
+    func setSortBy(_ type: SortType) {
         withAnimation {
-            sortType = type
+            list.sortType = type
             showSortSheet = false
         }
+        try? modelContext.save()
     }
     
     func sortOption(_ label: String, icon: Image, sortyType: SortType) -> some View {
@@ -190,7 +195,7 @@ private extension ToDoListItemsView {
             Spacer().frame(width: 12)
             Text(label).font(.headline)
             Spacer()
-            if self.sortType == sortyType {
+            if list.sortType == sortyType {
                 Image.checkMark
             }
         }
@@ -198,7 +203,7 @@ private extension ToDoListItemsView {
         // https://stackoverflow.com/a/62640126/884744
         .contentShape(Rectangle())
         .foregroundStyle(Color.cyan)
-        .onTapGesture { setSortTo(sortyType) }
+        .onTapGesture { setSortBy(sortyType) }
     }
 }
 
@@ -208,7 +213,7 @@ private extension ToDoListItemsView {
     func deleteItem(_ indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
-            let item = list.items.sorted(by: sortType)[index]
+            let item = list.items.sorted(by: list.sortType)[index]
             list.items = list.items.filter { $0 != item }
             modelContext.delete(item)
             try modelContext.save()

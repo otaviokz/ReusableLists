@@ -13,6 +13,8 @@
 		2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
 		2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
 		2B342A712CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */; };
+		2B37690D2CFE87FB00721FD6 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B37690C2CFE87FB00721FD6 /* DataSchemaV4.swift */; };
+		2B37690E2CFE87FB00721FD6 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B37690C2CFE87FB00721FD6 /* DataSchemaV4.swift */; };
 		2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917EF2B91EA46002439F3 /* AboutView.swift */; };
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F72B91EB12002439F3 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */; };
@@ -120,6 +122,7 @@
 		2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
 		2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityItem.swift; sourceTree = "<group>"; };
 		2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintItemFormView.swift; sourceTree = "<group>"; };
+		2B37690C2CFE87FB00721FD6 /* DataSchemaV4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV4.swift; sourceTree = "<group>"; };
 		2B4917EF2B91EA46002439F3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
@@ -428,6 +431,7 @@
 				2BE5A8A12CE0577C009DD6BB /* DataSchemaV1.swift */,
 				2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */,
 				2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */,
+				2B37690C2CFE87FB00721FD6 /* DataSchemaV4.swift */,
 				2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */,
 			);
 			path = DataSchemas;
@@ -631,6 +635,7 @@
 				2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */,
 				2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift in Sources */,
 				2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
+				2B37690D2CFE87FB00721FD6 /* DataSchemaV4.swift in Sources */,
 				2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */,
 				2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */,
 				2BE3B5362B42D7CF003CB25F /* String+InputFormat.swift in Sources */,
@@ -677,6 +682,7 @@
 			files = (
 				2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */,
 				2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
+				2B37690E2CFE87FB00721FD6 /* DataSchemaV4.swift in Sources */,
 				2BE5A8A22CE0577C009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */,
@@ -843,7 +849,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.5.0;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -860,7 +866,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -882,7 +888,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.5.0;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -899,7 +905,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -918,11 +924,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.5.0;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -941,11 +947,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.5.0;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -963,10 +969,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.5.0;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -985,10 +991,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.5.0;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 2.5.0;
+				MARKETING_VERSION = 2.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

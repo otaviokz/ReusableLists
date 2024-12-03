@@ -31,7 +31,7 @@ struct ToDoListsView: View {
                         ToDoListRowView(list: list)
                     }
                 )
-                .swipeActions {
+                .swipeActions(edge: .trailing) {
                     Button("Delete", role: .cancel) {
                         listToDelete = list
                         presentDeleteConfirmation = true

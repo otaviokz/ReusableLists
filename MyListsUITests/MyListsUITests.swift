@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import ReusableLists
 
 final class ReusableListsUITests: XCTestCase {
     private var app: XCUIApplication!

@@ -42,6 +42,7 @@
 		2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */; };
 		2BAE0EC72CB98BC8007FCC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */; };
 		2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */; };
+		2BC97AFB2D40987D003CA863 /* NewEntityItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC97AFA2D40987D003CA863 /* NewEntityItemTests.swift */; };
 		2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
 		2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FB2B42B001003CB25F /* ContentView.swift */; };
@@ -149,6 +150,7 @@
 		2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowTests.swift; sourceTree = "<group>"; };
+		2BC97AFA2D40987D003CA863 /* NewEntityItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityItemTests.swift; sourceTree = "<group>"; };
 		2BDCB7942CA4FD800077CB97 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintFormView.swift; sourceTree = "<group>"; };
 		2BE3B4F62B42B001003CB25F /* ReusableLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReusableLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -366,6 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				2BE3B50A2B42B002003CB25F /* MyListsTests.swift */,
+				2BC97AFA2D40987D003CA863 /* NewEntityItemTests.swift */,
 			);
 			path = MyListsTests;
 			sourceTree = "<group>";
@@ -493,7 +496,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				2BE5A89B2CDC3E41009DD6BB /* PBXTargetDependency */,
 			);
 			name = ReusableLists;
 			productName = MyLists;
@@ -565,10 +567,11 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 2BE3B4ED2B42B001003CB25F;
 			packageReferences = (
-				2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				2B79F6312D4082B600D418F0 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = 2BE3B4F72B42B001003CB25F /* Products */;
 			projectDirPath = "";
@@ -668,6 +671,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BE3B50B2B42B002003CB25F /* MyListsTests.swift in Sources */,
+				2BC97AFB2D40987D003CA863 /* NewEntityItemTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,10 +710,6 @@
 			isa = PBXTargetDependency;
 			target = 2BE3B4F52B42B001003CB25F /* ReusableLists */;
 			targetProxy = 2BE3B5112B42B002003CB25F /* PBXContainerItemProxy */;
-		};
-		2BE5A89B2CDC3E41009DD6BB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 2BE5A89A2CDC3E41009DD6BB /* SwiftLintBuildToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1045,23 +1045,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+		2B79F6312D4082B600D418F0 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.57.0;
+				minimumVersion = 0.58.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		2BE5A89A2CDC3E41009DD6BB /* SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
-			productName = "plugin:SwiftLintBuildToolPlugin";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2BE3B4EE2B42B001003CB25F /* Project object */;
 }

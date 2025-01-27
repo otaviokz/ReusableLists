@@ -19,7 +19,7 @@ enum DataMigrationPlan: SchemaMigrationPlan {
     }
     
     static var stages: [MigrationStage] {
-        [migrateV1toV2, migrateV2toV3]
+        [migrateV1toV2, migrateV2toV3, migrateV3toV4]
     }
     
     static let migrateV1toV2: MigrationStage = .lightweight(

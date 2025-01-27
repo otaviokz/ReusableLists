@@ -7,15 +7,15 @@
 
 import SwiftData
 
-typealias ToDoList = DataSchemaV3.ToDoList
-typealias ToDoItem = DataSchemaV3.ToDoItem
-typealias Blueprint = DataSchemaV3.Blueprint
-typealias BlueprintItem = DataSchemaV3.BlueprintItem
+typealias ToDoList = DataSchemaV4.ToDoList
+typealias ToDoItem = DataSchemaV4.ToDoItem
+typealias Blueprint = DataSchemaV4.Blueprint
+typealias BlueprintItem = DataSchemaV4.BlueprintItem
 
 // MARK: - Migration plan
 enum DataMigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] {
-        [DataSchemaV1.self, DataSchemaV2.self, DataSchemaV3.self]
+        [DataSchemaV1.self, DataSchemaV2.self, DataSchemaV3.self, DataSchemaV4.self]
     }
     
     static var stages: [MigrationStage] {
@@ -34,6 +34,18 @@ enum DataMigrationPlan: SchemaMigrationPlan {
     ) { context in
         let blueprints = try context.fetch(FetchDescriptor<DataSchemaV3.Blueprint>())
         blueprints.forEach { $0.usageCount = 0 }
+        try context.save()
+    }
+    
+    static let migrateV3toV4: MigrationStage = .custom(
+        fromVersion: DataSchemaV3.self,
+        toVersion: DataSchemaV4.self,
+        willMigrate: nil
+    ) { context in
+        let todoItems = try context.fetch(FetchDescriptor<DataSchemaV4.ToDoItem>())
+        todoItems.forEach { $0.priority = false }
+        let bluepritItems = try context.fetch(FetchDescriptor<DataSchemaV4.BlueprintItem>())
+        bluepritItems.forEach { $0.priority = false }
         try context.save()
     }
 }

@@ -17,6 +17,8 @@
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F72B91EB12002439F3 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */; };
 		2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */; };
+		2B7429FB2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */; };
+		2B7429FC2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */; };
 		2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */; };
 		2B9369232CBB8E4B00E8AC27 /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9369222CBB8E4B00E8AC27 /* TabSelection.swift */; };
 		2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9369242CBB8EC800E8AC27 /* OnboardingState.swift */; };
@@ -124,6 +126,7 @@
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
 		2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListItemRowView.swift; sourceTree = "<group>"; };
+		2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV4.swift; sourceTree = "<group>"; };
 		2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Shortcuts.swift"; sourceTree = "<group>"; };
 		2B8F02AE2CA2195200607923 /* SwiftData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftData.framework; path = System/Library/Frameworks/SwiftData.framework; sourceTree = SDKROOT; };
 		2B8F02B02CA2195200607923 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -428,6 +431,7 @@
 				2BE5A8A12CE0577C009DD6BB /* DataSchemaV1.swift */,
 				2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */,
 				2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */,
+				2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */,
 				2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */,
 			);
 			path = DataSchemas;
@@ -493,7 +497,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				2BE5A89B2CDC3E41009DD6BB /* PBXTargetDependency */,
 			);
 			name = ReusableLists;
 			productName = MyLists;
@@ -568,7 +571,7 @@
 			);
 			mainGroup = 2BE3B4ED2B42B001003CB25F;
 			packageReferences = (
-				2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				2B68D9BD2D40A8B500FE77DC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 			);
 			productRefGroup = 2BE3B4F72B42B001003CB25F /* Products */;
 			projectDirPath = "";
@@ -631,6 +634,7 @@
 				2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */,
 				2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift in Sources */,
 				2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
+				2B7429FC2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */,
 				2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */,
 				2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */,
 				2BE3B5362B42D7CF003CB25F /* String+InputFormat.swift in Sources */,
@@ -677,6 +681,7 @@
 			files = (
 				2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */,
 				2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
+				2B7429FB2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */,
 				2BE5A8A22CE0577C009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */,
@@ -706,10 +711,6 @@
 			isa = PBXTargetDependency;
 			target = 2BE3B4F52B42B001003CB25F /* ReusableLists */;
 			targetProxy = 2BE3B5112B42B002003CB25F /* PBXContainerItemProxy */;
-		};
-		2BE5A89B2CDC3E41009DD6BB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 2BE5A89A2CDC3E41009DD6BB /* SwiftLintBuildToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1045,23 +1046,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+		2B68D9BD2D40A8B500FE77DC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.57.0;
+				minimumVersion = 0.58.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		2BE5A89A2CDC3E41009DD6BB /* SwiftLintBuildToolPlugin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2BE5A8992CDC3E32009DD6BB /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
-			productName = "plugin:SwiftLintBuildToolPlugin";
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2BE3B4EE2B42B001003CB25F /* Project object */;
 }

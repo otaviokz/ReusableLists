@@ -1,44 +1,47 @@
 //
-//  ReusableListsSchemaV1.swift
+//  DataSchemaV4.swift
 //  ReusableLists
 //
-//  Created by Otávio Zabaleta on 09/11/2024.
+//  Created by okz on 27/01/25.
 //
 
-import SwiftUI
+import Foundation
 import SwiftData
 
-struct DataSchemaV1: VersionedSchema {
-    static var versionIdentifier = Schema.Version(1, 0, 0)
+struct DataSchemaV4: VersionedSchema {
+    static var versionIdentifier = Schema.Version(1, 1, 0)
     
     static var models: [any PersistentModel.Type] {
         [ToDoList.self, ToDoItem.self, Blueprint.self, BlueprintItem.self]
     }
 }
 
-extension DataSchemaV1 {
-    @Model    
+extension DataSchemaV4 {
+    @Model
     final class ToDoList: ObservableObject {
         var name: String
         var details: String
-        var creationDate: Date
+        @Attribute(originalName: "creationDate")
+        var timestamp: Date
         
         @Relationship(deleteRule: .cascade) var items: [ToDoItem] = []
         
         init(_ name: String = "", details: String = "") {
             self.name = name
-            self.creationDate = .now
+            self.timestamp = .now
             self.details = details
-        }        
+        }
     }
     
     @Model
     final class ToDoItem: ObservableObject {
         var name: String
+        var priority = false
         var done: Bool = false
         
-        init(_ name: String = "", done: Bool = false) {
+        init(_ name: String = "", priority: Bool = false, done: Bool = false) {
             self.name = name
+            self.priority = priority
             self.done = done
         }
     }
@@ -47,6 +50,8 @@ extension DataSchemaV1 {
     final class Blueprint: ObservableObject {
         var name: String
         var details: String
+        var usageCount: Int = 0
+        
         @Relationship(deleteRule: .cascade) var items: [BlueprintItem] = []
         
         init(_ name: String, details: String = "") {
@@ -58,13 +63,15 @@ extension DataSchemaV1 {
     @Model
     final class BlueprintItem: ObservableObject {
         var name: String
+        var priority: Bool = false
         
-        init(_ name: String) {
+        init(_ name: String, priority: Bool = false) {
             self.name = name
+            self.priority = priority
         }
         
         func asToDoItem() -> ToDoItem {
-            ToDoItem(name)
+            ToDoItem(name, priority: priority)
         }
     }
 }

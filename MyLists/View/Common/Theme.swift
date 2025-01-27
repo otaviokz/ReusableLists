@@ -21,8 +21,8 @@ extension Image {
     static let play = Image(systemName: "play.circle")
     static let share = Image(systemName: "square.and.arrow.up")
     static let trash = Image(systemName: "trash")
-    static let todolist = Image(systemName: "list.bullet.clipboard")
-    static let blueprint = Image(systemName: "pencil.and.list.clipboard")
+    public static var todolist: Image { Image(systemName: "list.bullet.clipboard") }
+    public static var blueprint: Image { Image(systemName: "pencil.and.list.clipboard") }
     static let backward = Image(systemName: "backward")
     static let forward = Image(systemName: "forward")
     static let iconSize: CGFloat = 20

@@ -29,6 +29,7 @@ extension Image {
     static func checkBoxImageForItem(_ item: ToDoItem) -> Image {
         item.done ? checkBoxTicked : checkBox
     }
+    static let priority = Image(systemName: "exclamationmark.circle")
 }
 
 extension NumberFormatter {

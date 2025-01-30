@@ -37,7 +37,7 @@ struct BlueprintItemsView: View {
             
             if !blueprint.items.isEmpty {
                 Section("Blueprint Items:") {
-                    ForEach(blueprint.items.sortedByName) { item in
+                    ForEach(blueprint.items.sortedByPriorityAndName) { item in
                         BlueprintItemRowView(item: item)
                             .listRowBackground(Color.gray.opacity(0.35))
                             .listRowSeparatorTint(.gray, edges: .all)
@@ -147,7 +147,7 @@ private extension BlueprintItemsView {
         alertMessage = Alert.genericErrorMessage
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
-            let item: BlueprintItem = blueprint.items.sortedByName[index]
+            let item: BlueprintItem = blueprint.items.sortedByPriorityAndName[index]
             blueprint.items = blueprint.items.filter { $0 != item }
             modelContext.delete(item)
             try modelContext.save()
@@ -163,9 +163,9 @@ extension BlueprintItemsView: NewItemCreatorProtocol {
         blueprint.items.first { $0.name.asInputLowercasedEquals(name) } == nil
     }
     
-    func createAndInsertNewItems(names: [String]) throws {
-        for name in names {
-            let item = BlueprintItem(name)
+    func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws {
+        for newItem in newItems {
+            let item = BlueprintItem(newItem.name, priority: newItem.priority)
             blueprint.items.append(item)
             modelContext.insert(item)
         }

@@ -13,6 +13,8 @@
 		2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
 		2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
 		2B342A712CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */; };
+		2B3617BE2D4B3F08007CFC0A /* EditListItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3617BD2D4B3F08007CFC0A /* EditListItemFormView.swift */; };
+		2B3617BF2D4B3F08007CFC0A /* EditListItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3617BD2D4B3F08007CFC0A /* EditListItemFormView.swift */; };
 		2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917EF2B91EA46002439F3 /* AboutView.swift */; };
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F72B91EB12002439F3 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */; };
@@ -122,6 +124,7 @@
 		2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
 		2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityItem.swift; sourceTree = "<group>"; };
 		2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintItemFormView.swift; sourceTree = "<group>"; };
+		2B3617BD2D4B3F08007CFC0A /* EditListItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditListItemFormView.swift; sourceTree = "<group>"; };
 		2B4917EF2B91EA46002439F3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
@@ -316,6 +319,7 @@
 				2B9E8D4B2CA122F40098C595 /* SheetWrappedViewable.swift */,
 				2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */,
 				2BA2494D2CA38DF2004725CD /* Theme.swift */,
+				2B3617BD2D4B3F08007CFC0A /* EditListItemFormView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -661,6 +665,7 @@
 				2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */,
 				2BE3B5262B42B033003CB25F /* ToDoList+Utils.swift in Sources */,
+				2B3617BE2D4B3F08007CFC0A /* EditListItemFormView.swift in Sources */,
 				2BE5A8A62CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 				2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */,
 				2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */,
@@ -695,6 +700,7 @@
 				2BAE0E912CB78872007FCC47 /* String+InputFormat.swift in Sources */,
 				2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */,
 				2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */,
+				2B3617BF2D4B3F08007CFC0A /* EditListItemFormView.swift in Sources */,
 				2BE5A8A52CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

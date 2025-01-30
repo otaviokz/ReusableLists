@@ -10,7 +10,7 @@ import SwiftUI
 struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
     @FocusState private var focusState: Field?
     @State private var name: String = ""
-    @State private var invalidNameSent = false
+    @State private var invalidNameEntered = false
     @State private var presentAlert = false
     @State var isSheetPresented: Binding<Bool>
     @State private var itemsList: [NamesListItem] = []
@@ -95,7 +95,7 @@ private extension NewListOrBlueprintItemFormView {
                     .font(.title3)
                     .foregroundStyle(Color.primary)
                     .focused($focusState, equals: .name)
-                    .onChange(of: name) { invalidNameSent = false }
+                    .onChange(of: name) { invalidNameEntered = false }
                     .submitLabel(.send)
                     .onSubmit {
                         if name.isEmptyAsInput && !itemsList.isEmpty {
@@ -107,7 +107,7 @@ private extension NewListOrBlueprintItemFormView {
                         }
                         let newName = name.asInput
                         if !isUnique(newName: newName) {
-                            invalidNameSent = isSaveButtonDisabled
+                            invalidNameEntered = isSaveButtonDisabled
                         } else if !isSaveButtonDisabled && isUnique(newName: newName) {
                             saveNewItemsAndDismissSheet()
                         }
@@ -159,7 +159,7 @@ private extension NewListOrBlueprintItemFormView {
     }
     
     var showNameUnavailableMessage: Bool {
-        invalidNameSent && isSaveButtonDisabled
+        invalidNameEntered && isSaveButtonDisabled
     }
     
     var nameNotAvailableMessage: some View {
@@ -174,7 +174,7 @@ private extension NewListOrBlueprintItemFormView {
     var addMoreButton: some View {
         Button {
             let newName = name.asInput
-            invalidNameSent = isSaveButtonDisabled && !newName.isEmptyAsInput
+            invalidNameEntered = isSaveButtonDisabled && !newName.isEmptyAsInput
             if !isSaveButtonDisabled && isUnique(newName: newName) && !newName.isEmptyAsInput {
                 withAnimation(.linear(duration: 0.125)) {
                     addToList(newName: newName, priority: isPriority)

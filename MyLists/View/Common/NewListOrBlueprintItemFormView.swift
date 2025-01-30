@@ -139,7 +139,7 @@ private extension NewListOrBlueprintItemFormView {
                         
                         if item.priority {
                             Spacer()
-                            Image.priority.sizedToFitHeight(14).foregroundStyle(Color.red)
+                            Image.priority.sizedToFitHeight(18).foregroundStyle(Color.red)
                         }
                     }
                     

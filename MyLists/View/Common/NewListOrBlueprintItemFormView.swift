@@ -13,18 +13,19 @@ struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
     @State private var invalidNameSent = false
     @State private var presentAlert = false
     @State var isSheetPresented: Binding<Bool>
-    @State private var namesList: [String] = []
+    @State private var itemsList: [NamesListItem] = []
     @State private var scrollId: String?
     @State private var scrollViewProxy: ScrollViewProxy?
+    @State private var isPriority: Bool = false
     private let newItemForEntity: NewEntityItem
     private let isUniqueNameInEntity: (String) -> Bool
-    private let createAndInsertNewItems: ([String]) throws -> Void
+    private let createAndInsertNewItems: ([(String, Bool)]) throws -> Void
     
     init(
         _ newItemForEntity: NewEntityItem,
         isSheetPresented: Binding<Bool>,
         isUniqueNameInEntity: @escaping (String) -> Bool,
-        createAndInsertNewItems: @escaping ([String]) throws -> Void
+        createAndInsertNewItems: @escaping ([(String, Bool)]) throws -> Void
     ) {
         self.newItemForEntity = newItemForEntity
         self.isSheetPresented = isSheetPresented
@@ -44,7 +45,7 @@ struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
                 nameNotAvailableMessage
             }
             
-            if namesList.isEmpty {
+            if itemsList.isEmpty {
                 Spacer()
             } else {
                 itemsListView
@@ -52,7 +53,7 @@ struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
                     .padding(.bottom, 2)
             }
                 
-            if !namesList.isEmpty {
+            if !itemsList.isEmpty {
                 Spacer()
             }
             
@@ -86,30 +87,39 @@ private extension NewListOrBlueprintItemFormView {
     var formView: some View {
         Form {
             Section("Fields:") {
-                TextField(
-                    "Item Name (max \(DataFieldsSizeLimit.name) characters)",
-                    text: $name.max(DataFieldsSizeLimit.name)
-                )
-                .font(.title3)
-                .foregroundStyle(Color.primary)
-                .focused($focusState, equals: .name)
-                .onChange(of: name) { invalidNameSent = false }
-                .submitLabel(.send)
-                .onSubmit {
-                    if name.isEmptyAsInput && !namesList.isEmpty {
-                        saveNewItemsAndDismissSheet()
-                    }
-                    guard !name.isEmptyAsInput else {
+                HStack {
+                    TextField(
+                        "Item Name (max \(DataFieldsSizeLimit.name) characters)",
+                        text: $name.max(DataFieldsSizeLimit.name)
+                    )
+                    .font(.title3)
+                    .foregroundStyle(Color.primary)
+                    .focused($focusState, equals: .name)
+                    .onChange(of: name) { invalidNameSent = false }
+                    .submitLabel(.send)
+                    .onSubmit {
+                        if name.isEmptyAsInput && !itemsList.isEmpty {
+                            saveNewItemsAndDismissSheet()
+                        }
+                        guard !name.isEmptyAsInput else {
+                            focusState = .name
+                            return
+                        }
+                        let newName = name.asInput
+                        if !isUnique(newName: newName) {
+                            invalidNameSent = isSaveButtonDisabled
+                        } else if !isSaveButtonDisabled && isUnique(newName: newName) {
+                            saveNewItemsAndDismissSheet()
+                        }
                         focusState = .name
-                        return
                     }
-                    let newName = name.asInput
-                    if !isUnique(newName: newName) {
-                        invalidNameSent = isSaveButtonDisabled
-                    } else if !isSaveButtonDisabled && isUnique(newName: newName) {
-                        saveNewItemsAndDismissSheet()
-                    }
-                    focusState = .name
+                    
+                    Image.priority
+                        .sizedToFitHeight(22)
+                        .foregroundStyle(isPriority ? Color.red : Color.gray)
+                        .onTapGesture {
+                            isPriority.toggle()
+                        }
                 }
             }
             .font(.subheadline.weight(.medium))
@@ -121,17 +131,24 @@ private extension NewListOrBlueprintItemFormView {
     var itemsListView: some View {
         ScrollViewReader { proxy in
             List {
-                ForEach(namesList, id: \.self) { name in
-                    Text(name)
-                        .font(.headline.weight(.light))
-                        .id(name)
+                ForEach(itemsList, id: \.name) { item in
+                    HStack(spacing: 0) {
+                        Text(item.name)
+                            .font(.headline.weight(.light))
+                            .id(name)
+                        
+                        if item.priority {
+                            Spacer()
+                            Image.priority.sizedToFitHeight(14).foregroundStyle(Color.red)
+                        }
+                    }
                     
                 }
                 .onDelete(perform: deleteListItem)
                 .listRowBackground(Color.clear)
                 
             }
-            .animation(.easeInOut, value: namesList)
+            .animation(.easeInOut, value: itemsList)
             .roundBordered(borderColor: Color.cyan, boderWidht: 1)
             .listStyle(.plain)
             .padding(.horizontal, 12)
@@ -160,7 +177,7 @@ private extension NewListOrBlueprintItemFormView {
             invalidNameSent = isSaveButtonDisabled && !newName.isEmptyAsInput
             if !isSaveButtonDisabled && isUnique(newName: newName) && !newName.isEmptyAsInput {
                 withAnimation(.linear(duration: 0.125)) {
-                    addToList(newName: newName)
+                    addToList(newName: newName, priority: isPriority)
                 } completion: {
                     scrollId = newName
                     if let scrollViewProxy = scrollViewProxy {
@@ -197,7 +214,7 @@ private extension NewListOrBlueprintItemFormView {
                 addMoreButton
                 Spacer()
             } else if (!isSaveButtonDisabled && !isAddMoreButtonEnabled) ||
-                      (!namesList.isEmpty && isSaveButtonDisabled && !isAddMoreButtonEnabled) {
+                      (!itemsList.isEmpty && isSaveButtonDisabled && !isAddMoreButtonEnabled) {
                 Spacer()
                 exitButton
                 Spacer()
@@ -222,12 +239,12 @@ private extension NewListOrBlueprintItemFormView {
 private extension NewListOrBlueprintItemFormView {
     func deleteListItem(_ indexSet: IndexSet) {
         if let first = indexSet.first {
-            namesList = namesList.filter { $0 != namesList[first] }
+            itemsList = itemsList.filter { $0 != itemsList[first] }
         }
     }
     
     var isSaveButtonDisabled: Bool {
-        switch (namesList.isEmpty, name.isEmptyAsInput, isUnique(newName: name.asInput)) {
+        switch (itemsList.isEmpty, name.isEmptyAsInput, isUnique(newName: name.asInput)) {
             case (true, false, false): true
             case (true, true, _): true
             case (_, false, false): true
@@ -241,14 +258,14 @@ private extension NewListOrBlueprintItemFormView {
     
     func isUnique(newName new: String) -> Bool {
         let newName = new.asInput
-        guard namesList.first(where: { $0.asInputLowercasedEquals(newName)}) == nil else { return false }
+        guard itemsList.first(where: { $0.name.asInputLowercasedEquals(newName)}) == nil else { return false }
         return isUniqueNameInEntity(newName)
     }
     
     func saveNewItemsAndDismissSheet() {
         let newName = name.asInput
         if !newName.isEmpty, isUnique(newName: newName) {
-            addToList(newName: newName)
+            addToList(newName: newName, priority: isPriority)
         }
         
         dismissSheet()
@@ -258,7 +275,7 @@ private extension NewListOrBlueprintItemFormView {
                 try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
                 
                 try withAnimation {
-                    try createAndInsertNewItems(namesList)
+                    try createAndInsertNewItems(itemsList.map {($0.name, $0.priority)})
                 }
             } catch {
                 logger.error("Error saveNewItemsAndDismissSheet(): \(error.localizedDescription)")
@@ -268,10 +285,11 @@ private extension NewListOrBlueprintItemFormView {
     }
     
     /// Expects 'newName' to be the result = name.asInput
-    func addToList(newName: String) {
+    func addToList(newName: String, priority: Bool) {
         withAnimation {
-            namesList = [newName] + namesList
+            itemsList = [NamesListItem(name: newName, priority: priority)] + itemsList
             name = "" // Because of "Assign on read", we can't set name to "" before saving it's content
+            isPriority = false
         }
     }
 }
@@ -289,4 +307,9 @@ private extension NewListOrBlueprintItemFormView {
         }
         .navigationTitle("List: \"Grocries\"")
     }
+}
+
+struct NamesListItem: Equatable {
+    var name: String
+    var priority: Bool
 }

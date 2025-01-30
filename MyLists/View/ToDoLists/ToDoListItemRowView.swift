@@ -19,14 +19,19 @@ struct ToDoListItemRowView: View {
     let onCheckedAsDone: () -> Void
     
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: 8) {
             Text(item.name)
                 .scaleEffect(scaleEffectSize)
                 .font(.title3.weight(.light))
                 .foregroundStyle(nameColor)
+                .padding(.trailing, 4)
             
             Spacer()
-                
+            
+            if item.priority {
+                Image.priority.sizedToFitHeight(22).foregroundStyle(Color.red)
+            }            
+            
             Image.checkBoxImageForItem(item)
                 .sizedToFit(width: 22, height: 22)
                 .foregroundStyle(Color.cyan)
@@ -99,7 +104,7 @@ private extension ToDoListItemRowView {
     NavigationStack {
         VStack {
             List {
-                ToDoListItemRowView(item: ToDoItem("Avocado")) { }
+                ToDoListItemRowView(item: ToDoItem("Avocado", priority: true)) { }
                 ToDoListItemRowView(item: ToDoItem("Bananas")) { }
                 ToDoListItemRowView(item: ToDoItem("Tomatoes")) { }
                 ToDoListItemRowView(item: ToDoItem("Eggs", done: true)) { }

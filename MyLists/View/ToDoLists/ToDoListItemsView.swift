@@ -18,7 +18,7 @@ struct ToDoListItemsView: View {
     @State var alerMessage = Alert.genericErrorMessage
     @State var presentAddItemSheet = false
     @State var showSortSheet: Bool = false
-    @State var sortType: SortType = .todoFirst
+    @State var sortType: SortType = .doneLast
     @State var showDetails = false
     @State var showListToBlueprint = false
     @State var presentDeleteOption = false
@@ -165,7 +165,7 @@ private extension ToDoListItemsView {
     var sortView: some View {
         List {
             Section("Sort by:") {
-                sortOption("Todo first:", icon: .checkBox, sortyType: .todoFirst)
+                sortOption("Todo first:", icon: .checkBox, sortyType: .doneLast)
                 
                 sortOption("Alphabetically:", icon: .az, sortyType: .alphabetic)
                 
@@ -225,9 +225,9 @@ extension ToDoListItemsView: NewItemCreatorProtocol {
         list.items.first { $0.name.asInputLowercasedEquals(name) } == nil
     }
     
-    func createAndInsertNewItems(names: [String]) throws {
-        for name in names {
-            let item = ToDoItem(name)
+    func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws {
+        for item in newItems {
+            let item = ToDoItem(item.name, priority: item.priority)
             list.items.append(item)
             modelContext.insert(item)
         }

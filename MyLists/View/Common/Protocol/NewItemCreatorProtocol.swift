@@ -9,5 +9,5 @@ import Foundation
 
 public protocol NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool
-    func createAndInsertNewItems(names: [String]) throws
+    func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws
 }

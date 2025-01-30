@@ -15,13 +15,17 @@ struct BlueprintItemRowView: View {
     let item: BlueprintItem
     
     var body: some View {
-        HStack {
+        HStack(spacing: 8) {
             Text(item.name)
                 .scaleEffect(scaleEffectSize)
                 .font(.title3.weight(.light))
                 .foregroundStyle(nameColor)
             
             Spacer()
+            
+            if item.priority {
+                Image.priority.sizedToFitHeight(22).foregroundStyle(Color.red)
+            }
         }
         // It needs to specify content shape to cover all area, since by default only opaque views handle gesture
         // https://stackoverflow.com/a/62640126/884744
@@ -61,7 +65,7 @@ private extension BlueprintItemRowView {
                 BlueprintItemRowView(item: BlueprintItem("Avocado"))
                 BlueprintItemRowView(item: BlueprintItem("Bananas"))
                 BlueprintItemRowView(item: BlueprintItem("Tomatoes"))
-                BlueprintItemRowView(item: BlueprintItem("Eggs"))
+                BlueprintItemRowView(item: BlueprintItem("Eggs", priority: true))
                 BlueprintItemRowView(item: BlueprintItem("Wine"))
             }
         }

@@ -16,7 +16,7 @@ extension String {
         String(trimmingSpaces)
     }
     
-    func asInputLowercasedEquals(_ rhs: String) -> Bool {
+    func asInputLowcaseEquals(_ rhs: String) -> Bool {
         asInput.lowercased() == rhs.asInput.lowercased()
     }
     

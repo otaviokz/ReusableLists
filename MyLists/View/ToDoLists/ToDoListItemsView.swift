@@ -15,9 +15,9 @@ struct ToDoListItemsView: View {
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
         
     @State var presentAlert = false
-    @State var alerMessage = Alert.genericErrorMessage
-    @State private var presentAddItemSheet = false
-    @State private var sheetPresenter: SheetPresenter = SheetPresenter(show: false)
+    @State var alertMessage = Alert.genericErrorMessage
+    @State private var presentSheet = false
+    @State private var sheetType: SheetType = .none
     @State private var showDeleteOptionActionSheet = false
     @State private var sortType: SortType = .doneLast
     @State private var showDetails = false
@@ -41,44 +41,32 @@ struct ToDoListItemsView: View {
                     .padding(.horizontal, 22)
             }
             
-            List {
-                if !list.details.isEmpty {
-                    Section("List Details:") {
-                        Text(list.details).font(.title3)
-                            .foregroundStyle(Color.primary)
-                    }
-                }
-                
-                if !list.items.isEmpty {
-                    itemsSection
-                }
-            }
+            listView
             .actionSheet(isPresented: $showDeleteOptionActionSheet) {
                 deleteListOptionActionSheet
             }
             .font(.subheadline.weight(.medium))
             .foregroundStyle(Color.cyan)
-            .sheet(isPresented: $sheetPresenter.show) {
-                switch sheetPresenter.type {
+            .sheet(isPresented: $presentSheet) {
+                switch sheetType  {
                 case .sort: sortView
                 case .addItem:
                     NewListOrBlueprintItemFormView(
                         .toDoList(entity: list),
-                        isSheetPresented: $presentAddItemSheet,
+                        isSheetPresented: $presentSheet,
                         isUniqueNameInEntity: isUniqueNameInEntity,
                         createAndInsertNewItems: createAndInsertNewItems
                     )
                 case .edit(let item):
-                    EditListItemFormView(item, list: list, isSheetPresented: $sheetPresenter.show) { item in
-                        save(item)
-                    }
+                    EditToDoListItemFormView(item, list: list, isSheetPresented: $presentSheet) { save($0) }
+                default: EmptyView()
                 }
             }
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
         }
         .alert(isPresented: $presentAlert) {
-            Alert(title: Alert.genericErrorTitle, message: alerMessage)
+            Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
         .toolbar {
             toolBarView
@@ -117,41 +105,47 @@ extension ToDoListItemsView {
         case edit(item: ToDoItem)
         case sort
         case addItem
-    }
-    
-    class SheetPresenter {
-        var type: SheetType = .sort
-        var show: Bool
-        
-        init(show: Bool) {
-            self.show = show
-        }
-    }
-    
-    func editItem(_ item: ToDoItem) {
-        
+        case none
     }
 }
 // MARK: - UI
 
 private extension ToDoListItemsView {
+    var listView: some View {
+        List {
+            if !list.details.isEmpty {
+                Section("List Details:") {
+                    Text(list.details).font(.title3)
+                        .foregroundStyle(Color.primary)
+                }
+            }
+            
+            if !list.items.isEmpty {
+                itemsSection
+            }
+        }
+    }
+    
     var itemsSection: some View {
         Section("List Items:") {
             ForEach(list.items.sorted(by: sortType)) { item in
-                ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
-                    .swipeActions(edge: .leading) {
-                        Button("Edit", role: .cancel) {
-                            sheetPresenter.type = .edit(item: item)
-                            sheetPresenter.show = true
-                        }
-                        .tint(.blue)
+                ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted()
+                }
+                .swipeActions(edge: .leading) {
+                    Button("Edit", role: .cancel) {
+                        sheetType = .edit(item: item)
+                        presentSheet = true
                     }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button(role: .destructive) { delete(item: item) } label: {
-                             Label("Delete", systemImage: "trash")
-                        }
-                        .tint(.red)
+                    .tint(.blue)
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(role: .destructive) {
+                        delete(item: item)
+                    } label: {
+                         Label("Delete", systemImage: "trash")
                     }
+                    .tint(.red)
+                }
             }
         }
     }
@@ -193,18 +187,18 @@ private extension ToDoListItemsView {
                 .padding(.trailing, -8)
                 .padding(.top, -4)
             
-            NavigationLink { UpdateToDoListView(list) } label: { Image.gear.sizedToFit(width: 21, height: 21).padding(.top, 1.5) }
+            NavigationLink { EditToDoListFormView(list) } label: { Image.gear.sizedToFit(width: 21, height: 21).padding(.top, 1.5) }
             
             if list.items.count > 1 {
                 Image.sort.sizedToFit(height: 18).onTapGesture {
-                    sheetPresenter.type = .sort
-                    sheetPresenter.show = true
+                    sheetType = .sort
+                    presentSheet = true
                 }
             }
             
             Image.plus.onTapGesture {
-                sheetPresenter.type = .addItem
-                presentAddItemSheet = true
+                sheetType = .addItem
+                presentSheet = true
             }.padding(.leading, -4)
         }
         .foregroundStyle(Color.cyan)
@@ -227,7 +221,7 @@ private extension ToDoListItemsView {
     func setSortTo(_ type: SortType) {
         withAnimation {
             sortType = type
-            sheetPresenter.type = .sort
+            presentSheet = false
         }
     }
     
@@ -264,7 +258,7 @@ private extension ToDoListItemsView {
             try modelContext.save()
         } catch {
             logger.error("Error deleting ToDoItem: \(error)")
-            alerMessage = Alert.genericErrorMessage
+            alertMessage = Alert.genericErrorMessage
             presentAlert = true
         }
     }
@@ -273,16 +267,18 @@ private extension ToDoListItemsView {
         do {
             try modelContext.save()
         } catch {
-            logger.error("Error saving item: \(error)")
-            alerMessage = Alert.genericErrorMessage
+            logger.error("Error editing item: \(error)")
+            alertMessage = Alert.genericErrorMessage
             presentAlert = true
         }
     }
 }
 
+// MARK: - NewItemCreatorProtocol
+
 extension ToDoListItemsView: NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool {
-        list.items.first { $0.name.asInputLowercasedEquals(name) } == nil
+        list.items.first { $0.name.asInputLowcaseEquals(name) } == nil
     }
     
     func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws {

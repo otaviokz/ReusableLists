@@ -34,7 +34,7 @@ extension DataSchemaV4 {
     }
     
     @Model
-    final class ToDoItem: ObservableObject {
+    final class ToDoItem: ObservableObject {        
         var name: String
         var priority = false
         var done: Bool = false

@@ -19,7 +19,7 @@ extension NewEntityCreatorProtocol {
     func createNewEntity(name: String, details: String) {
         Task {
             do {
-                try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
+                try await Task.sleep(nanoseconds: WaitTimes.dismissSheetAndInsertOrRemove)
                 
                 try withAnimation(.easeIn(duration: 0.25)) {
                     try insertEntity(name: name, details: details)

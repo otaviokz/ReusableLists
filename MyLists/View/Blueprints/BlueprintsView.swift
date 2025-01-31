@@ -105,7 +105,7 @@ private extension BlueprintsView {
 
 extension BlueprintsView: NewEntityCreatorProtocol {
     func isUniqueName(name: String) -> Bool {
-        blueprints.first { $0.name.asInputLowercasedEquals(name) } == nil
+        blueprints.first { $0.name.asInputLowcaseEquals(name) } == nil
     }
     
     func insertEntity(name: String, details: String) throws {

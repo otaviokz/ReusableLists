@@ -1,34 +1,36 @@
 //
-//  EditItemFormView.swift
+//  EditBlueprintItemView.swift
 //  ReusableLists
 //
-//  Created by okz on 30/01/25.
+//  Created by okz on 31/01/25.
 //
 
-import SwiftData
 import SwiftUI
 
-struct EditListItemFormView: View, SheetWrappedViewable {
+struct EditBlueprintItemView: View, SheetWrappedViewable {
     @FocusState private var focusState: Field?
-    @State var invalidNameEntered = false
-    @State private var isPriority: Bool = false
     @State private var name = ""
+    @State private var isPriority = false
+    private let oldName: String
+    private let oldPriority: Bool
+    private let item: BlueprintItem
+    private let blueprint: Blueprint
     @State var isSheetPresented: Binding<Bool>
-    let item: ToDoItem
-    let list: ToDoList
-    let onDone: (ToDoItem) -> Void
+    let onEdited: (BlueprintItem) -> Void
     
-    init(
-        _ item: ToDoItem,
-        list: ToDoList,
-        isSheetPresented: Binding<Bool>,
-        onDone: @escaping (ToDoItem) -> Void
+    init(_ item: BlueprintItem,
+         blueprint: Blueprint,
+         isSheetPresented: Binding<Bool>,
+         onEdited: @escaping (BlueprintItem) -> Void
     ) {
         self.item = item
-        self.list = list
+        self.blueprint = blueprint
+        self.oldName = item.name.copy() as! String
+        self.oldPriority = item.priority ? true : false
         self.isSheetPresented = isSheetPresented
-        self.onDone = onDone
-        name = item.name
+        self.onEdited = onEdited
+        name = item.name.copy() as? String ?? ""
+        isPriority = item.priority ? true : false
     }
     
     var body: some View {
@@ -38,7 +40,7 @@ struct EditListItemFormView: View, SheetWrappedViewable {
             
             formView
                 .padding(.top, 4)
-            
+               
             if nameAlreadyUsedByAnotherItem {
                 nameAlreadyUsedByAnotherItemMessage
             }
@@ -48,26 +50,30 @@ struct EditListItemFormView: View, SheetWrappedViewable {
             buttonsStack
                 .padding(.bottom, 8)
         }
-        
+        .onAppear {
+            name = item.name
+            isPriority = item.priority
+            focusState = .name
+        }
     }
 }
 
 // MARK: - UI
 
-private extension EditListItemFormView {
+private extension EditBlueprintItemView {
     enum Field: Hashable {
         case name
     }
     
     var headerView: some View {
         HStack {
-            Image.todolist
-            Text(item.name).font(.title3)
+            Image.blueprint
+            Text(blueprint.name).font(.title3)
         }
     }
     
     var nameAlreadyUsedByAnotherItemMessage: some View {
-        Text("⚠ Another iten named \"\(item.name)\" already exists for this List.")
+        Text("⚠ Another iten named \"\(name)\" already exists for this Blueptint.")
             .font(.headline.weight(.light))
             .foregroundStyle(Color.red)
             .frame(alignment: .leading)
@@ -76,7 +82,8 @@ private extension EditListItemFormView {
     }
     
     var nameAlreadyUsedByAnotherItem: Bool {
-        list.items.first { $0.name.asInputLowercasedEquals(item.name) && $0 != item } != nil
+        blueprint.items.first { $0.name.asInputLowcaseEquals(name) && $0.id != item.id
+        } != nil
     }
     
     var formView: some View {
@@ -89,7 +96,6 @@ private extension EditListItemFormView {
                 .font(.title3)
                 .foregroundStyle(Color.primary)
                 .focused($focusState, equals: .name)
-                .onChange(of: item.name) { invalidNameEntered = false }
                 .submitLabel(.done)
                 
                 Image.priority
@@ -107,26 +113,52 @@ private extension EditListItemFormView {
     var buttonsStack: some View {
         HStack {
             Spacer()
-            Button { dismissSheet() } label: { Text("Exit") }
+            
+            Button { discardEditsAndDismissSheet() } label: { Text("Exit") }
+            
             Spacer()
-            Button { saveEditsAndDismissSheet() } label: { Text("Save") }
-                .disabled(isSaveButtonDisabled)
+            
+            Button {
+                if !name.asInputLowcaseEquals(oldName) || isPriority != oldPriority {
+                    saveEditsAndDismissSheet()
+                }
+            } label: {
+                Text("Save")
+            }
+            .disabled(isSaveButtonDisabled)
+            
             Spacer()
         }
     }
     
     var isSaveButtonDisabled: Bool {
-        nameAlreadyUsedByAnotherItem || item.name.isEmptyAsInput
+        !hasEdits ||
+        nameAlreadyUsedByAnotherItem ||
+        name.isEmptyAsInput
     }
 }
 
+// MARK: - SwiftData
 
-// MARK: - CoreData
-
-private extension EditListItemFormView {
+private extension EditBlueprintItemView {
+    var hasEdits: Bool {
+        !name.asInputLowcaseEquals(oldName) || isPriority != oldPriority
+    }
+    
     func saveEditsAndDismissSheet() {
         item.name = name
         item.priority = isPriority
-        onDone(item)
+        
+        Task {
+            dismissSheet()
+            try? await Task.sleep(nanoseconds: WaitTimes.dismissAndEdit)
+            onEdited(item)
+        }
+    }
+    
+    func discardEditsAndDismissSheet() {
+        item.name = oldName
+        item.priority = oldPriority
+        dismissSheet()
     }
 }

@@ -258,7 +258,7 @@ private extension NewListOrBlueprintItemFormView {
     
     func isUnique(newName new: String) -> Bool {
         let newName = new.asInput
-        guard itemsList.first(where: { $0.name.asInputLowercasedEquals(newName)}) == nil else { return false }
+        guard itemsList.first(where: { $0.name.asInputLowcaseEquals(newName)}) == nil else { return false }
         return isUniqueNameInEntity(newName)
     }
     
@@ -272,7 +272,7 @@ private extension NewListOrBlueprintItemFormView {
         
         Task {
             do {
-                try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
+                try await Task.sleep(nanoseconds: WaitTimes.dismissSheetAndInsertOrRemove)
                 
                 try withAnimation {
                     try createAndInsertNewItems(itemsList.map {($0.name, $0.priority)})

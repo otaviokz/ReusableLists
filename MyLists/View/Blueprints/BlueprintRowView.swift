@@ -35,6 +35,7 @@ struct BlueprintRowView: View {
                 }
                 .font(.footnote)
             }
+            
             Spacer()
         }
         .contentShape(Rectangle())

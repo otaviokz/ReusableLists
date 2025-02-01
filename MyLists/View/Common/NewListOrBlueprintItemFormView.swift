@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
+struct NewListOrBlueprintItemFormView: View {
     @FocusState private var focusState: Field?
+    @Environment(\.dismiss) private var dismiss
     @State private var name: String = ""
-    @State private var invalidNameSent = false
+    @State private var invalidNameEntered = false
     @State private var presentAlert = false
-    @State var isSheetPresented: Binding<Bool>
     @State private var itemsList: [NamesListItem] = []
     @State private var scrollId: String?
     @State private var scrollViewProxy: ScrollViewProxy?
@@ -23,23 +23,19 @@ struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
     
     init(
         _ newItemForEntity: NewEntityItem,
-        isSheetPresented: Binding<Bool>,
         isUniqueNameInEntity: @escaping (String) -> Bool,
         createAndInsertNewItems: @escaping ([(String, Bool)]) throws -> Void
     ) {
         self.newItemForEntity = newItemForEntity
-        self.isSheetPresented = isSheetPresented
         self.isUniqueNameInEntity = isUniqueNameInEntity
         self.createAndInsertNewItems = createAndInsertNewItems
     }
     
     var body: some View {
         VStack(spacing: 4) {
-            headerView
-                .padding(.top, 28)
+            headerView.padding(.top, 28)
             
-            formView
-                .padding(.top, 4)
+            formView.padding(.top, 4)
             
             if showNameUnavailableMessage {
                 nameNotAvailableMessage
@@ -48,17 +44,12 @@ struct NewListOrBlueprintItemFormView: View, SheetWrappedViewable {
             if itemsList.isEmpty {
                 Spacer()
             } else {
-                itemsListView
-                    .padding(.top, 8)
-                    .padding(.bottom, 2)
+                itemsListView.padding(.top, 8).padding(.bottom, 2)
             }
                 
-            if !itemsList.isEmpty {
-                Spacer()
-            }
+            if !itemsList.isEmpty { Spacer() }
             
-            buttonsStack
-                .padding(.bottom, 8)
+            buttonsStack.padding(.bottom, 8)
         }
         .foregroundColor(Color.cyan)
         .alert(isPresented: $presentAlert) {
@@ -95,7 +86,7 @@ private extension NewListOrBlueprintItemFormView {
                     .font(.title3)
                     .foregroundStyle(Color.primary)
                     .focused($focusState, equals: .name)
-                    .onChange(of: name) { invalidNameSent = false }
+                    .onChange(of: name) { invalidNameEntered = false }
                     .submitLabel(.send)
                     .onSubmit {
                         if name.isEmptyAsInput && !itemsList.isEmpty {
@@ -107,7 +98,7 @@ private extension NewListOrBlueprintItemFormView {
                         }
                         let newName = name.asInput
                         if !isUnique(newName: newName) {
-                            invalidNameSent = isSaveButtonDisabled
+                            invalidNameEntered = isSaveButtonDisabled
                         } else if !isSaveButtonDisabled && isUnique(newName: newName) {
                             saveNewItemsAndDismissSheet()
                         }
@@ -133,20 +124,16 @@ private extension NewListOrBlueprintItemFormView {
             List {
                 ForEach(itemsList, id: \.name) { item in
                     HStack(spacing: 0) {
-                        Text(item.name)
-                            .font(.headline.weight(.light))
-                            .id(name)
+                        Text(item.name).font(.headline.weight(.light)).id(name)
                         
                         if item.priority {
                             Spacer()
                             Image.priority.sizedToFitHeight(18).foregroundStyle(Color.red)
                         }
                     }
-                    
                 }
                 .onDelete(perform: deleteListItem)
                 .listRowBackground(Color.clear)
-                
             }
             .animation(.easeInOut, value: itemsList)
             .roundBordered(borderColor: Color.cyan, boderWidht: 1)
@@ -159,7 +146,7 @@ private extension NewListOrBlueprintItemFormView {
     }
     
     var showNameUnavailableMessage: Bool {
-        invalidNameSent && isSaveButtonDisabled
+        invalidNameEntered && isSaveButtonDisabled
     }
     
     var nameNotAvailableMessage: some View {
@@ -174,7 +161,7 @@ private extension NewListOrBlueprintItemFormView {
     var addMoreButton: some View {
         Button {
             let newName = name.asInput
-            invalidNameSent = isSaveButtonDisabled && !newName.isEmptyAsInput
+            invalidNameEntered = isSaveButtonDisabled && !newName.isEmptyAsInput
             if !isSaveButtonDisabled && isUnique(newName: newName) && !newName.isEmptyAsInput {
                 withAnimation(.linear(duration: 0.125)) {
                     addToList(newName: newName, priority: isPriority)
@@ -188,9 +175,7 @@ private extension NewListOrBlueprintItemFormView {
                 }
             }
         } label: {
-            HStack(spacing: 4) {
-                Image.plus.sizedToFit()
-            }
+            Image.plus.sizedToFit()
         }
     }
     
@@ -200,37 +185,43 @@ private extension NewListOrBlueprintItemFormView {
     }
     
     var exitButton: some View {
-        Button { dismissSheet() } label: { Text("Exit") }
+        Button { dismiss() } label: { Text("Exit") }
     }
     
     var buttonsStack: some View {
         HStack {
-            if !isSaveButtonDisabled && isAddMoreButtonEnabled {
-                Spacer()
-                exitButton
-                Spacer()
-                saveButton
-                Spacer()
-                addMoreButton
-                Spacer()
+            if isAddMoreButtonEnabled {
+                allButtons
             } else if (!isSaveButtonDisabled && !isAddMoreButtonEnabled) ||
                       (!itemsList.isEmpty && isSaveButtonDisabled && !isAddMoreButtonEnabled) {
-                Spacer()
-                exitButton
-                Spacer()
-                saveButton
-                Spacer()
-            } else if isSaveButtonDisabled && isAddMoreButtonEnabled {
-                Spacer()
-                exitButton
-                Spacer()
-                addMoreButton
-                Spacer()
+                exitAndSaveButtons
             } else {
                 exitButton
             }
         }
         .font(.title2)
+    }
+    
+    var exitAndSaveButtons: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            saveButton
+            Spacer()
+        }
+    }
+    
+    var allButtons: some View {
+        HStack {
+            Spacer()
+            exitButton
+            Spacer()
+            saveButton
+            Spacer()
+            addMoreButton
+            Spacer()
+        }
     }
 }
 
@@ -258,7 +249,7 @@ private extension NewListOrBlueprintItemFormView {
     
     func isUnique(newName new: String) -> Bool {
         let newName = new.asInput
-        guard itemsList.first(where: { $0.name.asInputLowercasedEquals(newName)}) == nil else { return false }
+        guard itemsList.first(where: { $0.name.asInputLowcaseEquals(newName)}) == nil else { return false }
         return isUniqueNameInEntity(newName)
     }
     
@@ -268,12 +259,11 @@ private extension NewListOrBlueprintItemFormView {
             addToList(newName: newName, priority: isPriority)
         }
         
-        dismissSheet()
+        dismiss()
         
         Task {
             do {
-                try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
-                
+                try await Task.sleep(nanoseconds: WaitTimes.dismissSheetAndInsertOrRemove)
                 try withAnimation {
                     try createAndInsertNewItems(itemsList.map {($0.name, $0.priority)})
                 }
@@ -300,7 +290,6 @@ private extension NewListOrBlueprintItemFormView {
         VStack {
             NewListOrBlueprintItemFormView(
                 .toDoList(entity: ToDoList("Sample List", details: "Sample details for preview purposes.")),
-                isSheetPresented: $isSheetPresented,
                 isUniqueNameInEntity: {_ in true},
                 createAndInsertNewItems: {_ in }
             )

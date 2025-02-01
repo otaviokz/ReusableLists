@@ -1,5 +1,5 @@
 //
-//  UpdateBlueprintView.swift
+//  ToDoListUpdateView.swift
 //  ReusableLists
 //
 //  Created by Otávio Zabaleta on 22/09/2024.
@@ -8,25 +8,24 @@
 import SwiftUI
 import SwiftData
 
-struct UpdateBlueprintView: View {
+struct EditToDoListFormView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    @Query private var blueprints: [Blueprint]
-    
+    @Query private var lists: [ToDoList]
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
-    @State private var presetAlert = false
-
-    let blueprint: Blueprint
-
-    init(_ blueprint: Blueprint) {
-        self.blueprint = blueprint
-        self.name = blueprint.name
-        self.details = blueprint.details
+    @State private var presentAlert = false
+    
+    let list: ToDoList
+    
+    init(_ list: ToDoList) {
+        self.list = list
+        self.name = list.name
+        self.details = list.details
     }
-
+    
     var body: some View {
         VStack {
             Form {
@@ -43,7 +42,7 @@ struct UpdateBlueprintView: View {
                             .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)
                             .onChange(of: details) { _, _ in
                                 if details.last == "\n" {
-                                    details = String(details.dropLast()).asInput
+                                    details = String(details.dropLast())
                                     focusState = nil
                                 }
                             }
@@ -58,28 +57,28 @@ struct UpdateBlueprintView: View {
                 focusState = .name
             }
             .roundClipped()
-
+            
             Spacer()
-
+            
             buttonsStack
                 .padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
         .foregroundStyle(Color.cyan)
-        .alert(isPresented: $presetAlert) {
+        .alert(isPresented: $presentAlert) {
             Alert.genericError
         }
         .onAppear {
-            name = blueprint.name
-            details = blueprint.details
+            name = list.name
+            details = list.details
         }
         .padding(.top, Sizes.updateEtityViewTopPadding)
-        .navigationTitle("Blueprint update")
+        .navigationTitle("List update")
     }
 }
 
 // MARK: - UI
 
-fileprivate extension UpdateBlueprintView {
+private extension EditToDoListFormView {
     enum Field: Hashable {
         case name
         case details
@@ -97,12 +96,12 @@ fileprivate extension UpdateBlueprintView {
         }
         .font(.title2)
     }
-
+    
     var saveButton: some View {
-        Button { updateBlueprintAndDismiss() } label: { Text("Save") }
+        Button { updateListAndDismiss() } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
     }
-
+    
     var exitButton: some View {
         Button { dismiss() } label: { Text("Exit") }
     }
@@ -110,34 +109,34 @@ fileprivate extension UpdateBlueprintView {
 
 // MARK: - SwiftData
 
-fileprivate extension UpdateBlueprintView {
+fileprivate extension EditToDoListFormView {
     var isUniqueName: Bool {
-        blueprints.first { $0.name.asInputLowercasedEquals(name) } == nil
+        lists.first { $0.name.asInputLowcaseEquals(name) } == nil
     }
-
+    
     var didChangeDetails: Bool {
-        details != blueprint.details
+        details != list.details
     }
-
+    
     var isSaveButtonDisabled: Bool {
         name.asInput.isEmpty || (!isUniqueName && !didChangeDetails)
     }
-
-    func updateBlueprintAndDismiss() {
-        blueprint.name = name
-        blueprint.details = details
+    
+    func updateListAndDismiss() {
+        list.name = name
+        list.details = details
         do {
             try modelContext.save()
             dismiss()
         } catch {
-            logger.error("updateBlueprintAndDismiss: \(error)")
-            presetAlert = true
+            logger.error("Error updating list: \(error)")
+            presentAlert = true
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        UpdateBlueprintView(Blueprint("Groceries", details: "Try farmers market first"))
+        EditToDoListFormView(ToDoList("List to be edited", details: "List details"))
     }
 }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -68,7 +69,6 @@ struct ToDoListsView: View {
         }
         .sheet(isPresented: $presentAddToDoListSheet) {
             NewListOrBlueprintFormView(
-                isSheetPresented: $presentAddToDoListSheet,
                 entity: .toDoList,
                 isUniqueName: isUniqueName,
                 createEntity: createNewEntity,
@@ -107,7 +107,7 @@ private extension ToDoListsView {
         Task {
             do {
                 if waitFotItemsViewDimiss {
-                    try await Task.sleep(nanoseconds: WaitTimes.sheetDismissAndInsertOrRemove)
+                    try await Task.sleep(nanoseconds: WaitTimes.dismissSheetAndInsertOrRemove)
                 }
                 
                 try withAnimation(.easeIn(duration: 0.25)) {
@@ -130,7 +130,7 @@ extension ToDoListsView: NewEntityCreatorProtocol {
     }
     
     func isUniqueName(name: String) -> Bool {
-        lists.first { $0.name.asInputLowercasedEquals(name) } == nil
+        lists.first { $0.name.asInputLowcaseEquals(name) } == nil
     }
     
     func handleSaveError(error: Error, name: String) {

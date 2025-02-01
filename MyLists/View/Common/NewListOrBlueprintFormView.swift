@@ -7,25 +7,25 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
-struct NewListOrBlueprintFormView: SheetWrappedViewable {
+struct NewListOrBlueprintFormView: View {
     @FocusState private var focusState: Field?
+    @Environment(\.dismiss) private var dismiss
     @State private var name: String = ""
     @State private var details: String = ""
-    @State var isSheetPresented: Binding<Bool>
-    
+        
     private var entity: ListEntity
     private let isUniqueName: (String) -> Bool
     private let createEntity: (String, String) -> Void
     private let handleSaveError: (Error, String) -> Void
     
-    init(isSheetPresented: Binding<Bool>,
+    init(
          entity: ListEntity,
          isUniqueName: @escaping (String) -> Bool,
          createEntity: @escaping (String, String) -> Void,
          handleSaveError: @escaping (Error, String) -> Void
     ) {
-        self.isSheetPresented = isSheetPresented
         self.entity = entity
         self.isUniqueName = isUniqueName
         self.createEntity = createEntity
@@ -123,7 +123,7 @@ fileprivate extension NewListOrBlueprintFormView {
     }
     
     var exitButton: some View {
-        Button { dismissSheet() } label: { Text("Exit") }
+        Button { dismiss() } label: { Text("Exit") }
     }
 }
 
@@ -135,18 +135,16 @@ fileprivate extension NewListOrBlueprintFormView {
     }
     
     func dismissSheetAndCreateEntity() {
-        dismissSheet()
+        dismiss()
         createEntity(name.asInput, details.asInput)
     }
 }
 
-#Preview {
-    @Previewable @State var isSheetPresented: Bool = false
-    NewListOrBlueprintFormView(
-        isSheetPresented: $isSheetPresented,
-        entity: .toDoList,
-        isUniqueName: {_ in true },
-        createEntity: { _, _ in },
-        handleSaveError: { _, _ in }
-    )
-}
+//#Preview {
+//    NewListOrBlueprintFormView(
+//        entity: .toDoList,
+//        isUniqueName: {_ in true },
+//        createEntity: { _, _ in },
+//        handleSaveError: { _, _ in }
+//    )
+//}

@@ -15,13 +15,13 @@ struct ToDoListItemsView: View {
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
         
     @State var presentAlert = false
-    @State var alerMessage = Alert.genericErrorMessage
-    @State var presentAddItemSheet = false
-    @State var showSortSheet: Bool = false
-    @State var sortType: SortType = .doneLast
-    @State var showDetails = false
-    @State var showListToBlueprint = false
-    @State var presentDeleteOption = false
+    @State var alertMessage = Alert.genericErrorMessage
+    @ObservedObject private var sheetPresenter = SheetPresenter()
+    @State private var showDeleteOptionActionSheet = false
+    @State private var sortType: SortType = .doneLast
+    @State private var showDetails = false
+    @State private var showListToBlueprint = false
+    @State private var presentDeleteOption = false
     
     let list: ToDoList
     let allDoneAction: (ToDoList) -> Void
@@ -40,89 +40,148 @@ struct ToDoListItemsView: View {
                     .padding(.horizontal, 22)
             }
             
-            List {
-                if !list.details.isEmpty {
-                    Section("List Details:") {
-                        Text(list.details).font(.title3)
-                            .foregroundStyle(Color.primary)
-                    }
-                }
-                
-                if !list.items.isEmpty {
-                    Section("List Items:") {
-                        ForEach(list.items.sorted(by: sortType)) { item in
-                            ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted() }
-                        }
-                        .onDelete(perform: deleteItem)
-                    }
-                }
-            }
-            .actionSheet(isPresented: $presentDeleteOption) {
-                ActionSheet(
-                    title: Text("List completed!"),
-                    message: Text("Would you like to delete it now it's completed?"),
-                    buttons: [ActionSheet.Button.destructive(Text("Yes")) {
-                        dismiss()
-                        allDoneAction(list)
-                    }, .cancel(Text("Cancel"))]
-                )
+            listView
+            .actionSheet(isPresented: $showDeleteOptionActionSheet) {
+                deleteListOptionActionSheet
             }
             .font(.subheadline.weight(.medium))
             .foregroundStyle(Color.cyan)
-            .sheet(isPresented: $showSortSheet) {
-                sortView
-            }
-            .sheet(isPresented: $presentAddItemSheet) {
-                NewListOrBlueprintItemFormView(
-                    .toDoList(entity: list),
-                    isSheetPresented: $presentAddItemSheet,
-                    isUniqueNameInEntity: isUniqueNameInEntity,
-                    createAndInsertNewItems: createAndInsertNewItems
-                )
+            .sheet(isPresented: $sheetPresenter.presentSheet) {
+                switch sheetPresenter.sheetType {
+                case .sortItems:
+                        SetToDoItemSortView(currentSortType: sortType) {
+                            sortType = $0
+                        }
+                case .addItem:
+                    NewListOrBlueprintItemFormView(
+                        .toDoList(entity: list),
+                        isUniqueNameInEntity: isUniqueNameInEntity,
+                        createAndInsertNewItems: createAndInsertNewItems
+                    )
+                case .edit(let item):
+                    EditToDoListItemFormView(item, list: list) { save($0) }
+                }
             }
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
         }
         .alert(isPresented: $presentAlert) {
-            Alert(title: Alert.genericErrorTitle, message: alerMessage)
+            Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
         .toolbar {
             toolBarView
         }
         .onAppear {
-            if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
-                Task {
-                    do {
-                        withAnimation(.easeIn(duration: 0.25)) {
-                            dismiss()
-                            tabselection.didPopToRootView()
-                        }
-                        try await Task.sleep(nanoseconds: WaitTimes.dismiss)
-                    } catch {
-                        logger.error("Error dismissing ToDoListItemsView: \(error)")
-                    }
-                }
-            }
+            checkPopToRootView()
         }
         .navigationTitle(list.name)
     }
+}
 
+// MARK: - Private Methods
+
+private extension ToDoListItemsView {
+    func checkPopToRootView() {
+        if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
+            Task {
+                do {
+                    withAnimation(.easeIn(duration: 0.25)) {
+                        dismiss()
+                        tabselection.didPopToRootView()
+                    }
+                    try await Task.sleep(nanoseconds: WaitTimes.dismiss)
+                } catch {
+                    logger.error("Error dismissing ToDoListItemsView: \(error)")
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Edit Item
+
+class SheetPresenter: ObservableObject {
+    @Published var sheetType: SheetType = .addItem
+    @Published var presentSheet = false
+    
+    func presentAddNewItemSheet() {
+        self.sheetType = .addItem
+        presentSheet = true
+    }
+    
+    func presentEditItemSheet(_ item: ToDoItem) {
+        self.sheetType = .edit(item: item)
+        presentSheet = true
+    }
+}
+    
+enum SheetType {
+    case edit(item: ToDoItem)
+    case addItem
 }
 
 // MARK: - UI
 
 private extension ToDoListItemsView {
+    var listView: some View {
+        List {
+            if !list.details.isEmpty {
+                Section("List Details:") {
+                    Text(list.details).font(.title3)
+                        .foregroundStyle(Color.primary)
+                }
+            }
+            
+            if !list.items.isEmpty {
+                itemsSection
+            }
+        }
+    }
+    
+    var itemsSection: some View {
+        Section("List Items:") {
+            ForEach(list.items.sorted(by: sortType)) { item in
+                ToDoListItemRowView(item: item) {
+                    presentDeleteOptionIfCompleted()
+                }
+                .swipeActions(edge: .leading) {
+                    Button("Edit", role: .cancel) {
+                        sheetPresenter.presentEditItemSheet(item)
+                    }
+                    .tint(.blue)
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(role: .destructive) {
+                        delete(item: item)
+                    } label: {
+                         Label("Delete", systemImage: "trash")
+                    }
+                    .tint(.red)
+                }
+            }
+        }
+    }
+    
+    var deleteListOptionActionSheet: ActionSheet {
+        ActionSheet(
+            title: Text("List completed!"),
+            message: Text("Would you like to delete it now it's completed?"),
+            buttons: [ActionSheet.Button.destructive(Text("Yes")) {
+                dismiss()
+                allDoneAction(list)
+            },
+            .cancel(Text("Cancel"))]
+        )
+    }
+    
     var shareMessage: String {
         var string = "Name:  " + list.name
         if !list.details.isEmpty {
             string += "\n\nDetails:\n\n\(list.details)"
         }
-        
         string += "\n\n"
         
-        for item in list.items.sorted(by: sortType) {
-            string += " ▢  -  \(item.name)\n\n"
-        }
+        for item in list.items.sorted(by: sortType) { string += " ▢  -  \(item.name)\n\n" }
         
         string += "Reusable Lists\n"
         string += "https://tinyurl.com/mr3essyr"
@@ -131,98 +190,96 @@ private extension ToDoListItemsView {
     }
     
     func presentDeleteOptionIfCompleted() {
-        if list.completion >= 1 {
-            presentDeleteOption = true
-        }
+        showDeleteOptionActionSheet = list.completion >= 1
     }
                       
     var toolBarView: some View {
         HStack(spacing: 16) {
-            ShareLink(item: shareMessage) {
-                Label("", systemImage: "square.and.arrow.up")
-            }
-            .padding(.trailing, -8)
-            .padding(.top, -4)
+            ShareLink(item: shareMessage) { Label("", systemImage: "square.and.arrow.up") }
+                .padding(.trailing, -8)
+                .padding(.top, -4)
             
-            NavigationLink {
-                UpdateToDoListView(list)
-            } label: {
-                Image.gear.sizedToFit(width: 21, height: 21)
-                    .padding(.top, 1.5)
-            }
+            NavigationLink { EditToDoListFormView(list) } label: { Image.gear.sizedToFit(width: 21, height: 21).padding(.top, 1.5) }
             
             if list.items.count > 1 {
-                Image.sort.sizedToFit(height: 18).onTapGesture { showSortSheet = true }
+                Image.sort.sizedToFit(height: 18).onTapGesture {
+                    sheetPresenter.presentSortSheet()
+                }
             }
             
-            Image.plus.onTapGesture { presentAddItemSheet = true }
-                .padding(.leading, -4)
+            Image.plus.onTapGesture { sheetPresenter.presentAddNewItemSheet() }.padding(.leading, -4)
         }
         .foregroundStyle(Color.cyan)
         .padding(.trailing, 4)
     }
-    
-    var sortView: some View {
-        List {
-            Section("Sort by:") {
-                sortOption("Todo first:", icon: .checkBox, sortyType: .doneLast)
-                
-                sortOption("Alphabetically:", icon: .az, sortyType: .alphabetic)
-                
-                sortOption("Done first:", icon: .checkBoxTicked, sortyType: .doneFirst)
-            }
-            .font(.headline)
+}
+
+// MARK: - Sheets
+extension ToDoListItemsView {
+    class SheetPresenter: ObservableObject {
+        @Published var sheetType: ToDoListItemsView.SheetType = .addItem
+        @Published var presentSheet = false
+        
+        func presentAddNewItemSheet() {
+            self.sheetType = .addItem
+            presentSheet = true
         }
-        .presentationDetents([.fraction(0.35)])
-        .presentationDragIndicator(.visible)
+        
+        func presentEditItemSheet(_ item: ToDoItem) {
+            self.sheetType = .edit(item: item)
+            presentSheet = true
+        }
+        
+        func presentSortSheet() {
+            self.sheetType = .sortItems
+            presentSheet = true
+        }
     }
     
-    func setSortTo(_ type: SortType) {
-        withAnimation {
-            sortType = type
-            showSortSheet = false
-        }
+    enum SheetType {
+        case edit(item: ToDoItem)
+        case addItem
+        case sortItems
     }
     
-    func sortOption(_ label: String, icon: Image, sortyType: SortType) -> some View {
-        HStack {
-            icon.sizedToFitSquare()
-            Spacer().frame(width: 12)
-            Text(label).font(.headline)
-            Spacer()
-            if self.sortType == sortyType {
-                Image.checkMark
-            }
-        }
-        // It needs to specify content shape to cover all area, since by default only opaque views handle gesture
-        // https://stackoverflow.com/a/62640126/884744
-        .contentShape(Rectangle())
-        .foregroundStyle(Color.cyan)
-        .onTapGesture { setSortTo(sortyType) }
-    }
 }
 
 // MARK: - SwiftData
 
 private extension ToDoListItemsView {
-    func deleteItem(_ indexSet: IndexSet) {
+    func deleteItem(_ indexSet: IndexSet) throws {
+        guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
+        delete(item: list.items[index])
+    }
+    
+    func delete(item: ToDoItem) {
+        list.items = list.items.filter { $0 != item }
+        modelContext.delete(item)
         do {
-            guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
-            let item = list.items.sorted(by: sortType)[index]
-            list.items = list.items.filter { $0 != item }
-            modelContext.delete(item)
             try modelContext.save()
         } catch {
             logger.error("Error deleting ToDoItem: \(error)")
-            alerMessage = Alert.genericErrorMessage
+            alertMessage = Alert.genericErrorMessage
+            presentAlert = true
+        }
+    }
+    
+    func save(_ item: ToDoItem) {
+        do {
+            try modelContext.save()
+        } catch {
+            logger.error("Error editing item: \(error)")
+            alertMessage = Alert.genericErrorMessage
             presentAlert = true
         }
     }
 }
 
+// MARK: - NewItemCreatorProtocol
+
 extension ToDoListItemsView: NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool {
-        list.items.first { $0.name.asInputLowercasedEquals(name) } == nil
+        list.items.first { $0.name.asInputLowcaseEquals(name) } == nil
     }
     
     func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws {

@@ -7,30 +7,28 @@
 
 import SwiftUI
 
-struct EditBlueprintItemView: View, SheetWrappedViewable {
+struct EditBlueprintItemView: View {
     @FocusState private var focusState: Field?
+    @Environment(\.dismiss) private var dismiss
     @State private var name = ""
     @State private var isPriority = false
     private let oldName: String
     private let oldPriority: Bool
     private let item: BlueprintItem
     private let blueprint: Blueprint
-    @State var isSheetPresented: Binding<Bool>
     let onEdited: (BlueprintItem) -> Void
     
     init(_ item: BlueprintItem,
          blueprint: Blueprint,
-         isSheetPresented: Binding<Bool>,
          onEdited: @escaping (BlueprintItem) -> Void
     ) {
         self.item = item
         self.blueprint = blueprint
         self.oldName = item.name.copy() as! String
         self.oldPriority = item.priority ? true : false
-        self.isSheetPresented = isSheetPresented
         self.onEdited = onEdited
-        name = item.name.copy() as? String ?? ""
-        isPriority = item.priority ? true : false
+        self.name = item.name.copy() as? String ?? ""
+        self.isPriority = item.priority ? true : false
     }
     
     var body: some View {
@@ -49,6 +47,7 @@ struct EditBlueprintItemView: View, SheetWrappedViewable {
             
             buttonsStack
                 .padding(.bottom, 8)
+                .font(.title3)
         }
         .onAppear {
             name = item.name
@@ -73,7 +72,7 @@ private extension EditBlueprintItemView {
     }
     
     var nameAlreadyUsedByAnotherItemMessage: some View {
-        Text("⚠ Another iten named \"\(name)\" already exists for this Blueptint.")
+        Text("⚠ Another iten named \"\(name.asInput)\" already exists for this Blueptint.")
             .font(.headline.weight(.light))
             .foregroundStyle(Color.red)
             .frame(alignment: .leading)
@@ -82,8 +81,7 @@ private extension EditBlueprintItemView {
     }
     
     var nameAlreadyUsedByAnotherItem: Bool {
-        blueprint.items.first { $0.name.asInputLowcaseEquals(name) && $0.id != item.id
-        } != nil
+        blueprint.items.first { $0.name.asInputLowcaseEquals(name) && $0.id != item.id } != nil
     }
     
     var formView: some View {
@@ -101,9 +99,7 @@ private extension EditBlueprintItemView {
                 Image.priority
                     .sizedToFitHeight(22)
                     .foregroundStyle(isPriority ? Color.red : Color.gray)
-                    .onTapGesture {
-                        isPriority.toggle()
-                    }
+                    .onTapGesture { isPriority.toggle() }
             }
         }
         .frame(height: Sizes.newItemFormHeight)
@@ -113,28 +109,20 @@ private extension EditBlueprintItemView {
     var buttonsStack: some View {
         HStack {
             Spacer()
-            
             Button { discardEditsAndDismissSheet() } label: { Text("Exit") }
-            
             Spacer()
-            
             Button {
                 if !name.asInputLowcaseEquals(oldName) || isPriority != oldPriority {
                     saveEditsAndDismissSheet()
                 }
-            } label: {
-                Text("Save")
-            }
+            } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
-            
             Spacer()
         }
     }
     
     var isSaveButtonDisabled: Bool {
-        !hasEdits ||
-        nameAlreadyUsedByAnotherItem ||
-        name.isEmptyAsInput
+        !hasEdits || nameAlreadyUsedByAnotherItem || name.isEmptyAsInput
     }
 }
 
@@ -150,15 +138,13 @@ private extension EditBlueprintItemView {
         item.priority = isPriority
         
         Task {
-            dismissSheet()
+            dismiss()
             try? await Task.sleep(nanoseconds: WaitTimes.dismissAndEdit)
             onEdited(item)
         }
     }
     
     func discardEditsAndDismissSheet() {
-        item.name = oldName
-        item.priority = oldPriority
-        dismissSheet()
+        dismiss()
     }
 }

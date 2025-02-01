@@ -7,31 +7,29 @@
 
 import SwiftUI
 
-struct EditToDoListItemFormView: View, SheetWrappedViewable {
+struct EditToDoListItemFormView: View {
     @FocusState private var focusState: Field?
+    @Environment(\.dismiss) private var dismiss
     @State private var name = ""
     @State private var isPriority = false
     private let oldName: String
     private let oldPriority: Bool
     private let item: ToDoItem
     private let list: ToDoList
-    @State var isSheetPresented: Binding<Bool>
     private let onEdited: (ToDoItem) -> Void
     
     init(
         _ item: ToDoItem,
         list: ToDoList,
-        isSheetPresented: Binding<Bool>,
         onEdited: @escaping (ToDoItem) -> Void
     ) {
         self.item = item
         self.list = list
         self.oldName = item.name.copy() as! String
         self.oldPriority = item.priority ? true : false
-        self.isSheetPresented = isSheetPresented
         self.onEdited = onEdited
-        name = item.name.copy() as? String ?? ""
-        isPriority = item.priority ? true : false
+        self.name = item.name.copy() as? String ?? ""
+        self.isPriority = item.priority ? true : false
     }
     
     var body: some View {
@@ -49,7 +47,8 @@ struct EditToDoListItemFormView: View, SheetWrappedViewable {
             Spacer()
             
             buttonsStack
-                .padding(.bottom, 8)
+                .padding(.vertical, 8)
+                .font(.title3)
         }
         .onAppear {
             name = item.name
@@ -74,7 +73,7 @@ private extension EditToDoListItemFormView {
     }
     
     var nameAlreadyUsedByAnotherItemMessage: some View {
-        Text("⚠ Another iten named \"\(name)\" already exists for this List.")
+        Text("⚠ Another iten named \"\(name.asInput)\" already exists for this List.")
             .font(.headline.weight(.light))
             .foregroundStyle(Color.red)
             .frame(alignment: .leading)
@@ -83,8 +82,7 @@ private extension EditToDoListItemFormView {
     }
     
     var nameAlreadyUsedByAnotherItem: Bool {
-        list.items.first { $0.name.asInputLowcaseEquals(name) && $0.id != item.id
-        } != nil
+        list.items.first { $0.name.asInputLowcaseEquals(name) && $0.id != item.id } != nil
     }
     
     var formView: some View {
@@ -114,11 +112,8 @@ private extension EditToDoListItemFormView {
     var buttonsStack: some View {
         HStack {
             Spacer()
-            
             Button { discardEditsAndDismissSheet() } label: { Text("Exit") }
-            
             Spacer()
-            
             Button {
                 if !name.asInputLowcaseEquals(oldName) || isPriority != oldPriority {
                     saveEditsAndDismissSheet()
@@ -133,9 +128,7 @@ private extension EditToDoListItemFormView {
     }
     
     var isSaveButtonDisabled: Bool {
-        !hasEdits ||
-        nameAlreadyUsedByAnotherItem ||
-        name.isEmptyAsInput
+        !hasEdits || nameAlreadyUsedByAnotherItem || name.isEmptyAsInput
     }
 }
 
@@ -151,15 +144,13 @@ private extension EditToDoListItemFormView {
         item.priority = isPriority
         
         Task {
-            dismissSheet()
+            dismiss()
             try? await Task.sleep(nanoseconds: WaitTimes.dismissAndEdit)
             onEdited(item)
         }
     }
     
     func discardEditsAndDismissSheet() {
-        item.name = oldName
-        item.priority = oldPriority
-        dismissSheet()
+        dismiss()
     }
 }

@@ -17,8 +17,7 @@ struct BlueprintItemsView: View {
     
     @State private var alertMessage = Alert.genericErrorMessage
     @State private var presentAlert = false
-    @State private var presentSheet = false
-    @State private var sheetType: SheetType = .none
+    @ObservedObject private var sheetPresenter = SheetPresenter()
     
     let blueprint: Blueprint
     
@@ -35,22 +34,8 @@ struct BlueprintItemsView: View {
                         .listRowSeparatorTint(.gray, edges: .all)
                 }
             }
-            
             if !blueprint.items.isEmpty {
-                Section("Blueprint Items:") {
-                    ForEach(blueprint.items.sortedByPriorityAndName) { item in
-                        BlueprintItemRowView(item: item)
-                            .listRowBackground(Color.gray.opacity(0.35))
-                            .listRowSeparatorTint(.gray, edges: .all)
-                            .swipeActions(edge: .leading) {
-                                Button("Edit") {
-                                    sheetType = .edit(item: item)
-                                    presentSheet = true
-                                }
-                            }
-                    }
-                    .onDelete(perform: deleteItem)
-                }
+                itemsSection
             }
         }
         .font(.subheadline.weight(.medium))
@@ -58,21 +43,16 @@ struct BlueprintItemsView: View {
         .alert(isPresented: $presentAlert) {
             Alert(title: Alert.genericErrorTitle, message: alertMessage)
         }
-        .sheet(isPresented: $presentSheet) {
-            switch sheetType {
+        .sheet(isPresented: $sheetPresenter.presentSheet) {
+            switch sheetPresenter.sheetType {
             case .addItem:
                 NewListOrBlueprintItemFormView(
                     .blueprint(entity: blueprint),
-                    isSheetPresented: $presentSheet,
                     isUniqueNameInEntity: isUniqueNameInEntity,
                     createAndInsertNewItems: createAndInsertNewItems
                 )
             case .edit(let item):
-                EditBlueprintItemView(
-                    item,
-                    blueprint: blueprint,
-                    isSheetPresented: $presentSheet) { save($0) }
-            case .none: EmptyView().frame(width: 0, height: 0)
+                EditBlueprintItemView(item, blueprint: blueprint) { save($0) }
             }
         }
         .presentationDetents([.large])
@@ -87,16 +67,54 @@ struct BlueprintItemsView: View {
 // MARK: - Edit Item
 
 extension BlueprintItemsView {
+    class SheetPresenter: ObservableObject {
+        @Published var sheetType: SheetType = .addItem
+        @Published var presentSheet = false
+        
+        func presentAddNewItemSheet() {
+            self.sheetType = .addItem
+            presentSheet = true
+        }
+        
+        func presentEditItemSheet(_ item: BlueprintItem) {
+            self.sheetType = .edit(item: item)
+            presentSheet = true
+        }
+    }
+    
     enum SheetType {
         case edit(item: BlueprintItem)
         case addItem
-        case none
     }
 }
-
 // MARK: - UI
 
-fileprivate extension BlueprintItemsView {
+extension BlueprintItemsView {
+var itemsSection: some View {
+        Section("Blueprint Items:") {
+            ForEach(blueprint.items.sortedByPriorityAndName) { item in
+                BlueprintItemRowView(item: item)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            delete(item: item)
+                        } label: {
+                             Label("Delete", systemImage: "trash")
+                        }
+                        .tint(.red)
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button("Edit") {
+                            sheetPresenter.presentEditItemSheet(item)
+                        }
+                        .tint(Color.blue)
+                    }
+                    .listRowBackground(Color.gray.opacity(0.35))
+                    .listRowSeparatorTint(.gray, edges: .all)
+            }
+            .onDelete(perform: deleteItem)
+        }
+    }
+    
     var toobarItem: ToolbarItem<(), some View> {
         ToolbarItem(placement: .topBarTrailing) {
             HStack(spacing: 16) {
@@ -116,8 +134,7 @@ fileprivate extension BlueprintItemsView {
                 }
                 
                 Image.plus.onTapGesture {
-                    sheetType = .addItem
-                    presentSheet = true
+                    sheetPresenter.presentAddNewItemSheet()
                 }
                 .padding(.trailing, 4)
             }
@@ -129,7 +146,7 @@ fileprivate extension BlueprintItemsView {
 
 // MARK: - SwiftData
 
-private extension BlueprintItemsView {
+extension BlueprintItemsView {
     func listInstanceAlreadyExists(for blueprint: Blueprint) -> Bool {
         lists.first { $0.name.asInputLowcaseEquals(blueprint.name) } != nil
     }
@@ -159,7 +176,6 @@ private extension BlueprintItemsView {
                     blueprint.usageCount += 1
                     try modelContext.save()
                 }
-                
             } catch {
                 logger.error("Error addListInstance(from: \(blueprint.name): \(error.localizedDescription)")
                 alertMessage = Alert.genericErrorMessage
@@ -171,16 +187,23 @@ private extension BlueprintItemsView {
         }
     }
     
-    func deleteItem(_ indexSet: IndexSet) {
+    func delete(item: BlueprintItem) {
         alertMessage = Alert.genericErrorMessage
         do {
-            guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
-            let item: BlueprintItem = blueprint.items.sortedByPriorityAndName[index]
             blueprint.items = blueprint.items.filter { $0 != item }
             modelContext.delete(item)
             try modelContext.save()
         } catch {
-            logger.error("Error deleteItem(indexSet \(indexSet)): \(error.localizedDescription)")
+            presentAlert = true
+        }
+    }
+    
+    func deleteItem(_ indexSet: IndexSet) {
+        alertMessage = Alert.genericErrorMessage
+        do {
+            guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
+            delete(item: blueprint.items.sortedByPriorityAndName[index])
+        } catch {
             presentAlert = true
         }
     }

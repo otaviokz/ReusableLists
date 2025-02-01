@@ -20,6 +20,59 @@ struct BlueprintsView: View {
     @State var showingDeleteAlert = false
 
     var body: some View {
+        bluePrintsList
+        .animation(.linear(duration: 0.25), value: blueprints)
+        .toolbar {
+            Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
+                .foregroundStyle(Color.cyan)
+        }
+        .alert(isPresented: $presentAlert) {
+            Alert.genericError
+        }
+        .sheet(isPresented: $presentAddBlueprintSheet) {
+            NewListOrBlueprintFormView(
+                entity: .blueprint,
+                isUniqueName: isUniqueName,
+                createEntity: createNewEntity,
+                handleSaveError: handleSaveError
+            )
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+        }
+        .navigationTitle("Blueprints")
+    }
+    
+    @inlinable static func deleteConfirmationDialog(blueprint: Blueprint, title: String, delete: @escaping (Blueprint) -> Void) -> DeletionConfirmationDialog {
+        DeletionConfirmationDialog(bluePrint: blueprint, title: title, titleVisibility: .visible, delete: delete)
+    }
+}
+
+// MARK: - UI
+
+struct DeletionConfirmationDialog: View {
+    @Environment(\.dismiss) private var dismiss
+    let bluePrint: Blueprint
+    let title: String
+    let titleVisibility: Visibility
+    let delete: (Blueprint) -> Void
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Text(title)
+                .font(.title2)
+                .padding(.bottom, 16)
+            Button(
+                role: .destructive,
+                action: { delete(bluePrint) },
+                label: { Text("Delete").foregroundStyle(Color.red) }
+            )
+            Button("Cancel", role: .cancel) { dismiss() }
+        }
+    }
+}
+
+private extension BlueprintsView {
+    var bluePrintsList: some View {
         List {
             ForEach(blueprints) { blueprint in
                 NavigationLink(destination: BlueprintItemsView(for: blueprint)) {
@@ -34,7 +87,7 @@ struct BlueprintsView: View {
                 }
                 .listRowBackground(Color.gray.opacity(0.4))
                 .listRowSeparatorTint(.gray, edges: .all)
-            }
+            }            
             .confirmationDialog(
                 deleteConfirmationDialogTitle,
                 isPresented: $showingDeleteAlert,
@@ -51,32 +104,8 @@ struct BlueprintsView: View {
                 Button("Cancel", role: .cancel) { showingDeleteAlert = false }
             }
         }
-        .animation(.linear(duration: 0.25), value: blueprints)
-        .toolbar {
-            Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
-                .foregroundStyle(Color.cyan)
-        }
-        .alert(isPresented: $presentAlert) {
-            Alert.genericError
-        }
-        .sheet(isPresented: $presentAddBlueprintSheet) {
-            NewListOrBlueprintFormView(
-                isSheetPresented: $presentAddBlueprintSheet,
-                entity: .blueprint,
-                isUniqueName: isUniqueName,
-                createEntity: createNewEntity,
-                handleSaveError: handleSaveError
-            )
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-        }
-        .navigationTitle("Blueprints")
     }
-}
-
-// MARK: - UI
-
-private extension BlueprintsView {
+    
     var deleteConfirmationDialogTitle: Text {
         guard let blueprintToDelete = blueprintToDelete else { return Text("") }
         var message = "Blueprint \"\(blueprintToDelete.name)\""

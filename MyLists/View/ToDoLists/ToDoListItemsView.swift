@@ -16,8 +16,7 @@ struct ToDoListItemsView: View {
         
     @State var presentAlert = false
     @State var alertMessage = Alert.genericErrorMessage
-    @State private var presentSheet = false
-    @State private var sheetType: SheetType = .none
+    @ObservedObject private var sheetPresenter = SheetPresenter()
     @State private var showDeleteOptionActionSheet = false
     @State private var sortType: SortType = .doneLast
     @State private var showDetails = false
@@ -47,19 +46,20 @@ struct ToDoListItemsView: View {
             }
             .font(.subheadline.weight(.medium))
             .foregroundStyle(Color.cyan)
-            .sheet(isPresented: $presentSheet) {
-                switch sheetType  {
-                case .sort: sortView
+            .sheet(isPresented: $sheetPresenter.presentSheet) {
+                switch sheetPresenter.sheetType {
+                case .sortItems:
+                        SetToDoItemSortView(currentSortType: sortType) {
+                            sortType = $0
+                        }
                 case .addItem:
                     NewListOrBlueprintItemFormView(
                         .toDoList(entity: list),
-                        isSheetPresented: $presentSheet,
                         isUniqueNameInEntity: isUniqueNameInEntity,
                         createAndInsertNewItems: createAndInsertNewItems
                     )
                 case .edit(let item):
-                    EditToDoListItemFormView(item, list: list, isSheetPresented: $presentSheet) { save($0) }
-                default: EmptyView()
+                    EditToDoListItemFormView(item, list: list) { save($0) }
                 }
             }
             .presentationDetents([.large])
@@ -100,14 +100,26 @@ private extension ToDoListItemsView {
 
 // MARK: - Edit Item
 
-extension ToDoListItemsView {
-    enum SheetType {
-        case edit(item: ToDoItem)
-        case sort
-        case addItem
-        case none
+class SheetPresenter: ObservableObject {
+    @Published var sheetType: SheetType = .addItem
+    @Published var presentSheet = false
+    
+    func presentAddNewItemSheet() {
+        self.sheetType = .addItem
+        presentSheet = true
+    }
+    
+    func presentEditItemSheet(_ item: ToDoItem) {
+        self.sheetType = .edit(item: item)
+        presentSheet = true
     }
 }
+    
+enum SheetType {
+    case edit(item: ToDoItem)
+    case addItem
+}
+
 // MARK: - UI
 
 private extension ToDoListItemsView {
@@ -129,12 +141,12 @@ private extension ToDoListItemsView {
     var itemsSection: some View {
         Section("List Items:") {
             ForEach(list.items.sorted(by: sortType)) { item in
-                ToDoListItemRowView(item: item) { presentDeleteOptionIfCompleted()
+                ToDoListItemRowView(item: item) {
+                    presentDeleteOptionIfCompleted()
                 }
                 .swipeActions(edge: .leading) {
                     Button("Edit", role: .cancel) {
-                        sheetType = .edit(item: item)
-                        presentSheet = true
+                        sheetPresenter.presentEditItemSheet(item)
                     }
                     .tint(.blue)
                 }
@@ -191,56 +203,45 @@ private extension ToDoListItemsView {
             
             if list.items.count > 1 {
                 Image.sort.sizedToFit(height: 18).onTapGesture {
-                    sheetType = .sort
-                    presentSheet = true
+                    sheetPresenter.presentSortSheet()
                 }
             }
             
-            Image.plus.onTapGesture {
-                sheetType = .addItem
-                presentSheet = true
-            }.padding(.leading, -4)
+            Image.plus.onTapGesture { sheetPresenter.presentAddNewItemSheet() }.padding(.leading, -4)
         }
         .foregroundStyle(Color.cyan)
         .padding(.trailing, 4)
     }
-    
-    var sortView: some View {
-        List {
-            Section("Sort by:") {
-                sortOption("Todo first:", icon: .checkBox, sortyType: .doneLast)
-                sortOption("Alphabetically:", icon: .az, sortyType: .alphabetic)
-                sortOption("Done first:", icon: .checkBoxTicked, sortyType: .doneFirst)
-            }
-            .font(.headline)
+}
+
+// MARK: - Sheets
+extension ToDoListItemsView {
+    class SheetPresenter: ObservableObject {
+        @Published var sheetType: ToDoListItemsView.SheetType = .addItem
+        @Published var presentSheet = false
+        
+        func presentAddNewItemSheet() {
+            self.sheetType = .addItem
+            presentSheet = true
         }
-        .presentationDetents([.fraction(0.35)])
-        .presentationDragIndicator(.visible)
+        
+        func presentEditItemSheet(_ item: ToDoItem) {
+            self.sheetType = .edit(item: item)
+            presentSheet = true
+        }
+        
+        func presentSortSheet() {
+            self.sheetType = .sortItems
+            presentSheet = true
+        }
     }
     
-    func setSortTo(_ type: SortType) {
-        withAnimation {
-            sortType = type
-            presentSheet = false
-        }
+    enum SheetType {
+        case edit(item: ToDoItem)
+        case addItem
+        case sortItems
     }
     
-    func sortOption(_ label: String, icon: Image, sortyType: SortType) -> some View {
-        HStack {
-            icon.sizedToFitSquare()
-            Spacer().frame(width: 12)
-            Text(label).font(.headline)
-            Spacer()
-            if self.sortType == sortyType {
-                Image.checkMark
-            }
-        }
-        // It needs to specify content shape to cover all area, since by default only opaque views handle gesture
-        // https://stackoverflow.com/a/62640126/884744
-        .contentShape(Rectangle())
-        .foregroundStyle(Color.cyan)
-        .onTapGesture { setSortTo(sortyType) }
-    }
 }
 
 // MARK: - SwiftData

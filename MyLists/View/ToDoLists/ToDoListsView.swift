@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -68,7 +69,6 @@ struct ToDoListsView: View {
         }
         .sheet(isPresented: $presentAddToDoListSheet) {
             NewListOrBlueprintFormView(
-                isSheetPresented: $presentAddToDoListSheet,
                 entity: .toDoList,
                 isUniqueName: isUniqueName,
                 createEntity: createNewEntity,

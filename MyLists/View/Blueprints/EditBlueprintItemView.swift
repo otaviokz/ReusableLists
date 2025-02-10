@@ -98,7 +98,7 @@ private extension EditBlueprintItemView {
                 
                 Image.priority
                     .sizedToFitHeight(22)
-                    .foregroundStyle(isPriority ? Color.red : Color.gray)
+                    .foregroundStyle(isPriority ? Color.red : Color.disabled)
                     .onTapGesture { isPriority.toggle() }
             }
         }
@@ -117,6 +117,7 @@ private extension EditBlueprintItemView {
                 }
             } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
+            .foregroundStyle(isSaveButtonDisabled ? Color.disabled : Color.cyan)
             Spacer()
         }
     }

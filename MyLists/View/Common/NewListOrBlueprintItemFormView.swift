@@ -107,10 +107,11 @@ private extension NewListOrBlueprintItemFormView {
                     
                     Image.priority
                         .sizedToFitHeight(22)
-                        .foregroundStyle(isPriority ? Color.red : Color.gray)
+                        .foregroundStyle(isPriority ? Color.red : Color.disabled)
                         .onTapGesture {
                             isPriority.toggle()
                         }
+                        .padding(.top, 2)
                 }
             }
             .font(.subheadline.weight(.medium))

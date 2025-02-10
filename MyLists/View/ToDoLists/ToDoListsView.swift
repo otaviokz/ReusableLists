@@ -13,15 +13,56 @@ struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var tabselection: TabSelection
     
-    @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)])
-    private var lists: [ToDoList]
+    @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)]) private var allLists: [ToDoList]
     @State private var presentAlert = false
     @State private var alertMessage: String = Alert.genericErrorMessage
     @State private var presentAddToDoListSheet = false
     @State private var listToDelete: ToDoList?
     @State private var presentDeleteConfirmation = false
+    @State private var lists: [ToDoList] = []
     
     var body: some View {
+        listView
+            .animation(.linear(duration: 0.25), value: lists)
+            .scrollIndicators(.hidden)
+            .toolbar {
+                Image.plus
+                    .padding(.trailing, 4)
+                    .onTapGesture { presentAddToDoListSheet = true }
+                    .foregroundStyle(Color.cyan)
+                    .accessibilityIdentifier("plus")
+            }
+            .alert(isPresented: $presentAlert) {
+                Alert.genericError
+            }
+            .sheet(isPresented: $presentAddToDoListSheet) {
+                NewListOrBlueprintFormView(
+                    entity: .toDoList,
+                    isUniqueName: isUniqueName,
+                    createEntity: createNewEntity,
+                    handleSaveError: handleSaveError
+                )
+                .presentationDragIndicator(.visible)
+            }
+            .onChange(of: allLists) { _, _ in
+                populatePrioritySortedList()
+            }
+            .onAppear {
+                populatePrioritySortedList()
+            }
+            .task {
+                if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
+                    tabselection.didPopToRootView()
+                }
+            }
+            .navigationTitle("Lists")
+    }
+}
+
+// MARK: - UI
+
+private extension ToDoListsView {
+    var listView: some View {
         List {
             ForEach(lists) { list in
                 NavigationLink(
@@ -55,40 +96,13 @@ struct ToDoListsView: View {
                 Button("Cancel", role: .cancel) { presentDeleteConfirmation = false }
             }
         }
-        .animation(.linear(duration: 0.25), value: lists)
-        .scrollIndicators(.hidden)
-        .toolbar {
-            Image.plus
-                .padding(.trailing, 4)
-                .onTapGesture { presentAddToDoListSheet = true }
-                .foregroundStyle(Color.cyan)
-                .accessibilityIdentifier("plus")
-        }
-        .alert(isPresented: $presentAlert) {
-            Alert.genericError
-        }
-        .sheet(isPresented: $presentAddToDoListSheet) {
-            NewListOrBlueprintFormView(
-                entity: .toDoList,
-                isUniqueName: isUniqueName,
-                createEntity: createNewEntity,
-                handleSaveError: handleSaveError
-            )
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-        }
-        .task {
-            if tabselection.selectedTab == 1 && tabselection.shouldPopToRootView {
-                tabselection.didPopToRootView()
-            }
-        }
-        .navigationTitle("Lists")
     }
-}
-
-// MARK: - UI
-
-private extension ToDoListsView {
+    
+    func populatePrioritySortedList() {
+        lists = allLists.reversed().sorted { $0.priority && !$1.priority }
+        lists = lists.sorted { if $0.priority == $1.priority { return $0.name < $1.name } else { return false }}
+    }
+    
     var deleteConfirmationDialogTitle: Text {
         guard let listToDelete = listToDelete else { return Text("") }
         var message = "List \"\(listToDelete.name)\""
@@ -124,8 +138,8 @@ private extension ToDoListsView {
 }
 
 extension ToDoListsView: NewEntityCreatorProtocol {
-    func insertEntity(name: String, details: String) throws {
-        modelContext.insert(ToDoList(name, details: details))
+    func insertEntity(name: String, details: String, priority: Bool) throws {
+        modelContext.insert(ToDoList(name, details: details, priority: priority))
         try modelContext.save()
     }
     

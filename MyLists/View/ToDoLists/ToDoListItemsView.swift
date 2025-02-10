@@ -120,48 +120,52 @@ enum SheetType {
     case addItem
 }
 
-// MARK: - UI
+// MARK: - UI 1
 
 private extension ToDoListItemsView {
     var listView: some View {
         List {
             if !list.details.isEmpty {
                 Section("List Details:") {
-                    Text(list.details).font(.title3)
-                        .foregroundStyle(Color.primary)
+                    if !list.details.isEmpty {
+                        Text(list.details).font(.title3)
+                            .foregroundStyle(Color.primary)
+                    }
                 }
             }
             
             if !list.items.isEmpty {
-                itemsSection
+                Section("List items") {
+                    ForEach(list.items) { item in
+                        ToDoListItemRowView(item: item) {
+                            if list.items.doneItems.count == list.items.count {
+                                presentDeleteOption = true
+                            }
+                        }
+                        .swipeActions(edge: .leading) {
+                            Button("Edit", role: .cancel) {
+                                sheetPresenter.presentEditItemSheet(item)
+                            }
+                            .tint(.blue)
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                delete(item: item)
+                            } label: {
+                                 Label("Delete", systemImage: "trash")
+                            }
+                            .tint(.red)
+                        }
+                    }
+                }
             }
         }
     }
-    
-    var itemsSection: some View {
-        Section("List Items:") {
-            ForEach(list.items.sorted(by: sortType)) { item in
-                ToDoListItemRowView(item: item) {
-                    presentDeleteOptionIfCompleted()
-                }
-                .swipeActions(edge: .leading) {
-                    Button("Edit", role: .cancel) {
-                        sheetPresenter.presentEditItemSheet(item)
-                    }
-                    .tint(.blue)
-                }
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button(role: .destructive) {
-                        delete(item: item)
-                    } label: {
-                         Label("Delete", systemImage: "trash")
-                    }
-                    .tint(.red)
-                }
-            }
-        }
-    }
-    
+}
+
+// MARK: - UI2
+
+extension ToDoListItemsView {
     var deleteListOptionActionSheet: ActionSheet {
         ActionSheet(
             title: Text("List completed!"),
@@ -176,30 +180,27 @@ private extension ToDoListItemsView {
     
     var shareMessage: String {
         var string = "Name:  " + list.name
-        if !list.details.isEmpty {
-            string += "\n\nDetails:\n\n\(list.details)"
+        if !list.details.isEmpty { string += "\n\nDetails:\n\n\(list.details)\n\n" }
+            
+            for item in list.items.sorted(by: sortType) { string += " ▢  -  \(item.name)\n\n" }
+            
+            string += "Reusable Lists\n"
+            string += "https://tinyurl.com/mr3essyr"
+            
+            return string
         }
-        string += "\n\n"
-        
-        for item in list.items.sorted(by: sortType) { string += " ▢  -  \(item.name)\n\n" }
-        
-        string += "Reusable Lists\n"
-        string += "https://tinyurl.com/mr3essyr"
-        
-        return string
-    }
     
     func presentDeleteOptionIfCompleted() {
         showDeleteOptionActionSheet = list.completion >= 1
     }
-                      
+    
     var toolBarView: some View {
         HStack(spacing: 16) {
             ShareLink(item: shareMessage) { Label("", systemImage: "square.and.arrow.up") }
                 .padding(.trailing, -8)
                 .padding(.top, -4)
             
-            NavigationLink { EditToDoListFormView(list) } label: { Image.gear.sizedToFit(width: 21, height: 21).padding(.top, 1.5) }
+            NavigationLink { EditToDoListFormView(list) } label: { Image.edit.sizedToFit(width: 21, height: 21).padding(.top, 1.5) }
             
             if list.items.count > 1 {
                 Image.sort.sizedToFit(height: 18).onTapGesture {

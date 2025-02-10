@@ -29,7 +29,7 @@ struct ToDoListItemRowView: View {
             Spacer()
             
             if item.priority {
-                Image.priority.sizedToFitHeight(22).foregroundStyle(Color.red)
+                Image.priority.sizedToFitHeight(22).foregroundStyle(Color.red).padding(.top, 1)
             }            
             
             Image.checkBoxImageForItem(item)
@@ -95,7 +95,6 @@ private extension ToDoListItemRowView {
             logger.error("Error saving item: (\(item.name)) after toggle done: \(error)")
             alertType = .swiftDataError
             presentAlert = true
-            item.done.toggle()
         }
     }
 }

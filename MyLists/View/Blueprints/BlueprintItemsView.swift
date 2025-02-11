@@ -228,7 +228,7 @@ extension BlueprintItemsView {
 
 extension BlueprintItemsView: NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool {
-        blueprint.items.first { $0.name.asInputLowcaseEquals(name) } == nil
+        blueprint.items.first { $0.name.asInput == name } == nil
     }
     
     func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws {

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EditToDoListItemFormView: View {
+struct EditItemFormView: View {
     @FocusState private var focusState: Field?
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
@@ -60,7 +60,7 @@ struct EditToDoListItemFormView: View {
 
 // MARK: - UI
 
-private extension EditToDoListItemFormView {
+private extension EditItemFormView {
     enum Field: Hashable {
         case name
     }
@@ -101,7 +101,9 @@ private extension EditToDoListItemFormView {
                     .sizedToFitHeight(22)
                     .foregroundStyle(isPriority ? Color.red : Color.disabled)
                     .onTapGesture {
-                        isPriority.toggle()
+                        withAnimation {
+                            isPriority.toggle()
+                        }
                     }
             }
         }
@@ -137,7 +139,7 @@ private extension EditToDoListItemFormView {
 
 // MARK: - SwiftData
 
-private extension EditToDoListItemFormView {
+private extension EditItemFormView {
     var hasEdits: Bool {
         name.asInput != oldName || isPriority != oldPriority
     }

@@ -99,7 +99,11 @@ private extension EditBlueprintItemView {
                 Image.priority
                     .sizedToFitHeight(22)
                     .foregroundStyle(isPriority ? Color.red : Color.disabled)
-                    .onTapGesture { isPriority.toggle() }
+                    .onTapGesture {
+                        withAnimation {
+                            isPriority.toggle()
+                        }
+                    }
             }
         }
         .frame(height: Sizes.newItemFormHeight)

@@ -35,21 +35,14 @@ extension Array where Element == ToDoItem {
         sorted { $0.name < $1.name }
     }
     
-//    /// Only switch element places if both have same "done" value but different names
-//    private var sortedByNameKeepingStatus: [ToDoItem] {
-//        sorted { if $0.done == $1.done { $0.name < $1.name } else { false } }
-//    }
-    
     var sortedByPriorityAndNameKeepingDoneOrder: [ToDoItem] {
         sorted {
-            if $0.done == $1.done {
-                if $0.priority == $1.priority {
-                    $0.name < $1.name
-                } else {
-                    $0.priority.sortValue > $1.priority.sortValue
-                }
+            if $0.done == $1.done && $0.priority != $1.priority {
+                return $0.priority && !$1.priority
+            } else if $0.done == $1.done && $0.priority == $1.priority {
+                return $0.name < $1.name
             } else {
-                false
+                return false
             }
         }
     }

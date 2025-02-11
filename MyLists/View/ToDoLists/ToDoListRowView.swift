@@ -20,7 +20,9 @@ struct ToDoListRowView: View {
                 
                 HStack(spacing: 0) {
                     if list.priority {
-                        Image.priority.sizedToFitSquare(side: 18).foregroundStyle(Color.red)
+                        Image
+                            .priority
+                            .sizedToFitSquare(side:18).foregroundStyle(Color.red)
                             .padding(.trailing, 6)
                             .padding(.top, 1.5)
                             .fontWeight(.bold)
@@ -33,7 +35,7 @@ struct ToDoListRowView: View {
                         Text("✓ ").font(.headline.weight(.semibold))
                         Text("Complete")
                     } else {
-                        Text("Empty")
+                        Text("")
                     }
                 }
                 .font(.callout.weight(.light)).opacity(0.725)

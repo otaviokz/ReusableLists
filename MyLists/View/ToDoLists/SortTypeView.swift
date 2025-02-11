@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct SetToDoItemSortView: View {
+struct SortTypeView: View {
     @Environment(\.dismiss) private var dismiss
     let currentSortType: SortType
     let onSelect: (SortType) -> Void
         
-    init(currentSortType: SortType, onSelect: @escaping (SortType) -> Void) {
-        self.currentSortType = currentSortType
+    init(current: SortType, onSelect: @escaping (SortType) -> Void) {
+        self.currentSortType = current
         self.onSelect = onSelect
     }
     
@@ -33,7 +33,7 @@ struct SetToDoItemSortView: View {
 
 // MARK: - UI
 
-private extension SetToDoItemSortView {
+private extension SortTypeView {
     func sortOption(_ label: String, icon: Image, sortyType: SortType) -> some View {
         HStack {
             icon.sizedToFitSquare()
@@ -59,5 +59,5 @@ private extension SetToDoItemSortView {
 }
 
 #Preview {
-    SetToDoItemSortView(currentSortType: .alphabetic) {_ in }
+    SortTypeView(current: .alphabetic) {_ in }
 }

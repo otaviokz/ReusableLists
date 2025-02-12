@@ -17,6 +17,9 @@ struct EditToDoListFormView: View {
     @State private var name: String = ""
     @State private var details: String = ""
     @State private var presentAlert = false
+    @State private var priority = false
+    @State private var oldPriority = false
+    @State var priorityIconScale = CGPoint(x: 1, y: 1)
     
     let list: ToDoList
     
@@ -31,11 +34,13 @@ struct EditToDoListFormView: View {
             Form {
                 Section("Fields:") {
                     Group {
-                        TextField("New name", text: $name.max(DataFieldsSizeLimit.name))
-                            .font(.title3)
-                            .focused($focusState, equals: .name)
-                            .onSubmit { focusState = .details }
-                        
+                        editNameAndPriorityView
+                            .onAppear {
+                                name = list.name
+                                details = list.details
+                                priority = list.priority
+                                oldPriority = list.priority
+                            }
                         TextField("New details", text: $details.max(DataFieldsSizeLimit.details), axis: .vertical)
                             .font(.headline.weight(.light))
                             .focused($focusState, equals: .details)
@@ -67,10 +72,7 @@ struct EditToDoListFormView: View {
         .alert(isPresented: $presentAlert) {
             Alert.genericError
         }
-        .onAppear {
-            name = list.name
-            details = list.details
-        }
+        
         .padding(.top, Sizes.updateEtityViewTopPadding)
         .navigationTitle("List update")
     }
@@ -79,6 +81,24 @@ struct EditToDoListFormView: View {
 // MARK: - UI
 
 private extension EditToDoListFormView {
+    var editNameAndPriorityView: some View {
+        HStack {
+            TextField("New name", text: $name.max(DataFieldsSizeLimit.name))
+                .font(.title3)
+                .focused($focusState, equals: .name)
+                .onSubmit { focusState = .details }
+            
+            Image.priority.sizedToFitSquare(side: 22).foregroundStyle(priority ? .red : .disabled)
+                .transformEffect(CGAffineTransformMakeScale(priorityIconScale.x, priorityIconScale.y))
+                .onTapGesture {
+                    withAnimation {
+                        priority.toggle()
+                    }
+                }
+        }
+        
+    }
+    
     enum Field: Hashable {
         case name
         case details
@@ -100,6 +120,7 @@ private extension EditToDoListFormView {
     var saveButton: some View {
         Button { updateListAndDismiss() } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
+            .foregroundStyle(isSaveButtonDisabled ? Color.disabled : Color.cyan)
     }
     
     var exitButton: some View {
@@ -110,21 +131,23 @@ private extension EditToDoListFormView {
 // MARK: - SwiftData
 
 fileprivate extension EditToDoListFormView {
-    var isUniqueName: Bool {
-        lists.first { $0.name.asInputLowcaseEquals(name) } == nil
+    // Accepts the same name, but with different capilaization
+    var isNameUnique: Bool {
+        lists.first { $0.name == name.asInput } == nil
     }
     
-    var didChangeDetails: Bool {
-        details != list.details
+    var didUpdateList: Bool {
+        details.asInput != list.details || isNameUnique || priority != oldPriority
     }
     
     var isSaveButtonDisabled: Bool {
-        name.asInput.isEmpty || (!isUniqueName && !didChangeDetails)
+        name.asInput.isEmpty || !didUpdateList
     }
     
     func updateListAndDismiss() {
         list.name = name
         list.details = details
+        list.priority = priority
         do {
             try modelContext.save()
             dismiss()

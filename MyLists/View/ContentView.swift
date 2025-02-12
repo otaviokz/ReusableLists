@@ -72,9 +72,3 @@ struct ContentView: View {
     @Previewable @State var onboardingFinished: Bool = false
     ContentView()
 }
-
-extension Binding<Int>: @retroactive Equatable {
-    public static func == (lhs: Binding<Value>, rhs: Binding<Value>) -> Bool {
-        lhs.wrappedValue == rhs.wrappedValue
-    }
-}

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EditToDoListItemFormView: View {
+struct EditItemFormView: View {
     @FocusState private var focusState: Field?
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
@@ -60,7 +60,7 @@ struct EditToDoListItemFormView: View {
 
 // MARK: - UI
 
-private extension EditToDoListItemFormView {
+private extension EditItemFormView {
     enum Field: Hashable {
         case name
     }
@@ -82,7 +82,7 @@ private extension EditToDoListItemFormView {
     }
     
     var nameAlreadyUsedByAnotherItem: Bool {
-        list.items.first { $0.name.asInputLowcaseEquals(name) && $0.id != item.id } != nil
+        list.items.first { $0.name == name.asInput && $0 != item } != nil
     }
     
     var formView: some View {
@@ -99,9 +99,11 @@ private extension EditToDoListItemFormView {
                 
                 Image.priority
                     .sizedToFitHeight(22)
-                    .foregroundStyle(isPriority ? Color.red : Color.gray)
+                    .foregroundStyle(isPriority ? Color.red : Color.disabled)
                     .onTapGesture {
-                        isPriority.toggle()
+                        withAnimation {
+                            isPriority.toggle()
+                        }
                     }
             }
         }
@@ -115,16 +117,19 @@ private extension EditToDoListItemFormView {
             Button { discardEditsAndDismissSheet() } label: { Text("Exit") }
             Spacer()
             Button {
-                if !name.asInputLowcaseEquals(oldName) || isPriority != oldPriority {
+                if name.asInput == oldName || isPriority != oldPriority {
                     saveEditsAndDismissSheet()
                 }
             } label: {
                 Text("Save")
             }
             .disabled(isSaveButtonDisabled)
+            .foregroundStyle(isSaveButtonDisabled ? Color.disabled : Color.cyan)
             
             Spacer()
         }
+        .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
     
     var isSaveButtonDisabled: Bool {
@@ -134,9 +139,9 @@ private extension EditToDoListItemFormView {
 
 // MARK: - SwiftData
 
-private extension EditToDoListItemFormView {
+private extension EditItemFormView {
     var hasEdits: Bool {
-        !name.asInputLowcaseEquals(oldName) || isPriority != oldPriority
+        name.asInput != oldName || isPriority != oldPriority
     }
     
     func saveEditsAndDismissSheet() {

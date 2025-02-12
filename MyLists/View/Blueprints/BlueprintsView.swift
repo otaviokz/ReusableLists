@@ -18,14 +18,11 @@ struct BlueprintsView: View {
     @State private var presentAddBlueprintSheet = false
     @State private var blueprintToDelete: Blueprint?
     @State var showingDeleteAlert = false
-
+    
     var body: some View {
         bluePrintsList
         .animation(.linear(duration: 0.25), value: blueprints)
-        .toolbar {
-            Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
-                .foregroundStyle(Color.cyan)
-        }
+        
         .alert(isPresented: $presentAlert) {
             Alert.genericError
         }
@@ -36,10 +33,13 @@ struct BlueprintsView: View {
                 createEntity: createNewEntity,
                 handleSaveError: handleSaveError
             )
-            .presentationDetents([.large])
             .presentationDragIndicator(.visible)
         }
         .navigationTitle("Blueprints")
+        .toolbar {
+            Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
+                .foregroundStyle(Color.cyan)
+        }
     }
     
     @inlinable static func deleteConfirmationDialog(blueprint: Blueprint, title: String, delete: @escaping (Blueprint) -> Void) -> DeletionConfirmationDialog {
@@ -134,11 +134,12 @@ private extension BlueprintsView {
 
 extension BlueprintsView: NewEntityCreatorProtocol {
     func isUniqueName(name: String) -> Bool {
-        blueprints.first { $0.name.asInputLowcaseEquals(name) } == nil
+        blueprints.first { $0.name.asInput != name } == nil
     }
     
-    func insertEntity(name: String, details: String) throws {
-        modelContext.insert(Blueprint(name, details: details))
+    func insertEntity(name: String, details: String, priority: Bool = false) throws {
+        let newBlueprint = Blueprint(name, details: details)
+        modelContext.insert(newBlueprint)
         try modelContext.save()
     }
     

@@ -15,7 +15,7 @@ extension ToDoList {
     }
     
     var doneItems: [ToDoItem] {
-        items.doneItems
+        items.filter { $0.done }
     }
     
     private var progress: Double {

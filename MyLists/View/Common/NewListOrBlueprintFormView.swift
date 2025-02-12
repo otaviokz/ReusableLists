@@ -14,16 +14,17 @@ struct NewListOrBlueprintFormView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var name: String = ""
     @State private var details: String = ""
+    @State private var priority = false
         
     private var entity: ListEntity
     private let isUniqueName: (String) -> Bool
-    private let createEntity: (String, String) -> Void
+    private let createEntity: (String, String, Bool) -> Void
     private let handleSaveError: (Error, String) -> Void
     
     init(
          entity: ListEntity,
          isUniqueName: @escaping (String) -> Bool,
-         createEntity: @escaping (String, String) -> Void,
+         createEntity: @escaping (String, String, Bool) -> Void,
          handleSaveError: @escaping (Error, String) -> Void
     ) {
         self.entity = entity
@@ -72,14 +73,23 @@ fileprivate extension NewListOrBlueprintFormView {
         Form {
             Section("\(entity.rawValue) Fields:") {
                 Group {
-                    TextField(
-                        "Name (max \(DataFieldsSizeLimit.name) characters)",
-                        text: $name.max(DataFieldsSizeLimit.name)
-                    )
-                    .font(.title3)
-                    .focused($focusState, equals: .name)
-                    .onSubmit { focusState = .details }
-                    
+                    HStack {
+                        TextField(
+                            "Name (max \(DataFieldsSizeLimit.name) characters)",
+                            text: $name.max(DataFieldsSizeLimit.name)
+                        )
+                        .font(.title3)
+                        .textInputAutocapitalization(.never)
+                        .focused($focusState, equals: .name)
+                        .onSubmit { focusState = .details }
+                        
+                        if entity == .toDoList {
+                            Image.priority.sizedToFitSquare(side: 22).onTapGesture {
+                                priority.toggle()
+                            }
+                            .foregroundStyle(priority ? Color.red : Color.disabled)
+                        }
+                    }
                     TextField(
                         "Details (optional, max \(DataFieldsSizeLimit.details) characters)",
                         text: $details.max(DataFieldsSizeLimit.details),
@@ -120,6 +130,7 @@ fileprivate extension NewListOrBlueprintFormView {
     var saveButton: some View {
         Button { dismissSheetAndCreateEntity() } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
+            .foregroundStyle(isSaveButtonDisabled ? Color.disabled : Color.cyan)
     }
     
     var exitButton: some View {
@@ -136,7 +147,7 @@ fileprivate extension NewListOrBlueprintFormView {
     
     func dismissSheetAndCreateEntity() {
         dismiss()
-        createEntity(name.asInput, details.asInput)
+        createEntity(name.asInput, details.asInput, priority)
     }
 }
 

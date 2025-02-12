@@ -13,13 +13,13 @@
 		2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
 		2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */; };
 		2B342A712CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */; };
-		2B3617BE2D4B3F08007CFC0A /* EditToDoListItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3617BD2D4B3F08007CFC0A /* EditToDoListItemFormView.swift */; };
-		2B3617BF2D4B3F08007CFC0A /* EditToDoListItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3617BD2D4B3F08007CFC0A /* EditToDoListItemFormView.swift */; };
+		2B3617BE2D4B3F08007CFC0A /* EditItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3617BD2D4B3F08007CFC0A /* EditItemFormView.swift */; };
+		2B3617BF2D4B3F08007CFC0A /* EditItemFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3617BD2D4B3F08007CFC0A /* EditItemFormView.swift */; };
 		2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917EF2B91EA46002439F3 /* AboutView.swift */; };
 		2B4917F22B91EA7A002439F3 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4917F12B91EA7A002439F3 /* HTMLView.swift */; };
 		2B4917F72B91EB12002439F3 /* PrivacyPolicy.html in Resources */ = {isa = PBXBuildFile; fileRef = 2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */; };
 		2B67EA602D4C8906008B4C22 /* EditBlueprintItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67EA5F2D4C8906008B4C22 /* EditBlueprintItemView.swift */; };
-		2B67EA6C2D4E1907008B4C22 /* SetToDoItemSortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67EA6B2D4E1907008B4C22 /* SetToDoItemSortView.swift */; };
+		2B67EA6C2D4E1907008B4C22 /* SortTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B67EA6B2D4E1907008B4C22 /* SortTypeView.swift */; };
 		2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */; };
 		2B7429FB2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */; };
 		2B7429FC2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */; };
@@ -35,20 +35,18 @@
 		2B9FA13A2CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9FA1392CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift */; };
 		2B9FA13C2CEDE2F50054A62A /* NewItemCreatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9FA13B2CEDE2F50054A62A /* NewItemCreatorProtocol.swift */; };
 		2BA2494E2CA38DF2004725CD /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA2494D2CA38DF2004725CD /* Theme.swift */; };
-		2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E8A2CB7828D007FCC47 /* TestDataController.swift */; };
 		2BAE0E8E2CB7881C007FCC47 /* ToDoItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5272B42B097003CB25F /* ToDoItem+Utils.swift */; };
 		2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */; };
 		2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */; };
 		2BAE0E912CB78872007FCC47 /* String+InputFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */; };
-		2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E962CB9224E007FCC47 /* SettingsManager.swift */; };
-		2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E962CB9224E007FCC47 /* SettingsManager.swift */; };
 		2BAE0E9A2CB92735007FCC47 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0E992CB92735007FCC47 /* OnboardingView.swift */; };
 		2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0EA12CB92C5B007FCC47 /* RoundBorderedModifier.swift */; };
 		2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */; };
 		2BAE0EC72CB98BC8007FCC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */; };
 		2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */; };
-		2BC93A222D4E2251004A0F0D /* SheetWrappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC93A212D4E2251004A0F0D /* SheetWrappable.swift */; };
+		2BBEB5042D59A89C007AED50 /* SheetWrappedViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */; };
 		2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */; };
+		2BE2B40C2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
 		2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FB2B42B001003CB25F /* ContentView.swift */; };
 		2BE3B5012B42B002003CB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BE3B5002B42B002003CB25F /* Preview Assets.xcassets */; };
@@ -73,6 +71,14 @@
 		2BE5A8A92CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */; };
 		2BE5A8B22CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */; };
 		2BE5A8B32CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */; };
+		2BE5FDE52D59B59800135405 /* Bindable+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDE42D59B59800135405 /* Bindable+Equatable.swift */; };
+		2BE5FDE62D59B59800135405 /* Bindable+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDE42D59B59800135405 /* Bindable+Equatable.swift */; };
+		2BE5FDE82D59B66E00135405 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDE72D59B66E00135405 /* DataManager.swift */; };
+		2BE5FDE92D59B66E00135405 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDE72D59B66E00135405 /* DataManager.swift */; };
+		2BE5FDEB2D59BAEA00135405 /* DataSchemaV5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDEA2D59BAEA00135405 /* DataSchemaV5.swift */; };
+		2BE5FDEC2D59BAEA00135405 /* DataSchemaV5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDEA2D59BAEA00135405 /* DataSchemaV5.swift */; };
+		2BE5FDEE2D59D17800135405 /* DataSchemaV6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDED2D59D17800135405 /* DataSchemaV6.swift */; };
+		2BE5FDEF2D59D17800135405 /* DataSchemaV6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE5FDED2D59D17800135405 /* DataSchemaV6.swift */; };
 		2BEC68612B8D75C500BA2DC0 /* BlueprintItem+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */; };
 		2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */; };
 		2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */; };
@@ -126,12 +132,12 @@
 		2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
 		2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityItem.swift; sourceTree = "<group>"; };
 		2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintItemFormView.swift; sourceTree = "<group>"; };
-		2B3617BD2D4B3F08007CFC0A /* EditToDoListItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditToDoListItemFormView.swift; sourceTree = "<group>"; };
+		2B3617BD2D4B3F08007CFC0A /* EditItemFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemFormView.swift; sourceTree = "<group>"; };
 		2B4917EF2B91EA46002439F3 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		2B4917F12B91EA7A002439F3 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		2B4917F62B91EB12002439F3 /* PrivacyPolicy.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = PrivacyPolicy.html; sourceTree = "<group>"; };
 		2B67EA5F2D4C8906008B4C22 /* EditBlueprintItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBlueprintItemView.swift; sourceTree = "<group>"; };
-		2B67EA6B2D4E1907008B4C22 /* SetToDoItemSortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetToDoItemSortView.swift; sourceTree = "<group>"; };
+		2B67EA6B2D4E1907008B4C22 /* SortTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTypeView.swift; sourceTree = "<group>"; };
 		2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListItemRowView.swift; sourceTree = "<group>"; };
 		2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV4.swift; sourceTree = "<group>"; };
 		2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Shortcuts.swift"; sourceTree = "<group>"; };
@@ -151,16 +157,15 @@
 		2BA513D42B95A62600B8F583 /* ReusableListsWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableListsWidgetBundle.swift; sourceTree = "<group>"; };
 		2BA513D62B95A62600B8F583 /* ReusableListsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableListsWidget.swift; sourceTree = "<group>"; };
 		2BA513D82B95A62700B8F583 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		2BAE0E8A2CB7828D007FCC47 /* TestDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataController.swift; sourceTree = "<group>"; };
-		2BAE0E962CB9224E007FCC47 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		2BAE0E992CB92735007FCC47 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2BAE0EA12CB92C5B007FCC47 /* RoundBorderedModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundBorderedModifier.swift; sourceTree = "<group>"; };
 		2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowTests.swift; sourceTree = "<group>"; };
-		2BC93A212D4E2251004A0F0D /* SheetWrappable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetWrappable.swift; sourceTree = "<group>"; };
+		2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetWrappedViewable.swift; sourceTree = "<group>"; };
 		2BDCB7942CA4FD800077CB97 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintFormView.swift; sourceTree = "<group>"; };
+		2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeAndPriorityListHeaderView.swift; sourceTree = "<group>"; };
 		2BE3B4F62B42B001003CB25F /* ReusableLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReusableLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE3B4F92B42B001003CB25F /* MyListsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsApp.swift; sourceTree = "<group>"; };
 		2BE3B4FB2B42B001003CB25F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -184,6 +189,10 @@
 		2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV2.swift; sourceTree = "<group>"; };
 		2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV3.swift; sourceTree = "<group>"; };
 		2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationPlan.swift; sourceTree = "<group>"; };
+		2BE5FDE42D59B59800135405 /* Bindable+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bindable+Equatable.swift"; sourceTree = "<group>"; };
+		2BE5FDE72D59B66E00135405 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		2BE5FDEA2D59BAEA00135405 /* DataSchemaV5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV5.swift; sourceTree = "<group>"; };
+		2BE5FDED2D59D17800135405 /* DataSchemaV6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV6.swift; sourceTree = "<group>"; };
 		2BEC68602B8D75C500BA2DC0 /* BlueprintItem+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlueprintItem+Utils.swift"; sourceTree = "<group>"; };
 		2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintRowView.swift; sourceTree = "<group>"; };
 		2BEC68682B8D842600BA2DC0 /* BlueprintItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemRowView.swift; sourceTree = "<group>"; };
@@ -236,13 +245,12 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		2B9369212CBB8E2F00E8AC27 /* Environment */ = {
+		2B9369212CBB8E2F00E8AC27 /* State */ = {
 			isa = PBXGroup;
 			children = (
 				2B9369222CBB8E4B00E8AC27 /* TabSelection.swift */,
-				2B9369242CBB8EC800E8AC27 /* OnboardingState.swift */,
 			);
-			path = Environment;
+			path = State;
 			sourceTree = "<group>";
 		};
 		2B9FA1382CEDDD530054A62A /* Protocol */ = {
@@ -250,7 +258,7 @@
 			children = (
 				2B9FA1392CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift */,
 				2B9FA13B2CEDE2F50054A62A /* NewItemCreatorProtocol.swift */,
-				2BC93A212D4E2251004A0F0D /* SheetWrappable.swift */,
+				2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -274,18 +282,11 @@
 			path = ReusableListsWidget;
 			sourceTree = "<group>";
 		};
-		2BAE0E892CB78263007FCC47 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				2BAE0E8A2CB7828D007FCC47 /* TestDataController.swift */,
-			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
 		2BAE0E922CB91ECB007FCC47 /* Onbording */ = {
 			isa = PBXGroup;
 			children = (
 				2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */,
+				2B9369242CBB8EC800E8AC27 /* OnboardingState.swift */,
 				2BAE0E992CB92735007FCC47 /* OnboardingView.swift */,
 			);
 			path = Onbording;
@@ -296,8 +297,6 @@
 			children = (
 				2BE5A8A02CE0575B009DD6BB /* DataSchemas */,
 				2BEC68792B8DD48500BA2DC0 /* Extensions */,
-				2BE5A8B02CE08509009DD6BB /* Utils */,
-				2BAE0E962CB9224E007FCC47 /* SettingsManager.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -314,15 +313,13 @@
 			isa = PBXGroup;
 			children = (
 				2B9FA1382CEDDD530054A62A /* Protocol */,
-				2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */,
-				2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */,
 				2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */,
 				2B9E8D492CA101780098C595 /* Binding+Characterlimit.swift */,
-				2B06E3492CA20D13000D26BF /* Image+Resizing.swift */,
+				2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */,
+				2B342A702CC7820C0034D1D7 /* NewListOrBlueprintItemFormView.swift */,
 				2BAE0EA12CB92C5B007FCC47 /* RoundBorderedModifier.swift */,
 				2B9E8D382CA09F9B0098C595 /* RoundClipped.swift */,
 				2BE3B5352B42D7CF003CB25F /* String+InputFormat.swift */,
-				2BA2494D2CA38DF2004725CD /* Theme.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -353,11 +350,11 @@
 		2BE3B4F82B42B001003CB25F /* MyLists */ = {
 			isa = PBXGroup;
 			children = (
+				2B06E3472CA20C78000D26BF /* App */,
 				2BE5A8452CCCC672009DD6BB /* Utils */,
 				2BAE0E952CB9220D007FCC47 /* Persistence */,
 				2BE3B5242B42B022003CB25F /* Model */,
 				2BE3B5232B42B014003CB25F /* View */,
-				2B06E3472CA20C78000D26BF /* App */,
 				2BE3B4FF2B42B002003CB25F /* Preview Content */,
 			);
 			path = MyLists;
@@ -383,7 +380,6 @@
 		2BE3B5132B42B002003CB25F /* MyListsUITests */ = {
 			isa = PBXGroup;
 			children = (
-				2BAE0E892CB78263007FCC47 /* Utils */,
 				2BE3B5142B42B002003CB25F /* MyListsUITests.swift */,
 				2BE3B5162B42B002003CB25F /* MyListsUITestsLaunchTests.swift */,
 				2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */,
@@ -394,9 +390,9 @@
 		2BE3B5232B42B014003CB25F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2BE5A8422CCCBF65009DD6BB /* Theme */,
-				2B9369212CBB8E2F00E8AC27 /* Environment */,
 				2BE3B4FB2B42B001003CB25F /* ContentView.swift */,
+				2B9369212CBB8E2F00E8AC27 /* State */,
+				2BE5A8B02CE08509009DD6BB /* Theme */,
 				2BAE0E922CB91ECB007FCC47 /* Onbording */,
 				2BDCB79F2CA61E5F0077CB97 /* Common */,
 				2BEC686C2B8D8B4500BA2DC0 /* ToDoLists */,
@@ -409,18 +405,11 @@
 		2BE3B5242B42B022003CB25F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2BEC687C2B8DD77300BA2DC0 /* ListError.swift */,
 				2B9AECC22CB51A41003E6F28 /* ListEntity.swift */,
+				2BEC687C2B8DD77300BA2DC0 /* ListError.swift */,
+				2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		2BE5A8422CCCBF65009DD6BB /* Theme */ = {
-			isa = PBXGroup;
-			children = (
-				2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */,
-			);
-			path = Theme;
 			sourceTree = "<group>";
 		};
 		2BE5A8452CCCC672009DD6BB /* Utils */ = {
@@ -435,34 +424,41 @@
 		2BE5A8A02CE0575B009DD6BB /* DataSchemas */ = {
 			isa = PBXGroup;
 			children = (
+				2BE5FDE72D59B66E00135405 /* DataManager.swift */,
+				2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */,
 				2BE5A8A12CE0577C009DD6BB /* DataSchemaV1.swift */,
 				2BE5A8A42CE06342009DD6BB /* DataSchemaV2.swift */,
 				2BE5A8A72CE06D2B009DD6BB /* DataSchemaV3.swift */,
 				2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */,
-				2BE5A8B12CE08F7F009DD6BB /* DataMigrationPlan.swift */,
+				2BE5FDEA2D59BAEA00135405 /* DataSchemaV5.swift */,
+				2BE5FDED2D59D17800135405 /* DataSchemaV6.swift */,
 			);
 			path = DataSchemas;
 			sourceTree = "<group>";
 		};
-		2BE5A8B02CE08509009DD6BB /* Utils */ = {
+		2BE5A8B02CE08509009DD6BB /* Theme */ = {
 			isa = PBXGroup;
 			children = (
+				2BE5FDE42D59B59800135405 /* Bindable+Equatable.swift */,
 				2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */,
-				2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */,
+				2B06E3492CA20D13000D26BF /* Image+Resizing.swift */,
+				2BA2494D2CA38DF2004725CD /* Theme.swift */,
+				2BE5A8432CCCBFA4009DD6BB /* WaitTimes.swift */,
 			);
-			path = Utils;
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		2BEC686C2B8D8B4500BA2DC0 /* ToDoLists */ = {
 			isa = PBXGroup;
 			children = (
 				2B9E8D4D2CA127900098C595 /* EditToDoListFormView.swift */,
-				2B3617BD2D4B3F08007CFC0A /* EditToDoListItemFormView.swift */,
+				2B3617BD2D4B3F08007CFC0A /* EditItemFormView.swift */,
+				2B67EA6B2D4E1907008B4C22 /* SortTypeView.swift */,
 				2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */,
 				2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */,
 				2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */,
 				2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */,
-				2B67EA6B2D4E1907008B4C22 /* SetToDoItemSortView.swift */,
+				2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */,
 			);
 			path = ToDoLists;
 			sourceTree = "<group>";
@@ -475,8 +471,8 @@
 				2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift */,
 				2BEC68662B8D841400BA2DC0 /* BlueprintRowView.swift */,
 				2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */,
-				2B9E8D3C2CA0CB3F0098C595 /* EditBlueprintView.swift */,
 				2B67EA5F2D4C8906008B4C22 /* EditBlueprintItemView.swift */,
+				2B9E8D3C2CA0CB3F0098C595 /* EditBlueprintView.swift */,
 			);
 			path = Blueprints;
 			sourceTree = "<group>";
@@ -631,10 +627,12 @@
 				2BE3B5282B42B097003CB25F /* ToDoItem+Utils.swift in Sources */,
 				2B9FA13C2CEDE2F50054A62A /* NewItemCreatorProtocol.swift in Sources */,
 				2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */,
+				2BE2B40C2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift in Sources */,
 				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
 				2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */,
 				2BE5A8A32CE0577C009DD6BB /* DataSchemaV1.swift in Sources */,
 				2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */,
+				2BE5FDE82D59B66E00135405 /* DataManager.swift in Sources */,
 				2B342A6A2CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,
 				2BE5A89D2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift in Sources */,
 				2BE5A8A92CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */,
@@ -647,9 +645,12 @@
 				2B342A6D2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
 				2B7429FC2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */,
 				2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */,
+				2BE5FDEB2D59BAEA00135405 /* DataSchemaV5.swift in Sources */,
+				2BE5FDE52D59B59800135405 /* Bindable+Equatable.swift in Sources */,
+				2BE5FDEF2D59D17800135405 /* DataSchemaV6.swift in Sources */,
 				2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */,
 				2BE3B5362B42D7CF003CB25F /* String+InputFormat.swift in Sources */,
-				2B67EA6C2D4E1907008B4C22 /* SetToDoItemSortView.swift in Sources */,
+				2B67EA6C2D4E1907008B4C22 /* SortTypeView.swift in Sources */,
 				2BEC68672B8D841400BA2DC0 /* BlueprintRowView.swift in Sources */,
 				2BE5A8B22CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */,
 				2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */,
@@ -659,7 +660,7 @@
 				2BAE0E9A2CB92735007FCC47 /* OnboardingView.swift in Sources */,
 				2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */,
 				2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */,
-				2BC93A222D4E2251004A0F0D /* SheetWrappable.swift in Sources */,
+				2BBEB5042D59A89C007AED50 /* SheetWrappedViewable.swift in Sources */,
 				2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */,
 				2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */,
 				2B9AECC52CB54AE5003E6F28 /* Preview+SampleData.swift in Sources */,
@@ -670,10 +671,9 @@
 				2BE3B53C2B44CC86003CB25F /* ToDoListRowView.swift in Sources */,
 				2B9FA13A2CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift in Sources */,
 				2BE5A8442CCCBFA4009DD6BB /* WaitTimes.swift in Sources */,
-				2BAE0E972CB9224E007FCC47 /* SettingsManager.swift in Sources */,
 				2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */,
 				2BE3B5262B42B033003CB25F /* ToDoList+Utils.swift in Sources */,
-				2B3617BE2D4B3F08007CFC0A /* EditToDoListItemFormView.swift in Sources */,
+				2B3617BE2D4B3F08007CFC0A /* EditItemFormView.swift in Sources */,
 				2BE5A8A62CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 				2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */,
 				2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */,
@@ -693,22 +693,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2BE5FDE62D59B59800135405 /* Bindable+Equatable.swift in Sources */,
 				2BE3B5172B42B002003CB25F /* MyListsUITestsLaunchTests.swift in Sources */,
+				2BE5FDEC2D59BAEA00135405 /* DataSchemaV5.swift in Sources */,
 				2B342A6C2CC771440034D1D7 /* NewEntityItem.swift in Sources */,
 				2B7429FB2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */,
 				2BE5A8A22CE0577C009DD6BB /* DataSchemaV1.swift in Sources */,
-				2BAE0E982CB9224E007FCC47 /* SettingsManager.swift in Sources */,
-				2BAE0E8B2CB7828D007FCC47 /* TestDataController.swift in Sources */,
 				2BE5A8B32CE08F7F009DD6BB /* DataMigrationPlan.swift in Sources */,
+				2BE5FDEE2D59D17800135405 /* DataSchemaV6.swift in Sources */,
 				2BE5A8A82CE06D2B009DD6BB /* DataSchemaV3.swift in Sources */,
 				2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */,
 				2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */,
 				2BE3B5152B42B002003CB25F /* MyListsUITests.swift in Sources */,
 				2BAE0E8E2CB7881C007FCC47 /* ToDoItem+Utils.swift in Sources */,
 				2BAE0E912CB78872007FCC47 /* String+InputFormat.swift in Sources */,
+				2BE5FDE92D59B66E00135405 /* DataManager.swift in Sources */,
 				2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */,
 				2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */,
-				2B3617BF2D4B3F08007CFC0A /* EditToDoListItemFormView.swift in Sources */,
+				2B3617BF2D4B3F08007CFC0A /* EditItemFormView.swift in Sources */,
 				2BE5A8A52CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -859,7 +861,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6.0;
+				CURRENT_PROJECT_VERSION = 2.7.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -876,7 +878,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -898,7 +900,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6.0;
+				CURRENT_PROJECT_VERSION = 2.7.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -915,7 +917,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -934,11 +936,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6.0;
+				CURRENT_PROJECT_VERSION = 2.7.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -957,11 +959,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6.0;
+				CURRENT_PROJECT_VERSION = 2.7.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -979,11 +981,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6.0;
+				CURRENT_PROJECT_VERSION = 2.7.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1002,11 +1004,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6.0;
+				CURRENT_PROJECT_VERSION = 2.7.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.6.0;
+				MARKETING_VERSION = 2.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

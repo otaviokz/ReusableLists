@@ -7,19 +7,15 @@
 
 import SwiftData
 
-typealias ToDoList = DataSchemaV4.ToDoList
-typealias ToDoItem = DataSchemaV4.ToDoItem
-typealias Blueprint = DataSchemaV4.Blueprint
-typealias BlueprintItem = DataSchemaV4.BlueprintItem
-
 // MARK: - Migration plan
 enum DataMigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] {
-        [DataSchemaV1.self, DataSchemaV2.self, DataSchemaV3.self, DataSchemaV4.self]
+        [DataSchemaV1.self, DataSchemaV2.self, DataSchemaV3.self,
+         DataSchemaV4.self, DataSchemaV5.self, DataSchemaV6.self]
     }
     
     static var stages: [MigrationStage] {
-        [migrateV1toV2, migrateV2toV3, migrateV3toV4]
+        [migrateV1toV2, migrateV2toV3, migrateV3toV4, migrateV4toV5, migrateV5toV6]
     }
     
     static let migrateV1toV2: MigrationStage = .lightweight(
@@ -47,5 +43,29 @@ enum DataMigrationPlan: SchemaMigrationPlan {
         let bluepritItems = try context.fetch(FetchDescriptor<DataSchemaV4.BlueprintItem>())
         bluepritItems.forEach { $0.priority = false }
         try context.save()
+    }
+    
+    static let migrateV4toV5: MigrationStage = .custom(
+        fromVersion: DataSchemaV4.self,
+        toVersion: DataSchemaV5.self,
+        willMigrate: nil
+    ) { context in
+        let toDoLists = try context.fetch(FetchDescriptor<DataSchemaV5.ToDoList>())
+        toDoLists.forEach { $0.isNumbered = false }
+        let todoItems = try context.fetch(FetchDescriptor<DataSchemaV5.ToDoItem>())
+        todoItems.forEach { $0.number = 0 }
+        let blueprints = try context.fetch(FetchDescriptor<DataSchemaV5.Blueprint>())
+        blueprints.forEach { $0.isNumbered = false }
+        let blueprintItems = try context.fetch(FetchDescriptor<DataSchemaV5.BlueprintItem>())
+        blueprintItems.forEach { $0.number = 0 }
+    }
+    
+    static let migrateV5toV6: MigrationStage = .custom(
+        fromVersion: DataSchemaV5.self,
+        toVersion: DataSchemaV6.self,
+        willMigrate: nil
+    ) { context in
+        let toDoLists = try context.fetch(FetchDescriptor<DataSchemaV6.ToDoList>())
+        toDoLists.forEach { $0.priority = false }
     }
 }

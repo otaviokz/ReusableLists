@@ -85,6 +85,15 @@ fileprivate extension EditBlueprintView {
         case details
     }
     
+    // Accepts the same name, but with different capilaization
+    var isNameUnique: Bool {
+        blueprints.first(where: { $0.name != name.asInput }) == nil
+    }
+    
+    var didUpdateBlueprint: Bool {
+        details.asInput != blueprint.details || isNameUnique
+    }
+    
     var buttonsStack: some View {
         HStack {
             Spacer()
@@ -96,11 +105,14 @@ fileprivate extension EditBlueprintView {
             }
         }
         .font(.title2)
+        .foregroundStyle(Color.cyan)
     }
+        
 
     var saveButton: some View {
         Button { updateBlueprintAndDismiss() } label: { Text("Save") }
             .disabled(isSaveButtonDisabled)
+            .foregroundStyle(isSaveButtonDisabled ? Color.disabled : Color.cyan)
     }
 
     var exitButton: some View {

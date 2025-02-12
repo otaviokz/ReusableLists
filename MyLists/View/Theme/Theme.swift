@@ -16,7 +16,7 @@ extension Image {
     static let plus = Image(systemName: "plus")
     static let checkMark = Image(systemName: "checkmark")
     static let docOnDoc = Image(systemName: "doc.on.doc")
-    static let gear = Image(systemName: "gear")
+    static let edit = Image(systemName: "slider.horizontal.3")
     static let sort = Image(systemName: "arrow.up.arrow.down")
     static let play = Image(systemName: "play.circle")
     static let share = Image(systemName: "square.and.arrow.up")

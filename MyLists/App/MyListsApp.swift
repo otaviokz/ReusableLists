@@ -12,28 +12,13 @@ import SwiftData
 
 @main
 struct ReusableListsApp: App {
-    @Environment(\.modelContext) var modelContext
+    private var modelContainer = DataManager.sharedInstance.modelContainer
+    private var modelContext = DataManager.sharedInstance.viewContext
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView()                
                 .environment(\.modelContext, modelContext)
-                .modelContainer(buildModelContainer())
-        }
-    }
-    
-    func buildModelContainer() -> ModelContainer {
-        let schema = Schema([ToDoList.self, ToDoItem.self, Blueprint.self, BlueprintItem.self])
-        let configuration = ModelConfiguration()
-        do { 
-            let container = try ModelContainer(
-                for: schema,
-                migrationPlan: DataMigrationPlan.self,
-                configurations: [configuration]
-            )
-            return container
-        } catch {
-            fatalError()
         }
     }
 }

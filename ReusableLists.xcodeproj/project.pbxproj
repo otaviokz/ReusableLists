@@ -46,6 +46,7 @@
 		2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */; };
 		2BBEB5042D59A89C007AED50 /* SheetWrappedViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */; };
 		2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */; };
+		2BE2B40C2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
 		2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4FB2B42B001003CB25F /* ContentView.swift */; };
 		2BE3B5012B42B002003CB25F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BE3B5002B42B002003CB25F /* Preview Assets.xcassets */; };
@@ -164,6 +165,7 @@
 		2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetWrappedViewable.swift; sourceTree = "<group>"; };
 		2BDCB7942CA4FD800077CB97 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintFormView.swift; sourceTree = "<group>"; };
+		2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeAndPriorityListHeaderView.swift; sourceTree = "<group>"; };
 		2BE3B4F62B42B001003CB25F /* ReusableLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReusableLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BE3B4F92B42B001003CB25F /* MyListsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListsApp.swift; sourceTree = "<group>"; };
 		2BE3B4FB2B42B001003CB25F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -456,6 +458,7 @@
 				2BE3B52D2B42B79C003CB25F /* ToDoListItemsView.swift */,
 				2BE3B53B2B44CC86003CB25F /* ToDoListRowView.swift */,
 				2BE3B5292B42B19A003CB25F /* ToDoListsView.swift */,
+				2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */,
 			);
 			path = ToDoLists;
 			sourceTree = "<group>";
@@ -624,6 +627,7 @@
 				2BE3B5282B42B097003CB25F /* ToDoItem+Utils.swift in Sources */,
 				2B9FA13C2CEDE2F50054A62A /* NewItemCreatorProtocol.swift in Sources */,
 				2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */,
+				2BE2B40C2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift in Sources */,
 				2BE3B52A2B42B19A003CB25F /* ToDoListsView.swift in Sources */,
 				2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */,
 				2BE5A8A32CE0577C009DD6BB /* DataSchemaV1.swift in Sources */,

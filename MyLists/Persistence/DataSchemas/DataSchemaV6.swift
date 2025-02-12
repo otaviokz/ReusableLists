@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
+import Combine
 
 struct DataSchemaV6: VersionedSchema {
     static var versionIdentifier = Schema.Version(1, 4, 0)
@@ -17,7 +19,7 @@ struct DataSchemaV6: VersionedSchema {
 }
 
 extension DataSchemaV6 {
-    @Model
+    @Model 
     final class ToDoList: ObservableObject {
         var name: String
         var details: String

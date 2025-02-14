@@ -28,6 +28,7 @@
 		2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9369242CBB8EC800E8AC27 /* OnboardingState.swift */; };
 		2B9AECC32CB51A41003E6F28 /* ListEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9AECC22CB51A41003E6F28 /* ListEntity.swift */; };
 		2B9AECC52CB54AE5003E6F28 /* Preview+SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9AECC42CB54AE5003E6F28 /* Preview+SampleData.swift */; };
+		2B9D1B2A2D5F0E6B003212E6 /* TPPDF in Frameworks */ = {isa = PBXBuildFile; productRef = 2B9D1B292D5F0E6B003212E6 /* TPPDF */; };
 		2B9E8D392CA0A0080098C595 /* RoundClipped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D382CA09F9B0098C595 /* RoundClipped.swift */; };
 		2B9E8D3D2CA0CB3F0098C595 /* EditBlueprintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D3C2CA0CB3F0098C595 /* EditBlueprintView.swift */; };
 		2B9E8D4A2CA101780098C595 /* Binding+Characterlimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9E8D492CA101780098C595 /* Binding+Characterlimit.swift */; };
@@ -206,6 +207,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B9D1B2A2D5F0E6B003212E6 /* TPPDF in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,6 +581,7 @@
 			mainGroup = 2BE3B4ED2B42B001003CB25F;
 			packageReferences = (
 				2B68D9BD2D40A8B500FE77DC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				2B9D1B282D5F0E6B003212E6 /* XCRemoteSwiftPackageReference "TPPDF" */,
 			);
 			productRefGroup = 2BE3B4F72B42B001003CB25F /* Products */;
 			projectDirPath = "";
@@ -1073,7 +1076,23 @@
 				minimumVersion = 0.58.2;
 			};
 		};
+		2B9D1B282D5F0E6B003212E6 /* XCRemoteSwiftPackageReference "TPPDF" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/techprimate/TPPDF";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2B9D1B292D5F0E6B003212E6 /* TPPDF */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2B9D1B282D5F0E6B003212E6 /* XCRemoteSwiftPackageReference "TPPDF" */;
+			productName = TPPDF;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2BE3B4EE2B42B001003CB25F /* Project object */;
 }

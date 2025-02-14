@@ -7,6 +7,9 @@
 
 import SwiftUI
 import SwiftData
+import PDFKit
+import TPPDF
+import Foundation
 
 struct ToDoListItemsView: View {
     @Environment(\.modelContext) var modelContext
@@ -179,17 +182,45 @@ extension ToDoListItemsView {
         )
     }
     
-    var shareMessage: String {
-        var string = "Name:  " + list.name
-        if !list.details.isEmpty { string += "\n\nDetails:\n\n\(list.details)\n\n" }
-            
-            for item in list.items.sorted(by: sortType) { string += " ▢  -  \(item.name)\n\n" }
-            
-            string += "Reusable Lists\n"
-            string += "https://tinyurl.com/mr3essyr"
-            
-            return string
+    var shareMessage: URL {
+        let document = PDFDocument(format: PDFPageFormat.a4)
+        let attributedTitle = NSMutableAttributedString(string: list.name, attributes: [
+            .font: UIFont.systemFont(ofSize: 24.0),
+            .foregroundColor: UIColor.systemBlue
+        ])
+        document.add(attributedTextObject: PDFAttributedText(text: attributedTitle))
+        
+        if !list.details.isEmpty {
+            let attributedDetails = NSMutableAttributedString(string: "\nDetails: \(list.details)", attributes: [
+                .font: UIFont.systemFont(ofSize: 20.0),
+                .foregroundColor: UIColor.systemBlue
+            ])
+            document.add(attributedTextObject: PDFAttributedText(text: attributedDetails))
         }
+         
+        let attributedSpacing = NSMutableAttributedString(string: "\n", attributes: [
+            .font: UIFont.systemFont(ofSize: 20.0),
+            .foregroundColor: UIColor.cyan
+        ])
+        document.add(attributedTextObject: PDFAttributedText(text: attributedSpacing))
+        
+        for item in list.items.sorted(by: sortType) {
+            let attributedItem = NSMutableAttributedString(string: " ▢  -  \(item.name)\n", attributes: [
+                .font: UIFont.systemFont(ofSize: 16.0),
+                .foregroundColor: UIColor.black
+            ])
+            document.add(attributedTextObject: PDFAttributedText(text: attributedItem))
+        }
+            
+        let attributedAppName = NSMutableAttributedString(string: "\nReusable Lists\n", attributes: [
+            .font: UIFont.systemFont(ofSize: 22.0),
+            .foregroundColor: UIColor.cyan
+        ])
+        document.add(attributedTextObject: PDFAttributedText(text: attributedAppName))
+        let generator = PDFGenerator(document: document)
+        let url  = try! generator.generateURL(filename: "Example.pdf")
+        return url
+    }
     
     func presentDeleteOptionIfCompleted() {
         if list.completion >= 1 { presentDeleteListsSheet = true }

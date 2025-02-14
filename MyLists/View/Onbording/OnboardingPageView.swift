@@ -52,7 +52,7 @@ struct OnboardingPageView: View {
                         image
                             .resizable()
                             .scaledToFit()
-                            .frame(height: UIDevice.iPhone ? 520 : 894)
+                            .frame(height: UIDevice.iPhone ? 480 : 820)
                     }
                     
                     Text(text)
@@ -91,9 +91,9 @@ extension OnboardingPageView {
             image: nil,
             text:
 """
-We’re thrilled that you’ve downloaded our app!
+I'm thrilled that you’ve downloaded my app!
 
-As a first-time user, we will guide you on how to make the most of its features during this onboarding process.
+As a first-time user, I'll will guide you on how to make the most of its features during this onboarding process.
 
 Don’t worry about forgetting anything; you can always review these instructions in the "About" tab.
 """,
@@ -108,7 +108,7 @@ Don’t worry about forgetting anything; you can always review these instruction
             text: "This is the starting page of our app, displaying all your lists."
         )
     }
-    
+    // 1
     static var addToDoListsButton: OnboardingPageView {
         OnboardingPageView(
             title: "Add a list:",
@@ -116,19 +116,21 @@ Don’t worry about forgetting anything; you can always review these instruction
             text: "To add a new list, press the plus button indicated by the red arrow."
         )
     }
-    
+    // 2
     static var addToDoListsFields: OnboardingPageView {
         OnboardingPageView(
             title: "New list fields:",
             image: Image(UIDevice.iPhone ? "3.OverviewNewListDetails" : "3.OverviewNewListDetails_iPad"),
             text:
 """
-A list has two basic fields: Name and Details. The Name is mandatory and must be unique, while Details is optional \
-and may be left empty.
+A list has thre basic fields: Name, Details and Priority. The Name is mandatory and must be unique, while Details and Priority are optional \
+and may be left empty. A list is a priority or not, there's no in-between.
+
+A priority list will always be shown on the top of the list, regardless of alphabeticall order.
 """
         )
     }
-    
+    // 3
     static var addNewToDoItems: OnboardingPageView {
         OnboardingPageView(
             title: "New list items:",
@@ -138,12 +140,25 @@ and may be left empty.
 Once a list is created, select it to view a screen displaying its name and details. To add items, simply press the \
 '＋' icon on the top right corner of the list view.
 
+Apart from naming an item, you can mark items as priorities by tapping the "exclamation circle" icon. 
+
 In the add items view (as seen in the screenshot above), you can add one or more items in the same screen. The bottom \
 right "+" is used to add more than one items. Once you have all the items you need, just press "Save". 
 """
         )
     }
-    
+    // 4
+    static var editToDoItems: OnboardingPageView {
+        OnboardingPageView(
+            title: "Editing and deleting list items:",
+            image: Image(UIDevice.iPhone ? "4.OverviewNewListItem" : "4.OverviewNewListItem_iPad"),
+            text:
+"""
+Once a list has items, you can edit them by swiping right, or delete them by swipping left. You can also copy their content by long pressing the item.
+"""
+        )
+    }
+    // 5
     static var listItems: OnboardingPageView {
         OnboardingPageView(
             title: "List items:",
@@ -151,15 +166,15 @@ right "+" is used to add more than one items. Once you have all the items you ne
             text: "Now your list contains items that can be toggled between ☑ (done) and ☐ (todo) by tapping on them."
         )
     }
-    
+    // 6
     static var sortlistItems: OnboardingPageView {
         OnboardingPageView(
             title: "Sorting list items:",
             image: Image(UIDevice.iPhone ? "6.OverviewAlphabetically" : "6.OverviewAlphabetically_iPad"),
-            text: "You can also sort a list’s items either alphabetically or by their completion status."
+            text: "You can also sort a list’s items either alphabetically or by their completion status, although priority items will always be on top of their done/todo group."
         )
     }
-    
+    // 6
     static var listsCompletion: OnboardingPageView {
         OnboardingPageView(
             title: "Lists completion:",
@@ -167,11 +182,22 @@ right "+" is used to add more than one items. Once you have all the items you ne
             text:
 """
 As you mark list items as ☑ (done), the Lists screen updates each list’s completion gauge to reflect the percentage \
-of items completed.
+of items completed. 
 """
         )
     }
-    
+    // 7
+    static var listsCompleted: OnboardingPageView {
+        OnboardingPageView(
+            title: "Lists completed:",
+            image: Image(UIDevice.iPhone ? "7.OverviewListCompleted" : "7.OverviewListCompleted_iPad"),
+            text:
+"""
+Once you check all items of a list as done, it will automatically offer the option of deleting the list.
+"""
+        )
+    }
+    // 8
     static var blueprints: OnboardingPageView {
         OnboardingPageView(
             title: "Blueprints:",
@@ -184,7 +210,7 @@ these lists, you can simply create a copy from its corresponding Blueprint.
 """
         )
     }
-    
+    // 9
     static var blueprintAddListInstance: OnboardingPageView {
         OnboardingPageView(
             title: "More about blueprints:",
@@ -194,7 +220,7 @@ these lists, you can simply create a copy from its corresponding Blueprint.
 """
 Like lists, blueprints have names, details (optional), and items, but they are distinct entities.
 
-For example, you’ll notice that an item in a blueprint cannot be marked as 'done' or 'todo.' Blueprints exist solely \
+For example, you’ll notice that an item in a blueprint cannot be marked as 'done' or 'todo.', only as a priotiry. Blueprints exist solely \
 to store information such as the name, details, and items, and they serve as templates for creating actual lists, \
 complete with checkmarks. As mentioned earlier, the idea is to facilitate the recreation of checklists you use \
 frequently.
@@ -211,7 +237,7 @@ from that blueprint, as all lists must have unique names. The 'Create List' butt
 """
         )
     }
-    
+    // 10
     static var blueprintsInstanceList: OnboardingPageView {
         OnboardingPageView(
             title: "List from blueprint:",
@@ -224,21 +250,21 @@ it's needed again.
 """
         )
     }
-    
+    // 11
     static var entityUpdate: OnboardingPageView {
         OnboardingPageView(
             title: "Editing Lists and Blueprints",
             image: Image(UIDevice.iPhone ? "11.OverviewUpdate" : "11.OverviewUpdate_iPad"),
             text:
 """
-You can modify the names and details of both lists and blueprints. Simply press the designated button, \
+You can modify the names and details of both lists and blueprints, plus priority in the case of lists. Simply press the designated button, \
 and you will be directed to the same interface used for creating them, but this time you’ll be editing an existing \
 list or blueprint.
 """,
             isLastPage: true
         )
     }
-    
+    // 12
     static var shareList: OnboardingPageView {
         OnboardingPageView(
             title: "Sharing lists as text",

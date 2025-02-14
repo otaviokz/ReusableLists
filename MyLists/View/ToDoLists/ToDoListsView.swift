@@ -144,7 +144,7 @@ extension ToDoListsView: NewEntityCreatorProtocol {
     }
     
     func isUniqueName(name: String) -> Bool {
-        lists.first { $0.name.asInputLowcaseEquals(name) } == nil
+        lists.first { $0.name == name.asInput } == nil
     }
     
     func handleSaveError(error: Error, name: String) {

@@ -1,5 +1,5 @@
 {
-  "originHash" : "1fa961aa1dc717cea452f3389668f0f99a254f07e4eb11d190768a53798f744f",
+  "originHash" : "82148e06d4f4f5046dcc582d45d6f4c4db70bdb137d3a8dbf518d4687ed6d79b",
   "pins" : [
     {
       "identity" : "swiftlintplugins",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "7a3d77f3dd9f91d5cea138e52c20cfceabf352de",
         "version" : "0.58.2"
+      }
+    },
+    {
+      "identity" : "tppdf",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/techprimate/TPPDF",
+      "state" : {
+        "revision" : "975049c0e1022922580b7927e030901604024925",
+        "version" : "2.6.1"
       }
     }
   ],

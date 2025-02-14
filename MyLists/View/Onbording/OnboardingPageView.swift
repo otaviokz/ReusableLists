@@ -271,7 +271,7 @@ list or blueprint.
             image: Image(UIDevice.iPhone ? "12.ShareYourListInTextFormat" :  "12.ShareYourListInTextFormat_iPad"),
             text:
 """
-Lastly, you can share your checklists in text format, making it possible to not only send them to a friend, \
+Lastly, you can share your checklists in PDF format, making it possible to not only send them to a friend, \
 but to print them!
 """,
             isLastPage: true

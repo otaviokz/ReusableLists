@@ -75,7 +75,7 @@ fileprivate extension NewListOrBlueprintFormView {
                 Group {
                     HStack {
                         TextField(
-                            "Name (max \(DataFieldsSizeLimit.name) characters)",
+                            "Name: (max \(DataFieldsSizeLimit.name) characters)",
                             text: $name.max(DataFieldsSizeLimit.name)
                         )
                         .font(.title3)
@@ -85,13 +85,16 @@ fileprivate extension NewListOrBlueprintFormView {
                         
                         if entity == .toDoList {
                             Image.priority.sizedToFitSquare(side: 22).onTapGesture {
-                                priority.toggle()
+                                withAnimation {
+                                    priority.toggle()
+                                }
                             }
                             .foregroundStyle(priority ? Color.red : Color.disabled)
+                            .fontWeight(priority ? .semibold : .medium)
                         }
                     }
                     TextField(
-                        "Details (optional, max \(DataFieldsSizeLimit.details) characters)",
+                        "Details: (optional, max \(DataFieldsSizeLimit.details) characters)",
                         text: $details.max(DataFieldsSizeLimit.details),
                         axis: .vertical
                     )

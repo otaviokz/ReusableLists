@@ -37,8 +37,9 @@ struct BlueprintsView: View {
         }
         .navigationTitle("Blueprints")
         .toolbar {
-            Image.plus.padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
+            Image.plus.sizedToFitSquare(side: 21).padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
                 .foregroundStyle(Color.cyan)
+                .fontWeight(.medium)
         }
     }
     

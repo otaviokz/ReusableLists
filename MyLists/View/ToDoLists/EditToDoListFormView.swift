@@ -19,7 +19,8 @@ struct EditToDoListFormView: View {
     @State private var presentAlert = false
     @State private var priority = false
     @State private var oldPriority = false
-    @State var priorityIconScale = CGPoint(x: 1, y: 1)
+    
+
     
     let list: ToDoList
     
@@ -88,13 +89,14 @@ private extension EditToDoListFormView {
                 .focused($focusState, equals: .name)
                 .onSubmit { focusState = .details }
             
-            Image.priority.sizedToFitSquare(side: 22).foregroundStyle(priority ? .red : .disabled)
-                .transformEffect(CGAffineTransformMakeScale(priorityIconScale.x, priorityIconScale.y))
+            Image.priority.sizedToFitSquare(side: 22)
                 .onTapGesture {
                     withAnimation {
                         priority.toggle()
                     }
                 }
+                .foregroundStyle(priority ? .red : .disabled)
+                .fontWeight(priority ? .semibold : .regular)
         }
         
     }

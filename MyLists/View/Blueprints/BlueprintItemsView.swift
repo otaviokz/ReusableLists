@@ -109,6 +109,7 @@ extension BlueprintItemsView {
                 } label: {
                     Image.edit.sizedToFitSquare(side: 21)
                         .padding(.top, 1.5)
+                        .fontWeight(.medium)
                 }
                 
                 if !listInstanceAlreadyExists(for: blueprint) {
@@ -117,12 +118,16 @@ extension BlueprintItemsView {
                             addListInstance(from: blueprint)
                         }
                         .padding(.trailing, -3.75)
+                        .fontWeight(.medium)
                 }
                 
-                Image.plus.onTapGesture {
-                    sheetPresenter.presentAddNewItemSheet()
-                }
-                .padding(.trailing, 4)
+                Image.plus
+                    .sizedToFitSquare(side: 21)
+                    .onTapGesture {
+                        sheetPresenter.presentAddNewItemSheet()
+                    }
+                    .padding(.trailing, 4)
+                    .fontWeight(.medium)
             }
             .foregroundStyle(Color.cyan)
             .padding(.trailing, 4)

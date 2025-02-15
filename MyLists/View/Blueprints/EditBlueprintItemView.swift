@@ -46,7 +46,7 @@ struct EditBlueprintItemView: View {
             Spacer()
             
             buttonsStack
-                .padding(.bottom, 8)
+                .padding(.bottom, Sizes.exitOrSaveBottomPadding)
                 .font(.title3)
         }
         .onAppear {

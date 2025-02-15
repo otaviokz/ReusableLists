@@ -54,7 +54,7 @@ struct SizeConstraints {
 struct Sizes {
     static var newItemFormHeight: CGFloat { 112 }
     static var newEntityFormHeight: CGFloat { 186 }
-    static var exitOrSaveBottomPadding: CGFloat { 8 }
+    static var exitOrSaveBottomPadding: CGFloat { 12 }
     static var updateEtityViewTopPadding: CGFloat { 8 }
 }
 

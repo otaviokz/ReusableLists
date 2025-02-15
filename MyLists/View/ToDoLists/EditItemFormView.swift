@@ -11,7 +11,7 @@ struct EditItemFormView: View {
     @FocusState private var focusState: Field?
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
-    @State private var isPriority = false
+    @State private var priority = false
     private let oldName: String
     private let oldPriority: Bool
     private let item: ToDoItem
@@ -29,7 +29,7 @@ struct EditItemFormView: View {
         self.oldPriority = item.priority ? true : false
         self.onEdited = onEdited
         self.name = item.name.copy() as? String ?? ""
-        self.isPriority = item.priority ? true : false
+        self.priority = item.priority ? true : false
     }
     
     var body: some View {
@@ -47,12 +47,12 @@ struct EditItemFormView: View {
             Spacer()
             
             buttonsStack
-                .padding(.vertical, 8)
+                .padding(.vertical, Sizes.exitOrSaveBottomPadding)
                 .font(.title3)
         }
         .onAppear {
             name = item.name
-            isPriority = item.priority
+            priority = item.priority
             focusState = .name
         }
     }
@@ -99,12 +99,13 @@ private extension EditItemFormView {
                 
                 Image.priority
                     .sizedToFitHeight(22)
-                    .foregroundStyle(isPriority ? Color.red : Color.disabled)
                     .onTapGesture {
                         withAnimation {
-                            isPriority.toggle()
+                            priority.toggle()
                         }
                     }
+                    .foregroundStyle(priority ? .red : .disabled)
+                    .fontWeight(priority ? .semibold : .regular)
             }
         }
         .frame(height: Sizes.newItemFormHeight)
@@ -117,7 +118,7 @@ private extension EditItemFormView {
             Button { discardEditsAndDismissSheet() } label: { Text("Exit") }
             Spacer()
             Button {
-                if name.asInput == oldName || isPriority != oldPriority {
+                if name.asInput == oldName || priority != oldPriority {
                     saveEditsAndDismissSheet()
                 }
             } label: {
@@ -141,12 +142,12 @@ private extension EditItemFormView {
 
 private extension EditItemFormView {
     var hasEdits: Bool {
-        name.asInput != oldName || isPriority != oldPriority
+        name.asInput != oldName || priority != oldPriority
     }
     
     func saveEditsAndDismissSheet() {
         item.name = name
-        item.priority = isPriority
+        item.priority = priority
         
         Task {
             dismiss()

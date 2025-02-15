@@ -15,9 +15,6 @@ extension Binding where Value == String {
                 try? await Task.sleep(nanoseconds: 500)
                 wrappedValue = String(wrappedValue.prefix(limit))
             }
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-//                self.wrappedValue = String(self.wrappedValue.prefix(limit))
-//            }
         }
         return self
     }

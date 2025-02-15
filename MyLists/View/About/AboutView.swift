@@ -27,7 +27,7 @@ struct AboutView: View {
                 ShareLink(item: URL(string: "https://apps.apple.com/us/app/reusable-lists/id6478542301")!) {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }
-                LabeledContent("Version", value: "2.5.0")
+                LabeledContent("Version", value: "2.7.1")
                 
                 HTMLView(fileName: "PrivacyPolicy")
                     .frame(height: UIScreen.main.bounds.height * 0.7)

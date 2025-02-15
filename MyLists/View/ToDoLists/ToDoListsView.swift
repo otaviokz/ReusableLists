@@ -27,10 +27,12 @@ struct ToDoListsView: View {
             .scrollIndicators(.hidden)
             .toolbar {
                 Image.plus
+                    .sizedToFitSquare(side: 21)
                     .padding(.trailing, 4)
                     .onTapGesture { presentAddToDoListSheet = true }
                     .foregroundStyle(Color.cyan)
                     .accessibilityIdentifier("plus")
+                    .fontWeight(.medium)
             }
             .alert(isPresented: $presentAlert) {
                 Alert.genericError

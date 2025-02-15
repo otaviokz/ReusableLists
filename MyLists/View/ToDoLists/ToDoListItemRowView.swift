@@ -29,7 +29,7 @@ struct ToDoListItemRowView: View {
             Spacer()
             
             if item.priority {
-                Image.priority.sizedToFitHeight(22).foregroundStyle(Color.red).padding(.top, 1)
+                Image.priority.sizedToFitHeight(22).foregroundStyle(Color.red)
             }            
             
             Image.checkBoxImageForItem(item)

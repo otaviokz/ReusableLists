@@ -182,7 +182,7 @@ extension ToDoListItemsView {
         )
     }
     
-    var shareMessage: URL {
+    var sharePdfURL: URL {
         let document = PDFDocument(format: PDFPageFormat.a4)
         let attributedTitle = NSMutableAttributedString(string: list.name, attributes: [
             .font: UIFont.systemFont(ofSize: 24.0),
@@ -216,10 +216,10 @@ extension ToDoListItemsView {
             .font: UIFont.systemFont(ofSize: 22.0),
             .foregroundColor: UIColor.cyan
         ])
+        
         document.add(attributedTextObject: PDFAttributedText(text: attributedAppName))
         let generator = PDFGenerator(document: document)
-        let url  = try! generator.generateURL(filename: "Example.pdf")
-        return url
+        return  try! generator.generateURL(filename: "Example.pdf")
     }
     
     func presentDeleteOptionIfCompleted() {
@@ -228,19 +228,26 @@ extension ToDoListItemsView {
     
     var toolBarView: some View {
         HStack(spacing: 16) {
-            ShareLink(item: shareMessage) { Label("", systemImage: "square.and.arrow.up") }
+            ShareLink(item: sharePdfURL) { Label("", systemImage: "square.and.arrow.up") }
                 .padding(.trailing, -8)
                 .padding(.top, -4)
+                .fontWeight(.medium)
             
-            NavigationLink { EditToDoListFormView(list) } label: { Image.edit.sizedToFit(width: 21, height: 21).padding(.top, 1.5) }
+            NavigationLink {
+                EditToDoListFormView(list)
+            } label: {
+                Image.edit.sizedToFitSquare(side: 21).padding(.top, 1.5)
+            }
             
             if list.items.count > 1 {
                 Image.sort.sizedToFit(height: 18).onTapGesture {
                     sheetPresenter.presentSortSheet()
-                }
+                }.fontWeight(.medium)
             }
             
-            Image.plus.onTapGesture { sheetPresenter.presentAddNewItemSheet() }.padding(.leading, -4)
+            Image.plus.sizedToFitSquare(side: 21).onTapGesture {
+                sheetPresenter.presentAddNewItemSheet()
+            }.padding(.trailing, 4).fontWeight(.medium)
         }
         .foregroundStyle(Color.cyan)
         .padding(.trailing, 4)

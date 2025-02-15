@@ -16,7 +16,7 @@ struct NewListOrBlueprintItemFormView: View {
     @State private var itemsList: [NamesListItem] = []
     @State private var scrollId: String?
     @State private var scrollViewProxy: ScrollViewProxy?
-    @State private var isPriority: Bool = false
+    @State private var priority: Bool = false
     private let newItemForEntity: NewEntityItem
     private let isUniqueNameInEntity: (String) -> Bool
     private let createAndInsertNewItems: ([(String, Bool)]) throws -> Void
@@ -49,7 +49,7 @@ struct NewListOrBlueprintItemFormView: View {
                 
             if !itemsList.isEmpty { Spacer() }
             
-            buttonsStack.padding(.bottom, 8)
+            buttonsStack.padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
         .foregroundColor(Color.cyan)
         .alert(isPresented: $presentAlert) {
@@ -77,10 +77,10 @@ private extension NewListOrBlueprintItemFormView {
     
     var formView: some View {
         Form {
-            Section("Fields:") {
+            Section("Field name:") {
                 HStack {
                     TextField(
-                        "Item Name (max \(DataFieldsSizeLimit.name) characters)",
+                        "max \(DataFieldsSizeLimit.name) characters",
                         text: $name.max(DataFieldsSizeLimit.name)
                     )
                     .font(.title3)
@@ -107,11 +107,13 @@ private extension NewListOrBlueprintItemFormView {
                     
                     Image.priority
                         .sizedToFitHeight(22)
-                        .foregroundStyle(isPriority ? Color.red : Color.disabled)
                         .onTapGesture {
-                            isPriority.toggle()
+                            withAnimation {
+                                priority.toggle()
+                            }
                         }
-                        .padding(.top, 2)
+                        .foregroundStyle(priority ? Color.red : Color.disabled)
+                        .fontWeight(priority ? .semibold : .regular)
                 }
             }
             .font(.subheadline.weight(.medium))
@@ -129,7 +131,7 @@ private extension NewListOrBlueprintItemFormView {
                         
                         if item.priority {
                             Spacer()
-                            Image.priority.sizedToFitHeight(18).foregroundStyle(Color.red)
+                            Image.priority.sizedToFitHeight(18).foregroundStyle(Color.red).fontWeight(.semibold)
                         }
                     }
                 }
@@ -165,7 +167,7 @@ private extension NewListOrBlueprintItemFormView {
             invalidNameEntered = isSaveButtonDisabled && !newName.isEmptyAsInput
             if !isSaveButtonDisabled && isUnique(newName: newName) && !newName.isEmptyAsInput {
                 withAnimation(.linear(duration: 0.125)) {
-                    addToList(newName: newName, priority: isPriority)
+                    addToList(newName: newName, priority: priority)
                 } completion: {
                     scrollId = newName
                     if let scrollViewProxy = scrollViewProxy {
@@ -257,7 +259,7 @@ private extension NewListOrBlueprintItemFormView {
     func saveNewItemsAndDismissSheet() {
         let newName = name.asInput
         if !newName.isEmpty, isUnique(newName: newName) {
-            addToList(newName: newName, priority: isPriority)
+            addToList(newName: newName, priority: priority)
         }
         
         dismiss()
@@ -280,7 +282,7 @@ private extension NewListOrBlueprintItemFormView {
         withAnimation {
             itemsList = [NamesListItem(name: newName, priority: priority)] + itemsList
             name = "" // Because of "Assign on read", we can't set name to "" before saving it's content
-            isPriority = false
+            self.priority = false
         }
     }
 }

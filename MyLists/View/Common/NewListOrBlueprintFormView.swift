@@ -75,8 +75,8 @@ fileprivate extension NewListOrBlueprintFormView {
                 Group {
                     HStack {
                         TextField(
-                            "Name: (max \(DataFieldsSizeLimit.name) characters)",
-                            text: $name.max(DataFieldsSizeLimit.name)
+                            "Name: (max \(DataFieldsSizeLimit.listName) characters)",
+                            text: $name.max(DataFieldsSizeLimit.listName)
                         )
                         .font(.title3)
                         .textInputAutocapitalization(.never)

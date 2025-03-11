@@ -89,8 +89,8 @@ private extension EditItemFormView {
         Form {
             HStack {
                 TextField(
-                    "Item Name (max \(DataFieldsSizeLimit.name) characters)",
-                    text: $name.max(DataFieldsSizeLimit.name)
+                    "Item Name (max \(DataFieldsSizeLimit.listItemName) characters)",
+                    text: $name.max(DataFieldsSizeLimit.listItemName)
                 )
                 .font(.title3)
                 .foregroundStyle(Color.primary)

@@ -46,7 +46,7 @@ struct ToDoListItemsView: View {
                 }
                 .sheet(isPresented: $sheetPresenter.presentSheet) {
                     switch sheetPresenter.sheetType {
-                    case .sortItems: SortTypeView(current: sortType) { sortType = $0 }
+                        case .sortItems: SortTypeView(current: sortType) { sortType = $0 }
                     case .addItem: buildNewItemItemFromView()
                     case .edit(let item): EditItemFormView(item, list: list) { save($0) }
                     }

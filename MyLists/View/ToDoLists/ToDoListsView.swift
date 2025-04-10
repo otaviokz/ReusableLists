@@ -13,7 +13,7 @@ struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var tabselection: TabSelection
     
-    @Query(sort: [SortDescriptor(\ToDoList.name, order: .forward)]) private var allLists: [ToDoList]
+    @Query private var queryLists: [ToDoList]
     @State private var presentAlert = false
     @State private var alertMessage: String = Alert.genericErrorMessage
     @State private var presentAddToDoListSheet = false
@@ -46,7 +46,7 @@ struct ToDoListsView: View {
                 )
                 .presentationDragIndicator(.visible)
             }
-            .onChange(of: allLists) { _, _ in
+            .onChange(of: queryLists) { _, _ in
                 populatePrioritySortedList()
             }
             .onAppear {
@@ -101,7 +101,7 @@ private extension ToDoListsView {
     }
     
     func populatePrioritySortedList() {
-        lists = allLists.reversed().sorted { $0.priority && !$1.priority }
+        lists = queryLists.reversed().sorted { $0.priority && !$1.priority }
         lists = lists.sorted { if $0.priority == $1.priority { return $0.name < $1.name } else { return false }}
     }
     

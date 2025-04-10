@@ -11,18 +11,10 @@ struct GaugeAndPriorityListHeaderView: View {
     @ObservedObject var list: ToDoList
     
     var body: some View {
-        HStack{
             Gauge(value: list.completion) { }
-                .animation(.linear(duration: 0.25), value: list.completion)
-                .tint(.green)
-                .padding(list.priority ? .horizontal : .leading, 22)
-            
-            Image
-                .priority
-                .sizedToFitSquare(side: 22)
-                .foregroundStyle(list.priority == true ? Color.red : Color.disabled)
-                .padding(.trailing, 22)
-        }
+            .animation(.interpolatingSpring(duration: 0.25, bounce: 0.1, initialVelocity: 0.5), value: list.completion)
+                .tint(list.priority ? .red : .green)
+                .padding(.horizontal, 22)
     }
 }
 

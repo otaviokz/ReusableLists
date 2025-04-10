@@ -26,30 +26,61 @@ struct BlueprintItemsView: View {
     }
     
     var body: some View {
-        itemsList
-            .font(.subheadline.weight(.medium))
-            .foregroundStyle(Color.cyan)
-            .alert(isPresented: $presentAlert) {
-                Alert(title: Alert.genericErrorTitle, message: alertMessage)
-            }
-            .sheet(isPresented: $sheetPresenter.presentSheet) {
-                switch sheetPresenter.sheetType {
-                case .addItem:
-                    NewListOrBlueprintItemFormView(
-                        .blueprint(entity: blueprint),
-                        isUniqueNameInEntity: isUniqueNameInEntity,
-                        createAndInsertNewItems: createAndInsertNewItems
-                    )
-                case .edit(let item):
-                    EditBlueprintItemView(item, blueprint: blueprint) { save($0) }
+        List {
+            if !blueprint.details.isEmpty {
+                Section("Blueprint Details:") {
+                    Text(blueprint.details).font(.title3)
+                        .foregroundStyle(Color.primary)
                 }
             }
-            .presentationDetents([.large])
-            .presentationDragIndicator(.visible)
-            .toolbar {
-                toobarItem
+            
+            if !blueprint.items.isEmpty {
+                Section("Blueprint Items:") {
+                    ForEach(blueprint.items.sortedByPriorityAndName) { item in
+                        BlueprintItemRowView(item: item)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    delete(item: item)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                                .tint(.red)
+                            }
+                            .swipeActions(edge: .leading) {
+                                Button("Edit") {
+                                    sheetPresenter.presentEditItemSheet(item)
+                                }
+                                .tint(Color.blue)
+                            }
+                            .listRowBackground(Color.gray.opacity(0.35))
+                            .listRowSeparatorTint(.gray, edges: .all)
+                    }
+                }
             }
-            .navigationTitle(blueprint.name)
+        }
+        .font(.subheadline.weight(.medium))
+        .foregroundStyle(Color.cyan)
+        .alert(isPresented: $presentAlert) {
+            Alert(title: Alert.genericErrorTitle, message: alertMessage)
+        }
+        .sheet(isPresented: $sheetPresenter.presentSheet) {
+            switch sheetPresenter.sheetType {
+            case .addItem:
+                NewListOrBlueprintItemFormView(
+                    .blueprint(entity: blueprint),
+                    isUniqueNameInEntity: isUniqueNameInEntity,
+                    createAndInsertNewItems: createAndInsertNewItems
+                )
+            case .edit(let item):
+                EditBlueprintItemView(item, blueprint: blueprint) { save($0) }
+            }
+        }
+        .presentationDetents([.large])
+        .presentationDragIndicator(.visible)
+        .toolbar {
+            toolbarItem
+        }
+        .navigationTitle(blueprint.name)
     }
 }
 
@@ -76,32 +107,12 @@ extension BlueprintItemsView {
         case addItem
     }
 }
+
+
 // MARK: - UI
 
 extension BlueprintItemsView {
-    var itemsList: some View {
-        List {
-            if !blueprint.details.isEmpty {
-                detailsSection
-            }
-            if !blueprint.items.isEmpty {
-                Section("Blueprint Items:") {
-                    ForEach(blueprint.items.sortedByPriorityAndName) { item in
-                        blueprintItemRow(item: item)
-                    }
-                }
-            }
-        }
-    }
-    
-    var detailsSection: some View {
-        Section("Blueprint Details:") {
-            Text(blueprint.details).font(.title3)
-                .foregroundStyle(Color.primary)
-        }
-    }
-    
-    var toobarItem: ToolbarItem<(), some View> {
+    var toolbarItem: ToolbarItem<(), some View> {
         ToolbarItem(placement: .topBarTrailing) {
             HStack(spacing: 16) {
                 NavigationLink {
@@ -132,26 +143,6 @@ extension BlueprintItemsView {
             .foregroundStyle(Color.cyan)
             .padding(.trailing, 4)
         }
-    }
-    
-    func blueprintItemRow(item: BlueprintItem) -> some View {
-        BlueprintItemRowView(item: item)
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button(role: .destructive) {
-                    delete(item: item)
-                } label: {
-                    Label("Delete", systemImage: "trash")
-                }
-                .tint(.red)
-            }
-            .swipeActions(edge: .leading) {
-                Button("Edit") {
-                    sheetPresenter.presentEditItemSheet(item)
-                }
-                .tint(Color.blue)
-            }
-            .listRowBackground(Color.gray.opacity(0.35))
-            .listRowSeparatorTint(.gray, edges: .all)
     }
 }
 // MARK: - SwiftData

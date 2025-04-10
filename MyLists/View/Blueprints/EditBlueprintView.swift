@@ -32,7 +32,7 @@ struct EditBlueprintView: View {
             Form {
                 Section("Fields:") {
                     Group {
-                        TextField("New name", text: $name.max(DataFieldsSizeLimit.name))
+                        TextField("New name", text: $name.max(DataFieldsSizeLimit.listName))
                             .font(.title3)
                             .focused($focusState, equals: .name)
                             .onSubmit { focusState = .details }

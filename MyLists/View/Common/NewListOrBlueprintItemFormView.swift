@@ -80,8 +80,8 @@ private extension NewListOrBlueprintItemFormView {
             Section("Field name:") {
                 HStack {
                     TextField(
-                        "max \(DataFieldsSizeLimit.name) characters",
-                        text: $name.max(DataFieldsSizeLimit.name)
+                        "max \(DataFieldsSizeLimit.listItemName) characters",
+                        text: $name.max(DataFieldsSizeLimit.listItemName)
                     )
                     .font(.title3)
                     .foregroundStyle(Color.primary)

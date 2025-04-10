@@ -84,7 +84,7 @@ struct EditToDoListFormView: View {
 private extension EditToDoListFormView {
     var editNameAndPriorityView: some View {
         HStack {
-            TextField("New name", text: $name.max(DataFieldsSizeLimit.name))
+            TextField("New name", text: $name.max(DataFieldsSizeLimit.listName))
                 .font(.title3)
                 .focused($focusState, equals: .name)
                 .onSubmit { focusState = .details }

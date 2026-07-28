@@ -38,7 +38,7 @@ struct OboardingPagedView: View {
                     }
             }
             .roundBordered(borderColor: .cyan, boderWidht: 1)
-            .tabViewStyle(.page(indexDisplayMode: .never))
+            .tabViewStyle(.page(indexDisplayMode: .automatic))
             .frame(height: UIScreen.main.bounds.height *  (UIDevice.iPhone ? 0.75 : 0.85))
             
             Button {

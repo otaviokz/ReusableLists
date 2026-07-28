@@ -17,7 +17,7 @@ struct EditBlueprintView: View {
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
-    @State private var presetAlert = false
+    @State private var presenter = Presenter()
 
     let blueprint: Blueprint
 
@@ -65,8 +65,8 @@ struct EditBlueprintView: View {
                 .padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
         .foregroundStyle(Color.cyan)
-        .alert(isPresented: $presetAlert) {
-            Alert.genericError
+        .alert(isPresented: $presenter.alert) {
+            Alert(title: Alert.genericErrorTitle, message: Alert.genericErrorMessage)
         }
         .onAppear {
             name = blueprint.name
@@ -143,7 +143,7 @@ fileprivate extension EditBlueprintView {
             dismiss()
         } catch {
             logger.error("updateBlueprintAndDismiss: \(error)")
-            presetAlert = true
+            presenter.presentAlert()
         }
     }
 }

@@ -12,21 +12,19 @@ struct BlueprintsView: View {
     @Environment(\.modelContext) private var modelContext
     
     @Query(sort: [SortDescriptor(\Blueprint.name, order: .forward)]) private var blueprints: [Blueprint]
-    
-    @State private var presentAlert = false
-    @State private var alertMessage: String = Alert.genericErrorMessage
-    @State private var presentAddBlueprintSheet = false
+
+    @State private var presenter = Presenter()
+//    @State private var alertMessage: String = Alert.genericErrorMessage
     @State private var blueprintToDelete: Blueprint?
-    @State var showingDeleteAlert = false
     
     var body: some View {
         bluePrintsList
         .animation(.linear(duration: 0.25), value: blueprints)
         
-        .alert(isPresented: $presentAlert) {
-            Alert.genericError
+        .alert(isPresented: $presenter.alert) {
+            Alert(message: presenter.alertMessage)
         }
-        .sheet(isPresented: $presentAddBlueprintSheet) {
+        .sheet(isPresented: $presenter.sheet) {
             NewListOrBlueprintFormView(
                 entity: .blueprint,
                 isUniqueName: isUniqueName,
@@ -37,7 +35,7 @@ struct BlueprintsView: View {
         }
         .navigationTitle("Blueprints")
         .toolbar {
-            Image.plus.sizedToFitSquare(side: 21).padding(.trailing, 4).onTapGesture { presentAddBlueprintSheet = true }
+            Image.plus.sizedToFitSquare(side: 21).padding(.trailing, 4).onTapGesture { presenter.presentSheet() }
                 .foregroundStyle(Color.cyan)
                 .fontWeight(.medium)
         }
@@ -82,7 +80,7 @@ private extension BlueprintsView {
                 .swipeActions {
                     Button("Delete", role: .cancel) {
                         blueprintToDelete = blueprint
-                        showingDeleteAlert = true
+                        presenter.presentConfirmationDialog(message: "")
                     }
                     .tint(.red)
                 }
@@ -91,7 +89,7 @@ private extension BlueprintsView {
             }            
             .confirmationDialog(
                 deleteConfirmationDialogTitle,
-                isPresented: $showingDeleteAlert,
+                isPresented: $presenter.confirmationDialog,
                 titleVisibility: .visible
             ) {
                 Button(
@@ -102,7 +100,7 @@ private extension BlueprintsView {
                     },
                     label: { Text("Delete").foregroundStyle(Color.red) }
                 )
-                Button("Cancel", role: .cancel) { showingDeleteAlert = false }
+                Button("Cancel", role: .cancel) { presenter.clear() }
             }
         }
     }
@@ -128,7 +126,7 @@ private extension BlueprintsView {
             blueprintToDelete = nil
         } catch {
             logger.error("delete(\(blueprint.name)) \(error)")
-            presentAlert = true
+            presenter.presentAlert(title: Alert.genericErrorTitle, message: Alert.genericErrorMessage)
         }
     }
 }
@@ -146,11 +144,11 @@ extension BlueprintsView: NewEntityCreatorProtocol {
     
     func handleSaveError(error: Error, name: String) {
         logger.error("Error createEntityInstanteAndDismissSheet(): \(error)")
-        alertMessage = Alert.genericErrorMessage
+        var alertMessage = Alert.genericErrorMessage
         if case ListError.blueprintNameUnavailable = error {
             alertMessage = ListError.blueprintNameUnavailable(name).message
         }
-        presentAlert = true
+        presenter.presentAlert(title: Alert.genericErrorTitle, message: alertMessage)
     }
 }
 

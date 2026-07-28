@@ -15,10 +15,9 @@ struct BlueprintItemsView: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
     
-    @State private var alertMessage = Alert.genericErrorMessage
-    @State private var presentAlert = false
-    @ObservedObject private var sheetPresenter = SheetPresenter()
-    
+    @State private var presenter = Presenter()
+    @State private var sheetType: SheetType = .addItem
+
     let blueprint: Blueprint
     
     init(for blueprint: Blueprint) {
@@ -48,7 +47,8 @@ struct BlueprintItemsView: View {
                             }
                             .swipeActions(edge: .leading) {
                                 Button("Edit") {
-                                    sheetPresenter.presentEditItemSheet(item)
+                                    sheetType = .edit(item: item)
+                                    presenter.presentSheet()
                                 }
                                 .tint(Color.blue)
                             }
@@ -60,11 +60,11 @@ struct BlueprintItemsView: View {
         }
         .font(.subheadline.weight(.medium))
         .foregroundStyle(Color.cyan)
-        .alert(isPresented: $presentAlert) {
-            Alert(title: Alert.genericErrorTitle, message: alertMessage)
+        .alert(isPresented: $presenter.alert) {
+            Alert(title: Alert.genericErrorTitle, message: presenter.alertMessage)
         }
-        .sheet(isPresented: $sheetPresenter.presentSheet) {
-            switch sheetPresenter.sheetType {
+        .sheet(isPresented: $presenter.sheet) {
+            switch sheetType {
             case .addItem:
                 NewListOrBlueprintItemFormView(
                     .blueprint(entity: blueprint),
@@ -87,21 +87,6 @@ struct BlueprintItemsView: View {
 // MARK: - Edit Item
 
 extension BlueprintItemsView {
-    class SheetPresenter: ObservableObject {
-        @Published var sheetType: SheetType = .addItem
-        @Published var presentSheet = false
-        
-        func presentAddNewItemSheet() {
-            self.sheetType = .addItem
-            presentSheet = true
-        }
-        
-        func presentEditItemSheet(_ item: BlueprintItem) {
-            self.sheetType = .edit(item: item)
-            presentSheet = true
-        }
-    }
-    
     enum SheetType {
         case edit(item: BlueprintItem)
         case addItem
@@ -135,7 +120,8 @@ extension BlueprintItemsView {
                 Image.plus
                     .sizedToFitSquare(side: 21)
                     .onTapGesture {
-                        sheetPresenter.presentAddNewItemSheet()
+                        sheetType = .addItem
+                        presenter.presentSheet()
                     }
                     .padding(.trailing, 4)
                     .fontWeight(.medium)
@@ -179,33 +165,32 @@ extension BlueprintItemsView {
                 }
             } catch {
                 logger.error("Error addListInstance(from: \(blueprint.name): \(error.localizedDescription)")
-                alertMessage = Alert.genericErrorMessage
+                var alertMessage = Alert.genericErrorMessage
                 if let error = error as? ListError {
                     alertMessage = error.message
                 }
-                presentAlert = true
+                presenter.presentAlert(message: alertMessage)
             }
         }
     }
     
     func delete(item: BlueprintItem) {
-        alertMessage = Alert.genericErrorMessage
+
         do {
             blueprint.items = blueprint.items.filter { $0 != item }
             modelContext.delete(item)
             try modelContext.save()
         } catch {
-            presentAlert = true
+            presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
     
     func deleteItem(_ indexSet: IndexSet) {
-        alertMessage = Alert.genericErrorMessage
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
             delete(item: blueprint.items.sortedByPriorityAndName[index])
         } catch {
-            presentAlert = true
+            presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
     
@@ -214,8 +199,7 @@ extension BlueprintItemsView {
             try modelContext.save()
         } catch {
             logger.error("Error saving item: \(error)")
-            alertMessage = Alert.genericErrorMessage
-            presentAlert = true
+            presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
 }

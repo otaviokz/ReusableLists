@@ -17,12 +17,14 @@ struct ToDoListItemsView: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
         
-    @State var alertMessage = Alert.genericErrorMessage
-    @ObservedObject private var sheetPresenter = SheetPresenter()
+//    @State var alertMessage = Alert.genericErrorMessage
+//    @ObservedObject private var sheetPresenter = SheetPresenter()
     // Necessary for some reason, the guy above doesn't do the trick
-    @State private var presentDeleteListsSheet = false
+//    @State private var presentDeleteListsSheet = false
+    @State private var presenter = Presenter()
     @State private var sortType: SortType = .doneLast
-    
+    @State private var sheetType: SheetType = .addItem
+
     
     let list: ToDoList
     let allDoneAction: (ToDoList) -> Void
@@ -41,12 +43,10 @@ struct ToDoListItemsView: View {
             listView
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Color.cyan)
-                .actionSheet(isPresented: $presentDeleteListsSheet) {
-                    deleteListOptionActionSheet
-                }
-                .sheet(isPresented: $sheetPresenter.presentSheet) {
-                    switch sheetPresenter.sheetType {
-                        case .sortItems: SortTypeView(current: sortType) { sortType = $0 }
+
+                .sheet(isPresented: $presenter.sheet) {
+                    switch sheetType {
+                    case .sortItems: SortTypeView(current: sortType) { sortType = $0 }
                     case .addItem: buildNewItemItemFromView()
                     case .edit(let item): EditItemFormView(item, list: list) { save($0) }
                     }
@@ -54,8 +54,8 @@ struct ToDoListItemsView: View {
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
         }
-        .alert(isPresented: $sheetPresenter.presentAlert) {
-            Alert(title: Alert.genericErrorTitle, message: alertMessage)
+        .alert(isPresented: $presenter.alert) {
+            Alert(title: Alert.genericErrorTitle, message: presenter.alertMessage)
         }
         .toolbar {
             toolBarView
@@ -100,23 +100,7 @@ private extension ToDoListItemsView {
     }
 }
 
-// MARK: - Edit Item
-
-class SheetPresenter: ObservableObject {
-    @Published var sheetType: SheetType = .addItem
-    @Published var presentSheet = false
-    
-    func presentAddNewItemSheet() {
-        self.sheetType = .addItem
-        presentSheet = true
-    }
-    
-    func presentEditItemSheet(_ item: ToDoItem) {
-        self.sheetType = .edit(item: item)
-        presentSheet = true
-    }
-}
-    
+// MARK: - Edit Ite
 enum SheetType {
     case edit(item: ToDoItem)
     case addItem
@@ -142,12 +126,13 @@ private extension ToDoListItemsView {
                         ToDoListItemRowView(item: item) {
                             save(item)
                             if list.items.doneItems.count == list.items.count {
-                                presentDeleteListsSheet = true
+                                presenter.presentActionSheet()
                             }
                         }
                         .swipeActions(edge: .leading) {
                             Button("Edit", role: .cancel) {
-                                sheetPresenter.presentEditItemSheet(item)
+                                sheetType = .edit(item: item)
+                                presenter.presentSheet()
                             }
                             .tint(.blue)
                         }
@@ -176,7 +161,7 @@ extension ToDoListItemsView {
             buttons: [ActionSheet.Button.destructive(Text("Yes")) {
                 dismiss()
                 allDoneAction(list)
-                presentDeleteListsSheet = false
+                presenter.clear()
             },
             .cancel(Text("Cancel"))]
         )
@@ -223,7 +208,7 @@ extension ToDoListItemsView {
     }
     
     func presentDeleteOptionIfCompleted() {
-        if list.completion >= 1 { presentDeleteListsSheet = true }
+        if list.completion >= 1 { presenter.presentActionSheet() }
     }
     
     var toolBarView: some View {
@@ -241,12 +226,14 @@ extension ToDoListItemsView {
             
             if list.items.count > 1 {
                 Image.sort.sizedToFit(height: 18).onTapGesture {
-                    sheetPresenter.presentSortSheet()
+                    sheetType = .sortItems
+                    presenter.presentSheet()
                 }.fontWeight(.medium)
             }
             
             Image.plus.sizedToFitSquare(side: 21).onTapGesture {
-                sheetPresenter.presentAddNewItemSheet()
+                sheetType = .addItem
+                presenter.presentSheet()
             }.padding(.trailing, 4).fontWeight(.medium)
         }
         .foregroundStyle(Color.cyan)
@@ -256,31 +243,6 @@ extension ToDoListItemsView {
 
 // MARK: - Sheets
 extension ToDoListItemsView {
-    class SheetPresenter: ObservableObject {
-        @Published var sheetType: ToDoListItemsView.SheetType = .addItem
-        @Published var presentSheet = false
-        @Published var presentAlert = false
-        
-        func presentAddNewItemSheet() {
-            self.sheetType = .addItem
-            presentSheet = true
-        }
-        
-        func presentEditItemSheet(_ item: ToDoItem) {
-            self.sheetType = .edit(item: item)
-            presentSheet = true
-        }
-        
-        func presentSortSheet() {
-            self.sheetType = .sortItems
-            presentSheet = true
-        }
-        
-        func presentMessageAlert() {
-            presentAlert = true
-        }
-    }
-    
     enum SheetType {
         case edit(item: ToDoItem)
         case addItem
@@ -304,8 +266,7 @@ private extension ToDoListItemsView {
             try modelContext.save()
         } catch {
             logger.error("Error deleting ToDoItem: \(error)")
-            alertMessage = Alert.genericErrorMessage
-            sheetPresenter.presentMessageAlert()
+            presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
     
@@ -314,8 +275,7 @@ private extension ToDoListItemsView {
             try modelContext.save()
         } catch {
             logger.error("Error editing item: \(error)")
-            alertMessage = Alert.genericErrorMessage
-            sheetPresenter.presentMessageAlert()
+            presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
 }

@@ -16,7 +16,7 @@ struct EditToDoListFormView: View {
     @FocusState private var focusState: Field?
     @State private var name: String = ""
     @State private var details: String = ""
-    @State private var presentAlert = false
+    @State private var presenter = Presenter()
     @State private var priority = false
     @State private var oldPriority = false
     
@@ -70,8 +70,8 @@ struct EditToDoListFormView: View {
                 .padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
         .foregroundStyle(Color.cyan)
-        .alert(isPresented: $presentAlert) {
-            Alert.genericError
+        .alert(isPresented: $presenter.alert) {
+            Alert()
         }
         
         .padding(.top, Sizes.updateEtityViewTopPadding)
@@ -155,7 +155,7 @@ fileprivate extension EditToDoListFormView {
             dismiss()
         } catch {
             logger.error("Error updating list: \(error)")
-            presentAlert = true
+            presenter.presentAlert()
         }
     }
 }

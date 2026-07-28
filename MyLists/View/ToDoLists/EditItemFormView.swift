@@ -118,7 +118,7 @@ private extension EditItemFormView {
             Button { discardEditsAndDismissSheet() } label: { Text("Exit") }
             Spacer()
             Button {
-                if name.asInput == oldName || priority != oldPriority {
+                if name.asInput != oldName || priority != oldPriority {
                     saveEditsAndDismissSheet()
                 }
             } label: {

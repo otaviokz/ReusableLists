@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BlueprintItemRowView: View {
-    @State private var presentAlert = false
+    @State private var presenter = Presenter()
     @State private var scaleEffectSize = CGSize.ScaleEffect.original
     @State private var nameColor = Color.primary
     
@@ -33,8 +33,8 @@ struct BlueprintItemRowView: View {
         .onLongPressGesture {
             copyNameToClipboard()
         }
-        .alert("'\(item.name)' copied to Pasteboard", isPresented: $presentAlert) {
-            Button("OK", role: .cancel) { presentAlert = false }
+        .alert("'\(item.name)' copied to Pasteboard", isPresented: $presenter.alert) {
+            Button("OK", role: .cancel) { presenter.clear() }
         }
     }
 }
@@ -52,7 +52,7 @@ private extension BlueprintItemRowView {
                 nameColor = .primary
             } completion: {
                 UIPasteboard.general.string = item.name
-                presentAlert = true
+                presenter.presentAlert()
             }
         }
     }

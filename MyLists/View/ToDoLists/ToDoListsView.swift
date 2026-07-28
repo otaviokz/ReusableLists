@@ -32,7 +32,7 @@ struct ToDoListsView: View {
                     .fontWeight(.medium)
             }
             .alert(isPresented: $presenter.alert) {
-                Alert(title: presenter.alertTitle ?? "", message: presenter.alertMessage)
+                Alert(title: presenter.alertTitle ?? Alert.genericErrorTitle, message: presenter.alertMessage)
             }
             .sheet(isPresented: $presenter.sheet) {
                 NewListOrBlueprintFormView(
@@ -92,7 +92,7 @@ private extension ToDoListsView {
                     Text("Delete").foregroundStyle(Color.red)
                 }
                 
-                Button("Cancel", role: .cancel) { presenter.confirmationDialog   = false }
+                Button("Cancel", role: .cancel) { presenter.clear() }
             }
         }
     }

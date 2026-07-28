@@ -52,8 +52,8 @@ private extension SortTypeView {
             dismiss()
             Task {
                 try await Task.sleep(nanoseconds: WaitTimes.dismiss)
+                onSelect(sortyType)
             }
-            onSelect(sortyType)
         }
     }
 }

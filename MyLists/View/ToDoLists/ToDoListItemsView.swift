@@ -43,12 +43,18 @@ struct ToDoListItemsView: View {
             listView
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Color.cyan)
-
+                .actionSheet(isPresented: $presenter.actionSheet) {
+                    deleteListOptionActionSheet
+                }
                 .sheet(isPresented: $presenter.sheet) {
                     switch sheetType {
-                    case .sortItems: SortTypeView(current: sortType) { sortType = $0 }
+                        case .sortItems: SortTypeView(current: sortType) {
+                            sortType = $0
+                        }
                     case .addItem: buildNewItemItemFromView()
-                    case .edit(let item): EditItemFormView(item, list: list) { save($0) }
+                    case .edit(let item): EditItemFormView(item, list: list) {
+                        save($0) }
+
                     }
                 }
                 .presentationDetents([.large])
@@ -158,12 +164,17 @@ extension ToDoListItemsView {
         ActionSheet(
             title: Text("List completed!"),
             message: Text("Would you like to delete it now it's completed?"),
-            buttons: [ActionSheet.Button.destructive(Text("Yes")) {
-                dismiss()
-                allDoneAction(list)
-                presenter.clear()
-            },
-            .cancel(Text("Cancel"))]
+            buttons: [
+                    .destructive(Text("Yes")) {
+                    presenter.clear()
+                    dismiss()
+                    allDoneAction(list)
+
+                },
+                .cancel(Text("Cancel")) {
+                    presenter.clear()
+                }
+            ]
         )
     }
     
@@ -248,7 +259,6 @@ extension ToDoListItemsView {
         case addItem
         case sortItems
     }
-    
 }
 
 // MARK: - SwiftData
@@ -273,6 +283,7 @@ private extension ToDoListItemsView {
     func save(_ item: ToDoItem) {
         do {
             try modelContext.save()
+            presenter.clear()
         } catch {
             logger.error("Error editing item: \(error)")
             presenter.presentAlert(message: Alert.genericErrorMessage)
@@ -294,5 +305,6 @@ extension ToDoListItemsView: NewItemCreatorProtocol {
             modelContext.insert(item)
         }
         try modelContext.save()
+        presenter.clear()
     }
 }

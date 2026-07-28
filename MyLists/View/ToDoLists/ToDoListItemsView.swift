@@ -43,15 +43,12 @@ struct ToDoListItemsView: View {
             listView
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(Color.cyan)
-                .actionSheet(isPresented: $presenter.actionSheet) {
-                    deleteListOptionActionSheet
-                }
                 .sheet(isPresented: $presenter.sheet) {
                     switch sheetType {
                         case .sortItems: SortTypeView(current: sortType) {
                             sortType = $0
                         }
-                    case .addItem: buildNewItemItemFromView()
+                        case .addItem: buildNewItemItemFromView().presentationDetents([.medium, .large])
                     case .edit(let item): EditItemFormView(item, list: list) {
                         save($0) }
 
@@ -128,7 +125,7 @@ private extension ToDoListItemsView {
             
             if !list.items.isEmpty {
                 Section("List items") {
-                    ForEach(list.items.sorted(by: sortType).sortedByPriorityAndNameKeepingDoneOrder) { item in
+                    ForEach(list.items.sorted(by: sortType)) { item in
                         ToDoListItemRowView(item: item) {
                             save(item)
                             if list.items.doneItems.count == list.items.count {
@@ -151,6 +148,9 @@ private extension ToDoListItemsView {
                             .tint(.red)
                         }
                     }
+                }
+                .actionSheet(isPresented: $presenter.actionSheet) {
+                    deleteListOptionActionSheet
                 }
             }
         }

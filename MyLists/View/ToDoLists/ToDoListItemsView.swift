@@ -16,15 +16,10 @@ struct ToDoListItemsView: View {
     @EnvironmentObject private var tabselection: TabSelection
     @Environment(\.dismiss) private var dismiss
     @Query(sort: [SortDescriptor(\Blueprint.name)]) private var blueprints: [Blueprint]
-        
-//    @State var alertMessage = Alert.genericErrorMessage
-//    @ObservedObject private var sheetPresenter = SheetPresenter()
-    // Necessary for some reason, the guy above doesn't do the trick
-//    @State private var presentDeleteListsSheet = false
+
     @State private var presenter = Presenter()
     @State private var sortType: SortType = .doneLast
     @State private var sheetType: SheetType = .addItem
-
     
     let list: ToDoList
     let allDoneAction: (ToDoList) -> Void
@@ -48,7 +43,7 @@ struct ToDoListItemsView: View {
                         case .sortItems: SortTypeView(current: sortType) {
                             sortType = $0
                         }
-                        case .addItem: buildNewItemItemFromView().presentationDetents([.medium, .large])
+                        case .addItem: buildNewItemItemFromView()
                     case .edit(let item): EditItemFormView(item, list: list) {
                         save($0) }
 
@@ -103,14 +98,13 @@ private extension ToDoListItemsView {
     }
 }
 
-// MARK: - Edit Ite
+// MARK: - Sheets
 enum SheetType {
     case edit(item: ToDoItem)
     case addItem
 }
 
 // MARK: - UI 1
-
 private extension ToDoListItemsView {
     var listView: some View {
         List {

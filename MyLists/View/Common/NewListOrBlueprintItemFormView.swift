@@ -83,6 +83,7 @@ private extension NewListOrBlueprintItemFormView {
                         "max \(DataFieldsSizeLimit.listItemName) characters",
                         text: $name.max(DataFieldsSizeLimit.listItemName)
                     )
+                    .textInputAutocapitalization(.sentences)
                     .font(.title3)
                     .foregroundStyle(Color.primary)
                     .focused($focusState, equals: .name)

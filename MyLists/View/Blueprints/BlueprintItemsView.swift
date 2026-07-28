@@ -84,8 +84,7 @@ struct BlueprintItemsView: View {
     }
 }
 
-// MARK: - Edit Item
-
+// MARK: - Sheets
 extension BlueprintItemsView {
     enum SheetType {
         case edit(item: BlueprintItem)

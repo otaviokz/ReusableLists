@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftData
-import SwiftUI
 
 enum SortType {
     case doneFirst
@@ -22,7 +21,7 @@ extension Array where Element == ToDoItem {
             case .doneFirst: sortedByDoneFirst
             case .doneLast: sortedByDoneLast
             case .alphabetic: sortedByName
-            case .priority: sortByPriority
+            case .priority: sortedByPriority
         }
     }
     
@@ -55,7 +54,7 @@ extension Array where Element == ToDoItem {
         sorted { nameComparator(lhs: $0, rhs: $1) }
     }
 
-    var sortByPriority: [ToDoItem] {
+    var sortedByPriority: [ToDoItem] {
         sortedByName.sorted { $0.priority && !$1.priority }
     }
 

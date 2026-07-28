@@ -78,8 +78,8 @@ fileprivate extension NewListOrBlueprintFormView {
                             "Name: (max \(DataFieldsSizeLimit.listName) characters)",
                             text: $name.max(DataFieldsSizeLimit.listName)
                         )
+                        .autocapitalization(.sentences)
                         .font(.title3)
-                        .textInputAutocapitalization(.never)
                         .focused($focusState, equals: .name)
                         .onSubmit { focusState = .details }
                         
@@ -99,6 +99,7 @@ fileprivate extension NewListOrBlueprintFormView {
                         axis: .vertical
                     )
                     .font(.headline.weight(.light))
+                    .textInputAutocapitalization(.sentences)
                     .focused($focusState, equals: .details)
                     .lineLimit(SizeConstraints.detailsFieldLineLimit, reservesSpace: true)
                     .onChange(of: details) { _, _ in

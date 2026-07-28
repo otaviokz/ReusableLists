@@ -59,7 +59,6 @@ struct ToDoListsView: View {
 }
 
 // MARK: - UI
-
 private extension ToDoListsView {
     var listView: some View {
         List {

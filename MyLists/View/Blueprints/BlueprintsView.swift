@@ -14,7 +14,6 @@ struct BlueprintsView: View {
     @Query(sort: [SortDescriptor(\Blueprint.name, order: .forward)]) private var blueprints: [Blueprint]
 
     @State private var presenter = Presenter()
-//    @State private var alertMessage: String = Alert.genericErrorMessage
     @State private var blueprintToDelete: Blueprint?
     
     var body: some View {

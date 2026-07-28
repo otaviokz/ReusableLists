@@ -12,7 +12,7 @@ struct NewListOrBlueprintItemFormView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var name: String = ""
     @State private var invalidNameEntered = false
-    @State private var presentAlert = false
+    @State private var presenter = Presenter()
     @State private var itemsList: [NamesListItem] = []
     @State private var scrollId: String?
     @State private var scrollViewProxy: ScrollViewProxy?
@@ -52,8 +52,8 @@ struct NewListOrBlueprintItemFormView: View {
             buttonsStack.padding(.bottom, Sizes.exitOrSaveBottomPadding)
         }
         .foregroundColor(Color.cyan)
-        .alert(isPresented: $presentAlert) {
-            Alert.genericError
+        .alert(isPresented: $presenter.alert) {
+            Alert()
         }
         .onAppear {
             focusState = .name
@@ -83,6 +83,7 @@ private extension NewListOrBlueprintItemFormView {
                         "max \(DataFieldsSizeLimit.listItemName) characters",
                         text: $name.max(DataFieldsSizeLimit.listItemName)
                     )
+                    .textInputAutocapitalization(.sentences)
                     .font(.title3)
                     .foregroundStyle(Color.primary)
                     .focused($focusState, equals: .name)
@@ -272,7 +273,7 @@ private extension NewListOrBlueprintItemFormView {
                 }
             } catch {
                 logger.error("Error saveNewItemsAndDismissSheet(): \(error.localizedDescription)")
-                presentAlert = true
+                presenter.presentAlert()
             }
         }
     }

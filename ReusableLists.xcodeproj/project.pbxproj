@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B00A3573018608A0001069B /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00A3563018608A0001069B /* Presenter.swift */; };
 		2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B06E3492CA20D13000D26BF /* Image+Resizing.swift */; };
 		2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */; };
 		2B342A6A2CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */; };
@@ -45,7 +46,6 @@
 		2BAE0EA52CB95B43007FCC47 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */; };
 		2BAE0EC72CB98BC8007FCC47 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */; };
 		2BBA418F2CAF879900CCC239 /* AppFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */; };
-		2BBEB5042D59A89C007AED50 /* SheetWrappedViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */; };
 		2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */; };
 		2BE2B40C2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */; };
 		2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3B4F92B42B001003CB25F /* MyListsApp.swift */; };
@@ -129,6 +129,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2B00A3563018608A0001069B /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		2B06E3492CA20D13000D26BF /* Image+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Resizing.swift"; sourceTree = "<group>"; };
 		2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
 		2B342A6B2CC7712C0034D1D7 /* NewEntityItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEntityItem.swift; sourceTree = "<group>"; };
@@ -163,7 +164,6 @@
 		2BAE0EA42CB95B42007FCC47 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 		2BAE0EC62CB98BC8007FCC47 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BBA418E2CAF879900CCC239 /* AppFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlowTests.swift; sourceTree = "<group>"; };
-		2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetWrappedViewable.swift; sourceTree = "<group>"; };
 		2BDCB7942CA4FD800077CB97 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		2BDCB8DB2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListOrBlueprintFormView.swift; sourceTree = "<group>"; };
 		2BE2B40B2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeAndPriorityListHeaderView.swift; sourceTree = "<group>"; };
@@ -228,6 +228,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B00A359301860D00001069B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				2B00A3563018608A0001069B /* Presenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		2B06E3462CA20C59000D26BF /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,12 +255,12 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		2B9369212CBB8E2F00E8AC27 /* State */ = {
+		2B9369212CBB8E2F00E8AC27 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
 				2B9369222CBB8E4B00E8AC27 /* TabSelection.swift */,
 			);
-			path = State;
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		2B9FA1382CEDDD530054A62A /* Protocol */ = {
@@ -260,7 +268,6 @@
 			children = (
 				2B9FA1392CEDDD6B0054A62A /* NewEntityCreatorProtocol.swift */,
 				2B9FA13B2CEDE2F50054A62A /* NewItemCreatorProtocol.swift */,
-				2BBEB5032D59A89C007AED50 /* SheetWrappedViewable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -314,6 +321,7 @@
 		2BDCB79F2CA61E5F0077CB97 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				2B00A359301860D00001069B /* Presenter */,
 				2B9FA1382CEDDD530054A62A /* Protocol */,
 				2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */,
 				2B9E8D492CA101780098C595 /* Binding+Characterlimit.swift */,
@@ -392,7 +400,7 @@
 		2BE3B5232B42B014003CB25F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2B9369212CBB8E2F00E8AC27 /* State */,
+				2B9369212CBB8E2F00E8AC27 /* Navigation */,
 				2BE3B4FB2B42B001003CB25F /* ContentView.swift */,
 				2BE5A8B02CE08509009DD6BB /* Theme */,
 				2BAE0E922CB91ECB007FCC47 /* Onbording */,
@@ -580,7 +588,6 @@
 			);
 			mainGroup = 2BE3B4ED2B42B001003CB25F;
 			packageReferences = (
-				2B68D9BD2D40A8B500FE77DC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				2B9D1B282D5F0E6B003212E6 /* XCRemoteSwiftPackageReference "TPPDF" */,
 			);
 			productRefGroup = 2BE3B4F72B42B001003CB25F /* Products */;
@@ -660,10 +667,10 @@
 				2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */,
 				2BE3B52E2B42B79C003CB25F /* ToDoListItemsView.swift in Sources */,
 				2B9E8D3D2CA0CB3F0098C595 /* EditBlueprintView.swift in Sources */,
+				2B00A3573018608A0001069B /* Presenter.swift in Sources */,
 				2BAE0E9A2CB92735007FCC47 /* OnboardingView.swift in Sources */,
 				2B4917F02B91EA46002439F3 /* AboutView.swift in Sources */,
 				2BE3B4FC2B42B001003CB25F /* ContentView.swift in Sources */,
-				2BBEB5042D59A89C007AED50 /* SheetWrappedViewable.swift in Sources */,
 				2BE3B4FA2B42B001003CB25F /* MyListsApp.swift in Sources */,
 				2BEC68692B8D842600BA2DC0 /* BlueprintItemRowView.swift in Sources */,
 				2B9AECC52CB54AE5003E6F28 /* Preview+SampleData.swift in Sources */,
@@ -864,7 +871,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.2;
+				CURRENT_PROJECT_VERSION = 2.8.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -881,7 +888,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.2;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -903,7 +910,7 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.2;
+				CURRENT_PROJECT_VERSION = 2.8.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
@@ -920,7 +927,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.7.2;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -939,11 +946,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.2;
+				CURRENT_PROJECT_VERSION = 2.8.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.7.2;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -962,11 +969,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.2;
+				CURRENT_PROJECT_VERSION = 2.8.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.7.2;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -984,11 +991,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.2;
+				CURRENT_PROJECT_VERSION = 2.8.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.7.2;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1007,11 +1014,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.2;
+				CURRENT_PROJECT_VERSION = 2.8.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.7.2;
+				MARKETING_VERSION = 2.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1068,14 +1075,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2B68D9BD2D40A8B500FE77DC /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.58.2;
-			};
-		};
 		2B9D1B282D5F0E6B003212E6 /* XCRemoteSwiftPackageReference "TPPDF" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/techprimate/TPPDF";

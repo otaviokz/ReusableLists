@@ -11,7 +11,7 @@ struct ToDoListItemRowView: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var alertType: AlertType = .pasteboard
-    @State private var presentAlert = false
+    @State private var presenter = Presenter()
     @State private var scaleEffectSize = CGSize.ScaleEffect.original
     @State private var nameColor = Color.primary
     
@@ -49,10 +49,11 @@ struct ToDoListItemRowView: View {
         .onLongPressGesture {
             copyNameToClipboard()
         }
-        .alert(isPresented: $presentAlert) {
+        .alert(isPresented: $presenter.alert) {
             switch alertType {
                 case .pasteboard: Alert(title: "'\(item.name)' copied to Pasteboard", message: "")
-                case .swiftDataError: Alert.genericError
+                case .swiftDataError: Alert(title: Alert.genericErrorTitle, message:
+                Alert.genericErrorMessage)
             }
         }  
     }
@@ -77,7 +78,7 @@ private extension ToDoListItemRowView {
             } completion: {
                 UIPasteboard.general.string = item.name
                 alertType = .pasteboard
-                presentAlert = true
+                presenter.presentAlert(title: "'\(item.name)' copied to Pasteboard", message: "")
             }
         }
     }
@@ -94,7 +95,7 @@ private extension ToDoListItemRowView {
         } catch {
             logger.error("Error saving item: (\(item.name)) after toggle done: \(error)")
             alertType = .swiftDataError
-            presentAlert = true
+            presenter.presentAlert()
         }
     }
 }

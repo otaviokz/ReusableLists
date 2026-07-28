@@ -23,6 +23,7 @@ struct SortTypeView: View {
                 sortOption("Todo first:", icon: .checkBox, sortyType: .doneLast)
                 sortOption("Alphabetically:", icon: .az, sortyType: .alphabetic)
                 sortOption("Done first:", icon: .checkBoxTicked, sortyType: .doneFirst)
+                sortOption("Priority:", icon: .priority, sortyType: .priority)
             }
             .font(.headline)
         }
@@ -52,8 +53,8 @@ private extension SortTypeView {
             dismiss()
             Task {
                 try await Task.sleep(nanoseconds: WaitTimes.dismiss)
+                onSelect(sortyType)
             }
-            onSelect(sortyType)
         }
     }
 }

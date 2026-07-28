@@ -12,13 +12,10 @@ import UIKit
 struct ToDoListsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var tabselection: TabSelection
-    
+
+    @State private var presenter = Presenter()
     @Query private var queryLists: [ToDoList]
-    @State private var presentAlert = false
-    @State private var alertMessage: String = Alert.genericErrorMessage
-    @State private var presentAddToDoListSheet = false
     @State private var listToDelete: ToDoList?
-    @State private var presentDeleteConfirmation = false
     @State private var lists: [ToDoList] = []
     
     var body: some View {
@@ -29,15 +26,15 @@ struct ToDoListsView: View {
                 Image.plus
                     .sizedToFitSquare(side: 21)
                     .padding(.trailing, 4)
-                    .onTapGesture { presentAddToDoListSheet = true }
+                    .onTapGesture { presenter.presentSheet() }
                     .foregroundStyle(Color.cyan)
                     .accessibilityIdentifier("plus")
                     .fontWeight(.medium)
             }
-            .alert(isPresented: $presentAlert) {
-                Alert.genericError
+            .alert(isPresented: $presenter.alert) {
+                Alert(title: presenter.alertTitle ?? Alert.genericErrorTitle, message: presenter.alertMessage)
             }
-            .sheet(isPresented: $presentAddToDoListSheet) {
+            .sheet(isPresented: $presenter.sheet) {
                 NewListOrBlueprintFormView(
                     entity: .toDoList,
                     isUniqueName: isUniqueName,
@@ -62,7 +59,6 @@ struct ToDoListsView: View {
 }
 
 // MARK: - UI
-
 private extension ToDoListsView {
     var listView: some View {
         List {
@@ -78,14 +74,14 @@ private extension ToDoListsView {
                 .swipeActions {
                     Button("Delete", role: .cancel) {
                         listToDelete = list
-                        presentDeleteConfirmation = true
+                        presenter.presentConfirmationDialog()
                     }
                     .tint(.red)
                 }
             }
             .confirmationDialog(
                 deleteConfirmationDialogTitle,
-                isPresented: $presentDeleteConfirmation,
+                isPresented: $presenter.confirmationDialog,
                 titleVisibility: .visible
             ) {
                 Button(role: .destructive) {
@@ -95,7 +91,7 @@ private extension ToDoListsView {
                     Text("Delete").foregroundStyle(Color.red)
                 }
                 
-                Button("Cancel", role: .cancel) { presentDeleteConfirmation = false }
+                Button("Cancel", role: .cancel) { presenter.clear() }
             }
         }
     }
@@ -132,7 +128,7 @@ private extension ToDoListsView {
                     listToDelete = nil
                 }
             } catch {
-                presentAlert = true
+                presenter.presentAlert(title: Alert.genericErrorTitle, message: Alert.genericErrorMessage)
                 logger.error("Error deleting ToDoList: \(error)")
             }
         }
@@ -151,11 +147,11 @@ extension ToDoListsView: NewEntityCreatorProtocol {
     
     func handleSaveError(error: Error, name: String) {
         logger.error("Error createNewEntity(ToDoList): \(error)")
-        alertMessage = Alert.genericErrorMessage
+        var alertMessage = Alert.genericErrorMessage
         if case ListError.listNameUnavailable = error {
             alertMessage = ListError.listNameUnavailable(name: name).message
         }
-        presentAlert = true
+        presenter.presentAlert(message: alertMessage)
     }
 }
 

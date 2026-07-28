@@ -8,15 +8,13 @@
 import SwiftUI
 
 extension Alert {
-    init(title: String, message: String, dismiss: String = "OK") {
+    init(title: String = Self.genericErrorTitle, message: String = Self.genericErrorMessage, dismiss: String = "OK") {
         self.init(
             title: Text(title),
             message: Text(message),
             dismissButton: .cancel(Text(dismiss))
         )
     }
-    
-    static var genericError: Alert { Alert(title: genericErrorTitle, message: genericErrorMessage) }
     
     static var genericErrorTitle: String { "Whoops" }
     

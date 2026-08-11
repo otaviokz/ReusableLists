@@ -13,7 +13,7 @@ struct GaugeAndPriorityListHeaderView: View {
     var body: some View {
             Gauge(value: list.completion) { }
             .animation(.interpolatingSpring(duration: 0.25, bounce: 0.1, initialVelocity: 0.5), value: list.completion)
-                .tint(list.priority ? .red : .green)
+                .tint(.green)
                 .padding(.horizontal, 22)
     }
 }

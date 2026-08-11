@@ -27,7 +27,7 @@ struct SortTypeView: View {
             }
             .font(.headline)
         }
-        .presentationDetents([.fraction(0.35)])
+        .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
     }
 }

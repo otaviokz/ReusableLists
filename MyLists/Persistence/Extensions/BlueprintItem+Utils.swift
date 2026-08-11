@@ -13,9 +13,27 @@ extension Array where Element == BlueprintItem {
     func asToDoItemList() -> [ToDoItem] {
         map { $0.asToDoItem() }
     }
-    
-    var sortedByPriorityAndName: [Element] {
-        let prioritised = sorted { $0.priority && !$1.priority }
-        return prioritised.sorted { if $0.priority == $1.priority { $0.name < $1.name } else { false } }
+
+    @_optimize(none)
+    func nameComparator(lhs: BlueprintItem, rhs: BlueprintItem) -> Bool {
+        let firstNum: Int? = Int(String(lhs.name.prefix(while: { $0.isNumber })))
+        let secondNum: Int? = Int(String(rhs.name.prefix(while: { $0.isNumber })))
+
+        guard firstNum != nil || secondNum != nil else {
+            return lhs.name < rhs.name
+        }
+
+        return if let firstNum, let secondNum {
+            firstNum == secondNum ? lhs.name < rhs.name : firstNum < secondNum
+        } else if firstNum != nil {
+            true
+        } else {
+            false
+        }
+    }
+
+    @_optimize(none)
+    var sortedByName: [BlueprintItem] {
+        sorted { nameComparator(lhs: $0, rhs: $1) }
     }
 }

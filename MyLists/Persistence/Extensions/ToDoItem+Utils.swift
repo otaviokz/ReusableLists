@@ -34,8 +34,8 @@ extension Array where Element == ToDoItem {
     }
 
     func nameComparator(lhs: ToDoItem, rhs: ToDoItem) -> Bool {
-        let firstNum: Int? = Int(lhs.name.prefix(while: { $0.isNumber }))
-        let secondNum: Int? = Int(rhs.name.prefix(while: { $0.isNumber }))
+        let firstNum: Int? = Int(String(lhs.name.prefix(while: { $0.isNumber })))
+        let secondNum: Int? = Int(String(rhs.name.prefix(while: { $0.isNumber })))
 
         guard firstNum != nil || secondNum != nil else {
             return lhs.name < rhs.name

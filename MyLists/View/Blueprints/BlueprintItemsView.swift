@@ -14,7 +14,10 @@ struct BlueprintItemsView: View {
     @EnvironmentObject private var tabselection: TabSelection
     @Environment(\.dismiss) private var dismiss
     @Query(sort: [SortDescriptor(\ToDoList.name)]) private var lists: [ToDoList]
-    
+    private var items: [BlueprintItem] {
+        let _items = blueprint.items.sortedByName
+        return _items
+    }
     @State private var presenter = Presenter()
     @State private var sheetType: SheetType = .addItem
 
@@ -33,9 +36,9 @@ struct BlueprintItemsView: View {
                 }
             }
             
-            if !blueprint.items.isEmpty {
+            if !items.isEmpty {
                 Section("Blueprint Items:") {
-                    ForEach(blueprint.items.sortedByPriorityAndName) { item in
+                    ForEach(items, id: \.name) { item in
                         BlueprintItemRowView(item: item)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
@@ -187,7 +190,7 @@ extension BlueprintItemsView {
     func deleteItem(_ indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
-            delete(item: blueprint.items.sortedByPriorityAndName[index])
+            delete(item: blueprint.items.sortedByName[index])
         } catch {
             presenter.presentAlert(message: Alert.genericErrorMessage)
         }
@@ -205,7 +208,7 @@ extension BlueprintItemsView {
 
 // MARK: - NewItemCreatorProtocol
 
-extension BlueprintItemsView: NewItemCreatorProtocol {
+extension BlueprintItemsView: @MainActor NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool {
         blueprint.items.first { $0.name.asInput == name } == nil
     }

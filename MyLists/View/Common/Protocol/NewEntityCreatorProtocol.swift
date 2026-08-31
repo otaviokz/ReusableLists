@@ -8,6 +8,7 @@
 import SwiftUI
 
 /// Creates either a ToDoList or a BluePrint
+@MainActor
 protocol NewEntityCreatorProtocol {
     func createNewEntity(name: String, details: String, priority: Bool)
     func insertEntity(name: String, details: String, priority: Bool) throws

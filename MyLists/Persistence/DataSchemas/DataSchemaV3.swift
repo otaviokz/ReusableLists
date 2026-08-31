@@ -9,8 +9,8 @@ import Foundation
 import SwiftData
 
 struct DataSchemaV3: VersionedSchema {
-    static var versionIdentifier = Schema.Version(1, 1, 0)
-    
+    static let versionIdentifier = Schema.Version(1, 1, 0)
+
     static var models: [any PersistentModel.Type] {
         [ToDoList.self, ToDoItem.self, Blueprint.self, BlueprintItem.self]
     }

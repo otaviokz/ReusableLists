@@ -159,14 +159,14 @@ extension ToDoListItemsView {
             title: Text("List completed!"),
             message: Text("Would you like to delete it now it's completed?"),
             buttons: [
-                    .destructive(Text("Yes")) {
+                .cancel(Text("Cancel")) {
+                    presenter.clear()
+                },
+                .destructive(Text("Yes")) {
                     presenter.clear()
                     dismiss()
                     allDoneAction(list)
 
-                },
-                .cancel(Text("Cancel")) {
-                    presenter.clear()
                 }
             ]
         )
@@ -287,7 +287,7 @@ private extension ToDoListItemsView {
 
 // MARK: - NewItemCreatorProtocol
 
-extension ToDoListItemsView: NewItemCreatorProtocol {
+extension ToDoListItemsView: @MainActor NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool {
         list.items.first { $0.name.asInputLowcaseEquals(name) } == nil
     }

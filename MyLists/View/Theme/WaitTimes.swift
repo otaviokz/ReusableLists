@@ -9,8 +9,8 @@ import Foundation
 
 struct WaitTimes {
     
-    static var dismiss: UInt64 = 500_000_000
-    static var tabSelection: UInt64 = 200_000_000
-    static var dismissSheetAndInsertOrRemove: UInt64 = 400_000_000
-    static var dismissAndEdit: UInt64 = 200_000_000
+    static let dismiss: UInt64 = 500_000_000
+    static let tabSelection: UInt64 = 200_000_000
+    static let dismissSheetAndInsertOrRemove: UInt64 = 400_000_000
+    static let dismissAndEdit: UInt64 = 200_000_000
 }

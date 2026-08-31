@@ -13,7 +13,7 @@ extension ToDoList {
         guard items.count > 0 else { return 0 }
         return min(1, Double(doneItems.count) / Double(items.count))
     }
-    
+
     var doneItems: [ToDoItem] {
         items.filter { $0.done }
     }

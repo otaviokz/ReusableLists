@@ -84,13 +84,14 @@ private extension ToDoListItemRowView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 private extension ToDoListItemRowView {
+    var listItemProvider: ListItemProvider { ListItemProvider(context: modelContext) }
+
     func toggleDone(for item: ToDoItem) {
         do {
-            item.done.toggle()
-            try modelContext.save()
+            try listItemProvider.toggleDone(item)
             if item.done { onCheckedAsDone() }
         } catch {
             logger.error("Error saving item: (\(item.name)) after toggle done: \(error)")

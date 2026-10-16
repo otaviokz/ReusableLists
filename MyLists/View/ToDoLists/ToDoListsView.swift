@@ -112,19 +112,20 @@ private extension ToDoListsView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 private extension ToDoListsView {
+    var toDoListProvider: ToDoListProvider { ToDoListProvider(context: modelContext) }
+
     func delete(_ list: ToDoList, waitFotItemsViewDimiss: Bool) {
         Task {
             do {
                 if waitFotItemsViewDimiss {
                     try await Task.sleep(nanoseconds: WaitTimes.dismissSheetAndInsertOrRemove)
                 }
-                
+
                 try withAnimation(.easeIn(duration: 0.25)) {
-                    modelContext.delete(list)
-                    try modelContext.save()
+                    try toDoListProvider.delete(list)
                     listToDelete = nil
                 }
             } catch {
@@ -137,8 +138,7 @@ private extension ToDoListsView {
 
 extension ToDoListsView: NewEntityCreatorProtocol {
     func insertEntity(name: String, details: String, priority: Bool) throws {
-        modelContext.insert(ToDoList(name, details: details, priority: priority))
-        try modelContext.save()
+        try toDoListProvider.insert(name: name, details: details, priority: priority)
     }
     
     func isUniqueName(name: String) -> Bool {

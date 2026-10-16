@@ -108,22 +108,22 @@ fileprivate extension AddBlueprintView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 fileprivate extension AddBlueprintView {
+    var blueprintProvider: BlueprintProvider { BlueprintProvider(context: modelContext) }
+
     var isUniqueName: Bool {
         blueprints.first { $0.name.trimLowcaseEquals(name) } == nil
     }
-    
+
     var isSaveButtonDisabled: Bool {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
-    
+
     func saveBlueprintAndDismissSheet() {
-        let newBlueprint = Blueprint(name: name.trimmingSpaces, details: details.trimmingSpaces)
-        modelContext.insert(newBlueprint)
         do {
-            try modelContext.save()
+            try blueprintProvider.insert(name: name.trimmingSpaces, details: details.trimmingSpaces)
             dismissSheet()
         } catch {
             showAlert = true

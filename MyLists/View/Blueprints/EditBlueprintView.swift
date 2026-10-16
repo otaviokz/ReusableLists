@@ -120,9 +120,11 @@ fileprivate extension EditBlueprintView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 fileprivate extension EditBlueprintView {
+    var blueprintProvider: BlueprintProvider { BlueprintProvider(context: modelContext) }
+
     var isUniqueName: Bool {
         blueprints.first { $0.name.asInputLowcaseEquals(name) } == nil
     }
@@ -136,10 +138,8 @@ fileprivate extension EditBlueprintView {
     }
 
     func updateBlueprintAndDismiss() {
-        blueprint.name = name
-        blueprint.details = details
         do {
-            try modelContext.save()
+            try blueprintProvider.update(blueprint, name: name, details: details)
             dismiss()
         } catch {
             logger.error("updateBlueprintAndDismiss: \(error)")

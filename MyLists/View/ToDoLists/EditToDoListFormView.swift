@@ -20,8 +20,6 @@ struct EditToDoListFormView: View {
     @State private var priority = false
     @State private var oldPriority = false
     
-
-    
     let list: ToDoList
     
     init(_ list: ToDoList) {
@@ -130,28 +128,27 @@ private extension EditToDoListFormView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 fileprivate extension EditToDoListFormView {
+    var toDoListProvider: ToDoListProvider { ToDoListProvider(context: modelContext) }
+
     // Accepts the same name, but with different capilaization
     var isNameUnique: Bool {
         lists.first { $0.name == name.asInput } == nil
     }
-    
+
     var didUpdateList: Bool {
         details.asInput != list.details || isNameUnique || priority != oldPriority
     }
-    
+
     var isSaveButtonDisabled: Bool {
         name.asInput.isEmpty || !didUpdateList
     }
-    
+
     func updateListAndDismiss() {
-        list.name = name
-        list.details = details
-        list.priority = priority
         do {
-            try modelContext.save()
+            try toDoListProvider.update(list, name: name, details: details, priority: priority)
             dismiss()
         } catch {
             logger.error("Error updating list: \(error)")

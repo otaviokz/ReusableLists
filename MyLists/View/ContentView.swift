@@ -14,6 +14,8 @@ struct ContentView: View {
     @StateObject private var tabSelection = TabSelection()
     @State private var onboardingCompleted = true
     @State private var onboardingState: OnboardingState
+    @State private var showFinalVersionNotice = false
+    private let finalVersionUpdate = FinalVersionUpdate()
     
     init() {
         onboardingState = OnboardingState()
@@ -41,6 +43,7 @@ struct ContentView: View {
                     
                     NavigationStack {
                         AboutView()
+                            .modelContainer(DataManager.sharedInstance.modelContainer)
                     }
                     .tabItem {
                         Label("About", systemImage: "info.circle")
@@ -63,6 +66,23 @@ struct ContentView: View {
         }
         .task {
             onboardingState.completed = $onboardingCompleted
+            if finalVersionUpdate.isFirstLaunchAfterUpdate {
+                if finalVersionUpdate.isUpdatingFromOlderVersion {
+                    showFinalVersionNotice = true
+                } else {
+                    // Fresh install: never show the notice, even after onboarding is completed.
+                    finalVersionUpdate.markAsSeen()
+                }
+            }
+        }
+        .alert(isPresented: $showFinalVersionNotice) {
+            Alert(
+                title: Text(FinalVersionUpdate.noticeTitle),
+                message: Text(FinalVersionUpdate.noticeMessage),
+                dismissButton: .default(Text("OK")) {
+                    finalVersionUpdate.markAsSeen()
+                }
+            )
         }
         .environmentObject(onboardingState)
     }

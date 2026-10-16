@@ -255,28 +255,28 @@ extension ToDoListItemsView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 private extension ToDoListItemsView {
+    var listItemProvider: ListItemProvider { ListItemProvider(context: modelContext) }
+
     func deleteItem(_ indexSet: IndexSet) throws {
         guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
         delete(item: list.items[index])
     }
-    
+
     func delete(item: ToDoItem) {
-        list.items = list.items.filter { $0 != item }
-        modelContext.delete(item)
         do {
-            try modelContext.save()
+            try listItemProvider.delete(item, from: list)
         } catch {
             logger.error("Error deleting ToDoItem: \(error)")
             presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
-    
+
     func save(_ item: ToDoItem) {
         do {
-            try modelContext.save()
+            try listItemProvider.save()
             presenter.clear()
         } catch {
             logger.error("Error editing item: \(error)")
@@ -291,14 +291,9 @@ extension ToDoListItemsView: NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool {
         list.items.first { $0.name.asInputLowcaseEquals(name) } == nil
     }
-    
+
     func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws {
-        for item in newItems {
-            let item = ToDoItem(item.name, priority: item.priority)
-            list.items.append(item)
-            modelContext.insert(item)
-        }
-        try modelContext.save()
+        try listItemProvider.insert(newItems, into: list)
         presenter.clear()
     }
 }

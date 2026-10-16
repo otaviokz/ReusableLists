@@ -108,22 +108,22 @@ fileprivate extension AddToDoListView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 private extension AddToDoListView {
+    var toDoListProvider: ToDoListProvider { ToDoListProvider(context: modelContext) }
+
     var isUniqueName: Bool {
         lists.first { $0.name.trimLowcaseEquals(name) } == nil
     }
-    
+
     var isSaveButtonDisabled: Bool {
         name.trimmingSpaces.isEmpty || !isUniqueName
     }
-    
+
     func saveListAndDismissSheet() {
-        let list = ToDoList(name: name.trimmingSpaces, details: details.trimmingSpaces)
-        modelContext.insert(list)
         do {
-            try modelContext.save()
+            try toDoListProvider.insert(name: name.trimmingSpaces, details: details.trimmingSpaces, priority: false)
             dismissSheet()
         } catch {
             showAlert = true

@@ -130,37 +130,36 @@ extension BlueprintItemsView {
         }
     }
 }
-// MARK: - SwiftData
+// MARK: - Persistence
 
 extension BlueprintItemsView {
+    var toDoListProvider: ToDoListProvider { ToDoListProvider(context: modelContext) }
+    var blueprintItemProvider: BlueprintItemProvider { BlueprintItemProvider(context: modelContext) }
+
     func listInstanceAlreadyExists(for blueprint: Blueprint) -> Bool {
         lists.first { $0.name.asInputLowcaseEquals(blueprint.name) } != nil
     }
-    
+
     func addListInstance(from blueprint: Blueprint) {
         Task {
             do {
                 if listInstanceAlreadyExists(for: blueprint) {
                     throw ListError.listExistsForBlueprint(named: blueprint.name)
                 }
-                let list = ToDoList(blueprint.name, details: blueprint.details)
-                list.items = blueprint.items.asToDoItemList()
                 withAnimation(.easeInOut(duration: 0.25)) {
                     dismiss()
                 }
-                
+
                 try await Task.sleep(nanoseconds: WaitTimes.tabSelection)
-                
+
                 withAnimation(.easeInOut(duration: 0.25)) {
                     tabselection.select(tab: 1, shouldPopToRootView: true)
                 }
-                
+
                 try await Task.sleep(nanoseconds: WaitTimes.dismissSheetAndInsertOrRemove)
-                
+
                 try withAnimation(.easeIn(duration: 0.25)) {
-                    modelContext.insert(list)
-                    blueprint.usageCount += 1
-                    try modelContext.save()
+                    try toDoListProvider.createInstance(from: blueprint)
                 }
             } catch {
                 logger.error("Error addListInstance(from: \(blueprint.name): \(error.localizedDescription)")
@@ -172,18 +171,15 @@ extension BlueprintItemsView {
             }
         }
     }
-    
-    func delete(item: BlueprintItem) {
 
+    func delete(item: BlueprintItem) {
         do {
-            blueprint.items = blueprint.items.filter { $0 != item }
-            modelContext.delete(item)
-            try modelContext.save()
+            try blueprintItemProvider.delete(item, from: blueprint)
         } catch {
             presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
-    
+
     func deleteItem(_ indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { throw ListError.emptyDeleteIndexSet }
@@ -192,10 +188,10 @@ extension BlueprintItemsView {
             presenter.presentAlert(message: Alert.genericErrorMessage)
         }
     }
-    
+
     func save(_ item: BlueprintItem) {
         do {
-            try modelContext.save()
+            try blueprintItemProvider.save()
         } catch {
             logger.error("Error saving item: \(error)")
             presenter.presentAlert(message: Alert.genericErrorMessage)
@@ -209,14 +205,9 @@ extension BlueprintItemsView: NewItemCreatorProtocol {
     func isUniqueNameInEntity(name: String) -> Bool {
         blueprint.items.first { $0.name.asInput == name } == nil
     }
-    
+
     func createAndInsertNewItems(_ newItems: [(name: String, priority: Bool)]) throws {
-        for newItem in newItems {
-            let item = BlueprintItem(newItem.name, priority: newItem.priority)
-            blueprint.items.append(item)
-            modelContext.insert(item)
-        }
-        try modelContext.save()
+        try blueprintItemProvider.insert(newItems, into: blueprint)
     }
 }
 

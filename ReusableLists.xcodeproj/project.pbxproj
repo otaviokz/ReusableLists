@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CFA5ED22AC146369B6AF1A9 /* ToDoListProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6774E54B881565BA941402 /* ToDoListProvider.swift */; };
+		229C73279676F3F54F7C40C9 /* ListItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F424AE95AF345290F2903C47 /* ListItemProvider.swift */; };
 		2B00A3573018608A0001069B /* Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B00A3563018608A0001069B /* Presenter.swift */; };
 		2B06E34A2CA20D13000D26BF /* Image+Resizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B06E3492CA20D13000D26BF /* Image+Resizing.swift */; };
 		2B342A692CC770FA0034D1D7 /* DataFieldsSizeLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */; };
@@ -24,6 +26,7 @@
 		2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */; };
 		2B7429FB2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */; };
 		2B7429FC2D473ACD00390EC2 /* DataSchemaV4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */; };
+		2B88AE883081F89B00AE980C /* FinalVersionUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B88AE873081F89B00AE980C /* FinalVersionUpdate.swift */; };
 		2B8F02AA2CA2195200607923 /* Alert+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */; };
 		2B9369232CBB8E4B00E8AC27 /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9369222CBB8E4B00E8AC27 /* TabSelection.swift */; };
 		2B9369252CBB8EC800E8AC27 /* OnboardingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B9369242CBB8EC800E8AC27 /* OnboardingState.swift */; };
@@ -86,6 +89,10 @@
 		2BEC686B2B8D89B700BA2DC0 /* BlueprintsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */; };
 		2BEC686F2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift */; };
 		2BEC687D2B8DD77300BA2DC0 /* ListError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEC687C2B8DD77300BA2DC0 /* ListError.swift */; };
+		2BFEF3C13080A097009BB541 /* MigrationExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFEF3C03080A097009BB541 /* MigrationExporter.swift */; };
+		2BFEF3C23080A097009BB541 /* MigrationExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFEF3C03080A097009BB541 /* MigrationExporter.swift */; };
+		A5E457B3E74BA7FBF92B3E3A /* BlueprintItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A0A0E12C00A0288C60BAB3 /* BlueprintItemProvider.swift */; };
+		DD4324A989996A917EB66EC8 /* BlueprintProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D39A56A27ED45E09C1C78158 /* BlueprintProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +136,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		14A0A0E12C00A0288C60BAB3 /* BlueprintItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemProvider.swift; sourceTree = "<group>"; };
 		2B00A3563018608A0001069B /* Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presenter.swift; sourceTree = "<group>"; };
 		2B06E3492CA20D13000D26BF /* Image+Resizing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Resizing.swift"; sourceTree = "<group>"; };
 		2B342A682CC770FA0034D1D7 /* DataFieldsSizeLimit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFieldsSizeLimit.swift; sourceTree = "<group>"; };
@@ -142,6 +150,7 @@
 		2B67EA6B2D4E1907008B4C22 /* SortTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTypeView.swift; sourceTree = "<group>"; };
 		2B6801642B4E209B00380429 /* ToDoListItemRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListItemRowView.swift; sourceTree = "<group>"; };
 		2B7429FA2D473ACD00390EC2 /* DataSchemaV4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSchemaV4.swift; sourceTree = "<group>"; };
+		2B88AE873081F89B00AE980C /* FinalVersionUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalVersionUpdate.swift; sourceTree = "<group>"; };
 		2B8F02A92CA2195200607923 /* Alert+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Alert+Shortcuts.swift"; sourceTree = "<group>"; };
 		2B8F02AE2CA2195200607923 /* SwiftData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftData.framework; path = System/Library/Frameworks/SwiftData.framework; sourceTree = SDKROOT; };
 		2B8F02B02CA2195200607923 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -200,6 +209,11 @@
 		2BEC686A2B8D89B700BA2DC0 /* BlueprintsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintsView.swift; sourceTree = "<group>"; };
 		2BEC686E2B8D8E4F00BA2DC0 /* BlueprintItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintItemsView.swift; sourceTree = "<group>"; };
 		2BEC687C2B8DD77300BA2DC0 /* ListError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListError.swift; sourceTree = "<group>"; };
+		2BFEF3C03080A097009BB541 /* MigrationExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationExporter.swift; sourceTree = "<group>"; };
+		2BFEF3C33080A097009BB541 /* ReusableLists-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ReusableLists-Info.plist"; sourceTree = "<group>"; };
+		7F6774E54B881565BA941402 /* ToDoListProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListProvider.swift; sourceTree = "<group>"; };
+		D39A56A27ED45E09C1C78158 /* BlueprintProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlueprintProvider.swift; sourceTree = "<group>"; };
+		F424AE95AF345290F2903C47 /* ListItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,6 +320,8 @@
 			children = (
 				2BE5A8A02CE0575B009DD6BB /* DataSchemas */,
 				2BEC68792B8DD48500BA2DC0 /* Extensions */,
+				A420345C4F26FC61B91142CB /* Providers */,
+				2BFEF3BF3080A097009BB541 /* Migration */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -337,6 +353,7 @@
 		2BE3B4ED2B42B001003CB25F = {
 			isa = PBXGroup;
 			children = (
+				2BFEF3C33080A097009BB541 /* ReusableLists-Info.plist */,
 				2BE3B4F82B42B001003CB25F /* MyLists */,
 				2BE3B5092B42B002003CB25F /* MyListsTests */,
 				2BE3B5132B42B002003CB25F /* MyListsUITests */,
@@ -427,6 +444,7 @@
 			children = (
 				2BE5A8462CCCC695009DD6BB /* Logger.swift */,
 				2BE5A89C2CDC47A0009DD6BB /* UIDevice+CurrentDevice.swift */,
+				2B88AE873081F89B00AE980C /* FinalVersionUpdate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -495,6 +513,25 @@
 				2BE3B5252B42B033003CB25F /* ToDoList+Utils.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2BFEF3BF3080A097009BB541 /* Migration */ = {
+			isa = PBXGroup;
+			children = (
+				2BFEF3C03080A097009BB541 /* MigrationExporter.swift */,
+			);
+			path = Migration;
+			sourceTree = "<group>";
+		};
+		A420345C4F26FC61B91142CB /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				7F6774E54B881565BA941402 /* ToDoListProvider.swift */,
+				F424AE95AF345290F2903C47 /* ListItemProvider.swift */,
+				D39A56A27ED45E09C1C78158 /* BlueprintProvider.swift */,
+				14A0A0E12C00A0288C60BAB3 /* BlueprintItemProvider.swift */,
+			);
+			path = Providers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -633,8 +670,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CFA5ED22AC146369B6AF1A9 /* ToDoListProvider.swift in Sources */,
+				229C73279676F3F54F7C40C9 /* ListItemProvider.swift in Sources */,
+				DD4324A989996A917EB66EC8 /* BlueprintProvider.swift in Sources */,
+				A5E457B3E74BA7FBF92B3E3A /* BlueprintItemProvider.swift in Sources */,
 				2B6801652B4E209B00380429 /* ToDoListItemRowView.swift in Sources */,
 				2BE3B5282B42B097003CB25F /* ToDoItem+Utils.swift in Sources */,
+				2B88AE883081F89B00AE980C /* FinalVersionUpdate.swift in Sources */,
 				2B9FA13C2CEDE2F50054A62A /* NewItemCreatorProtocol.swift in Sources */,
 				2BAE0EA22CB92C5B007FCC47 /* RoundBorderedModifier.swift in Sources */,
 				2BE2B40C2D5C1CB800A55573 /* GaugeAndPriorityListHeaderView.swift in Sources */,
@@ -666,6 +708,7 @@
 				2BE5A8472CCCC695009DD6BB /* Logger.swift in Sources */,
 				2BDCB8DC2CA7925F0077CB97 /* NewListOrBlueprintFormView.swift in Sources */,
 				2BE3B52E2B42B79C003CB25F /* ToDoListItemsView.swift in Sources */,
+				2BFEF3C23080A097009BB541 /* MigrationExporter.swift in Sources */,
 				2B9E8D3D2CA0CB3F0098C595 /* EditBlueprintView.swift in Sources */,
 				2B00A3573018608A0001069B /* Presenter.swift in Sources */,
 				2BAE0E9A2CB92735007FCC47 /* OnboardingView.swift in Sources */,
@@ -720,6 +763,7 @@
 				2BE5FDE92D59B66E00135405 /* DataManager.swift in Sources */,
 				2BAE0E8F2CB7881C007FCC47 /* ToDoList+Utils.swift in Sources */,
 				2BAE0E902CB7881C007FCC47 /* BlueprintItem+Utils.swift in Sources */,
+				2BFEF3C13080A097009BB541 /* MigrationExporter.swift in Sources */,
 				2B3617BF2D4B3F08007CFC0A /* EditItemFormView.swift in Sources */,
 				2BE5A8A52CE06342009DD6BB /* DataSchemaV2.swift in Sources */,
 			);
@@ -871,11 +915,12 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.0;
+				CURRENT_PROJECT_VERSION = 2.9.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ReusableLists-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Reusable Lists";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -888,7 +933,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -910,11 +955,12 @@
 				CODE_SIGN_ENTITLEMENTS = MyLists/MyLists.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.0;
+				CURRENT_PROJECT_VERSION = 2.9.0;
 				DEVELOPMENT_ASSET_PATHS = "\"MyLists/Preview Content\"";
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ReusableLists-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Reusable Lists";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -927,7 +973,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.reusablelists;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -946,11 +992,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.0;
+				CURRENT_PROJECT_VERSION = 3.0.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -969,11 +1015,11 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.0;
+				CURRENT_PROJECT_VERSION = 3.0.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -991,11 +1037,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.0;
+				CURRENT_PROJECT_VERSION = 3.0.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1014,11 +1060,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.0;
+				CURRENT_PROJECT_VERSION = 3.0.0;
 				DEVELOPMENT_TEAM = H7MUL7BCTG;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				MARKETING_VERSION = 2.8.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.otaviokz.MyListsUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

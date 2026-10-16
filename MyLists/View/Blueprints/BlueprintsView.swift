@@ -115,13 +115,14 @@ private extension BlueprintsView {
     }
 }
 
-// MARK: - SwiftData
+// MARK: - Persistence
 
 private extension BlueprintsView {
+    var blueprintProvider: BlueprintProvider { BlueprintProvider(context: modelContext) }
+
     func delete(blueprint: Blueprint) {
         do {
-            modelContext.delete(blueprint)
-            try modelContext.save()
+            try blueprintProvider.delete(blueprint)
             blueprintToDelete = nil
         } catch {
             logger.error("delete(\(blueprint.name)) \(error)")
@@ -134,11 +135,9 @@ extension BlueprintsView: NewEntityCreatorProtocol {
     func isUniqueName(name: String) -> Bool {
         blueprints.first { $0.name.asInput == name.asInput } == nil
     }
-    
+
     func insertEntity(name: String, details: String, priority: Bool = false) throws {
-        let newBlueprint = Blueprint(name, details: details)
-        modelContext.insert(newBlueprint)
-        try modelContext.save()
+        try blueprintProvider.insert(name: name, details: details)
     }
     
     func handleSaveError(error: Error, name: String) {
